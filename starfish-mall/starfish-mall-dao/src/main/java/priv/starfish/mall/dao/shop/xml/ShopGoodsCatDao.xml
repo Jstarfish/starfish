@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopGoodsCatDao">
+	<resultMap id="ShopGoodsCatMap" type="priv.starfish.mall.shop.entity.ShopGoodsCat">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectById" resultMap="ShopGoodsCatMap" parameterType="Integer">SELECT SGC.id, SGC.catId, SGC.shopId
+		FROM   shop_goods_cat SGC
+		WHERE  SGC.id = #{id}
+	</select>
+	<select id="selectByShopIdAndCatId" resultMap="ShopGoodsCatMap">SELECT SGC.id, SGC.catId, SGC.shopId
+		FROM   shop_goods_cat SGC
+		WHERE  SGC.shopId = #{shopId}
+		   AND SGC.catId = #{catId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT INTO 
+		shop_goods_cat(catId, shopId)
+		        VALUES(#{catId}, #{shopId})
+	</insert>
+	<update id="update">UPDATE shop_goods_cat
+		SET catId = #{catId} ,
+		    shopId = #{shopId}
+		WHERE  id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE 
+		FROM   shop_goods_cat
+		WHERE  id = #{id}
+	</delete>
+	<select id="countShopByCatId" resultType="Integer" parameterType="Integer">
+		SELECT count(SGC.shopId)
+		FROM   shop_goods_cat SGC
+		WHERE  SGC.catId = #{catId}
+	</select>
+</mapper>

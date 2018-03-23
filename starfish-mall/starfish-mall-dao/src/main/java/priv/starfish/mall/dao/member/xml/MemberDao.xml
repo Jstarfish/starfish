@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.member.MemberDao">
+	<resultMap id="MemberMap" type="priv.starfish.mall.member.entity.Member">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="headUuid" property="headUuid" jdbcType="VARCHAR" />
+		<result column="headUsage" property="headUsage" jdbcType="VARCHAR" />
+		<result column="headPath" property="headPath" jdbcType="VARCHAR" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="entityId" property="entityId" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="point" property="point" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="rank" property="rank" jdbcType="INTEGER" />
+
+		<association property="gradeVO" column="grade" select="getGrade" />
+
+		<association property="user" javaType="priv.starfish.mall.comn.entity.User">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+			<result column="nickName" property="nickName" jdbcType="VARCHAR" />
+			<result column="email" property="email" jdbcType="VARCHAR" />
+			<result column="idCertNo" property="idCertNo" jdbcType="VARCHAR" />
+			<result column="password" property="password" jdbcType="VARCHAR" />
+			<result column="salt" property="salt" jdbcType="VARCHAR" />
+			<result column="payPassword" property="payPassword" jdbcType="VARCHAR" />
+			<result column="realName" property="realName" jdbcType="VARCHAR" />
+			<result column="gender" property="gender" jdbcType="VARCHAR" />
+			<result column="birthDate" property="birthDate" jdbcType="DATE" />
+			<result column="qq" property="qq" jdbcType="VARCHAR" />
+			<result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+			<result column="verified" property="verified" jdbcType="BOOLEAN" />
+			<result column="failCount" property="failCount" jdbcType="INTEGER" />
+			<result column="failTime" property="failTime" jdbcType="TIMESTAMP" />
+			<result column="locked" property="locked" jdbcType="BOOLEAN" />
+			<result column="lockTime" property="lockTime" jdbcType="TIMESTAMP" />
+			<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		</association>
+	</resultMap>
+
+	<select id="getGrade" resultType="priv.starfish.mall.member.entity.MemberGrade"
+		parameterType="Integer">
+		SELECT MG.id, MG.grade, MG.name, MG.lowerPoint,
+		MG.upperPoint, MG.iconUuid, MG.iconUsage, MG.iconPath
+		FROM
+		member_grade_def MG
+		WHERE MG.id = #{id}
+	</select>
+
+	<select id="selectById" resultMap="MemberMap" parameterType="Integer">SELECT
+		M.id, M.headUuid, M.headUsage, M.headPath, M.scope, M.entityId,
+		M.disabled, M.memo, M.point, M.grade, M.rank
+		FROM member M
+		WHERE M.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO
+			member(id,headUuid, headUsage, headPath, scope, entityId, disabled, 
+			memo, point,grade)
+		VALUES(#{id}, #{headUuid}, #{headUsage}, #{headPath}, #{scope},#{entityId},	#{disabled}, 
+			#{memo}, #{point}, #{grade})
+	</insert>
+
+	<update id="update">
+		UPDATE member
+		set
+			<if test="headUuid != null">
+				headUuid = #{headUuid} ,
+			</if>
+			<if test="headUsage != null">
+				headUsage = #{headUsage} ,
+			</if>
+			<if test="headPath != null">
+				headPath = #{headPath} ,
+			</if>
+			<if test="disabled != null">
+				disabled = #{disabled} ,
+			</if>
+			<if test="point != null">
+				point = #{point},
+			</if>
+			<if test="grade != null">
+				grade = #{grade},
+			</if>
+			<if test="memo != null">
+				memo = #{memo},
+			</if>
+			<if test="rank != null">
+				rank = #{rank},
+			</if>
+			id = #{id}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM member
+		WHERE id
+		= #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="MemberMap">
+		SELECT M.id, M.headUuid, M.headUsage, M.headPath, M.scope, M.entityId,
+		M.disabled, M.memo,
+		M.point, M.grade, M.rank,
+		U.phoneNo, U.nickName, U.email,
+		U.idCertNo,U.realName, U.payPassword,
+		U.gender, U.birthDate, U.qq,
+		U.regTime,U.verified, U.locked, U.lockTime
+		FROM member M, user U
+		WHERE
+		M.id = U.id
+		<if test="memberId !=null">
+			AND M.id = #{memberId}
+		</if>
+		<if test="grade !=null">
+			AND M.grade = #{grade}
+		</if>
+		<if test="nickName !=null and nickName != ''">
+			AND U.nickName like ${nickName}
+		</if>
+		<if test="phoneNo !=null">
+			AND U.phoneNo = #{phoneNo}
+		</if>
+		<if test="shopId !=null">
+			AND M.entityId = #{shopId}
+		</if>
+		<if test="scope !=null">
+			AND M.scope = #{scope}
+		</if>
+		order by M.id desc
+	</select>
+
+	<select id="selectIdsByFilter" resultType="Integer">
+		SELECT M.id
+		FROM member M, user U
+		WHERE M.id = U.id
+		<if test="memberId !=null">
+			AND M.id = #{memberId}
+		</if>
+		<if test="grade !=null">
+			AND M.grade = #{grade}
+		</if>
+		<if test="nickName !=null and nickName != ''">
+			AND U.nickName like ${nickName}
+		</if>
+		<if test="phoneNo !=null">
+			AND U.phoneNo = ${phoneNo}
+		</if>
+	</select>
+
+	<select id="selectByIds" resultMap="MemberMap" parameterType="java.util.List">
+		SELECT M.id, M.headUuid, M.headUsage, M.headPath, M.scope, M.entityId,
+		M.disabled, M.memo,
+		M.point, M.grade, M.rank
+		U.phoneNo, U.nickName, U.email,
+		U.idCertNo,U.realName, U.payPassword,
+		U.gender, U.birthDate, U.qq,
+		U.regTime,U.verified
+		FROM member M, user U
+		WHERE
+		M.id = U.id
+		<if test="list !=null">
+			AND M.id IN(
+			<foreach collection="list" item="memberId" index="index"
+				open="" close="" separator=",">
+				#{memberId}
+			</foreach>
+			)
+		</if>
+	</select>
+	
+	<update id="updateRankById">
+		UPDATE member
+		set rank = #{rank}
+		WHERE id = #{memberId}
+	</update>
+	
+	<update id="updatePointById">
+		UPDATE member
+		set point = #{point}
+		WHERE id = #{memberId}
+	</update>
+	
+	<update id="updateGradeById">
+		UPDATE member
+		set grade = #{grade}
+		WHERE id = #{memberId}
+	</update>
+	
+	<update id="updateDisabledById">
+		UPDATE member
+		set disabled = #{disabled}
+		WHERE id = #{memberId}
+	</update>
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.shop.DistShopSvcDao">
+	<resultMap id="DistShopSvcMap" type="priv.starfish.mall.shop.entity.DistShopSvc">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="distShopId" property="distShopId" jdbcType="INTEGER" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="distProfit" property="distProfit" jdbcType="DECIMAL" />
+		<result column="distProfitX" property="distProfitX" jdbcType="DECIMAL" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="applyFlag" property="applyFlag" jdbcType="BOOLEAN" />
+		<result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+		<result column="auditTime" property="auditTime" jdbcType="TIMESTAMP" />
+		<result column="auditorId" property="auditorId" jdbcType="INTEGER" />
+		<result column="auditorName" property="auditorName" jdbcType="VARCHAR" />
+		<result column="auditDesc" property="auditDesc" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		DSS.id, DSS.distShopId, DSS.svcId, DSS.distProfit, DSS.distProfitX, DSS.seqNo, DSS.applyFlag, DSS.applyTime, DSS.auditStatus, DSS.auditTime, DSS.auditorId, DSS.auditorName, DSS.auditDesc, DSS.ts
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		dist_shop_svc (
+		distShopId ,
+		svcId ,
+		distProfit,
+		distProfitX,
+		seqNo ,
+		applyFlag ,
+		applyTime ,
+		auditStatus ,
+		auditTime ,
+		auditorId ,
+		auditorName ,
+		auditDesc ,
+		ts
+		)
+		VALUES(
+		#{distShopId},
+		#{svcId} ,
+		#{distProfit},
+		#{distProfitX},
+		#{seqNo} ,
+		#{applyFlag} ,
+		#{applyTime} ,
+		#{auditStatus} ,
+		#{auditTime} ,
+		#{auditorId} ,
+		#{auditorName} ,
+		#{auditDesc} ,
+		#{ts}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM
+		dist_shop_svc
+		WHERE id = #{id}
+	</delete>
+
+	<update id="update"  useGeneratedKeys="true" keyProperty="id">
+		UPDATE dist_shop_svc
+		<set>
+			<trim suffixOverrides=",">
+				<if test="distShopId != null">
+					distShopId = #{distShopId},
+				</if>
+				<if test="svcId != null">
+					svcId = #{svcId},
+				</if>
+				<if test="distProfit != null">
+					distProfit = #{distProfit},
+				</if>
+				<if test="distProfitX != null">
+					distProfitX = #{distProfitX},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="applyFlag != null">
+					applyFlag = #{applyFlag},
+				</if>
+				<if test="auditStatus != null">
+					auditStatus = #{auditStatus},
+				</if>
+				<if test="auditTime != null">
+					auditTime = #{auditTime},
+				</if>
+				<if test="auditorId != null">
+					auditorId = #{auditorId},
+				</if>
+				<if test="auditorName != null">
+					auditorName = #{auditorName},
+				</if>
+				<if test="auditDesc != null">
+					auditDesc = #{auditDesc},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE 1=1
+		<if test=" id !=null and  id != ''">
+			AND id = #{id}
+		</if>
+		<if test=" distShopId !=null and  distShopId != ''">
+			AND distShopId = #{distShopId}
+		</if>
+		<if test=" svcId !=null and  svcId != ''">
+			AND svcId = #{svcId}
+		</if>
+	</update>
+
+	<select id="selectById" resultMap="DistShopSvcMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM dist_shop_svc DSS
+		WHERE DSS.id = #{id}
+	</select>
+	
+	<select id="selectByDistShopIdAndSvcId" resultMap="DistShopSvcMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM dist_shop_svc DSS
+		WHERE DSS.distShopId = #{distShopId} AND DSS.svcId=#{svcId}
+	</select>
+	
+
+	<select id="selectByFilter" resultMap="DistShopSvcMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM dist_shop_svc DSS
+		WHERE 1 = 1
+		<if test=" auditorName !=null and  auditorName != ''">
+			AND auditorName like ${auditorName}
+		</if>
+		<if test=" auditDesc !=null and  auditDesc != ''">
+			AND auditDesc like ${auditDesc}
+		</if>
+		<if test="applyFlag != null">
+			AND applyFlag = #{applyFlag}
+		</if>
+		<if test="auditStatus != null">
+			AND auditStatus = #{auditStatus}
+		</if>
+		<if test="distShopId != null">
+			AND distShopId = #{distShopId}
+		</if>
+
+		order by seqNo desc
+	</select>
+	<!-- 用于select查询公用抽取的列 -->
+	<delete id="deleteByDistShopId">
+		DELETE
+		FROM
+		dist_shop_svc
+		WHERE
+		distShopId = #{distShopId}
+	</delete>
+	
+	<delete id="deleteBySvcId">
+		DELETE
+		FROM
+		dist_shop_svc
+		WHERE
+		svcId = #{svcId}
+	</delete>
+
+</mapper>
+

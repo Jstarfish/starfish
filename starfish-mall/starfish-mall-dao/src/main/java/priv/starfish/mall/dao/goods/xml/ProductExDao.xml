@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.ProductExDao">
+	<resultMap id="ProductExMap" type="priv.starfish.mall.goods.entity.ProductEx">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="specStr" property="specStr" jdbcType="CLOB" />
+		<result column="specJson" property="specJson" jdbcType="CLOB" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="ProductExMap" parameterType="Long">SELECT
+		PE.id, PE.goodsId, PE.specStr, PE.specJson, PE.ts
+		FROM product_ex PE
+		WHERE PE.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="false">INSERT INTO
+		product_ex(id,
+		goodsId, specStr, specJson, ts)
+		VALUES(#{id}, #{goodsId}, #{specStr},
+		#{specJson}, #{ts})
+	</insert>
+	<update id="update">UPDATE product_ex
+		SET goodsId = #{goodsId} ,
+		specStr =
+		#{specStr} ,
+		specJson = #{specJson} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM product_ex
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectIdBySpecStrAndGoodsId" resultType="Long">
+		SELECT PE.id
+		FROM product_ex PE
+		WHERE PE.goodsId = #{goodsId}
+		AND PE.specStr = #{specStr}
+	</select>
+</mapper>

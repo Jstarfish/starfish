@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.SaleOrderGoodsDao">
+	<resultMap id="SaleOrderGoodsMap" type="priv.starfish.mall.order.entity.SaleOrderGoods">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="productName" property="productName" jdbcType="VARCHAR" />
+		<result column="salePrice" property="salePrice" jdbcType="DECIMAL" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="saleAmount" property="saleAmount" jdbcType="DECIMAL" />
+		<result column="discRate" property="discRate" jdbcType="NUMERIC" />
+		<result column="discWay" property="discWay" jdbcType="VARCHAR" />
+		<result column="discId" property="discId" jdbcType="BIGINT" />
+		<result column="discAmount" property="discAmount" jdbcType="DECIMAL" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	<resultMap type="priv.starfish.mall.order.entity.SaleOrderGoods"
+		id="SaleOrderGoodsMapExt" extends="SaleOrderGoodsMap">
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="columns">
+		SOG.id, SOG.orderId, SOG.productId, SOG.catId, SOG.goodsId,
+		SOG.productName, SOG.salePrice, SOG.quantity, SOG.saleAmount,
+		SOG.discRate, SOG.discWay, SOG.discId, SOG.discAmount, SOG.amount,
+		SOG.seqNo
+	</sql>
+	<select id="selectById" resultMap="SaleOrderGoodsMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_goods SOG
+		WHERE
+		SOG.id = #{id}
+	</select>
+	<select id="selectByOrderSvcId" resultMap="SaleOrderGoodsMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_goods SOG
+		WHERE
+		SOG.orderId = #{orderId}
+	</select>
+	<select id="selectByOrderId" resultMap="SaleOrderGoodsMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_goods SOG
+		WHERE
+		SOG.orderId = #{orderId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"> 
+		INSERT INTO
+		sale_order_goods (
+		catId ,
+		goodsId ,
+		productId ,
+		productName ,
+		quantity ,
+		salePrice ,
+		saleAmount ,
+		discId ,
+		discWay ,
+		discAmount ,
+		amount ,
+		seqNo ,
+		orderId ,
+		discRate
+		)
+		VALUES(
+		#{catId} ,
+		#{goodsId} ,
+		#{productId} ,
+		#{productName} ,
+		#{quantity} ,
+		#{salePrice} ,
+		#{saleAmount} ,
+		#{discId} ,
+		#{discWay} ,
+		#{discAmount} ,
+		#{amount} ,
+		#{seqNo} ,
+		#{orderId} ,
+		#{discRate}
+		);
+	</insert>
+	<update id="update">
+		UPDATE sale_order_goods
+		<set>
+			<trim suffixOverrides=",">
+				<if test="productName != null">
+					productName = #{productName},
+				</if>
+				<if test="salePrice != null">
+					salePrice = #{salePrice},
+				</if>
+				<if test="quantity != null">
+					quantity = #{quantity},
+				</if>
+				<if test="saleAmount != null">
+					saleAmount = #{saleAmount},
+				</if>
+				<if test="discRate != null">
+					discRate = #{discRate},
+				</if>
+				<if test="discWay != null">
+					discWay = #{discWay},
+				</if>
+				<if test="discId != null">
+					discId = #{discId},
+				</if>
+				<if test="discAmount != null">
+					discAmount = #{discAmount},
+				</if>
+				<if test="amount != null">
+					amount = #{amount},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM
+		sale_order_goods
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectCountByProductId" resultType="Integer"
+		parameterType="Long">
+		SELECT count(0)
+		FROM sale_order_goods SOG
+		WHERE
+		SOG.productId = #{productId}
+	</select>
+
+	<select id="selectByOrderNoAndUserId" parameterType="map"
+		resultMap="SaleOrderGoodsMapExt">
+		SELECT SO.shopId,
+		<include refid="columns" />
+		FROM
+		sale_order_goods SOG,sale_order_svc SOS,sale_order SO
+		WHERE
+		SOS.orderId=SO.id
+		AND SO.no=#{orderNo} AND
+		SO.userId=#{userId}
+	</select>
+</mapper>

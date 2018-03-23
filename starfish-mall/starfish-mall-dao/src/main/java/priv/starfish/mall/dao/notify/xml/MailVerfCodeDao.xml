@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.MailVerfCodeDao">
+	<resultMap id="MailVerfCodeMap" type="priv.starfish.mall.notify.entity.MailVerfCode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="reqIp" property="reqIp" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="vfCode" property="vfCode" jdbcType="VARCHAR" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="sendSvrId" property="sendSvrId" jdbcType="INTEGER" />
+		<result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+		<result column="sendOk" property="sendOk" jdbcType="BOOLEAN" />
+		<result column="invalid" property="invalid" jdbcType="BOOLEAN" />
+		<result column="usage" property="usage" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectById" resultMap="MailVerfCodeMap"
+		parameterType="Integer">
+		SELECT MVC.id, MVC.reqIp, MVC.email, MVC.vfCode, MVC.subject, MVC.content,
+		MVC.sendTime, MVC.sendSvrId, MVC.expireTime, MVC.sendOk, MVC.invalid,
+		MVC.usage
+		FROM mail_verf_code MVC
+		WHERE MVC.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		mail_verf_code(reqIp, email, vfCode, subject, content, sendTime, sendSvrId, expireTime,
+		sendOk, invalid, `usage`)
+		VALUES(#{reqIp}, #{email}, #{vfCode}, #{subject}, #{content}, #{sendTime},
+		#{sendSvrId}, #{expireTime}, #{sendOk}, #{invalid}, #{usage})
+	</insert>
+
+	<update id="update">
+		UPDATE mail_verf_code
+		SET reqIp = #{reqIp} ,
+		email = #{email} ,
+		vfCode = #{vfCode} ,
+		subject = #{subject} ,
+		content = #{content} ,
+		sendTime = #{sendTime} ,
+		sendSvrId = #{sendSvrId} ,
+		expireTime = #{expireTime} ,
+		sendOk = #{sendOk} ,
+		invalid = #{invalid} ,
+		`usage` = #{usage}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM mail_verf_code
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByEmailAndVfCode" resultMap="MailVerfCodeMap">
+		SELECT MVC.id, MVC.reqIp, MVC.email, MVC.vfCode, MVC.subject, MVC.content,
+		MVC.sendTime, MVC.sendSvrId, MVC.expireTime, MVC.sendOk, MVC.invalid,
+		MVC.usage
+		FROM mail_verf_code MVC
+		WHERE MVC.email = #{email}
+		AND MVC.vfCode = #{vfCode}
+		AND MVC.invalid = false
+		AND MVC.sendOk = true
+		AND MVC.expireTime >= CURRENT_TIMESTAMP
+	</select>
+	
+</mapper>

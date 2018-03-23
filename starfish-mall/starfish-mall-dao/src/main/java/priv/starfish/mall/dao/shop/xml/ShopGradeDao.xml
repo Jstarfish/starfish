@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopGradeDao">
+	<resultMap id="ShopGradeMap" type="priv.starfish.mall.shop.entity.ShopGrade">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="lowerPoint" property="lowerPoint" jdbcType="INTEGER" />
+		<result column="upperPoint" property="upperPoint" jdbcType="INTEGER" />
+		<result column="iconPath" property="iconPath" jdbcType="VARCHAR" />
+		<result column="iconUuid" property="iconUuid" jdbcType="VARCHAR" />
+		<result column="iconUsage" property="iconUsage" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectById" resultMap="ShopGradeMap" parameterType="Integer">
+	    SELECT
+		SG.id, SG.grade, SG.level, SG.name, SG.lowerPoint, SG.upperPoint,
+		SG.iconPath, SG.iconUuid, SG.iconUsage
+		FROM shop_grade_def SG
+		WHERE SG.id = #{id}
+	</select>
+	<select id="selectByGradeAndLevel" resultMap="ShopGradeMap">
+	    SELECT SG.id,
+		SG.grade, SG.level, SG.name, SG.lowerPoint, SG.upperPoint,
+		SG.iconPath, SG.iconUuid, SG.iconUsage
+		FROM shop_grade_def SG
+		WHERE SG.grade = #{grade}
+		AND SG.level = #{level}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT
+		INTO
+		shop_grade_def(grade, level, name, lowerPoint, upperPoint, iconPath, iconUuid, iconUsage)
+		VALUES(#{grade}, #{level}, #{name}, #{lowerPoint}, #{upperPoint},
+		#{iconPath}, #{iconUuid}, #{iconUsage})
+	</insert>
+	<update id="update">
+	    UPDATE shop_grade_def
+		SET grade = #{grade} ,
+		level = #{level} ,
+		name = #{name} ,
+		lowerPoint = #{lowerPoint} ,
+		upperPoint = #{upperPoint} ,
+		iconPath = #{iconPath} ,
+		iconUuid = #{iconUuid} ,
+		iconUsage = #{iconUsage}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+	    DELETE
+		FROM shop_grade_def
+		WHERE id = #{id}
+	</delete>
+	<select id="selectShopGradesByLowerPointAndUpperPoint" resultMap="ShopGradeMap">
+	    SELECT SG.id,
+		SG.grade, SG.level, SG.name, SG.lowerPoint, SG.upperPoint,
+		SG.iconPath, SG.iconUuid, SG.iconUsage
+		FROM shop_grade_def SG
+		WHERE SG.lowerPoint  &gt;= #{lowerPoint} AND SG.upperPoint &lt;= #{upperPoint}
+	</select>
+	<select id="selectShopGradesByPoint" resultMap="ShopGradeMap">
+	    SELECT SG.id,
+		SG.grade, SG.level, SG.name, SG.lowerPoint, SG.upperPoint,
+		SG.iconPath, SG.iconUuid, SG.iconUsage
+		FROM shop_grade_def SG
+		WHERE SG.lowerPoint  &lt;= #{point} AND SG.upperPoint  &gt;= #{point}
+	</select>
+	<select id="selectShopGrades" resultMap="ShopGradeMap">
+	    SELECT SG.id,
+		SG.grade, SG.level, SG.name, SG.lowerPoint, SG.upperPoint,
+		SG.iconPath, SG.iconUuid, SG.iconUsage
+		FROM shop_grade_def SG
+		ORDER BY SG.grade asc ,SG.level asc
+	</select>
+</mapper>

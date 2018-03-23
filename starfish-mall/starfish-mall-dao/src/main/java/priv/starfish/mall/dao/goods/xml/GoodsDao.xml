@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.GoodsDao">
+	<resultMap id="GoodsMap" type="priv.starfish.mall.goods.entity.Goods">
+		 <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="no" property="no" jdbcType="VARCHAR" />
+        <result column="catId" property="catId" jdbcType="INTEGER" />
+        <result column="shopId" property="shopId" jdbcType="INTEGER" />
+        <result column="vendorId" property="vendorId" jdbcType="INTEGER" />
+        <result column="catPath" property="catPath" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="py" property="py" jdbcType="VARCHAR" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="quantity" property="quantity" jdbcType="INTEGER" />
+        <result column="minPrice" property="minPrice" jdbcType="DECIMAL" />
+        <result column="maxPrice" property="maxPrice" jdbcType="DECIMAL" />
+        <result column="avgPrice" property="avgPrice" jdbcType="DECIMAL" />
+        <result column="packList" property="packList" jdbcType="VARCHAR" />
+        <result column="hasSpec" property="hasSpec" jdbcType="BOOLEAN" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="GoodsMap" parameterType="Integer">SELECT
+		G.id, G.no, G.catId, G.shopId, G.vendorId, G.catPath, G.name, G.py, G.title,
+		G.quantity, G.minPrice, G.maxPrice, G.avgPrice, G.packList, G.hasSpec
+		FROM goods G
+		WHERE G.id = #{id}
+	</select>
+	
+	<select id="selectByCatIdAndShopIdAndNameAndVendorId" resultMap="GoodsMap">SELECT
+		G.id, G.no, G.catId, G.shopId, G.vendorId, G.catPath, G.name, G.py, G.title,
+		G.quantity, G.minPrice, G.maxPrice, G.avgPrice, G.packList, G.hasSpec
+		FROM goods G
+		WHERE G.catId = #{catId}
+		AND G.shopId = #{shopId}
+		AND G.name = #{name}
+		AND G.vendorId = #{vendorId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		goods(no, catId, shopId, vendorId, catPath, name, py, title, quantity, minPrice,
+		maxPrice, avgPrice,packList, hasSpec)
+		VALUES(#{no}, #{catId}, #{shopId}, #{vendorId}, #{catPath}, #{name}, #{py}, #{title},
+		#{quantity}, #{minPrice}, #{maxPrice}, #{avgPrice}, #{packList}, #{hasSpec})
+	</insert>
+	
+	<update id="update">UPDATE goods
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="no != null">
+		    	no = #{no} ,
+		    </if>
+		    <if test="catId != null">
+		    	catId = #{catId} ,
+		    </if>
+		     <if test="shopId != null">
+		    	shopId = #{shopId} ,
+		    </if>
+		     <if test="vendorId != null">
+		    	vendorId = #{vendorId} ,
+		    </if>
+		     <if test="catPath != null">
+		    	catPath = #{catPath} ,
+		    </if>
+		    <if test="name != null">
+		    	name = #{name} ,
+		    </if>
+		    <if test="py != null">
+		    	py = #{py} ,
+		    </if>
+		    <if test="title != null">
+		    	title = #{title} ,
+		    </if>
+		    <if test="quantity != null">
+		    	quantity = #{quantity} ,
+		    </if>
+		    <if test="minPrice != null">
+		    	minPrice = #{minPrice} ,
+		    </if>
+		    <if test="maxPrice != null">
+		    	maxPrice = #{maxPrice} ,
+		    </if>
+		    <if test="avgPrice != null">
+		    	avgPrice = #{avgPrice} ,
+		    </if>
+		    <if test="packList != null">
+		    	packList = #{packList} ,
+		    </if>
+		    <if test="hasSpec != null">
+		    	hasSpec = #{hasSpec}
+		    </if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM goods
+		WHERE id = #{id}
+	</delete>
+		
+	<select id="selectCountByCatId" resultType="Integer" parameterType="Integer">
+		SELECT count(G.id)	FROM goods G WHERE G.catId = #{catId}
+	</select>
+	
+	<select id="selectByFilter" resultMap="GoodsMap">SELECT
+		G.id, G.no, G.catId, G.shopId, G.vendorId, G.catPath, G.name, G.py, G.title,
+		G.quantity, G.minPrice, G.maxPrice, G.avgPrice, G.packList, G.hasSpec
+		FROM goods G
+		
+		<if test="goodsName !=null">
+			WHERE G.name like ${goodsName}
+		</if>
+		<if test="catId !=null">
+			WHERE G.catId like ${catId}
+		</if>
+	</select>
+</mapper>

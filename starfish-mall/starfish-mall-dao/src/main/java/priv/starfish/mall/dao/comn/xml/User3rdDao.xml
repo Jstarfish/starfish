@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.User3rdDao">
+	<resultMap id="User3rdMap" type="priv.starfish.mall.comn.entity.User3rd">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="appId" property="appId" jdbcType="INTEGER" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="nickName" property="nickName" jdbcType="VARCHAR" />
+		<result column="headImageUrl" property="headImageUrl" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="CHAR" />
+		<result column="sysUserId" property="sysUserId" jdbcType="INTEGER" />
+		<result column="country" property="country" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="city" property="city" jdbcType="VARCHAR" />
+		<result column="accessToken" property="accessToken" jdbcType="VARCHAR" />
+		<result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+		<result column="focused" property="focused" jdbcType="BOOLEAN" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="User3rdMap" parameterType="Integer">
+		SELECT
+			U.id, U.appId, U.openId, U.nickName, U.headImageUrl, U.sex,
+			U.sysUserId, U.country, U.province, U.city, U.accessToken,
+			U.expireTime, U.focused
+		FROM user_3rd U
+		WHERE U.id = #{id}
+	</select>
+		
+	<select id="selectByAppIdAndOpenId" resultMap="User3rdMap">
+		SELECT U.id,
+			U.appId, U.openId, U.nickName, U.headImageUrl, U.sex, U.sysUserId,
+			U.country, U.province, U.city, U.accessToken, U.expireTime, U.focused
+		FROM user_3rd U
+		WHERE U.appId = #{appId}
+		AND U.openId = #{openId}
+	</select>
+	
+	<select id="selectSysUserIdById" resultType="Integer" parameterType="Integer">
+		SELECT	U.sysUserId
+		FROM user_3rd U
+		WHERE U.id = #{id}
+	</select>
+	
+	<select id="selectSysUserIdByAppIdAndOpenId" resultType="Integer">
+		SELECT U.sysUserId
+		FROM user_3rd U
+		WHERE U.appId = #{appId}
+		AND U.openId = #{openId}
+	</select>
+		
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT	INTO user_3rd
+		(appId, openId, nickName, headImageUrl, sex, sysUserId, 
+			country, province, city, accessToken, expireTime, focused)
+		VALUES(#{appId}, #{openId}, #{nickName}, #{headImageUrl}, #{sex}, #{sysUserId},	
+			#{country}, #{province}, #{city}, #{accessToken}, #{expireTime}, #{focused})
+	</insert>
+		
+	<update id="update">
+		UPDATE user_3rd
+		SET appId = #{appId} ,
+			openId = #{openId} ,
+			nickName = #{nickName} ,
+			headImageUrl = #{headImageUrl} ,
+			sex = #{sex} ,
+			sysUserId = #{sysUserId} ,
+			country = #{country} ,
+			province = #{province} ,
+			city = #{city} ,
+			accessToken = #{accessToken} ,
+			expireTime = #{expireTime} ,
+			focused = #{focused}
+		WHERE id = #{id}
+	</update>
+		
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM user_3rd
+		WHERE id = #{id}
+	</delete>
+</mapper>

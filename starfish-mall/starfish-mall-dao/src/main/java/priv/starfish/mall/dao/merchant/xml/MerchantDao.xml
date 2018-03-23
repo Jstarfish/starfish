@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.merchant.MerchantDao">
+	<resultMap id="MerchantMap" type="priv.starfish.mall.merchant.entity.Merchant">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="idCertNo" property="idCertNo" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<association property="user" column="id" select="getUserById" />
+	</resultMap>
+	
+	<select id="getUserById" resultType="priv.starfish.mall.comn.entity.User" parameterType="Integer">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo, 
+			U.realName, U.gender, U.birthDate, U.qq, U.regTime, 
+			U.verified,	U.ts
+		FROM user U
+		WHERE U.id = #{id}
+	</select>
+	
+	<select id="selectById" resultMap="MerchantMap" parameterType="Integer">SELECT
+		M.id, M.name, M.realName, M.idCertNo, M.disabled, M.memo
+		FROM merchant M
+		WHERE M.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="false">INSERT INTO
+		merchant(id, name, realName, idCertNo, disabled, memo)
+		VALUES(#{id}, #{name}, #{realName}, #{idCertNo}, #{disabled}, #{memo})
+	</insert>
+	
+	<update id="update">
+		UPDATE merchant
+		<trim prefix="SET" suffixOverrides=",">
+	    	 <if test="name !=null">
+	    	 	name = #{name} ,
+	    	 </if>
+	    	 <if test="realName !=null">
+	    	 	realName = #{realName} ,
+	    	 </if>
+	    	 <if test="idCertNo !=null">
+	    	 	idCertNo = #{idCertNo} ,
+	    	 </if>
+	    	 <if test="disabled !=null">
+	    	 	disabled = #{disabled} ,
+	    	 </if>
+	    	 <if test="memo !=null">
+	    	 	memo = #{memo} ,
+	    	 </if>
+	    </trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM merchant
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectAllMerchants" resultMap="MerchantMap">
+		SELECT M.id, M.name,M.realName,M.idCertNo,M.disabled, M.memo,u.regTime u_regTime,u.email u_email, 
+		u.nickName u_nickName ,u.phoneNo u_phoneNo ,u.idCertNo u_idCertNo ,u.realName u_realName 
+		FROM   merchant M,user u 
+		WHERE  m.id=u.id
+		 <if test="id !=null and id  != ''">  
+          AND M.id = #{id}  
+         </if> 
+		 <if test="disabled !=null and disabled  != ''">  
+          AND M.disabled = #{disabled}  
+         </if> 
+          <if test="name !=null and name != ''">  
+          AND  M.name like ${name}  
+         </if> 
+          <if test="realName !=null and realName != ''">  
+          AND  u.realName like ${realName}  
+         </if> 
+	</select>
+	
+	<select id="selectBySettleDay" resultMap="MerchantMap">
+		SELECT
+		M.id, M.name, M.realName, M.idCertNo, M.disabled, M.memo
+		FROM merchant M
+		<where>
+			<if test="settleDay != null and settleDay != ''">
+				<![CDATA[ AND DATE_FORMAT(M.settleDay, '%Y-%m-%d') = DATE_FORMAT(#{settleDay}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectMerchants" resultMap="MerchantMap">
+		SELECT
+		M.id, M.name, M.realName, M.idCertNo, M.disabled, M.memo
+		FROM merchant M
+		<where>
+			<if test="disabled != null and disabled != ''">
+				AND M.disabled = #{disabled}
+			</if>
+		</where>
+	</select>
+	
+	<select id="selectMerchantsAsEnabled" resultMap="MerchantMap" parameterType="Boolean">
+		SELECT
+		M.id, M.name, M.realName, M.idCertNo, M.disabled, M.memo
+		FROM merchant M
+		WHERE M.disabled = #{disabled}
+	</select>
+	
+	<select id="selectByPhoneNo" resultMap="MerchantMap">
+		SELECT M.id,u.email u_email, 
+		u.nickName u_nickName ,u.phoneNo u_phoneNo ,u.idCertNo u_idCertNo ,u.realName u_realName 
+		FROM   merchant M,user u 
+		WHERE  m.id=u.id AND u.phoneNo = #{phoneNo}  
+	</select>
+</mapper>

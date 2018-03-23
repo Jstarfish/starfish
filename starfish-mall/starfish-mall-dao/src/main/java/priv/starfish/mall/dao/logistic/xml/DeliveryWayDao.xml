@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.logistic.DeliveryWayDao">
+	<resultMap id="DeliveryWayMap" type="priv.starfish.mall.logistic.entity.DeliveryWay">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="comId" property="comId" jdbcType="VARCHAR" />
+		<result column="supportPod" property="supportPod" jdbcType="BOOLEAN" />
+		<result column="insureRate" property="insureRate" jdbcType="DECIMAL" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="DeliveryWayMap"
+		parameterType="Integer">
+		SELECT DW.id, DW.name, DW.comId, DW.supportPod, DW.insureRate, DW.desc,
+		DW.seqNo, DW.disabled, DW.ts
+		FROM delivery_way DW
+		WHERE DW.id = #{id}
+	</select>
+	<select id="selectByNameAndComId" resultMap="DeliveryWayMap">
+		SELECT DW.id, DW.name, DW.comId, DW.supportPod, DW.insureRate, DW.desc,
+		DW.seqNo, DW.disabled, DW.ts
+		FROM delivery_way DW
+		WHERE 1=1
+		<if test="name != null and name != '' ">
+			AND DW.name = #{name}
+		</if>
+		<if test="comId != null and comId != '' ">
+			AND DW.comId = #{comId}
+		</if>
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		delivery_way(name, comId, supportPod, insureRate, `desc`, seqNo, disabled, ts)
+		VALUES(#{name}, #{comId}, #{supportPod}, #{insureRate}, #{desc},
+		#{seqNo}, #{disabled}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE delivery_way
+		SET name = #{name} ,
+		comId = #{comId} ,
+		supportPod = #{supportPod} ,
+		insureRate = #{insureRate} ,
+		`desc` = #{desc} ,
+		seqNo = #{seqNo} ,
+		disabled = #{disabled} ,
+		ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM delivery_way
+		WHERE id = #{id}
+	</delete>
+	<select id="selectDeliveryWays" resultMap="DeliveryWayMap">
+		SELECT DW.id, DW.name, DW.comId, DW.supportPod, DW.insureRate, DW.desc,
+		DW.seqNo, DW.disabled, DW.ts
+		FROM delivery_way DW
+		WHERE 1 = 1
+		<if test="comName != null and comName != '' ">
+		AND DW.comId in(
+			SELECT LC.id FROM logistic_com LC WHERE LC.name like ${comName}
+		)
+		</if>
+		<if test="name != null and name != '' ">
+			AND DW.name like ${name}
+		</if>
+		<if test="ids != null and ids != '' ">
+			AND DW.id in(
+				<foreach collection="ids" item="id" open="" close="" index="index" separator=",">
+					#{id}
+				</foreach>
+			)
+		</if>
+		ORDER BY DW.id DESC
+	</select>
+</mapper>

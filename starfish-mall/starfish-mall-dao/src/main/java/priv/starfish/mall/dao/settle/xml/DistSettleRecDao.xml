@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.DistSettleRecDao">
+	<resultMap id="DistSettleRecMap" type="priv.starfish.mall.settle.entity.DistSettleRec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="distributorId" property="distributorId"
+			jdbcType="INTEGER" />
+		<result column="distributorName" property="distributorName"
+			jdbcType="VARCHAR" />
+		<result column="distShopName" property="distShopName" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="theTime" property="theTime" jdbcType="TIMESTAMP" />
+		<result column="theAmount" property="theAmount" jdbcType="DECIMAL" />
+		<result column="theCount" property="theCount" jdbcType="INTEGER" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<sql id="filters">
+		<if test="id != null and id != ''">
+			AND DSR.id = #{id}
+		</if>
+		<if test="shopId != null and shopId != ''">
+			AND DSR.shopId = #{shopId}
+		</if>
+		<if test="distributorId != null and shopId != ''">
+			AND DSR.distributorId = #{distributorId}
+		</if>
+		<if test="distShopName != null and distShopName != ''">
+			AND DSR.distShopName like CONCAT('%',#{distShopName},'%')
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(DSR.theTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(DSR.theTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+		
+		<if test="isSettle != null and isSettle != ''">
+			<choose>
+				<when test="isSettle == 'settle'">
+					AND DSR.theTime is not null
+				</when>
+				<when test="isSettle == 'nosettle'">
+					AND DSR.theTime is null
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+
+	<select id="selectByFilter" resultMap="DistSettleRecMap">
+		SELECT DSR.id, DSR.shopId, DSR.shopName,
+		DSR.distributorId,
+		DSR.distributorName, DSR.distShopName, DSR.amount,
+		DSR.theTime,
+		DSR.theAmount, DSR.theCount, DSR.desc, DSR.ts
+		FROM
+		dist_settle_rec DSR
+		WHERE 1 = 1
+		<include refid="filters" />
+		ORDER BY DSR.theTime DESC, DSR.ts DESC
+	</select>
+
+	<select id="selectById" resultMap="DistSettleRecMap"
+		parameterType="Integer">SELECT DSR.id, DSR.shopId, DSR.shopName,
+		DSR.distributorId, DSR.distributorName, DSR.distShopName, DSR.amount,
+		DSR.theTime, DSR.theAmount, DSR.theCount, DSR.desc, DSR.ts
+		FROM
+		dist_settle_rec DSR
+		WHERE DSR.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		dist_settle_rec(shopId, shopName, distributorId, distributorName,
+		distShopName, amount,
+		theTime, theAmount, theCount, `desc`, ts)
+		VALUES(#{shopId}, #{shopName}, #{distributorId}, #{distributorName},
+		#{distShopName},
+		#{amount}, #{theTime}, #{theAmount}, #{theCount},
+		#{desc}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE dist_settle_rec
+		<set>
+			<trim suffixOverrides=",">
+				<if test="shopId != null">
+					shopId = #{shopId},
+				</if>
+				<if test="shopName != null">
+					shopName = #{shopName},
+				</if>
+				<if test="distributorId != null">
+					distributorId = #{distributorId},
+				</if>
+				<if test="distributorName != null">
+					distributorName = #{distributorName},
+				</if>
+				<if test="distShopName != null">
+					distShopName = #{distShopName},
+				</if>
+				<if test="amount != null">
+					amount = #{amount},
+				</if>
+				<if test="theTime != null">
+					theTime = #{theTime},
+				</if>
+				<if test="theAmount != null">
+					theAmount = #{theAmount},
+				</if>
+				<if test="theCount != null">
+					theCount = #{theCount},
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM dist_settle_rec
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilterP" resultMap="DistSettleRecMap">
+		SELECT DSR.id, DSR.shopId, DSR.shopName,
+		DSR.distributorId,
+		DSR.distributorName, DSR.distShopName, DSR.amount,
+		DSR.theTime,
+		DSR.theAmount, DSR.theCount, DSR.desc, DSR.ts
+		FROM
+		dist_settle_rec DSR
+		<where>
+			<if test="shopId !=null ">
+				AND DSR.shopId = #{shopId}
+			</if>
+			<if test="distShopName !=null ">
+				AND DSR.distShopName like ${distShopName}
+			</if>
+			<if test="fromDate != null and fromDate != ''">
+				<![CDATA[ AND DATE_FORMAT(DSR.theTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+			</if>
+			<if test="toDate != null and toDate != ''">
+				<![CDATA[ AND DATE_FORMAT(DSR.theTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+		order by DSR.ts desc
+	</select>
+</mapper>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.member.MemberGradeDao">
+	<resultMap id="MemberGradeMap" type="priv.starfish.mall.member.entity.MemberGrade">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="grade" property="grade" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="lowerPoint" property="lowerPoint" jdbcType="INTEGER" />
+		<result column="upperPoint" property="upperPoint" jdbcType="INTEGER" />
+		<result column="iconUuid" property="iconUuid" jdbcType="VARCHAR" />
+		<result column="iconUsage" property="iconUsage" jdbcType="VARCHAR" />
+		<result column="iconPath" property="iconPath" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="MemberGradeMap"
+		parameterType="Integer">SELECT MG.id, MG.grade, MG.name, MG.lowerPoint,
+		MG.upperPoint, MG.iconUuid, MG.iconUsage, MG.iconPath
+		FROM member_grade_def MG
+		WHERE MG.id = #{id}
+	</select>
+	
+	<select id="selectByGrade" resultMap="MemberGradeMap">SELECT MG.id, MG.grade,
+		MG.name, MG.lowerPoint, MG.upperPoint, MG.iconUuid, MG.iconUsage,
+		MG.iconPath
+		FROM member_grade_def MG
+		WHERE MG.grade = #{grade}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	INSERT INTO member_grade_def(grade, name, lowerPoint, upperPoint, iconUuid, iconUsage, iconPath)
+		VALUES(#{grade}, #{name}, #{lowerPoint}, #{upperPoint}, #{iconUuid},
+		#{iconUsage}, #{iconPath})
+	</insert>
+	
+	<update id="update">UPDATE member_grade_def
+		SET grade = #{grade} ,
+		name = #{name} ,
+		lowerPoint = #{lowerPoint} ,
+		upperPoint = #{upperPoint} ,
+		iconUuid = #{iconUuid} ,
+		iconUsage = #{iconUsage} ,
+		iconPath = #{iconPath}
+		WHERE id = #{id}
+	</update>
+	
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM member_grade_def
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectMemberGradesByFilter" resultMap="MemberGradeMap">
+		SELECT MG.id, MG.grade, MG.name, MG.lowerPoint,
+		MG.upperPoint, MG.iconUuid, MG.iconUsage, MG.iconPath
+		FROM member_grade_def MG
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="name != null">
+					 MG.name like ${name}
+				</if>
+				<if test="grade != null">
+					AND MG.grade = #{grade}
+				</if>
+				<if test="lowerPoint != null">
+					<![CDATA[
+					AND MG.lowerPoint <= #{lowerPoint}
+					]]>
+				</if>
+				<if test="upperPoint != null">
+					<![CDATA[
+					AND MG.upperPoint < #{upperPoint}
+					]]>
+				</if>
+			</trim>
+		</where>
+		ORDER BY MG.grade
+	</select>
+	
+	<select id="selectMemberGrades" resultMap="MemberGradeMap">
+		SELECT MG.id, MG.grade, MG.name, MG.lowerPoint,
+		MG.upperPoint, MG.iconUuid, MG.iconUsage, MG.iconPath
+		FROM member_grade_def MG
+		ORDER BY MG.grade
+	</select>
+	
+	<select id="selectByPoint" parameterType="Integer" resultType="Integer">
+		SELECT MG.grade 
+		FROM member_grade_def MG
+		WHERE
+			<![CDATA[
+			MG.lowerPoint <= #{point}
+			AND MG.upperPoint > #{point}
+			]]>
+	</select>
+	
+	<select id="selectMaxGrade" parameterType="Integer" resultType="Integer">
+		SELECT MAX(MG.grade) 
+		FROM member_grade_def MG
+	</select>
+</mapper>

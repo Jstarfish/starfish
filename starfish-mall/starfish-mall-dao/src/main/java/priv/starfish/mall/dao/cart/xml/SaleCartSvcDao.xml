@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.cart.SaleCartSvcDao">
+	<resultMap id="SaleCartSvcMap" type="priv.starfish.mall.cart.entity.SaleCartSvc">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="cartId" property="cartId" jdbcType="INTEGER" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<result column="checkFlag" property="checkFlag" jdbcType="BOOLEAN"/>
+	</resultMap>
+	
+	<select id="selectById" resultMap="SaleCartSvcMap" parameterType="Long">
+		SELECT
+		SC.id, SC.cartId, SC.svcId, SC.ts,SC.checkFlag
+		FROM sale_cart_svc SC
+		WHERE SC.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	INSERT
+	INTO
+	sale_cart_svc(cartId, svcId, ts)
+	VALUES(#{svcId}, #{svcId}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE sale_cart_svc
+		SET cartId = #{cartId}, 
+		svcId = #{svcId} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+	 	FROM sale_cart_svc
+	 	WHERE 
+	 	id = #{id}
+	 	</delete>
+	<select id="selectByCartId" resultMap="SaleCartSvcMap" parameterType="Integer">
+		SELECT
+		SC.id, SC.cartId, SC.svcId, SC.ts,SC.checkFlag
+		FROM sale_cart_svc SC
+		WHERE SC.cartId = #{cartId}
+		order by SC.ts desc
+	</select>
+	<select id="selectByCartIdAndSvcId" resultMap="SaleCartSvcMap" parameterType="Integer">
+		SELECT
+		SC.id, SC.cartId, SC.svcId, SC.ts,SC.checkFlag
+		FROM sale_cart_svc SC
+		WHERE SC.cartId = #{cartId} AND SC.svcId=#{svcId}
+	</select>
+</mapper>

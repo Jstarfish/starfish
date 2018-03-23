@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.ResourceDao">
+	<resultMap id="ResourceMap" type="priv.starfish.mall.comn.entity.Resource">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="pattern" property="pattern" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="permId" property="permId" jdbcType="INTEGER" />
+		<result column="pageFlag" property="pageFlag" jdbcType="BOOLEAN" />
+		<association property="permission" column="permId" select="getPermission" />
+	</resultMap>
+	
+	<select id="getPermission" parameterType="INTEGER" resultType="priv.starfish.mall.comn.entity.Permission">
+		SELECT P.id, P.moduleId, P.scope, P.code, P.name, P.desc, P.grantable, P.seqNo, P.disabled
+		FROM permission P
+		WHERE P.id = #{id}
+	</select>
+	
+	<select id="selectById" resultMap="ResourceMap" parameterType="Integer">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo, R.permId,R.scope, R.pageFlag
+		FROM resource R
+		WHERE R.id = #{id}
+	</select>
+
+	<select id="selectByTypeAndPattern" resultMap="ResourceMap">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo, R.permId, R.scope, R.pageFlag
+		FROM resource R
+		WHERE R.type = #{type} AND R.pattern = #{pattern}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO resource(name, pattern, type, `desc`, seqNo, permId ,scope, pageFlag)
+		VALUES(#{name}, #{pattern}, #{type}, #{desc}, #{seqNo}, #{permId}, #{scope}, #{pageFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE resource
+		SET name = #{name} ,
+			pattern = #{pattern} ,
+			type = #{type} ,
+			`desc` = #{desc} ,
+			seqNo = #{seqNo} ,
+			pageFlag = #{pageFlag} ,
+			permId = #{permId},
+			scope=#{scope}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM resource
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="ResourceMap">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo, R.permId,R.scope, R.pageFlag
+		FROM resource R
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="scope !=null and scope !='' ">
+					R.scope = #{scope}
+				</if>
+				<if test="name !=null">
+					AND R.name like ${name}
+				</if>
+				<if test="pattern !=null">
+					AND R.pattern like ${pattern}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM resource
+		WHERE id in
+			<foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+	</delete>
+	
+	<select id="selectByIds" resultMap="ResourceMap" parameterType="java.util.List">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo, R.permId,R.scope, R.pageFlag
+		FROM resource R
+		WHERE R.id in
+			<foreach collection="list" item="id" index="index" open="(" separator="," close=")">
+				#{id}
+			</foreach>
+	</select>
+	
+	<select id="selectByPattern" resultMap="ResourceMap">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo, R.permId,R.scope, R.pageFlag
+		FROM resource R
+		WHERE R.pattern = #{pattern}
+	</select>
+	
+	<select id="selectByPermId" resultMap="ResourceMap">
+		SELECT R.id, R.`name`, R.pattern, R.type, R.`desc`, R.seqNo, R.permId, R.scope, R.pageFlag
+		FROM resource R
+		WHERE R.permId = #{permId}
+	</select>
+
+	<select id="selectByPermIds" resultMap="ResourceMap" parameterType="java.util.List">
+		SELECT R.id, R.`name`, R.pattern, R.type, R.`desc`, R.seqNo, R.permId, R.scope, R.pageFlag
+		FROM resource R 
+		WHERE R.permId in 
+			<foreach collection="list" item="permId" index="index" open="(" separator="," close=")">
+				#{permId}
+			</foreach>
+	</select>
+	
+	<select id="selectIdsByPermIds" resultType="Integer" parameterType="java.util.List">
+		SELECT R.id
+		FROM resource R
+		WHERE R.permId in 
+		<foreach collection="list" item="permId" index="index"  open="(" separator="," close=")">
+			#{permId}
+		</foreach>
+	</select>
+	
+	<select id="selectUrls" resultMap="ResourceMap" parameterType="Boolean">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo, R.permId,R.scope, R.pageFlag
+		FROM resource R
+		WHERE R.type = #{type}
+		<if test="protectedOnly == true">
+			AND R.permId is not null
+		</if>
+	</select>
+	
+	  <select id="selectByScope" resultMap="ResourceMap">
+		SELECT R.id, R.name, R.pattern, R.type, R.desc, R.seqNo,
+		R.permId
+		FROM resource R 
+		WHERE R.scope=#{scope}
+  	 </select>
+   
+</mapper>

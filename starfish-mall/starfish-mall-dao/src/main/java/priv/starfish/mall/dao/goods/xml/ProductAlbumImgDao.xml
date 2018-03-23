@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.ProductAlbumImgDao">
+	<resultMap id="ProductAlbumImgMap" type="priv.starfish.mall.goods.entity.ProductAlbumImg">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="imageId" property="imageId" jdbcType="INTEGER" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectById" resultMap="ProductAlbumImgMap"
+		parameterType="Long">SELECT PAI.id, PAI.productId, PAI.imageId, PAI.seqNo
+		FROM product_album_img PAI
+		WHERE PAI.id = #{id}
+		ORDER BY PAI.seqNo
+	</select>
+	<select id="selectByProductIdAndImageId" resultMap="ProductAlbumImgMap">SELECT
+		PAI.id, PAI.productId, PAI.imageId, PAI.seqNo
+		FROM product_album_img PAI
+		WHERE PAI.productId = #{productId}
+		AND PAI.imageId = #{imageId}
+		ORDER BY PAI.seqNo
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		product_album_img(productId, imageId, seqNo)
+		VALUES(#{productId}, #{imageId}, #{seqNo})</insert>
+	<update id="update">
+		UPDATE product_album_img
+		SET 
+		<if test="seqNo !=null">
+		seqNo = #{seqNo},
+		</if>
+		productId = #{productId} ,
+		imageId = #{imageId}
+		WHERE id = #{id}</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM product_album_img
+		WHERE id = #{id}</delete>
+		
+	<select id="selectByProductId" resultMap="ProductAlbumImgMap"	parameterType="Long">
+		SELECT PAI.id, PAI.productId, PAI.imageId, PAI.seqNo
+		FROM product_album_img PAI
+		WHERE PAI.productId = #{productId}
+		ORDER BY PAI.seqNo
+	</select>
+	
+	<select id="selectByImageId" resultMap="ProductAlbumImgMap"	parameterType="Long">
+		SELECT PAI.id, PAI.productId, PAI.imageId, PAI.seqNo
+		FROM product_album_img PAI
+		WHERE PAI.imageId = #{imageId}
+		ORDER BY PAI.seqNo
+	</select>
+	
+	<select id="selectIdsByImageId" resultType="Long" parameterType="Long">
+		SELECT PAI.id
+		FROM product_album_img PAI
+		WHERE PAI.imageId = #{imageId}
+		ORDER BY PAI.seqNo
+	</select>
+	
+	<delete id="deleteByProductId" parameterType="Long">
+		DELETE
+		FROM product_album_img
+		WHERE productId = #{productId}
+	</delete>
+	
+	<select id="selectImageIdsByProductId" resultType="Long" parameterType="Long">
+		SELECT PAI.imageId
+		FROM product_album_img PAI
+		WHERE PAI.productId = #{productId}
+		ORDER BY PAI.seqNo
+	</select>
+</mapper>

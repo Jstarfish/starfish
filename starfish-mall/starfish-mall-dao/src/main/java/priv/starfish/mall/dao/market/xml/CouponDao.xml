@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.CouponDao">
+	<resultMap id="CouponMap" type="priv.starfish.mall.market.entity.Coupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="year" property="year" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="settlePrice" property="settlePrice" jdbcType="DECIMAL" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="issueStartTime" property="issueStartTime" jdbcType="TIMESTAMP" />
+		<result column="issueEndTime" property="issueEndTime" jdbcType="TIMESTAMP" />
+		<result column="validType" property="validType" jdbcType="INTEGER" />
+		<result column="validDays" property="validDays" jdbcType="INTEGER" />
+		<result column="validStartTime" property="validStartTime" jdbcType="TIMESTAMP" />
+		<result column="validEndTime" property="validEndTime" jdbcType="TIMESTAMP" />
+		<result column="limitCount" property="limitCount" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="updateTime" property="updateTime" jdbcType="TIMESTAMP" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+	</resultMap>
+	<select id="selectById" resultMap="CouponMap" parameterType="Integer">
+		SELECT
+		CP.id,CP.year,CP.type,CP.name,CP.title,CP.price,CP.settlePrice,CP.productId,CP.limitAmount,
+		CP.desc,CP.issueStartTime,CP.issueEndTime,CP.validType,CP.validDays,CP.validStartTime,
+		CP.validEndTime,CP.limitCount,CP.createTime,CP.updateTime,CP.disabled,CP.deleted
+		FROM
+		coupon CP
+		WHERE CP.id = #{id}
+	</select>
+	<select id="selectByName" resultMap="CouponMap">
+		SELECT
+		CP.id,CP.year,CP.type,CP.name,CP.title,CP.price,CP.settlePrice,CP.productId,CP.limitAmount,
+		CP.desc,CP.issueStartTime,CP.issueEndTime,CP.validType,CP.validDays,CP.validStartTime,
+		CP.validEndTime,CP.limitCount,CP.createTime,CP.updateTime,CP.disabled,CP.deleted
+		FROM
+		coupon CP
+		WHERE CP.name = #{name}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		coupon
+		(year,type,name,title,productId,price,settlePrice,limitAmount,`desc`,issueStartTime,issueEndTime,
+		validType,validDays,validStartTime,validEndTime,limitCount,createTime,updateTime,
+		disabled,deleted)
+		VALUES
+		(#{year},#{type},#{name},#{title},#{productId},#{price},#{settlePrice},#{limitAmount},#{desc},
+		#{issueStartTime},#{issueEndTime},#{validType},#{validDays},#{validStartTime},
+		#{validEndTime},#{limitCount},#{createTime},#{updateTime},#{disabled},#{deleted})
+	</insert>
+	<update id="update">
+		UPDATE coupon
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="name !=null">
+				name=#{name},
+			</if>
+			<if test="title !=null">
+				title=#{title},
+			</if>
+			<if test="productId !=null">
+				productId=#{productId},
+			</if>
+			<if test="price !=null">
+				price=#{price},
+			</if>
+			<if test="settlePrice !=null">
+				settlePrice=#{settlePrice},
+			</if>
+			<if test="limitAmount !=null">
+				limitAmount=#{limitAmount},
+			</if>
+			<if test="desc !=null">
+				`desc`=#{desc},
+			</if>
+			<if test="issueStartTime !=null">
+				issueStartTime=#{issueStartTime},
+			</if>
+			<if test="issueEndTime !=null">
+				issueEndTime=#{issueEndTime},
+			</if>
+			<if test="validType !=null">
+				validType=#{validType},
+			</if>
+			<if test="validDays !=null">
+				validDays=#{validDays},
+			</if>
+			<if test="validType !=null">
+				validType=#{validType},
+			</if>
+			<if test="validStartTime !=null">
+				validStartTime=#{validStartTime},
+			</if>
+			<if test="validEndTime !=null">
+				validEndTime=#{validEndTime},
+			</if>
+			<if test="limitCount !=null">
+				limitCount=#{limitCount},
+			</if>
+			<if test="updateTime !=null">
+				updateTime=#{updateTime},
+			</if>
+			<if test="disabled !=null">
+				disabled=#{disabled},
+			</if>
+			<if test="deleted !=null">
+				deleted=#{deleted}
+			</if>
+		</trim>
+		WHERE
+		id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM coupon
+		WHERE id
+		= #{id}
+	</delete>
+	<delete id="updateDeletedById">
+		UPDATE coupon
+		SET deleted = #{deleted}
+		WHERE id = #{id}
+	</delete>
+	<update id="updateByIdAndState">
+		UPDATE coupon
+		SET disabled = #{disabled}
+		WHERE id = #{id}
+	</update>
+	<select id="selectCountByName" resultType="int" parameterType="String">
+		SELECT count(1)
+		FROM coupon CP
+		WHERE CP.name = #{name}
+	</select>
+	<select id="selectByFilter" resultMap="CouponMap">
+		SELECT
+		CP.id,CP.year,CP.type,CP.name,CP.title,CP.price,CP.settlePrice,CP.productId,CP.limitAmount,
+		CP.desc,CP.issueStartTime,CP.issueEndTime,CP.validType,CP.validDays,CP.validStartTime,
+		CP.validEndTime,CP.limitCount,CP.createTime,CP.updateTime,CP.disabled,CP.deleted
+		FROM
+		coupon CP
+		WHERE 1=1
+		<if test="deleted !=null">
+			AND CP.deleted=#{deleted}
+		</if>
+		<if test="disabled !=null">
+			AND CP.disabled=#{disabled}
+		</if>
+		<if test="name!=null and name != ''">
+			AND CP.name like ${name}
+		</if>
+		<if test="productId!=null and productId != ''">
+			AND productId=#{productId}
+		</if>
+		<if test="limitAmount!=null and limitAmount!= ''">
+			AND CP.limitAmount=#{limitAmount}
+		</if>
+	</select>
+</mapper>

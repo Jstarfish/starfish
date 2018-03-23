@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopProductDao">
+	<resultMap id="ShopProductMap" type="priv.starfish.mall.shop.entity.ShopProduct">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="salePrice" property="salePrice" jdbcType="DECIMAL" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="lackFlag" property="lackFlag" jdbcType="BOOLEAN" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<resultMap type="priv.starfish.mall.shop.entity.ShopProduct" id="lackFlagMap">
+		<result column="lackFlag" property="lackFlag" jdbcType="BOOLEAN" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+	</resultMap>
+
+	<select id="selectById" resultMap="ShopProductMap"
+		parameterType="Long">SELECT SP.id, SP.shopId, SP.productId, SP.goodsId,
+		SP.salePrice, SP.catId, SP.lackFlag, SP.goodsName, SP.title, SP.ts
+		FROM
+		shop_product SP
+		WHERE SP.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		shop_product(shopId, productId, goodsId, salePrice, catId,
+		lackFlag, goodsName, title,
+		ts)
+		VALUES(#{shopId}, #{productId}, #{goodsId},
+		#{salePrice}, #{catId}, #{lackFlag},
+		#{goodsName}, #{title}, #{ts})
+	</insert>
+
+	<update id="update">UPDATE shop_product
+		SET shopId = #{shopId} ,
+		productId
+		= #{productId} ,
+		goodsId = #{goodsId} ,
+		salePrice = #{salePrice} ,
+		catId
+		= #{catId} ,
+		lackFlag = #{lackFlag} ,
+		goodsName = #{goodsName} ,
+		title = #{title} ,
+		ts =
+		#{ts}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM shop_product
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="ShopProductMap">
+		SELECT SP.id, SP.shopId, SP.productId, SP.goodsId,
+		SP.salePrice,
+		SP.catId, SP.lackFlag, SP.goodsName, SP.title, SP.ts
+		FROM shop_product SP
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="shopId != null">
+				AND SP.shopId = #{shopId}
+			</if>
+			<if test="catId != null">
+				AND SP.catId = #{catId}
+			</if>
+			<if test="lackFlag != null">
+				AND SP.lackFlag = #{lackFlag}
+			</if>
+			<if test="productId != null">
+				AND SP.productId = #{productId}
+			</if>
+			<if test="title !=null">
+				AND SP.title like ${title}
+			</if>
+			<if test="goodsName !=null">
+				AND SP.goodsName like ${goodsName}
+			</if>
+		</trim>
+	</select>
+
+	<select id="selectLackFlagByShopIdAndProductIds" parameterType="map"
+		resultMap="lackFlagMap">
+		SELECT productId,lackFlag FROM shop_product WHERE
+		shopId=#{shopId}
+		AND
+		productId in
+		<foreach collection="productIds" item="productId" index="index"
+			open="(" close=")" separator=",">
+			#{productId}
+		</foreach>
+	</select>
+
+	<update id="updateLackFlagById">
+		UPDATE shop_product
+		SET lackFlag = #{lackFlag}
+		WHERE id
+		= #{id}
+	</update>
+
+	<select id="selectCountShopIdByProductId" resultType="Integer">
+		SELECT
+		COUNT(DISTINCT shopId) shopNum
+		FROM shop_product
+		WHERE productId = #{productId}
+	</select>
+
+	<delete id="deleteByProductId" parameterType="Long">DELETE
+		FROM
+		shop_product
+		WHERE productId = #{productId}
+	</delete>
+</mapper>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.ecard.ECardTransactRecDao">
+	<resultMap id="EcardTransactRecMap" type="priv.starfish.mall.ecard.entity.ECardTransactRec">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="cardId" property="cardId" jdbcType="INTEGER" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="targetId" property="targetId" jdbcType="BIGINT" />
+		<result column="targetStr" property="targetStr" jdbcType="VARCHAR" />
+		<result column="directFlag" property="directFlag" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="theVal" property="theVal" jdbcType="DECIMAL" />
+		<result column="remainVal" property="remainVal" jdbcType="DECIMAL" />
+		<result column="theTime" property="theTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="EcardTransactRecMap"
+		parameterType="Long">
+		SELECT ETR.id, ETR.cardId, ETR.subject, ETR.targetId,
+		ETR.targetStr,
+		ETR.directFlag, ETR.userId, ETR.theVal, ETR.remainVal, ETR.theTime
+		FROM
+		ecard_transact_rec ETR
+		WHERE ETR.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		ecard_transact_rec(cardId, subject, targetId, targetStr,
+		directFlag, userId, theVal,
+		remainVal, theTime)
+		VALUES(#{cardId}, #{subject},
+		#{targetId}, #{targetStr},
+		#{directFlag}, #{userId}, #{theVal}, #{remainVal}, #{theTime})
+	</insert>
+	<update id="update">UPDATE ecard_transact_rec
+		SET cardId = #{cardId} ,
+		subject = #{subject} ,
+		targetId = #{targetId} ,
+		targetStr = #{targetStr}
+		,
+		directFlag =
+		#{directFlag} ,
+		userId =
+		#{userId} ,
+		theVal = #{theVal} ,
+		remainVal =
+		#{remainVal} ,
+		theTime =
+		#{theTime}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM
+		ecard_transact_rec
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="EcardTransactRecMap">
+		SELECT ETR.id, ETR.cardId, ETR.subject, ETR.targetId, ETR.targetStr,
+		ETR.directFlag, ETR.userId, 
+		ETR.theVal, ETR.remainVal, ETR.theTime
+		FROM
+		ecard_transact_rec ETR
+		<where>
+			<if test="cardId !=null and cardId != ''">
+				AND ETR.cardId = #{cardId}
+			</if>
+			<if test="userId !=null and userId != ''">
+				AND ETR.userId = #{userId}
+			</if>
+			<if test="directFlag !=null">
+				AND ETR.directFlag = #{directFlag}
+			</if>
+		</where>
+		order by ETR.theTime desc
+	</select>
+
+	<select id="selectByCardId" resultMap="EcardTransactRecMap"
+		parameterType="Integer">
+		SELECT ETR.id, ETR.cardId, ETR.subject, ETR.targetId,
+		ETR.targetStr,
+		ETR.directFlag, ETR.userId, ETR.theVal, ETR.remainVal, ETR.theTime
+		FROM
+		ecard_transact_rec ETR
+		WHERE ETR.cardId = #{cardId}
+	</select>
+</mapper>
+

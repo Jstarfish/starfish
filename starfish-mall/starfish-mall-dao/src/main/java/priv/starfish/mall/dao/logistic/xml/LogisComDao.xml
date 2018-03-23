@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.logistic.LogisComDao">
+	<resultMap id="LogisComMap" type="priv.starfish.mall.logistic.entity.LogisCom">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+
+		<collection property="deliveryWays" column=""
+			ofType="priv.starfish.mall.logistic.entity.DeliveryWay" columnPrefix="d_">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="name" property="name" jdbcType="VARCHAR" />
+			<result column="comId" property="comId" jdbcType="VARCHAR" />
+			<result column="supportPod" property="supportPod" jdbcType="BOOLEAN" />
+			<result column="insureRate" property="insureRate" jdbcType="DECIMAL" />
+			<result column="desc" property="desc" jdbcType="VARCHAR" />
+			<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+			<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+			<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		</collection>
+	</resultMap>
+
+	<select id="selectById" resultMap="LogisComMap" parameterType="Integer">SELECT
+		LC.id, LC.code, LC.name, LC.logoPath, LC.url, LC.desc, LC.disabled,
+		LC.seqNo, LC.ts
+		FROM logistic_com LC
+		WHERE LC.id = #{id}
+	</select>
+	<select id="selectByCode" resultMap="LogisComMap">SELECT LC.id, LC.code,
+		LC.name, LC.logoPath, LC.url, LC.desc, LC.disabled, LC.seqNo, LC.ts
+		FROM logistic_com LC
+		WHERE LC.code = #{code}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		logistic_com(code, name, logoPath, url, `desc`, disabled, seqNo, ts)
+		VALUES(#{code}, #{name}, #{logoPath}, #{url}, #{desc}, #{disabled}, #{seqNo}, #{ts})
+	</insert>
+	<update id="update">UPDATE logistic_com
+		SET code = #{code} ,
+		name = #{name} ,
+		logoPath = #{logoPath} ,
+		url = #{url} ,
+		`desc` = #{desc} ,
+		disabled = #{disabled} ,
+		<if test="seqNo != null">
+		seqNo = #{seqNo} ,
+		</if>
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM logistic_com
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectLogisComsByFilter" resultMap="LogisComMap">
+		SELECT LC.id, LC.code,
+		LC.name, LC.logoPath, LC.url, LC.desc, LC.disabled,
+		LC.seqNo, LC.ts
+		FROM logistic_com LC
+		<where>
+			<trim prefix="AND">
+				<if test="name !=null">
+					LC.name like ${name}
+				</if>
+			</trim>
+		</where>
+	</select>
+
+	<select id="selectListAll" resultMap="LogisComMap">
+		SELECT LC.id, LC.code,
+		LC.name, LC.logoPath, LC.url, LC.desc, LC.disabled,
+		LC.seqNo, LC.ts
+		FROM logistic_com LC
+		WHERE LC.disabled = false
+	</select>
+
+	<select id="selectListByGroup" resultMap="LogisComMap">
+		SELECT LC.id, LC.code, LC.name, LC.logoPath, LC.url, LC.desc,
+		LC.disabled,LC.seqNo, LC.ts,
+		D.id d_id, D.name d_name, D.comId d_comId,
+		D.supportPod d_supportPod, D.insureRate d_insureRate, D.desc d_desc,
+		D.seqNo d_seqNo, D.disabled d_disabled, D.ts d_ts
+		FROM logistic_com LC,
+		delivery_way D
+		WHERE D.comId = LC.id
+		<if test="lcDisabled != null and lcDisabled != '' ">
+			AND LC.disabled = #{lcDisabled}
+		</if>
+		<if test="dwDisabled != null and dwDsabled != '' ">
+			AND D.disabled = #{dwDisabled}
+		</if>
+		ORDER BY LC.seqNO, D.seqNo
+	</select>
+</mapper>

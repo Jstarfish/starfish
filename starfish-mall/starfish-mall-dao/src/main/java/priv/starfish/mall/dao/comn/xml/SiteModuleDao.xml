@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.SiteModuleDao">
+	<resultMap id="SiteModuleMap" type="priv.starfish.mall.comn.entity.SiteModule">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="iconUuid" property="iconUuid" jdbcType="VARCHAR" />
+		<result column="iconUsage" property="iconUsage" jdbcType="VARCHAR" />
+		<result column="iconPath" property="iconPath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SiteModuleMap" parameterType="Integer">
+		SELECT SM.id, SM.scope, SM.name, SM.desc, SM.iconUuid, SM.iconUsage, SM.iconPath, SM.seqNo, SM.ts
+		FROM site_module SM
+		WHERE SM.id = #{id}
+	</select>
+	
+	<select id="selectByNameAndScope" resultMap="SiteModuleMap">
+		SELECT SM.id, SM.scope, SM.name, SM.desc, SM.iconUuid, SM.iconUsage, SM.iconPath, SM.seqNo, SM.ts
+		FROM site_module SM
+		WHERE SM.name = #{name} AND SM.scope = #{scope}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO site_module(scope, name, `desc`, iconUuid, iconUsage, iconPath, seqNo, ts)
+		VALUES(#{scope}, #{name}, #{desc}, #{iconUuid}, #{iconUsage}, #{iconPath}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE site_module
+		SET scope = #{scope} ,
+			name = #{name} ,
+			`desc` = #{desc} ,
+			iconUuid = #{iconUuid} ,
+			iconUsage = #{iconUsage} ,
+			iconPath = #{iconPath} ,
+			seqNo = #{seqNo} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM site_module
+		WHERE id = #{id}
+	</delete>
+
+	
+	<select id="selectByFilter" resultMap="SiteModuleMap">
+		SELECT SM.id, SM.scope, SM.name, SM.desc, SM.iconUuid, SM.iconUsage, SM.iconPath, SM.seqNo, SM.ts
+		FROM site_module SM
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="scope !=null and scope != ''">
+					SM.scope = #{scope}
+				</if>
+				<if test="name !=null">
+				    AND SM.name like ${name}
+				</if>
+			</trim>
+		</where>
+		ORDER BY SM.seqNo DESC, SM.id DESC
+	</select>
+	
+	<select id="selectByScope" resultMap="SiteModuleMap">
+		SELECT SM.id, SM.scope, SM.name, SM.desc, SM.iconUuid, SM.iconUsage, SM.iconPath, SM.seqNo, SM.ts
+		FROM site_module SM
+		where SM.scope = #{scope}
+		ORDER BY SM.seqNo asc
+	</select>
+	
+	<select id="selectByIds" resultMap="SiteModuleMap" parameterType="java.util.List">
+		SELECT SM.id, SM.scope, SM.name, SM.desc, SM.iconUuid, SM.iconUsage, SM.iconPath, SM.seqNo, SM.ts
+		FROM site_module SM
+		WHERE SM.id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">
+				#{id}
+			</foreach>
+			)
+	</select>
+</mapper>

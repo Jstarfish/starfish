@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.statis.GoodsBuySumDao">
+	<resultMap id="GoodsBuySumMap" type="priv.starfish.mall.statis.entity.GoodsBuySum">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="productName" property="productName" jdbcType="VARCHAR" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="count" property="count" jdbcType="BIGINT" />
+		<result column="lastTime" property="lastTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="GoodsBuySumMap" parameterType="Long">
+	    SELECT GBS.id, GBS.userId, GBS.productId, GBS.goodsId, GBS.catId,
+		GBS.shopId, GBS.count, GBS.lastTime
+		FROM goods_buy_sum GBS
+		WHERE GBS.id = #{id}
+	</select>
+	<select id="selectByUserIdAndProductId" resultMap="GoodsBuySumMap">
+	    SELECT
+		GBS.id, GBS.userId, GBS.productId, GBS.goodsId, GBS.catId,  GBS.shopId, GBS.count,
+		GBS.lastTime
+		FROM goods_buy_sum GBS
+		WHERE GBS.userId = #{userId}
+		AND GBS.productId = #{productId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT
+		INTO
+		goods_buy_sum(userId, productId, goodsId, catId, shopId, count, lastTime)
+		VALUES(#{userId}, #{productId}, #{goodsId}, #{catId}, #{shopId}, #{count}, #{lastTime})
+	</insert>
+	<update id="update">
+	    UPDATE goods_buy_sum
+		SET userId = #{userId} ,
+		productId = #{productId} ,
+		goodsId = #{goodsId} ,
+		catId = #{catId} ,
+		shopId = #{shopId} ,
+		count = #{count},
+		lastTime = #{lastTime}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">
+	    DELETE
+		FROM goods_buy_sum
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectUserIdsByShopId" parameterType="Integer" resultType="Integer">
+	    SELECT DISTINCT GBS.userId
+		FROM goods_buy_sum GBS
+		WHERE GBS.shopId = #{shopId}
+	</select>
+	
+	<select id="selectBuyCountByProductId" resultType="Long" parameterType="Long">
+	    SELECT IFNULL(SUM(GBS.count),0) AS summary_count 
+	    FROM goods_buy_sum GBS
+		WHERE GBS.productId = #{productId}
+	</select>
+	
+	<delete id="deleteByProductId" parameterType="Long">
+	    DELETE
+		FROM goods_buy_sum
+		WHERE productId = #{productId}
+	</delete>
+</mapper>

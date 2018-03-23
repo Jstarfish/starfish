@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatPriceRangeDao">
+    <resultMap id="GoodsCatPriceRangeMap" type="priv.starfish.mall.categ.entity.GoodsCatPriceRange">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="catId" property="catId" jdbcType="INTEGER" />
+        <result column="lowerPrice" property="lowerPrice" jdbcType="INTEGER" />
+        <result column="upperPrice" property="upperPrice" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectById" resultMap="GoodsCatPriceRangeMap" parameterType="Integer">
+    	SELECT GCPR.id, GCPR.catId, GCPR.lowerPrice, GCPR.upperPrice FROM   goods_cat_price_range GCPR WHERE  GCPR.id = #{id}
+	</select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO  goods_cat_price_range(catId, lowerPrice, upperPrice) VALUES(#{catId}, #{lowerPrice}, #{upperPrice})
+    </insert>
+    <update id="update">
+    	UPDATE goods_cat_price_range SET catId = #{catId} , lowerPrice = #{lowerPrice} ,  upperPrice = #{upperPrice} WHERE  id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="Integer">
+    	DELETE FROM   goods_cat_price_range WHERE  id = #{id}
+    </delete>
+    <delete id="deleteByCatId" parameterType="Integer">
+    	DELETE FROM   goods_cat_price_range WHERE  catId = #{catId}
+    </delete>
+    <delete id="deleteByCatIds" parameterType="Integer">
+		DELETE FROM   goods_cat_price_range WHERE  catId  in (
+		    <foreach collection="list" item="catId" index="index" open="" close="" separator=",">   
+        		#{catId}    
+    		</foreach>
+		)
+	</delete>
+	<delete id="deleteCatPriceRangeByCatIdAndNotInIds">
+		DELETE FROM   goods_cat_price_range WHERE catId = #{catId} and id  not in (
+		    <foreach collection="ids" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+    <select id="selectByCatId" resultMap="GoodsCatPriceRangeMap" parameterType="Integer">
+    	SELECT GCPR.id, GCPR.catId, GCPR.lowerPrice, GCPR.upperPrice FROM   goods_cat_price_range GCPR WHERE  GCPR.catId = #{catId}
+    	order by GCPR.lowerPrice
+	</select>
+</mapper>

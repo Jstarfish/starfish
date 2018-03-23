@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.interact.OnlineServeNoDao">
+	<resultMap id="OnlineServeNoMap" type="priv.starfish.mall.interact.entity.OnlineServeNo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="entityId" property="entityId" jdbcType="INTEGER" />
+		<result column="entityName" property="entityName" jdbcType="VARCHAR" />
+		<result column="servantId" property="servantId" jdbcType="INTEGER" />
+		<result column="servantNo" property="servantNo" jdbcType="VARCHAR" />
+		<result column="servantName" property="servantName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<resultMap id="InteractUserDtoMap" type="priv.starfish.mall.interact.dto.InteractUserDto">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="nickName" property="nickName" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="servantId" property="servantId" jdbcType="INTEGER" />
+		<result column="servantNo" property="servantNo" jdbcType="VARCHAR" />
+		<result column="servantName" property="servantName" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectByFilter" resultMap="InteractUserDtoMap">
+		SELECT OSN.id, OSN.servantId, OSN.servantNo, OSN.servantName, U.phoneNo, U.nickName, U.email, U.realName, U.gender 
+		FROM online_serve_no OSN, user U 
+		WHERE OSN.servantId = U.id
+		<if test="scope != null">
+			AND scope = #{scope}
+		</if>
+		<if test="entityId != null">
+			AND entityId = #{entityId}
+		</if>
+		<if test="servantNo != null">
+			AND servantNo like ${servantNo}
+		</if>
+		<if test="servantName != null">
+			AND servantName like ${servantName}
+		</if>
+		<if test="nickName != null">
+			AND nickName like ${nickName}
+		</if>
+		ORDER BY OSN.servantNo, OSN.servantName
+	</select>
+	
+	<select id="selectById" resultMap="OnlineServeNoMap" parameterType="Integer">
+		SELECT OSN.id, OSN.scope, OSN.entityId, OSN.entityName, OSN.servantId, OSN.servantNo, OSN.servantName
+		FROM online_serve_no OSN
+		WHERE OSN.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO online_serve_no(scope, entityId, entityName, servantId, servantNo, servantName)
+		VALUES(#{scope}, #{entityId}, #{entityName}, #{servantId}, #{servantNo}, #{servantName})
+	</insert>
+	
+	<update id="update">
+		UPDATE online_serve_no
+		<set>
+			<if test="scope != null">
+				scope = #{scope} ,
+			</if>
+			<if test="entityId != null">
+				entityId = #{entityId} ,
+			</if>
+			<if test="entityName != null and entityName != ''">
+				entityName = #{entityName} ,
+			</if>
+			<if test="servantId != null">
+				servantId = #{servantId} ,
+			</if>
+			<if test="servantNo != null and servantNo != ''">
+				servantNo = #{servantNo} ,
+			</if>
+			<if test="servantName != null and servantName != ''">
+				servantName = #{servantName}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM online_serve_no
+		WHERE id = #{id}
+	</delete>
+	<delete id="deleteByIds" parameterType="Integer">
+		DELETE FROM online_serve_no
+		WHERE id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+	
+	<select id="selectByServantNo" resultMap="OnlineServeNoMap">
+		SELECT OSN.id, OSN.scope, OSN.entityId, OSN.entityName, OSN.servantId, OSN.servantNo, OSN.servantName
+		FROM online_serve_no OSN
+		WHERE OSN.servantNo = #{servantNo}
+	</select>
+	<select id="selectByServantName" resultMap="OnlineServeNoMap">
+		SELECT OSN.id, OSN.scope, OSN.entityId, OSN.entityName, OSN.servantId, OSN.servantNo, OSN.servantName
+		FROM online_serve_no OSN
+		WHERE OSN.servantName = #{servantName}
+	</select>
+</mapper>

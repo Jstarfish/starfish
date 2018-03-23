@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.pay.PayWayParamDao">
+	<resultMap id="PayWayParamMap" type="priv.starfish.mall.pay.entity.PayWayParam">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="payWayId" property="payWayId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO	pay_way_param(payWayId, name, value,`desc`)
+		VALUES(#{payWayId}, #{name}, #{value},#{desc})
+	</insert>
+	
+	<update id="update">
+		UPDATE pay_way_param
+		SET name = #{name} ,
+		    value = #{value} ,
+		    <if test="seqNo != null">
+		    seqNo = #{seqNo} ,
+		    </if>
+		    `desc` = #{desc}
+		WHERE  id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM pay_way_param WHERE  id = #{id}
+	</delete>
+	
+	<select id="selectById" resultMap="PayWayParamMap" parameterType="Integer">
+		SELECT PWP.id, PWP.payWayId, PWP.name, PWP.value, PWP.seqNo, PWP.desc
+		FROM   pay_way_param PWP
+		WHERE  PWP.id = #{id}
+	</select>
+	
+    <select id="selectByPWayIdAndNameAndIoFlag" resultMap="PayWayParamMap">
+	    SELECT PWP.id, PWP.payWayId, PWP.name, PWP.value, PWP.seqNo, PWP.desc
+		FROM   pay_way_param PWP
+		WHERE  PWP.payWayId = #{payWayId}
+		   AND PWP.name = #{name}
+	</select>
+	
+	<insert id="batchInsertPayWayParams" parameterType="java.util.List">
+		INSERT INTO	pay_way_param(payWayId, name, value, seqNo, `desc`)
+		VALUES
+		<foreach collection="ps" item="p" index="index" open="" close="" separator=",">   
+			(#{p.payWayId}, #{p.name}, #{p.value}, #{p.seqNo}, #{p.desc})
+		 </foreach>
+	</insert>
+	
+	<select id="selectByPWayId" parameterType="Integer" resultMap="PayWayParamMap">
+		SELECT PWP.id, PWP.payWayId, PWP.name, PWP.value, PWP.desc, PWP.seqNo
+		FROM pay_way_param PWP
+		WHERE PWP.payWayId = #{payWayId}
+		ORDER BY PWP.seqNo
+	</select>
+	
+	<delete id="deleteByPWayId" parameterType="Integer">
+		DELETE FROM pay_way_param WHERE payWayId = #{payWayId}
+	</delete>
+</mapper>

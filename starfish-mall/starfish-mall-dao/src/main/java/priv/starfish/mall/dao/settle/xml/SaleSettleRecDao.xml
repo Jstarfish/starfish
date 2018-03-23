@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.SaleSettleRecDao">
+	<resultMap id="SaleSettleRecMap" type="priv.starfish.mall.settle.entity.SaleSettleRec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="peerType" property="peerType" jdbcType="INTEGER" />
+		<result column="peerId" property="peerId" jdbcType="INTEGER" />
+		<result column="settleProcessId" property="settleProcessId" jdbcType="BIGINT" />
+		<result column="peerName" property="peerName" jdbcType="VARCHAR" />
+		<result column="bankCode" property="bankCode" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="acctNo" property="acctNo" jdbcType="VARCHAR" />
+		<result column="acctName" property="acctName" jdbcType="VARCHAR" />
+		<result column="directFlag" property="directFlag" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="reqNo" property="reqNo" jdbcType="VARCHAR" />
+		<result column="billExtra" property="billExtra" jdbcType="VARCHAR" />
+		<result column="operatorId" property="operatorId" jdbcType="INTEGER" />
+		<result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+		<result column="confirmed" property="confirmed" jdbcType="BOOLEAN" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="settleDay" property="settleDay" jdbcType="DATE" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="SaleSettleRecMap"
+		parameterType="Integer">SELECT SSR.id, SSR.subject, SSR.peerType, SSR.peerId, SSR.settleProcessId,
+		SSR.peerName, SSR.bankCode, SSR.bankName, SSR.acctNo, SSR.acctName,
+		SSR.directFlag, SSR.amount, SSR.reqNo,SSR.billExtra, SSR.operatorId,
+		SSR.operatorName, SSR.confirmed, SSR.state, SSR.settleDay, SSR.ts
+		FROM sale_settle_rec SSR
+		WHERE SSR.id = #{id}
+	</select>
+	
+	<select id="selecBySettleProcessId" resultMap="SaleSettleRecMap"
+		parameterType="Long">SELECT SSR.id, SSR.subject, SSR.peerType, SSR.peerId, SSR.settleProcessId,
+		SSR.peerName, SSR.bankCode, SSR.bankName, SSR.acctNo, SSR.acctName,
+		SSR.directFlag, SSR.amount, SSR.reqNo,SSR.billExtra, SSR.operatorId,
+		SSR.operatorName, SSR.confirmed, SSR.state, SSR.settleDay, SSR.ts
+		FROM sale_settle_rec SSR
+		WHERE SSR.settleProcessId = #{settleProcessId}
+	</select>
+	
+	<select id="selectByReqNo" resultMap="SaleSettleRecMap"
+		parameterType="String">SELECT SSR.id, SSR.subject, SSR.peerType, SSR.peerId, SSR.settleProcessId,
+		SSR.peerName, SSR.bankCode, SSR.bankName, SSR.acctNo, SSR.acctName,
+		SSR.directFlag, SSR.amount, SSR.reqNo,SSR.billExtra, SSR.operatorId,
+		SSR.operatorName, SSR.confirmed, SSR.state, SSR.settleDay, SSR.ts
+		FROM sale_settle_rec SSR
+		WHERE SSR.reqNo = #{reqNo}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		sale_settle_rec(subject, peerType, peerId, settleProcessId, peerName, bankCode, bankName, acctNo, acctName,
+		directFlag, amount, reqNo,billExtra, operatorId, operatorName, confirmed,
+		state, settleDay, ts)
+		VALUES(#{subject}, #{peerType}, #{peerId}, #{settleProcessId}, #{peerName}, #{bankCode}, #{bankName},
+		#{acctNo}, #{acctName}, #{directFlag}, #{amount}, #{reqNo},#{billExtra},
+		#{operatorId}, #{operatorName}, #{confirmed}, #{state}, #{settleDay}, #{ts})
+	</insert>
+	<update id="update">UPDATE sale_settle_rec
+		SET subject = #{subject} ,
+		peerType = #{peerType} ,
+		settleProcessId = #{settleProcessId} ,
+		peerId = #{peerId} ,
+		peerName = #{peerName} ,
+		bankCode = #{bankCode} ,
+		bankName = #{bankName} ,
+		acctNo = #{acctNo} ,
+		acctName = #{acctName} ,
+		directFlag = #{directFlag} ,
+		amount = #{amount} ,
+		reqNo = #{reqNo} ,
+		billExtra = #{billExtra} ,
+		operatorId = #{operatorId} ,
+		operatorName = #{operatorName} ,
+		confirmed = #{confirmed} ,
+		state = #{state} ,
+		settleDay = #{settleDay} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<update id="updateForState">
+		UPDATE sale_settle_rec
+		SET 
+		state = #{state}
+		WHERE id = #{id}
+	</update>
+	<update id="updateForReqData">
+		UPDATE sale_settle_rec
+		<trim prefix="SET" suffixOverrides=",">
+	    	 <if test="reqNo !=null">
+	    	 	reqNo = #{reqNo},
+		     </if>
+	    	 <if test="billExtra !=null">
+	    	 	billExtra = #{billExtra},
+		     </if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM sale_settle_rec
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByFilter" resultMap="SaleSettleRecMap">
+		SELECT SSR.id, SSR.subject, SSR.peerType, SSR.peerId, SSR.settleProcessId,
+		SSR.peerName, SSR.bankCode, SSR.bankName, SSR.acctNo, SSR.acctName,
+		SSR.directFlag, SSR.amount, SSR.reqNo,SSR.billExtra, SSR.operatorId,
+		SSR.operatorName, SSR.confirmed, SSR.state, SSR.settleDay, SSR.ts
+		FROM sale_settle_rec SSR
+		<where >
+			<if test="reqNo !=null ">  
+	          AND  SSR.reqNo = #{reqNo}  
+	         </if>
+	         <if test="peerType !=null ">  
+	          AND  SSR.peerType = #{peerType}  
+	         </if>
+	         <if test="peerId !=null ">  
+	          AND  SSR.peerId = #{peerId}  
+	         </if>
+	         <if test="state !=null ">  
+	          AND  SSR.state = #{state}  
+	         </if>
+	         <if test="state == null ">  
+	          AND  (SSR.state = 3 or SSR.state = 4)  
+	         </if>
+			<if test="peerName !=null ">  
+	          AND  SSR.peerName  like ${peerName}  
+	         </if>
+	         <if test="fromDate != null and fromDate != ''">
+				<![CDATA[ AND DATE_FORMAT(SSR.settleDay, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+			</if>
+			<if test="toDate != null and toDate != ''">
+				<![CDATA[ AND DATE_FORMAT(SSR.settleDay, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+        order by SSR.ts desc
+	</select>
+</mapper>
+	

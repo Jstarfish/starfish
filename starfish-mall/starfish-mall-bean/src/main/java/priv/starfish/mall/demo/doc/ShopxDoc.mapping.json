@@ -1,0 +1,28 @@
+{
+    "_all":{
+        "indexAnalyzer":"ik",
+        "searchAnalyzer":"ik",
+        "term_vector":"no",
+        "store":"false"
+    },
+    "properties":{
+        "changeTime":{
+            "type":"date",
+            "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm||yyyy-MM-dd"
+        },
+        "indexTime":{
+            "type":"date",
+            "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm||yyyy-MM-dd"
+        },
+        "location":{
+            "type":"geo_point"
+        },
+        "regTime":{
+            "type":"date",
+            "format":"yyyy-MM-dd HH:mm:ss||yyyy-MM-dd HH:mm||yyyy-MM-dd"
+        },
+        "browserCount":{
+            "type":"long"
+        }
+    }
+}

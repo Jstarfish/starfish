@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.SmsTemplateDao">
+	<resultMap id="SmsTemplateMap" type="priv.starfish.mall.notify.entity.SmsTemplate">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="CLOB" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="modelCode" property="modelCode" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SmsTemplateMap"
+		parameterType="Integer">
+		SELECT ST.id, ST.code, ST.name, ST.content, ST.desc, ST.modelCode, ST.ts
+		FROM sms_template ST
+		WHERE ST.id = #{id}
+	</select>
+
+	<select id="selectByCode" resultMap="SmsTemplateMap">
+		SELECT ST.id, ST.code,ST.name, ST.content, ST.desc, ST.modelCode, ST.ts
+		FROM sms_template ST
+		WHERE ST.code =#{code}
+	</select>
+
+	<select id="selectByName" resultMap="SmsTemplateMap">
+		SELECT ST.id, ST.code,ST.name, ST.content, ST.desc, ST.modelCode, ST.ts
+		FROM sms_template ST
+		WHERE ST.name =#{name}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sms_template(code, name, content, `desc`, modelCode, ts)
+		VALUES(#{code},#{name}, #{content}, #{desc}, #{modelCode}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE sms_template
+		SET code = #{code} ,
+		name = #{name},
+		content = #{content} ,
+		`desc` = #{desc} ,
+		modelCode = #{modelCode} ,
+		ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM sms_template
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectSmsTemplates" resultMap="SmsTemplateMap">
+		SELECT ST.id, ST.code,ST.name, ST.content, ST.desc, ST.modelCode, ST.ts
+		FROM sms_template ST
+		<if test="null != name and '' != name">
+			WHERE ST.name
+			like ${name}
+		</if>
+	</select>
+	
+	<select id="selectAll" resultMap="SmsTemplateMap">
+		SELECT ST.id, ST.code,ST.name,ST.content, ST.desc, ST.modelCode, ST.ts
+		FROM sms_template ST
+	</select>
+</mapper>

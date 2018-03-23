@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.SmsVerfCodeDao">
+	<resultMap id="SmsVerfCodeMap" type="priv.starfish.mall.notify.entity.SmsVerfCode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="reqIp" property="reqIp" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="vfCode" property="vfCode" jdbcType="VARCHAR" />
+		<result column="usage" property="usage" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="expireTime" property="expireTime" jdbcType="TIMESTAMP" />
+		<result column="sendOk" property="sendOk" jdbcType="BOOLEAN" />
+		<result column="invalid" property="invalid" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SmsVerfCodeMap"
+		parameterType="Integer">
+		SELECT SVC.id, SVC.reqIp, SVC.phoneNo, SVC.vfCode, SVC.usage, SVC.content,
+		SVC.sendTime, SVC.expireTime, SVC.sendOk, SVC.invalid
+		FROM sms_verf_code SVC
+		WHERE SVC.id = #{id}
+	</select>
+
+	<select id="selectByPhoneNoAndVfCodeAndInvalid" resultMap="SmsVerfCodeMap">
+		SELECT SVC.id, SVC.reqIp, SVC.phoneNo, SVC.vfCode, SVC.usage,
+		SVC.content, SVC.sendTime, SVC.expireTime, SVC.sendOk,
+		SVC.invalid
+		FROM sms_verf_code SVC
+		WHERE SVC.phoneNo = #{phoneNo}
+		AND SVC.vfCode = #{vfCode}
+		AND SVC.invalid = #{invalid}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		sms_verf_code(reqIp, phoneNo, vfCode, `usage`, content, sendTime, expireTime,
+		sendOk, invalid)
+		VALUES(#{reqIp}, #{phoneNo}, #{vfCode}, #{usage}, #{content}, #{sendTime},
+		 #{expireTime}, #{sendOk}, #{invalid})
+	</insert>
+
+	<update id="update">
+		UPDATE sms_verf_code
+		SET reqIp = #{reqIp} ,
+		phoneNo = #{phoneNo} ,
+		vfCode = #{vfCode} ,
+		`usage` = #{usage} ,
+		content = #{content} ,
+		sendTime = #{sendTime} ,
+		expireTime = #{expireTime} ,
+		sendOk = #{sendOk} ,
+		invalid = #{invalid}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM sms_verf_code
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateInvalidByPhoneNoAndUsage">
+		UPDATE sms_verf_code SVC
+		SET SVC.invalid = true
+		WHERE SVC.phoneNo = #{phoneNo}
+		AND SVC.usage = #{usage}
+	</update>
+	
+	<select id="selectByPhoneNoAndVfCodeAndUsage" resultMap="SmsVerfCodeMap">
+		SELECT SVC.id, SVC.reqIp, SVC.phoneNo, SVC.vfCode, SVC.usage,
+		SVC.content, SVC.sendTime, SVC.expireTime, SVC.sendOk,
+		SVC.invalid
+		FROM sms_verf_code SVC
+		WHERE SVC.phoneNo = #{phoneNo}
+		AND SVC.vfCode = #{vfCode}
+		AND SVC.usage = #{usage}
+		AND SVC.invalid = false
+		AND SVC.sendOk = true
+		AND SVC.expireTime >= CURRENT_TIMESTAMP
+	</select>
+	<select id="selectByReqIpAndSendTime" resultMap="SmsVerfCodeMap" >
+		SELECT SVC.id, SVC.reqIp, SVC.phoneNo, SVC.vfCode, SVC.usage, SVC.content,
+		SVC.sendTime, SVC.expireTime, SVC.sendOk, SVC.invalid
+		FROM sms_verf_code SVC
+		WHERE SVC.reqIp = #{reqIp}
+		AND SVC.sendTime like ${sendTime}
+		AND SVC.usage like ${usage}
+	</select>
+
+</mapper>

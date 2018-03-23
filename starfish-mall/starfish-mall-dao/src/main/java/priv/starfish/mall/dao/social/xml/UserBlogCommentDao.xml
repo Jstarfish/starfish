@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.social.UserBlogCommentDao">
+	<resultMap id="UserBlogCommentMap" type="priv.starfish.mall.social.entity.UserBlogComment">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="blogId" property="blogId" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,blogId,userId,content,userName,seqNo,ts
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		user_blog_comment (
+		blogId ,
+		userId ,
+		userName,
+		content ,
+		seqNo ,
+		ts
+		)
+		VALUES(
+		#{blogId} ,
+				#{userId} ,
+				#{userName} ,
+				#{content} ,
+				#{seqNo} ,
+				#{ts}
+		)
+	</insert>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		user_blog_comment
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="update">
+		UPDATE user_blog_comment
+		SET
+		 blogId=#{blogId},
+		 userId=#{userId},
+		 userName=#{userName},
+		 content=#{content},
+		 seqNo=#{seqNo}
+		<if test="ts!=null">  
+          ,ts=#{ts}
+         </if>
+
+		WHERE id =#{id}
+	</update>
+	
+	<select id="selectById" resultMap="UserBlogCommentMap" parameterType="Integer">
+		SELECT <include refid="columns"/>
+		FROM user_blog_comment
+		WHERE id = #{id} 
+	</select>
+	
+	<select id="selectCountByBlogId" resultType="int" parameterType="Integer">
+		SELECT count(1)
+		FROM user_blog_comment
+		WHERE blogId = #{blogId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectByFilter" resultMap="UserBlogCommentMap" parameterType="map">
+		SELECT <include refid="columns"/>
+		FROM user_blog_comment
+		WHERE 1 = 1
+		<if test="blogId !=null">  
+          AND  blogId=${blogId}
+         </if>
+        order by ts desc
+	</select>
+	
+</mapper>
+

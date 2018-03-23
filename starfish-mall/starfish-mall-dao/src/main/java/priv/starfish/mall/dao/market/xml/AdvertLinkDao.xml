@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.AdvertLinkDao">
+	<resultMap id="AdvertLinkMap" type="priv.starfish.mall.market.entity.AdvertLink">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="advertId" property="advertId" jdbcType="INTEGER" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="linkUrl" property="linkUrl" jdbcType="VARCHAR" />
+		<result column="startDate" property="startDate" jdbcType="DATE" />
+		<result column="endDate" property="endDate" jdbcType="DATE" />
+	</resultMap>
+	<select id="selectById" resultMap="AdvertLinkMap" parameterType="Integer">
+		SELECT
+		AL.id, AL.advertId, AL.imageUuid, AL.imageUsage, AL.imagePath,
+		AL.seqNo, AL.linkUrl, AL.startDate, AL.endDate
+		FROM 
+		advert_link AL
+		WHERE AL.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT
+		INTO
+		advert_link
+		(advertId, imageUuid, imageUsage, imagePath, seqNo, linkUrl, startDate, endDate)
+		VALUES(#{advertId}, #{imageUuid}, #{imageUsage}, #{imagePath},
+		#{seqNo}, #{linkUrl}, #{startDate}, #{endDate})
+	</insert>
+	<update id="update">
+	    UPDATE 
+	    advert_link
+		SET 
+		advertId = #{advertId} ,
+		imageUuid = #{imageUuid} ,
+		imageUsage = #{imageUsage} ,
+		imagePath = #{imagePath} ,
+		seqNo = #{seqNo} ,
+		linkUrl = #{linkUrl} ,
+		startDate = #{startDate} ,
+		endDate = #{endDate}
+		WHERE 
+		id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+	    DELETE
+		FROM advert_link
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByAdvertId" resultMap="AdvertLinkMap" parameterType="Integer">
+		SELECT
+		AL.id, AL.advertId, AL.imageUuid, AL.imageUsage, AL.imagePath,
+		AL.seqNo, AL.linkUrl, AL.startDate, AL.endDate
+		FROM 
+		advert_link AL
+		WHERE AL.advertId = #{advertId}
+		ORDER BY AL.seqNo
+	</select>
+	<select id="selectMinMaxDate" resultMap="AdvertLinkMap" parameterType="Integer">
+		SELECT
+		MIN( AL.startDate) minDate,MAX(AL.endDate) maxDate
+		FROM 
+		advert_link AL
+		WHERE AL.advertId = #{advertId}
+	</select>
+</mapper>

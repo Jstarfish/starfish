@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.ecard.UserECardDao">
+	<resultMap id="UserECardMap" type="priv.starfish.mall.ecard.entity.UserECard">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="cardCode" property="cardCode" jdbcType="VARCHAR" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="faceValue" property="faceValue" jdbcType="DECIMAL" />
+		<result column="buyTime" property="buyTime" jdbcType="TIMESTAMP" />
+		<result column="remainVal" property="remainVal" jdbcType="DECIMAL" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="invalid" property="invalid" jdbcType="BOOLEAN" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="UserECardMap" parameterType="Integer">
+		SELECT
+		UE.id, UE.userId,UE.userName, UE.cardCode, UE.cardNo, UE.faceValue,
+		UE.buyTime,UE.shopId,UE.shopName,
+		UE.remainVal, UE.seqNo, UE.invalid, UE.deleted, UE.ts
+		FROM
+		user_ecard UE
+		WHERE UE.id = #{id}
+	</select>
+	<select id="selectByCardNo" resultMap="UserECardMap" parameterType="Integer">
+		SELECT
+		UE.id, UE.userId,UE.userName, UE.cardCode, UE.cardNo, UE.faceValue,
+		UE.buyTime,UE.shopId,UE.shopName,
+		UE.remainVal, UE.seqNo, UE.invalid, UE.deleted, UE.ts
+		FROM
+		user_ecard UE
+		WHERE UE.cardNo = #{cardNo}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		user_ecard(userId, userName, cardCode, cardNo, faceValue, buyTime,
+		remainVal,shopId,shopName,
+		seqNo, invalid,
+		deleted, ts)
+		VALUES(#{userId}, #{userName}, #{cardCode},
+		#{cardNo},
+		#{faceValue}, #{buyTime}, #{remainVal},#{shopId},#{shopName},
+		#{seqNo}, #{invalid},
+		#{deleted},
+		#{ts})
+	</insert>
+	<update id="update">
+		UPDATE user_ecard
+		SET userId = #{userId} ,
+		userName = #{userName} ,
+		cardCode = #{cardCode} ,
+		cardNo = #{cardNo} ,
+		faceValue = #{faceValue} ,
+		buyTime = #{buyTime} ,
+		remainVal = #{remainVal} ,
+		shopId = #{shopId} ,
+		shopName = #{shopName} ,
+		seqNo = #{seqNo} ,
+		invalid = #{invalid} ,
+		deleted = #{deleted} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateUnbind">
+		UPDATE user_ecard
+		SET 
+		shopId = #{shopId} ,
+		shopName = #{shopName}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateForMerge">UPDATE user_ecard
+		SET remainVal = remainVal +
+		#{remainValForIncrease} ,
+		invalid =
+		#{invalid} ,
+		deleted = #{deleted}
+		WHERE id = #{cardIdToUpdate}
+	</update>
+	<update id="updateForPresent">UPDATE user_ecard
+		SET userId = #{userId}
+		WHERE id =
+		#{cardId}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM user_ecard
+		WHERE id = #{id}
+	</delete>
+	<update id="updateForDelete">
+		UPDATE user_ecard
+		SET deleted = TRUE
+		WHERE id =
+		#{cardId}
+		<if test="invalid != null and invalid != ''">
+			AND invalid = #{invalid}
+		</if>
+	</update>
+	<select id="selectByFilter" resultMap="UserECardMap">
+		SELECT
+		UE.id, UE.userId, UE.userName, UE.cardCode, UE.cardNo, UE.faceValue,
+		UE.buyTime,UE.shopId,UE.shopName,
+		UE.remainVal, UE.seqNo, UE.invalid, UE.deleted, UE.ts
+		FROM
+		user_ecard UE WHERE UE.deleted = FALSE
+		<if test="userId != null">
+			AND UE.userId = #{userId}
+		</if>
+		<if test="invalid != null">
+			AND UE.invalid = #{invalid}
+		</if>
+		<if test="cardNo != null and cardNo != ''">
+			AND UE.cardNo like ${cardNo}
+		</if>
+		order by UE.seqNo
+	</select>
+	
+	<select id="selectByFilterBack" resultMap="UserECardMap">
+		SELECT
+		UE.id, UE.userId, UE.userName,UE.cardCode, UE.cardNo, UE.faceValue,
+		UE.buyTime,UE.shopId,UE.shopName,
+		UE.remainVal, UE.seqNo, UE.invalid, UE.deleted, UE.ts
+		FROM
+		user_ecard UE 
+		<where>
+			<if test="userName != null">
+				AND UE.userName = #{userName}
+			</if>
+			<if test="shopName != null">
+				AND UE.shopName = #{shopName}
+			</if>
+			<if test="shopId != null">
+				AND UE.shopId = #{shopId}
+			</if>
+			<if test="cardNo != null and cardNo != ''">
+				AND UE.cardNo = #{cardNo}
+			</if>
+			<if test="cardCode != null">
+				AND UE.cardCode = #{cardCode}
+			</if>
+			<if test="invalid != null">
+				AND UE.invalid = #{invalid}
+			</if>
+		</where>
+		order by UE.seqNo
+	</select>
+
+	<select id="selectByFilterNormal" resultMap="UserECardMap">
+		SELECT
+		UE.id, UE.userId, UE.cardCode, UE.cardNo, UE.faceValue,
+		UE.buyTime,UE.shopId,UE.shopName,
+		UE.remainVal, UE.seqNo, UE.invalid, UE.deleted, UE.ts
+		FROM
+		user_ecard UE WHERE UE.deleted = FALSE
+		<if test="userId != null">
+			AND UE.userId = #{userId}
+		</if>
+		<if test="cardIdBesides != null">
+			AND UE.id != #{cardIdBesides}
+		</if>
+		<if test="invalid != null">
+			AND UE.invalid = #{invalid}
+		</if>
+		<if test="cardNo != null and cardNo != ''">
+			AND UE.cardNo like ${cardNo}
+		</if>
+		<if test="shopId != null">
+			AND (UE.shopId = #{shopId} OR UE.shopId IS NULL)
+		</if>
+		<if test="isShopBinded != null">
+			<choose>
+				<when test="isShopBinded == true">
+					AND UE.shopId IS NOT NULL
+				</when>
+				<when test="isShopBinded == false">
+					AND UE.shopId IS NULL
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		order by UE.seqNo
+	</select>
+
+	<select id="selectCountByFilter" resultType="Integer">
+		SELECT
+		COUNT(1)
+		FROM
+		user_ecard UE WHERE UE.deleted = FALSE
+		<if test="userId != null">
+			AND UE.userId = #{userId}
+		</if>
+		<if test="cardId != null">
+			AND UE.id = #{cardId}
+		</if>
+		<if test="invalid != null">
+			AND UE.invalid = #{invalid}
+		</if>
+	</select>
+	<update id="updateForChangeRemainVal">UPDATE user_ecard
+		SET remainVal = #{remainVal},
+			invalid = #{invalid},
+			deleted = #{deleted}
+		WHERE id = #{id} AND cardNo=#{cardNo}
+	</update>
+	<select id="selectECardShopsByUserId" resultType="map" parameterType="Integer">
+		SELECT shopId,count(1) count FROM `user_ecard` WHERE shopId IS NOT NULL AND userId=#{userId} AND invalid=false AND deleted=false GROUP BY shopId;
+	</select>
+</mapper>

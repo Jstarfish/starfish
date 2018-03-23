@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.svcx.SvcxRankDiscDao">
+	<resultMap id="SvcxRankDiscMap" type="priv.starfish.mall.svcx.entity.SvcxRankDisc">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="svcName" property="svcName" jdbcType="VARCHAR" />
+		<result column="svcKindId" property="svcKindId" jdbcType="INTEGER" />
+		<result column="rank" property="rank" jdbcType="INTEGER" />
+		<result column="rate" property="rate" jdbcType="DECIMAL" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="SvcxRankDiscMap"
+		parameterType="Integer">
+		SELECT SRD.id, SRD.shopId, SRD.svcId, SRD.svcName,
+		SRD.svcKindId, SRD.rank, SRD.rate, SRD.disabled, SRD.ts
+		FROM svc_rank_disc SRD
+		WHERE SRD.id = #{id}
+	</select>
+	<select id="selectByShopIdAndSvcIdAndRank" resultMap="SvcxRankDiscMap">
+		SELECT
+		SRD.id, SRD.shopId, SRD.svcId, SRD.svcName, SRD.svcKindId, SRD.rank,
+		SRD.rate, SRD.disabled, SRD.ts
+		FROM svc_rank_disc SRD
+		WHERE SRD.shopId = #{shopId}
+		AND SRD.svcId = #{svcId}
+		AND SRD.rank = #{rank}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		svc_rank_disc(shopId, svcId, svcName, svcKindId, rank, rate, disabled, ts)
+		VALUES(#{shopId}, #{svcId}, #{svcName}, #{svcKindId}, #{rank},
+		#{rate}, #{disabled}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE svc_rank_disc
+		<set><trim suffixOverrides=",">
+		<if test="shopId != null">
+		    shopId = #{shopId},
+		</if>
+		    <if test="svcId != null">
+		    svcId = #{svcId},
+		</if>
+		    <if test="svcName != null">
+		    svcName = #{svcName},
+		</if>
+		    <if test="svcKindId != null">
+		    svcKindId = #{svcKindId},
+		</if>
+		    <if test="rank != null">
+		    rank = #{rank},
+		</if>
+		    <if test="rate != null">
+		    rate = #{rate},
+		</if>
+		    <if test="disabled != null">
+		    disabled = #{disabled},
+		</if>
+		    <if test="ts != null">
+		    ts = #{ts},
+		</if>
+		</trim></set>
+		WHERE  id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM svc_rank_disc
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByShopIdAndSvcId" resultMap="SvcxRankDiscMap">
+		SELECT
+		SRD.id, SRD.shopId, SRD.svcId, SRD.svcName, SRD.svcKindId, SRD.rank,
+		SRD.rate, SRD.disabled, SRD.ts
+		FROM svc_rank_disc SRD
+		WHERE SRD.shopId = #{shopId}
+		AND SRD.svcId = #{svcId}
+	</select>
+</mapper>

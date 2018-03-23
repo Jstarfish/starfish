@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.car.CarBrandDao">
+	<resultMap id="CarBrandMap" type="priv.starfish.mall.car.entity.CarBrand">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="py" property="py" jdbcType="VARCHAR" />
+		<result column="zm" property="zm" jdbcType="CHAR" />
+		<result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+		<result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<result column="refId" property="refId" jdbcType="INTEGER" />
+		<result column="refName" property="refName" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<select id="selectById" resultMap="CarBrandMap" parameterType="Integer">
+		SELECT CB.id, CB.name, CB.py, CB.zm, CB.logoUuid, CB.logoUsage,
+		CB.logoPath, CB.seqNo, CB.disabled, CB.ts, CB.refId, CB.refName
+		FROM
+		car_brand CB
+		WHERE CB.id = #{id}
+	</select>
+
+	<select id="selectByName" resultMap="CarBrandMap">
+		SELECT CB.id, CB.name,
+		CB.py, CB.zm, CB.logoUuid, CB.logoUsage, CB.logoPath, CB.seqNo,
+		CB.disabled, CB.ts, CB.refId, CB.refName
+		FROM car_brand CB
+		WHERE CB.name
+		= #{name}
+	</select>
+
+	<select id="selectByRefId" resultMap="CarBrandMap"
+		parameterType="Integer">
+		SELECT CB.id, CB.name, CB.py, CB.zm, CB.logoUuid,
+		CB.logoUsage, CB.logoPath, CB.seqNo, CB.disabled, CB.ts, CB.refId,
+		CB.refName
+		FROM car_brand CB
+		WHERE CB.refId = #{refId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		car_brand(name, py, zm, logoUuid, logoUsage, logoPath, seqNo,
+		disabled, ts, refId, refName)
+		VALUES(#{name}, #{py}, #{zm},
+		#{logoUuid}, #{logoUsage}, #{logoPath}, #{seqNo}, #{disabled}, #{ts},
+		#{refId}, #{refName})
+	</insert>
+
+	<update id="update">
+		UPDATE car_brand
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">
+					name = #{name} ,
+					py = #{py} ,
+					zm = #{zm} ,
+				</if>
+				<if test="logoUuid != null">
+					logoUuid = #{logoUuid} ,
+					logoUsage = #{logoUsage} ,
+					logoPath = #{logoPath} ,
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo} ,
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled} ,
+				</if>
+				<if test="ts != null">
+					ts = #{ts} ,
+				</if>
+				<if test="refId != null">
+					refId = #{refId} ,
+				</if>
+				<if test="refName != null">
+					refName = #{refName}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM car_brand
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectAll" resultMap="CarBrandMap">
+		SELECT CB.id, CB.name, CB.py, CB.zm, CB.logoUuid, CB.logoUsage,
+		CB.logoPath, CB.seqNo, CB.disabled, CB.ts, CB.refId, CB.refName
+		FROM
+		car_brand CB
+		<if test="includeDisabled != true">
+			WHERE CB.disabled = false
+		</if>
+		ORDER BY CB.seqNo
+	</select>
+
+	<select id="selectCarBrands" resultMap="CarBrandMap">
+		SELECT CB.id, CB.name, CB.py, CB.zm, CB.logoUuid, CB.logoUsage,
+		CB.logoPath, CB.seqNo, CB.disabled, CB.ts, CB.refId, CB.refName
+		FROM
+		car_brand CB
+		WHERE 1=1
+		<if test="name !=null ">
+			AND CB.name like ${name}
+		</if>
+		order by seqNo desc
+	</select>
+	
+	<update id="updateDisabled">
+		UPDATE car_brand
+		SET disabled = #{disabled}
+		WHERE id = #{id}
+	</update>
+</mapper>

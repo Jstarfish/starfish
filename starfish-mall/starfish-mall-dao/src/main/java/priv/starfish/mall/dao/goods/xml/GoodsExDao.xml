@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.GoodsExDao">
+	<resultMap id="GoodsExMap" type="priv.starfish.mall.goods.entity.GoodsEx">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="specCode" property="specCode" jdbcType="VARCHAR" />
+		<result column="specItemIds" property="specItemIds" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="GoodsExMap" parameterType="Integer">SELECT
+		GE.id, GE.goodsId, GE.specCode, GE.specItemIds, GE.ts
+		FROM goods_ex GE
+		WHERE GE.id = #{id}
+	</select>
+	<select id="selectByGoodsIdAndSpecCode" resultMap="GoodsExMap">SELECT GE.id,
+		GE.goodsId, GE.specCode, GE.specItemIds, GE.ts
+		FROM goods_ex GE
+		WHERE
+		GE.goodsId = #{goodsId}
+		AND GE.specCode = #{specCode}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		goods_ex(goodsId, specCode, specItemIds, ts)
+		VALUES(#{goodsId},
+		#{specCode}, #{specItemIds}, #{ts})
+	</insert>
+	<update id="update">UPDATE goods_ex
+		SET goodsId = #{goodsId} ,
+		specCode =
+		#{specCode} ,
+		specItemIds = #{specItemIds} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM goods_ex
+		WHERE
+		id = #{id}
+	</delete>
+
+	<select id="selectByGoodsId" resultMap="GoodsExMap"
+		parameterType="Integer">
+		SELECT GE.id, GE.goodsId, GE.specCode, GE.specItemIds,
+		GE.ts
+		FROM goods_ex GE
+		WHERE GE.goodsId = #{goodsId}
+		order by GE.specCode desc
+	</select>
+
+	<delete id="deleteByGoodsId" parameterType="Integer">DELETE
+		FROM goods_ex
+		WHERE goodsId = #{goodsId}
+	</delete>
+</mapper>

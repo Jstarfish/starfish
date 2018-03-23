@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.PrmtTagSvcDao">
+	<resultMap id="PrmtTagSvcMap" type="priv.starfish.mall.market.entity.PrmtTagSvc">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="tagId" property="tagId" jdbcType="INTEGER" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="PrmtTagSvcMap" parameterType="Integer">
+		SELECT PTS.id, PTS.tagId, PTS.svcId, PTS.seqNo, PTS.ts
+		FROM
+		prmt_tag_svc PTS
+		WHERE PTS.id = #{id}
+	</select>
+
+	<select id="selectByTagIdAndSvcId" resultMap="PrmtTagSvcMap">SELECT PTS.id,
+		PTS.tagId, PTS.svcId, PTS.seqNo, PTS.ts
+		FROM prmt_tag_svc PTS
+		WHERE
+		PTS.tagId = #{tagId}
+		AND PTS.svcId = #{svcId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		prmt_tag_svc(tagId, svcId, seqNo, ts)
+		VALUES(#{tagId}, #{svcId},
+		#{seqNo}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE prmt_tag_svc
+		<set>
+			<trim suffixOverrides=",">
+				<if test="tagId != null">
+					tagId = #{tagId},
+				</if>
+				<if test="svcId != null">
+					svcId = #{svcId},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM prmt_tag_svc
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByTagIdAndSvcId">DELETE
+		FROM prmt_tag_svc
+		WHERE tagId = #{tagId} AND svcId = #{svcId}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="PrmtTagSvcMap">
+		SELECT PTS.id, PTS.tagId, PTS.svcId, PTS.seqNo, PTS.ts
+		FROM
+		prmt_tag_svc PTS, svcx S
+		WHERE PTS.svcId = S.id
+		<if test="tagId !=null">
+			AND PTS.tagId = #{tagId}
+		</if>
+		<if test="name !=null and name != ''">
+			AND S.name like ${name}
+		</if>
+		order by PTS.tagId, PTS.seqNo
+	</select>
+</mapper>

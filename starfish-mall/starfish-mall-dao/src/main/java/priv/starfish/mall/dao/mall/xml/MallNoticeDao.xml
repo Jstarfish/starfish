@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.mall.MallNoticeDao">
+	<resultMap id="MallNoticeMap" type="priv.starfish.mall.mall.entity.MallNotice">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="autoFlag" property="autoFlag" jdbcType="BOOLEAN" />
+		<result column="pubTime" property="pubTime" jdbcType="TIMESTAMP" />
+		<result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="startDate" property="startDate" jdbcType="DATE" />
+		<result column="endDate" property="endDate" jdbcType="DATE" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="MallNoticeMap" parameterType="Integer">
+		SELECT MN.id, MN.title, MN.content, MN.autoFlag, MN.pubTime, MN.endTime, MN.startDate, MN.endDate, MN.status
+		FROM mall_notice MN
+		WHERE MN.id = #{id}
+	</select>
+	
+	<select id="selectByFitler" resultMap="MallNoticeMap">
+		SELECT MN.id, MN.title, MN.content, MN.autoFlag, MN.pubTime, MN.endTime, MN.startDate, MN.endDate, MN.status
+		FROM mall_notice MN
+		<where>
+			<if test="title != null">
+				title like ${title}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mall_notice(title, content, autoFlag, pubTime, endTime, startDate, endDate, status)
+		VALUES(#{title}, #{content}, #{autoFlag}, #{pubTime}, #{endTime}, #{startDate}, #{endDate}, #{status})
+	</insert>
+	
+	<update id="update">
+		UPDATE mall_notice
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="title !=null">
+		    	title = #{title} ,
+		    </if>
+		    <if test="content !=null">
+		    	content = #{content} ,
+		    </if>
+		    <if test="autoFlag !=null">
+		    	autoFlag = #{autoFlag} ,
+		    </if>
+		    <if test="pubTime !=null">
+		    	pubTime = #{pubTime} ,
+		    </if>
+		    <if test="endTime !=null">
+		    	endTime = #{endTime} ,
+		    </if>
+		    <if test="startDate !=null">
+		    	startDate = #{startDate} ,
+		    </if>
+		    <if test="endDate !=null">
+		    	endDate = #{endDate} ,
+		    </if>
+		    <if test="status !=null">
+		    	status = #{status}
+		    </if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM mall_notice
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM mall_notice
+		WHERE id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+</mapper>

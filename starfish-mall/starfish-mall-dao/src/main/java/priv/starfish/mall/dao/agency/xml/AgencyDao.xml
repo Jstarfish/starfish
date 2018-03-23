@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.agency.AgencyDao">
+	<resultMap id="AgencyMap" type="priv.starfish.mall.agency.entity.Agency">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="py" property="py" jdbcType="VARCHAR" />
+		<result column="entpFlag" property="entpFlag" jdbcType="BOOLEAN" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="lng" property="lng" jdbcType="NUMERIC" />
+		<result column="lat" property="lat" jdbcType="NUMERIC" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="a_phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="bizScope" property="bizScope" jdbcType="VARCHAR" />
+		<result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+		<result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="a_regTime" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+		<result column="applyMsg" property="applyMsg" jdbcType="VARCHAR" />
+		<result column="licenseId" property="licenseId" jdbcType="INTEGER" />
+		<result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+		<result column="closed" property="closed" jdbcType="BOOLEAN" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+
+		<association property="agent" javaType="priv.starfish.mall.agent.entity.Agent">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+			<result column="memo" property="memo" jdbcType="VARCHAR" />
+
+			<association property="user" javaType="priv.starfish.mall.comn.entity.User">
+				<id column="id" property="id" jdbcType="INTEGER" />
+				<result column="u_phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+				<result column="nickName" property="nickName" jdbcType="VARCHAR" />
+				<result column="email" property="email" jdbcType="VARCHAR" />
+				<result column="idCertNo" property="idCertNo" jdbcType="VARCHAR" />
+				<result column="password" property="password" jdbcType="VARCHAR" />
+				<result column="salt" property="salt" jdbcType="VARCHAR" />
+				<result column="realName" property="realName" jdbcType="VARCHAR" />
+				<result column="gender" property="gender" jdbcType="VARCHAR" />
+				<result column="birthDate" property="birthDate" jdbcType="DATE" />
+				<result column="qq" property="qq" jdbcType="VARCHAR" />
+				<result column="u_regTime" property="regTime" jdbcType="TIMESTAMP" />
+				<result column="verified" property="verified" jdbcType="BOOLEAN" />
+				<result column="failCount" property="failCount" jdbcType="INTEGER" />
+				<result column="failTime" property="failTime" jdbcType="TIMESTAMP" />
+				<result column="locked" property="locked" jdbcType="BOOLEAN" />
+				<result column="lockTime" property="lockTime" jdbcType="TIMESTAMP" />
+				<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+			</association>
+		</association>
+	</resultMap>
+
+	<select id="selectById" resultMap="AgencyMap" parameterType="Integer">SELECT
+		A.id, A.code, A.agentId, A.name, A.py, A.entpFlag, A.regionId,
+		A.regionName, A.street, A.cityId, A.lng, A.lat, A.telNo, A.phoneNo
+		a_phoneNo,
+		A.linkMan, A.bizScope, A.logoUuid, A.logoUsage, A.logoPath,
+		A.regTime a_regTime,
+		A.applyTime, A.applyMsg, A.licenseId,
+		A.auditStatus, A.closed,
+		A.disabled, A.memo
+		FROM agency A
+		WHERE A.id =
+		#{id}
+	</select>
+
+	<select id="selectByCode" resultMap="AgencyMap">SELECT A.id, A.code,
+		A.agentId, A.name, A.py, A.entpFlag, A.regionId, A.regionName,
+		A.street, A.cityId, A.lng, A.lat, A.telNo, A.phoneNo a_phoneNo,
+		A.linkMan,
+		A.bizScope, A.logoUuid, A.logoUsage, A.logoPath, A.regTime
+		a_regTime,
+		A.applyTime, A.applyMsg, A.licenseId, A.auditStatus,
+		A.closed,
+		A.disabled, A.memo
+		FROM agency A
+		WHERE A.code = #{code}
+	</select>
+
+	<select id="selectByAgentId" resultMap="AgencyMap"
+		parameterType="Integer">
+		SELECT A.id, A.code,
+		A.agentId, A.name, A.py, A.entpFlag,
+		A.regionId, A.regionName,
+		A.street, A.cityId, A.lng, A.lat, A.telNo,
+		A.phoneNo a_phoneNo, A.linkMan,
+		A.bizScope, A.logoUuid, A.logoUsage,
+		A.logoPath, A.regTime a_regTime,
+		A.applyTime, A.applyMsg, A.licenseId,
+		A.auditStatus, A.closed,
+		A.disabled, A.memo
+		FROM agency A
+		WHERE
+		A.agentId =#{agentId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		agency(code, agentId, name, py, entpFlag, regionId, regionName,
+		street, cityId,
+		lng, lat, telNo, phoneNo, linkMan, bizScope, logoUuid,
+		logoUsage,
+		logoPath, regTime, applyTime, applyMsg, licenseId,
+		auditStatus,
+		closed, disabled, memo)
+		VALUES(#{code}, #{agentId},
+		#{name}, #{py}, #{entpFlag}, #{regionId}, #{regionName},
+		#{street},
+		#{cityId}, #{lng}, #{lat}, #{telNo}, #{phoneNo},
+		#{linkMan},
+		#{bizScope}, #{logoUuid}, #{logoUsage}, #{logoPath},
+		#{regTime},
+		#{applyTime}, #{applyMsg}, #{licenseId}, #{auditStatus},
+		#{closed},
+		#{disabled}, #{memo})
+	</insert>
+
+	<update id="update">
+		UPDATE
+		agency
+		SET
+		name = #{name} ,
+		phoneNo = #{phoneNo} ,
+		entpFlag = #{entpFlag} ,
+		licenseId = #{licenseId} ,
+		linkMan = #{linkMan} ,
+		telNo = #{telNo} ,
+		regionId = #{regionId} ,
+		regionName = #{regionName} ,
+		street = #{street}
+		,
+		bizScope = #{bizScope} ,
+		logoUuid = #{logoUuid} ,
+		logoUsage =
+		#{logoUsage} ,
+		logoPath = #{logoPath}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM agency
+		WHERE id
+		= #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="AgencyMap">
+		SELECT
+		A.id, A.code, A.agentId, A.name, A.py, A.entpFlag, A.regionId,
+		A.regionName, A.street, A.cityId, A.lng, A.lat, A.telNo, A.phoneNo
+		a_phoneNo,
+		A.linkMan, A.bizScope, A.logoUuid, A.logoUsage, A.logoPath,
+		A.regTime a_regTime,
+		A.applyTime, A.applyMsg, A.licenseId,
+		A.auditStatus, A.closed,
+		A.disabled, A.memo,
+		U.phoneNo u_phoneNo,
+		U.nickName, U.email, U.idCertNo,U.realName,
+		U.gender, U.birthDate,
+		U.qq, U.regTime u_regTime,U.verified
+		FROM agency A, user U
+		WHERE
+		A.agentId = U.id
+		<if test="name != null and name != ''">
+			AND A.name like ${name}
+		</if>
+		<if test="code != null and code != ''">
+			AND A.code = #{code}
+		</if>
+		<if test="disabled !=null">
+			AND A.disabled = #{disabled}
+		</if>
+		<if test="auditStatus !=null">
+			AND A.auditStatus = #{auditStatus}
+		</if>
+		<if test="realName != null and realName != ''">
+			AND U.realName like ${realName}
+		</if>
+	</select>
+
+	<update id="updateDisabled">
+		UPDATE agency SET
+		disabled = #{disabled}
+		WHERE id =
+		#{id}
+	</update>
+
+	<update id="updateAuditStatusById">
+		UPDATE agency SET
+		auditStatus
+		= #{auditStatus}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteByAgentId" parameterType="Integer">
+		DELETE FROM
+		agency
+		WHERE agentId = #{agentId}
+	</delete>
+</mapper>

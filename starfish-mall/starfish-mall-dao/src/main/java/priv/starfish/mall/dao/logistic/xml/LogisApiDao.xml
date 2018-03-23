@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.logistic.LogisApiDao">
+	<resultMap id="logisApiMap" type="priv.starfish.mall.logistic.entity.LogisApi">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="method" property="method" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="enabled" property="enabled" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO logistic_api(name, `desc`, method, url, enabled)
+		VALUES(#{name},
+		#{desc}, #{method}, #{url}, #{enabled})
+	</insert>
+
+	<select id="selectById" resultMap="logisApiMap">
+		SELECT LA.id, LA.name,
+		LA.desc, LA.method, LA.url, LA.enabled, LA.seqNo, LA.ts
+		FROM
+		logistic_api LA
+		WHERE LA.id = #{id}
+	</select>
+
+	<select id="selectByName" resultMap="logisApiMap">
+		SELECT LA.id, LA.name,
+		LA.desc, LA.method, LA.url, LA.enabled, LA.seqNo, LA.ts
+		FROM logistic_api LA
+		WHERE LA.name = #{name}
+	</select>
+
+	<update id="update">UPDATE logistic_api
+		SET name = #{name} ,
+		`desc` = #{desc} ,
+		method = #{method} ,
+		url = #{url} ,
+		enabled = #{enabled} ,
+		<if test="seqNo != null">
+		seqNo = #{seqNo} ,
+		</if>
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM logistic_api
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectLogisApisByFilter" resultMap="logisApiMap">
+		SELECT LA.id, LA.name, LA.desc, LA.method, LA.url, LA.enabled,
+		LA.seqNo, LA.ts
+		FROM logistic_api LA
+		WHERE 1=1
+		<if test="name !=null and name != ''">
+			AND LA.name like ${name}
+		</if>
+		<if test="status !=null and status != ''">
+			AND LA.enabled = #{status}
+		</if>
+		ORDER BY LA.seqNo ASC, LA.id ASC
+	</select>
+
+
+
+</mapper>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.SiteFunctionDao">
+	<resultMap id="SiteFunctionMap" type="priv.starfish.mall.comn.entity.SiteFunction">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="moduleId" property="moduleId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="iconUuid" property="iconUuid" jdbcType="VARCHAR" />
+		<result column="iconUsage" property="iconUsage" jdbcType="VARCHAR" />
+		<result column="iconPath" property="iconPath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SiteFunctionMap" parameterType="Integer">
+		SELECT SF.id, SF.moduleId, SF.name, SF.desc, SF.iconUuid, SF.iconUsage, SF.iconPath, SF.seqNo, SF.ts
+		FROM site_func SF
+		WHERE SF.id = #{id}
+	</select>
+
+	<select id="selectByModuleIdAndName" resultMap="SiteFunctionMap">
+		SELECT SF.id, SF.moduleId, SF.name, SF.desc, SF.iconUuid, SF.iconUsage, SF.iconPath, SF.seqNo, SF.ts
+		FROM site_func SF
+		WHERE SF.moduleId = #{moduleId} AND SF.name = #{name}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO site_func(moduleId, name, `desc`, iconUuid, iconUsage, iconPath, seqNo, ts)
+		VALUES(#{moduleId}, #{name}, #{desc}, #{iconUuid}, #{iconUsage}, #{iconPath}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+	    UPDATE site_func
+		SET moduleId = #{moduleId} ,
+			name = #{name} ,
+			`desc` = #{desc} ,
+			iconUuid = #{iconUuid} ,
+			iconUsage = #{iconUsage} ,
+			iconPath = #{iconPath} ,
+			seqNo = #{seqNo} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM site_func
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByModuleId" resultMap="SiteFunctionMap">
+		SELECT SF.id, SF.moduleId, SF.name, SF.desc, SF.iconUuid, SF.iconUsage, SF.iconPath, SF.seqNo, SF.ts
+		FROM site_func SF
+		WHERE SF.moduleId = #{moduleId}
+		ORDER BY SF.seqNo asc
+	</select>
+	
+	<select id="selectByFuncIds" resultMap="SiteFunctionMap" parameterType="java.util.List">
+		SELECT SF.id, SF.moduleId, SF.name, SF.desc, SF.iconUuid, SF.iconUsage, SF.iconPath, SF.seqNo, SF.ts
+		FROM site_func SF
+		WHERE SF.id in (
+			<foreach collection="list" item="funcId" index="index" open=""
+				close="" separator=",">
+				#{funcId}
+			</foreach>
+			)
+	</select>
+	
+	<select id="selectModuleIdsByFuncIds" resultType="Integer" parameterType="java.util.List">
+		SELECT SF.moduleId
+		FROM site_func SF
+		where SF.id in (
+			<foreach collection="list" item="funcId" index="index" open=""
+				close="" separator=",">
+				#{funcId}
+			</foreach>
+			)
+	</select>
+	
+	<select id="selectByFuncIdsAndModule" resultMap="SiteFunctionMap" parameterType="java.util.List">
+		SELECT SF.id, SF.moduleId, SF.name, SF.desc, SF.iconUuid, SF.iconUsage, SF.iconPath, SF.seqNo, SF.ts
+		FROM site_func SF
+		WHERE SF.moduleId=#{siteModuleId} and SF.id in (
+			<foreach collection="funcIds" item="funcId" index="index"
+				open="" close="" separator=",">
+				#{funcId}
+			</foreach>
+			)
+	</select>
+
+</mapper>

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.UserAccountDao">
+	<resultMap id="UserAccountMap" type="priv.starfish.mall.comn.entity.UserAccount">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="bankCode" property="bankCode" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="typeFlag" property="typeFlag" jdbcType="INTEGER" />
+		<result column="acctNo" property="acctNo" jdbcType="VARCHAR" />
+		<result column="acctName" property="acctName" jdbcType="VARCHAR" />
+		<result column="vfCode" property="vfCode" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="verified" property="verified" jdbcType="BOOLEAN" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="provinceCode" property="provinceCode" jdbcType="VARCHAR" />
+		<result column="bankFullName" property="bankFullName" jdbcType="VARCHAR" />
+        <result column="relatedBankNo" property="relatedBankNo" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="UserAccountMap"
+		parameterType="Integer">
+		SELECT UA.id, UA.userId, UA.bankCode, UA.bankName, UA.typeFlag, UA.acctNo,
+		UA.acctName, UA.vfCode, UA.phoneNo, UA.verified, UA.disabled, UA.provinceCode, UA.bankFullName, UA.relatedBankNo, UA.ts
+		FROM user_account UA WHERE UA.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO user_account(userId, bankCode, bankName, typeFlag, acctNo,
+		acctName, vfCode, phoneNo, verified, disabled, provinceCode, bankFullName, relatedBankNo, ts)
+		VALUES(#{userId}, #{bankCode}, #{bankName}, #{typeFlag}, #{acctNo}, #{acctName},
+		#{vfCode}, #{phoneNo}, #{verified}, #{disabled}, #{provinceCode}, #{bankFullName}, #{relatedBankNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE user_account SET
+		<if test="null != userId">
+			userId = #{userId} ,
+		</if>
+		bankCode = #{bankCode} , bankName = #{bankName} ,
+		acctNo = #{acctNo} , acctName = #{acctName} , vfCode = #{vfCode} ,
+		phoneNo = #{phoneNo} ,
+		<if test="null != verified">
+			verified = #{verified} ,
+		</if>
+		<if test="null != verified">
+			typeFlag = #{typeFlag} ,
+		</if>
+		<if test="null != disabled">
+			disabled = #{disabled} ,
+		</if>
+		<if test="null != provinceCode">
+			provinceCode = #{provinceCode} ,
+		</if>
+		<if test="null != bankFullName">
+			bankFullName = #{bankFullName} ,
+		</if>
+		<if test="null != relatedBankNo">
+			relatedBankNo = #{relatedBankNo} ,
+		</if>
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM user_account WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByUserId" resultMap="UserAccountMap"
+		parameterType="Integer">
+		SELECT UA.id, UA.userId, UA.bankCode, UA.bankName, UA.typeFlag, UA.acctNo,
+		UA.acctName, UA.vfCode, UA.phoneNo, UA.verified, UA.disabled, UA.provinceCode, UA.bankFullName, UA.relatedBankNo, UA.ts
+		FROM user_account UA WHERE UA.userId = #{userId}
+	</select>
+	
+	<delete id="deleteByUserId" parameterType="Integer">
+		DELETE FROM user_account WHERE userId = #{userId}
+	</delete>
+
+	<select id="selectByFilter" resultMap="UserAccountMap"
+		parameterType="Integer">
+		SELECT UA.id, UA.userId, UA.bankCode, UA.bankName, UA.typeFlag,
+		UA.acctNo, UA.acctName, UA.vfCode, UA.phoneNo, UA.verified,
+		UA.disabled, UA.provinceCode, UA.bankFullName, UA.relatedBankNo, UA.ts
+		FROM user_account UA
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="userId != null">
+					UA.userId = #{userId}
+				</if>
+				<if test="typeFlag != null">
+					AND UA.typeFlag = #{typeFlag}
+				</if>
+				<if test="bankCode != null">
+					AND UA.bankCode = #{bankCode}
+				</if>
+			</trim>
+		</where>
+		ORDER BY UA.ts desc, UA.id desc
+	</select>
+
+	<select id="selectDisByUserId" resultMap="UserAccountMap"
+		parameterType="Integer">
+		SELECT distinct UA.bankCode, UA.bankName, UA.id, UA.userId FROM user_account
+		UA WHERE UA.userId = #{userId}
+	</select>
+
+	<select id="selectByUserIdAndBankCodeAndAcctNo" resultMap="UserAccountMap">
+		SELECT
+		UA.id, UA.userId, UA.bankCode, UA.bankName, UA.typeFlag, UA.acctNo,
+		UA.acctName, UA.vfCode, UA.phoneNo, UA.verified, UA.disabled, UA.provinceCode, UA.bankFullName, UA.relatedBankNo, UA.ts
+		FROM user_account UA
+		WHERE UA.userId = #{userId}
+		AND UA.bankCode = #{bankCode}
+		AND UA.acctNo = #{acctNo}
+	</select>
+	
+</mapper>

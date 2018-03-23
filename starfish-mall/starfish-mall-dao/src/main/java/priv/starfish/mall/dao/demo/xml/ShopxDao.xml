@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.demo.ShopxDao">
+	<resultMap id="ShopxMap" type="priv.starfish.mall.demo.entity.Shopx">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="py" property="py" jdbcType="VARCHAR" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="countyId" property="countyId" jdbcType="INTEGER" />
+		<result column="townId" property="townId" jdbcType="INTEGER" />
+		<result column="lng" property="lng" jdbcType="NUMERIC" />
+		<result column="lat" property="lat" jdbcType="NUMERIC" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="bizScope" property="bizScope" jdbcType="VARCHAR" />
+		<result column="applyMsg" property="applyMsg" jdbcType="VARCHAR" />
+		<result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+		<result column="closed" property="closed" jdbcType="BOOLEAN" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="changeTime" property="changeTime" jdbcType="TIMESTAMP" />
+		<result column="indexTime" property="indexTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="ShopxMap" parameterType="Integer">
+		SELECT	S.*
+		FROM shopx S
+		WHERE S.id = #{id}
+	</select>
+	
+	<select id="selectByName" resultMap="ShopxMap">
+		SELECT S.*
+		FROM shopx S
+		WHERE S.name = #{name}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT	INTO
+		shopx(
+			name, py, regionId, regionName, street, address, provinceId, cityId, countyId,
+			townId, lng, lat, phoneNo, linkMan, bizScope, applyMsg, regTime,
+			auditStatus, closed, disabled, memo
+		)
+		VALUES(
+			#{name}, #{py}, #{regionId}, #{regionName}, #{street}, #{address},
+			#{provinceId}, #{cityId}, #{countyId}, #{townId}, #{lng}, #{lat},
+			#{phoneNo}, #{linkMan}, #{bizScope}, #{applyMsg}, #{regTime},
+			#{auditStatus}, #{closed}, #{disabled}, #{memo}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE shopx
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="name != null">
+				name = #{name} ,
+			</if>
+			<if test="py != null">
+				py = #{py} ,
+			</if>
+			<if test="regionId != null">
+				regionId = #{regionId} ,
+				regionName = #{regionName} ,
+				street = #{street} ,
+				address = #{address} ,
+				provinceId = #{provinceId} ,
+				cityId = #{cityId} ,
+				countyId = #{countyId} ,
+				townId = #{townId} ,
+			</if>
+			<if test="lng != null">
+				lng = #{lng} ,
+				lat = #{lat} ,
+			</if>
+			<if test="phoneNo != null">
+				phoneNo = #{phoneNo} ,
+				linkMan = #{linkMan} ,
+			</if>
+			<if test="bizScope != null">
+				bizScope = #{bizScope} ,
+			</if>
+			<if test="applyMsg != null">
+				applyMsg = #{applyMsg} ,
+			</if>
+			<if test="regTime != null">
+				regTime = #{regTime} ,
+			</if>
+			<if test="auditStatus != null">
+				auditStatus = #{auditStatus} ,
+			</if>
+			<if test="closed != null">
+				closed = #{closed} ,
+			</if>
+			<if test="disabled != null">
+				disabled = #{disabled} ,
+			</if>
+			<if test="memo != null">
+				memo = #{memo} ,
+			</if>
+			<if test="changeTime != null">
+				changeTime = #{changeTime} ,
+			</if>
+			<if test="indexTime != null">
+				indexTime = #{indexTime}
+			</if>
+		</trim>			
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM shopx
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="ShopxMap">
+		SELECT S.*
+		FROM shopx S
+		<trim prefix="WHERE" prefixOverrides="AND | OR" >
+			<if test="regionId != null">
+				<if test="regionLevel == null">
+					S.regionId = #{regionId} 
+				</if>
+				<if test="regionLevel != null">
+					<choose>
+						<when test="regionLevel == 1">
+							S.provinceId = #{regionId}
+						</when>
+						<when test="regionLevel == 2">
+							S.cityId = #{regionId}
+						</when>
+						<when test="regionLevel == 3">
+							S.countyId = #{regionId}
+						</when>
+						<when test="regionLevel == 4">
+							S.townId = #{regionId}
+						</when>
+					</choose>
+				</if>				
+			</if>
+			<trim prefix="AND" prefixOverrides="AND | OR">
+				<if test="regionId == null and address != null">
+					( S.address like ${address} OR S.regionName like ${address} OR  S.street like ${address} )
+				</if>			
+				<if test="name != null">
+					OR S.name like ${name}
+				</if>
+				<if test="py != null">
+					OR S.py like ${py}
+				</if>
+			</trim>
+			<if test="disabled != null">
+				AND S.disabled = #{disabled}
+			</if>
+			<if test="closed != null">
+				AND S.closed = #{closed}
+			</if>
+			<if test="auditStatus != null">
+				AND S.auditStatus = #{auditStatus}
+			</if>			
+		</trim>		
+	</select>
+	
+	
+	<select id="selectByScrolling" resultMap="ShopxMap">
+		SELECT S.*
+		FROM shopx S
+		ORDER by id
+	</select>
+	
+	<select id="selectByLatestChanges" resultMap="ShopxMap">
+		SELECT	S.*
+		FROM shopx S
+		WHERE ( S.indexTime is NULL ) OR ( S.changeTime is NOT NULL AND  S.changeTime > S.indexTime )
+		ORDER by id
+	</select>
+	
+	<update id="updateAsIndexed">
+		UPDATE shopx
+		SET indexTime = #{indexTime}
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

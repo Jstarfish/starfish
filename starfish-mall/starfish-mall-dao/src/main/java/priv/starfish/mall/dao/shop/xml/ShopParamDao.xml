@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopParamDao">
+    <resultMap id="ShopParamMap" type="priv.starfish.mall.shop.entity.ShopParam">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="shopId" property="shopId" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="value" property="value" jdbcType="VARCHAR" />
+    </resultMap>
+    
+    <select id="selectById" resultMap="ShopParamMap" parameterType="Integer">
+	    SELECT SP.id, SP.shopId, SP.code, SP.name, SP.value
+		FROM   shop_param SP
+		WHERE  SP.id = #{id}
+	</select>
+	
+    <select id="selectByShopIdAndCode" resultMap="ShopParamMap">
+	    SELECT SP.id, SP.shopId, SP.code, SP.name, SP.value
+		FROM   shop_param SP
+		WHERE  SP.shopId = #{shopId}
+	   		AND SP.code = #{code}
+   </select>
+   
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO shop_param(shopId, code, name, value)
+	    VALUES(#{shopId}, #{code}, #{name}, #{value})
+    </insert>
+    
+    <update id="update">
+	    UPDATE shop_param
+		SET  shopId = #{shopId} ,
+		code = #{code} ,
+	    name = #{name} ,
+	    value = #{value}
+		WHERE  id = #{id}
+	</update>
+	
+    <delete id="deleteById" parameterType="Integer">
+	    DELETE 
+		FROM   shop_param
+		WHERE  id = #{id}
+	</delete>
+	
+	<select id="selectByCode" resultMap="ShopParamMap">
+	    SELECT SP.id, SP.shopId, SP.code, SP.name, SP.value
+		FROM   shop_param SP
+		WHERE  SP.code = #{code}
+   </select>
+	
+</mapper>

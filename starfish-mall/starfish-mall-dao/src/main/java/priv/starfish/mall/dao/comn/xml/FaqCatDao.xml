@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.comn.FaqCatDao">
+	
+	<resultMap id="FaqCatMap" type="priv.starfish.mall.comn.entity.FaqCat">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="FaqCatMap" parameterType="Integer">
+		SELECT
+		FC.id, FC.name, FC.seqNo, FC.ts
+		FROM faq_cat FC
+		WHERE FC.id = #{id}
+	</select>
+	
+	<select id="selectCountByName" resultType="int" parameterType="String">
+		SELECT count(1)
+		FROM faq_cat FC
+		WHERE FC.name = #{name}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		faq_cat(name, seqNo, ts)
+		VALUES(#{name}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE faq_cat
+		SET name = #{name} 
+		<if test="ts !=null">  
+          ,ts = #{ts}  
+         </if>
+		<if test="seqNo !=null">  
+          ,seqNo = #{seqNo}  
+         </if>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM faq_cat
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="FaqCatMap">
+		SELECT
+		FC.id, FC.name, FC.seqNo, FC.ts
+		FROM faq_cat FC
+		<where >
+		<if test="name !=null and name != ''">  
+          AND  FC.name  like ${name}  
+         </if>
+		</where>
+         order by FC.seqNo asc
+	</select>
+	
+	<select id="selectAll" resultMap="FaqCatMap" parameterType="map">
+		SELECT
+		FC.id, FC.name, FC.seqNo, FC.ts
+		FROM faq_cat FC
+        order by FC.seqNo asc
+	</select>
+	
+</mapper>

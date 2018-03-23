@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.car.UserCarDao">
+	<resultMap id="UserCarMap" type="priv.starfish.mall.car.entity.UserCar">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="modelId" property="modelId" jdbcType="INTEGER" />
+		<result column="modelName" property="modelName" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="serialId" property="serialId" jdbcType="INTEGER" />
+		<result column="brandId" property="brandId" jdbcType="INTEGER" />
+		<result column="color" property="color" jdbcType="VARCHAR" />
+		<result column="vklIdNo" property="vklIdNo" jdbcType="VARCHAR" />
+		<result column="vklType" property="vklType" jdbcType="VARCHAR" />
+		<result column="plateNo" property="plateNo" jdbcType="VARCHAR" />
+		<result column="engineNo" property="engineNo" jdbcType="VARCHAR" />
+		<result column="makeYear" property="makeYear" jdbcType="INTEGER" />
+		<result column="buyYear" property="buyYear" jdbcType="INTEGER" />
+		<result column="buyMonth" property="buyMonth" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="NUMERIC" />
+		<result column="mileage" property="mileage" jdbcType="NUMERIC" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="defaulted" property="defaulted" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="UserCarMap" parameterType="Integer">
+		SELECT UC.id, UC.userId, UC.modelId, UC.modelName, UC.name, UC.serialId, UC.brandId, 
+			UC.color, UC.vklIdNo, UC.vklType, UC.plateNo, UC.engineNo, UC.makeYear, 
+			UC.buyYear, UC.buyMonth, UC.price, UC.mileage, UC.seqNo, UC.deleted, UC.defaulted, UC.ts
+		FROM user_car UC
+		WHERE UC.id = #{id}
+	</select>
+	
+	<select id="selectByUserIdAndModelId" resultMap="UserCarMap">
+		SELECT UC.id, UC.userId, UC.modelId, UC.modelName, UC.name, UC.serialId, UC.brandId, 
+			UC.color, UC.vklIdNo, UC.vklType, UC.plateNo, UC.engineNo, UC.makeYear, 
+			UC.buyYear, UC.buyMonth, UC.price, UC.mileage, UC.seqNo, UC.deleted, UC.defaulted, UC.ts
+		FROM user_car UC
+		WHERE UC.userId = #{userId} AND UC.modelId = #{modelId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		user_car(userId, modelId, modelName, name, serialId, brandId, color, vklIdNo, vklType,
+				plateNo, engineNo, makeYear, buyYear, buyMonth, price, mileage, seqNo, deleted, defaulted, ts)
+		VALUES(#{userId}, #{modelId}, #{modelName}, #{name}, #{serialId}, #{brandId}, #{color}, #{vklIdNo}, #{vklType}, 
+				#{plateNo}, #{engineNo}, #{makeYear}, #{buyYear}, #{buyMonth}, #{price}, #{mileage}, #{seqNo}, #{deleted},  #{defaulted}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE user_car
+		<set>
+			<trim suffixOverrides=",">
+				<if test="userId != null">
+					userId = #{userId} ,
+				</if>
+				<if test="modelId != null">
+					modelId = #{modelId} ,
+				</if>
+				<if test="modelName != null">
+					modelName = #{modelName} ,
+				</if>
+				<if test="name != null">
+					name = #{name} ,
+				</if>
+				<if test="serialId != null">
+					serialId = #{serialId} ,
+				</if>
+				<if test="brandId != null">
+					brandId = #{brandId} ,
+				</if>
+				<if test="color != null">
+					color = #{color} ,
+				</if>
+				<if test="vklIdNo != null">
+					vklIdNo = #{vklIdNo} ,
+				</if>
+				<if test="vklType != null">
+					vklType = #{vklType} ,
+				</if>
+				<if test="plateNo != null">
+					plateNo = #{plateNo} ,
+				</if>
+				<if test="engineNo != null">
+					engineNo = #{engineNo} ,
+				</if>
+				<if test="makeYear != null">
+					makeYear = #{makeYear} ,
+				</if>
+				<if test="buyYear != null">
+					buyYear = #{buyYear} ,
+				</if>
+				<if test="buyMonth != null">
+					buyMonth = #{buyMonth} ,
+				</if>
+				<if test="price != null">
+					price = #{price} ,
+				</if>
+				<if test="mileage != null">
+					mileage = #{mileage} ,
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo} ,
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted} ,
+				</if>
+				<if test="defaulted != null">
+					defaulted = #{defaulted} ,
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>		
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM user_car
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectUserCars" resultMap="UserCarMap">
+		SELECT UC.id, UC.userId, UC.modelId, UC.modelName, UC.name, UC.serialId, UC.brandId, 
+			UC.color, UC.vklIdNo, UC.vklType, UC.plateNo, UC.engineNo, UC.makeYear, 
+			UC.buyYear, UC.buyMonth, UC.price, UC.mileage, UC.seqNo, UC.deleted, UC.defaulted, UC.ts
+		FROM user_car UC
+		WHERE 1=1
+		<if test="userId !=null ">
+			AND UC.userId = #{userId}
+		</if>
+		<if test="name !=null ">
+			AND UC.name like ${name}
+		</if>
+		order by UC.defaulted desc
+	</select>
+	
+	<update id="updateUserCarByUserId">
+		UPDATE user_car
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="defaulted !=null">
+				defaulted = #{defaulted} ,
+			</if>
+		</trim>
+		WHERE userId = #{userId}
+	</update>
+	
+	<select id="selectDefaultByUserId" resultMap="UserCarMap">
+		SELECT UC.id, UC.userId, UC.modelId, UC.modelName, UC.name, UC.serialId, UC.brandId, 
+			UC.color, UC.vklIdNo, UC.vklType, UC.plateNo, UC.engineNo, UC.makeYear, 
+			UC.buyYear, UC.buyMonth, UC.price, UC.mileage, UC.seqNo, UC.deleted, UC.defaulted, UC.ts
+		FROM user_car UC
+		WHERE UC.userId =#{userId} and UC.defaulted =#{defaulted}
+	</select>
+	
+	<select id="selectByUserId" resultMap="UserCarMap">
+		SELECT UC.id, UC.userId, UC.modelId, UC.modelName, UC.name, UC.serialId, UC.brandId, 
+			UC.color, UC.vklIdNo, UC.vklType, UC.plateNo, UC.engineNo, UC.makeYear, 
+			UC.buyYear, UC.buyMonth, UC.price, UC.mileage, UC.seqNo, UC.deleted, UC.defaulted, UC.ts
+		FROM user_car UC
+		WHERE UC.userId =#{userId}
+	</select>
+	
+</mapper>

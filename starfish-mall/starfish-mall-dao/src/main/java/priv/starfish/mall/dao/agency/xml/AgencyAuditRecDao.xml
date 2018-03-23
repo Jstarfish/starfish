@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.agency.AgencyAuditRecDao">
+	<resultMap id="AgencyAuditRecMap" type="priv.starfish.mall.agency.entity.AgencyAuditRec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="agencyId" property="agencyId" jdbcType="INTEGER" />
+		<result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+		<result column="auditTime" property="auditTime" jdbcType="TIMESTAMP" />
+		<result column="auditorId" property="auditorId" jdbcType="INTEGER" />
+		<result column="auditorName" property="auditorName" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="AgencyAuditRecMap" parameterType="Integer">
+		SELECT 
+		AAR.id, AAR.agencyId, AAR.auditStatus,
+		AAR.auditTime, AAR.auditorId, AAR.auditorName, AAR.desc
+		FROM agency_audit_rec AAR
+		WHERE AAR.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		agency_audit_rec(agencyId, auditStatus, auditTime, auditorId, auditorName, `desc`)
+		VALUES(#{agencyId}, #{auditStatus}, #{auditTime}, #{auditorId},
+		#{auditorName}, #{desc})
+	</insert>
+	
+	<update id="update">
+		UPDATE 
+		agency_audit_rec
+		SET 
+		agencyId = #{agencyId} ,
+		auditStatus = #{auditStatus} ,
+		auditTime = #{auditTime} ,
+		auditorId = #{auditorId} ,
+		auditorName = #{auditorName} ,
+		`desc` = #{desc}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM agency_audit_rec
+		WHERE id = #{id}
+	</delete>
+</mapper>

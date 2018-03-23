@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.SaleOrderDao">
+	<resultMap id="SaleOrderMap" type="priv.starfish.mall.order.entity.SaleOrder">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="svcPackId" property="svcPackId" jdbcType="INTEGER" />
+		<result column="svcPackName" property="svcPackName" jdbcType="VARCHAR" />
+		<result column="svcOnly" property="svcOnly" jdbcType="BOOLEAN" />
+		<result column="svcTimes" property="svcTimes" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="deviceType" property="deviceType" jdbcType="VARCHAR" />
+		<result column="carName" property="carName" jdbcType="VARCHAR" />
+		<result column="carModel" property="carModel" jdbcType="VARCHAR" />
+		<result column="carId" property="carId" jdbcType="INTEGER" />
+		<result column="pickupFlag" property="pickupFlag" jdbcType="BIT" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="lng" property="lng" jdbcType="DECIMAL" />
+		<result column="lat" property="lat" jdbcType="DECIMAL" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="planTime" property="planTime" jdbcType="TIMESTAMP" />
+		<result column="planModTimes" property="planModTimes" jdbcType="INTEGER" />
+		<result column="leaveMsg" property="leaveMsg" jdbcType="VARCHAR" />
+		<result column="merchantId" property="merchantId" jdbcType="INTEGER" />
+		<result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+		<result column="agentId" property="agentId" jdbcType="INTEGER" />
+		<result column="agentName" property="agentName" jdbcType="VARCHAR" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="distFlag" property="distFlag" jdbcType="BOOLEAN" />
+		<result column="distributorId" property="distributorId" jdbcType="INTEGER" />
+		<result column="distributorName" property="distributorName" jdbcType="VARCHAR" />
+		<result column="distShopName" property="distShopName" jdbcType="VARCHAR" />
+		<result column="saleAmount" property="saleAmount" jdbcType="DECIMAL" />
+		<result column="discAmount" property="discAmount" jdbcType="DECIMAL" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="amountInner" property="amountInner" jdbcType="DECIMAL" />
+		<result column="amountOuter" property="amountOuter" jdbcType="DECIMAL" />
+		<result column="payWay" property="payWay" jdbcType="VARCHAR" />
+		<result column="payState" property="payState" jdbcType="VARCHAR" />
+		<result column="distState" property="distState" jdbcType="VARCHAR" />
+		<result column="cancelled" property="cancelled" jdbcType="BIT" />
+		<result column="doneCode" property="doneCode" jdbcType="VARCHAR" />
+		<result column="finished" property="finished" jdbcType="BOOLEAN" />
+		<result column="finishTime" property="finishTime" jdbcType="TIMESTAMP" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="payConfirmed" property="payConfirmed" jdbcType="BOOLEAN" />
+		<result column="payProofNo" property="payProofNo" jdbcType="VARCHAR" />
+		<result column="closed" property="closed" jdbcType="BOOLEAN" />
+		<result column="closeTime" property="closeTime" jdbcType="TIMESTAMP" />
+		<result column="settleAmount" property="settleAmount" jdbcType="DECIMAL" />
+		<result column="distProfit" property="distProfit" jdbcType="DECIMAL" />
+		<result column="settleState" property="settleState" jdbcType="INTEGER" />
+		<result column="settleRecId" property="settleRecId" jdbcType="INTEGER" />
+		<result column="settleRecId2Dist" property="settleRecId2Dist" jdbcType="INTEGER" />
+		<result column="creatorFlag" property="creatorFlag" jdbcType="INTEGER" />
+		<result column="creatorId" property="creatorId" jdbcType="INTEGER" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="changeTime" property="changeTime" jdbcType="TIMESTAMP" />
+		<result column="indexTime" property="indexTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="starFlag" property="starFlag" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		SO.id, SO.no, SO.svcPackId, SO.svcPackName, SO.svcOnly,
+		SO.userId, SO.userName, SO.deviceType, SO.carName, SO.carModel,
+		SO.carId, SO.pickupFlag, SO.phoneNo, SO.linkMan, SO.telNo,
+		SO.regionId, SO.regionName, SO.street, SO.address, SO.lng, SO.lat,
+		SO.email, SO.planTime, SO.planModTimes, SO.leaveMsg, SO.merchantId,
+		SO.merchantName, SO.agentId, SO.agentName, SO.shopId, SO.shopName,
+		SO.distFlag, SO.distributorId, SO.distributorName, SO.distShopName,
+		SO.saleAmount, SO.discAmount, SO.amount, SO.amountInner,
+		SO.amountOuter, SO.payWay, SO.payState, SO.distState, SO.cancelled,
+		SO.doneCode, SO.finished, SO.finishTime, SO.memo, SO.payConfirmed,
+		SO.payProofNo, SO.closed, SO.closeTime, SO.settleAmount,SO.distProfit,
+		SO.settleState, SO.settleRecId, SO.settleRecId2Dist, SO.creatorFlag,
+		SO.creatorId, SO.creatorName, SO.createTime, SO.changeTime,
+		SO.indexTime, SO.deleted, SO.starFlag,SO.svcTimes
+	</sql>
+
+	<select id="selectCount" resultType="Integer">
+		SELECT count(*)
+		FROM sale_order SO
+		WHERE SO.userId=#{userId} AND
+		SO.deleted=false
+		<if test="periodName !=null and periodName != ''">
+			<choose>
+				<when test="periodName=='year'">
+					AND YEAR(SO.createTime)=#{orderDate}
+				</when>
+				<when test="periodName!='year'">
+					AND DATE_FORMAT(SO.createTime, '%Y-%m-%d %H:%i')
+					&gt;
+					#{orderDate}
+				</when>
+			</choose>
+		</if>
+		<if test="orderState !=null and orderState  != ''">
+			<choose>
+				<when test="orderState == 'unhandled'">
+					AND SO.payState = 'unpaid' AND SO.cancelled =
+					false
+					AND SO.finished = false
+				</when>
+				<when test="orderState == 'cancelled'">
+					AND SO.cancelled = true
+				</when>
+				<when test="orderState == 'finished'">
+					AND SO.payState = 'paid' AND SO.finished = true
+					AND
+					SO.cancelled =false
+				</when>
+				<when test="orderState == 'processing'">
+					AND SO.payState = 'paid' AND SO.finished = false
+					AND
+					SO.cancelled =false
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+	</select>
+	<select id="selectShopById" resultType="priv.starfish.mall.shop.entity.Shop"
+		parameterType="Integer">
+		SELECT
+		S.id, S.code, S.merchantId, S.selfFlag, S.name,
+		S.py,
+		S.entpFlag,
+		S.regionId, S.regionName, S.street, S.lng, S.lat,
+		S.telNo,
+		S.phoneNo,
+		S.linkMan, S.bizScope, S.logoUuid, S.logoUsage,
+		S.logoPath,
+		S.applyTime, S.regTime, S.licenseId, S.auditStatus,
+		S.closed, S.disabled, S.memo,
+		S.point
+		FROM
+		shop S
+		WHERE S.id = #{id}
+	</select>
+
+	<select id="selectUserById" resultType="priv.starfish.mall.comn.entity.User"
+		parameterType="Integer">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate,
+		U.qq, U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked,
+		U.lockTime, U.ts
+		FROM user U
+		WHERE
+		U.id = #{id}
+	</select>
+
+	<select id="selectById" resultMap="SaleOrderMap" parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE
+		SO.id =
+		#{id}
+	</select>
+	<select id="selectBySettleRecId2Dist" resultMap="SaleOrderMap"
+		parameterType="Integer">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE
+		SO.settleRecId2Dist =
+		#{settleRecId2Dist}
+	</select>
+	<select id="selectByNo" resultMap="SaleOrderMap" parameterType="String">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE SO.no =
+		#{no}
+		AND deleted = FALSE;
+	</select>
+	<select id="selectByUserId" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order
+		SO
+		WHERE
+		SO.userId=#{userId} AND SO.deleted=false
+		<if test="periodName !=null and periodName != ''">
+			<choose>
+				<when test="periodName=='year'">
+					AND YEAR(SO.createTime)=#{orderDate}
+				</when>
+				<when test="periodName!='year'">
+					AND DATE_FORMAT(SO.createTime, '%Y-%m-%d %H:%i')
+					&gt;#{orderDate}
+				</when>
+			</choose>
+		</if>
+		<if test="orderState !=null and orderState  != ''">
+			<choose>
+				<when test="orderState == 'unhandled'">
+					AND SO.payState = 'unpaid' AND SO.cancelled =
+					false
+					AND SO.finished = false
+				</when>
+				<when test="orderState == 'cancelled'">
+					AND SO.cancelled = true
+				</when>
+				<when test="orderState == 'finished'">
+					AND SO.payState = 'paid' AND SO.finished = true
+					AND
+					SO.cancelled =false
+				</when>
+				<when test="orderState == 'processing'">
+					AND SO.payState = 'paid' AND SO.finished = false
+					AND
+					SO.cancelled =false
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		sale_order (
+		no ,
+		svcPackId ,
+		svcPackName ,
+		svcOnly ,
+		svcTimes,
+		userId ,
+		userName,
+		deviceType ,
+		carName ,
+		carModel ,
+		carId ,
+		pickupFlag ,
+		phoneNo ,
+		linkMan ,
+		telNo ,
+		regionId ,
+		regionName ,
+		street ,
+		address ,
+		lng ,
+		lat ,
+		email ,
+		planTime ,
+		planModTimes ,
+		leaveMsg ,
+		merchantId ,
+		merchantName ,
+		agentId ,
+		agentName ,
+		shopId ,
+		shopName ,
+		distFlag ,
+		distributorId ,
+		distributorName,
+		distShopName ,
+		saleAmount ,
+		discAmount ,
+		amount ,
+		amountInner ,
+		amountOuter ,
+		payWay ,
+		payState ,
+		distState ,
+		cancelled ,
+		doneCode ,
+		finished ,
+		finishTime ,
+		memo ,
+		payConfirmed ,
+		payProofNo ,
+		closed ,
+		closeTime ,
+		settleAmount ,
+		distProfit,
+		settleState ,
+		settleRecId ,
+		settleRecId2Dist ,
+		creatorFlag ,
+		creatorId ,
+		creatorName ,
+		createTime ,
+		changeTime ,
+		indexTime ,
+		deleted ,
+		starFlag
+		)
+		VALUES(
+		#{no} ,
+		#{svcPackId} ,
+		#{svcPackName} ,
+		#{svcOnly} ,
+		#{svcTimes},
+		#{userId} ,
+		#{userName} ,
+		#{deviceType} ,
+		#{carName} ,
+		#{carModel} ,
+		#{carId} ,
+		#{pickupFlag} ,
+		#{phoneNo} ,
+		#{linkMan} ,
+		#{telNo} ,
+		#{regionId} ,
+		#{regionName} ,
+		#{street} ,
+		#{address} ,
+		#{lng} ,
+		#{lat} ,
+		#{email} ,
+		#{planTime} ,
+		#{planModTimes} ,
+		#{leaveMsg} ,
+		#{merchantId} ,
+		#{merchantName} ,
+		#{agentId} ,
+		#{agentName},
+		#{shopId} ,
+		#{shopName} ,
+		#{distFlag} ,
+		#{distributorId} ,
+		#{distributorName} ,
+		#{distShopName} ,
+		#{saleAmount} ,
+		#{discAmount} ,
+		#{amount} ,
+		#{amountInner} ,
+		#{amountOuter} ,
+		#{payWay} ,
+		#{payState} ,
+		#{distState} ,
+		#{cancelled} ,
+		#{doneCode} ,
+		#{finished} ,
+		#{finishTime} ,
+		#{memo} ,
+		#{payConfirmed} ,
+		#{payProofNo} ,
+		#{closed} ,
+		#{closeTime} ,
+		#{settleAmount} ,
+		#{distProfit} ,
+		#{settleState} ,
+		#{settleRecId} ,
+		#{settleRecId2Dist} ,
+		#{creatorFlag} ,
+		#{creatorId} ,
+		#{creatorName} ,
+		#{createTime} ,
+		#{changeTime} ,
+		#{indexTime} ,
+		#{deleted} ,
+		#{starFlag}
+		)
+	</insert>
+
+	<update id="update">
+		UPDATE sale_order
+		<set>
+			<trim suffixOverrides=",">
+				<if test="svcPackName != null">
+					svcPackName = #{svcPackName},
+				</if>
+				<if test="deviceType != null">
+					deviceType = #{deviceType},
+				</if>
+				<if test="svcTimes != null">
+					svcTimes = #{svcTimes},
+				</if>
+				<if test="carName != null">
+					carName = #{carName},
+				</if>
+				<if test="carModel != null">
+					carModel = #{carModel},
+				</if>
+				<if test="carId != null">
+					carId = #{carId},
+				</if>
+				<if test="phoneNo != null">
+					phoneNo = #{phoneNo},
+				</if>
+				<if test="linkMan != null">
+					linkMan = #{linkMan},
+				</if>
+				<if test="planTime != null">
+					planTime = #{planTime},
+				</if>
+				<if test="planModTimes != null">
+					planModTimes = #{planModTimes},
+				</if>
+				<if test="merchantName != null">
+					merchantName = #{merchantName},
+				</if>
+				<if test="agentId != null">
+					agentId = #{agentId},
+				</if>
+				<if test="agentName != null">
+					agentName = #{agentName},
+				</if>
+				<if test="shopName != null">
+					shopName = #{shopName},
+				</if>
+				<if test="distFlag != null">
+					distFlag = #{distFlag},
+				</if>
+				<if test="distributorId != null">
+					distributorId = #{distributorId},
+				</if>
+				<if test="distributorName != null">
+					distributorName = #{distributorName},
+				</if>
+				<if test="distShopName != null">
+					distShopName = #{distShopName},
+				</if>
+				<if test="payState != null">
+					payState = #{payState},
+				</if>
+				<if test="distState != null">
+					distState = #{distState},
+				</if>
+				<if test="cancelled != null">
+					cancelled = #{cancelled},
+				</if>
+				<if test="finished != null">
+					finished = #{finished},
+				</if>
+				<if test="finishTime != null">
+					finishTime = #{finishTime},
+				</if>
+				<if test="memo != null">
+					memo = #{memo},
+				</if>
+				<if test="payConfirmed != null">
+					payConfirmed = #{payConfirmed},
+				</if>
+				<if test="payProofNo != null">
+					payProofNo = #{payProofNo},
+				</if>
+				<if test="closed != null">
+					closed = #{closed},
+				</if>
+				<if test="closeTime != null">
+					closeTime = #{closeTime},
+				</if>
+				<if test="settleAmount != null">
+					settleAmount = #{settleAmount},
+				</if>
+				<if test="distProfit != null">
+					distProfit = #{distProfit},
+				</if>
+				<if test="settleState != null">
+					settleState = #{settleState},
+				</if>
+				<if test="settleRecId != null">
+					settleRecId = #{settleRecId},
+				</if>
+				<if test="settleRecId2Dist != null">
+					settleRecId2Dist = #{settleRecId2Dist},
+				</if>
+				<if test="creatorName != null">
+					creatorName = #{creatorName},
+				</if>
+				<if test="changeTime != null">
+					changeTime = #{changeTime},
+				</if>
+				<if test="indexTime != null">
+					indexTime = #{indexTime},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted},
+				</if>
+				<if test="starFlag != null">
+					starFlag = #{starFlag},
+				</if>
+				<if test="regionName != null">
+					regionName = #{regionName},
+				</if>
+				<if test="street != null">
+					street = #{street}
+				</if>
+				
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM sale_order
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO, user U,shop S
+		WHERE
+		SO.userId = U.id AND SO.shopId =
+		S.id AND SO.deleted = false
+		<if test="no != null">
+			AND SO.no = #{no}
+		</if>
+		<if test="shopId != null">
+			AND SO.shopId = #{shopId}
+		</if>
+		<if test="userId != null">
+			AND SO.userId = #{userId}
+		</if>
+		<if test="shopName != null and shopName != ''">
+			AND S.Name like CONCAT('%',#{shopName},'%')
+		</if>
+		<if test="customerName != null and customerName != ''">
+			AND U.nickName like CONCAT('%',#{customerName},'%')
+		</if>
+		<if test="orderState !=null and orderState  != ''">
+			<choose>
+				<when test="orderState == 'unhandled'">
+					AND SO.payState = 'unpaid' AND SO.cancelled =
+					false
+					AND SO.finished = false
+				</when>
+				<when test="orderState == 'cancelled'">
+					AND SO.cancelled = true
+				</when>
+				<when test="orderState == 'finished'">
+					AND SO.payState = 'paid' AND SO.finished = true AND
+					SO.cancelled = false
+				</when>
+				<when test="orderState == 'processing'">
+					AND SO.payState = 'paid' AND SO.finished = false AND
+					SO.cancelled = false
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+
+	<select id="selectByCompareSettleDayUse" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		<where>
+			<if test="merchantId != null and merchantId != ''">
+				AND SO.merchantId = #{merchantId}
+			</if>
+			<if test="beforeSettleDay != null and beforeSettleDay != ''">
+				<![CDATA[ AND DATE_FORMAT(SO.settleTime, '%Y-%m-%d') >= DATE_FORMAT(#{beforeSettleDay}, '%Y-%m-%d') ]]>
+			</if>
+			<if test="settleDay != null and settleDay != ''">
+				<![CDATA[ AND DATE_FORMAT(SO.settleTime, '%Y-%m-%d') < DATE_FORMAT(#{settleDay}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+		ORDER BY SO.createTime DESC
+	</select>
+
+	<select id="selectForCreateSettleInfo" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE
+		SO.finished = true AND SO.settleRecId is NULL AND SO.payState = 'paid'
+		<if test="merchantId != null and merchantId != ''">
+			AND SO.merchantId = #{merchantId}
+		</if>
+		<if test="finishTime != null and finishTime != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.finishTime, '%Y-%m-%d') = DATE_FORMAT(#{finishTime}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+
+	<select id="selectByFinishedTimeAsToday" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE
+		SO.finished = true AND SO.settleRecId is NULL
+		<if test="merchantId != null and merchantId != ''">
+			AND SO.merchantId = #{merchantId}
+		</if>
+		<if test="finishTime != null and finishTime != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.finishTime, '%Y-%m-%d') = DATE_FORMAT(#{finishTime}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+
+	<select id="selectByMerchantName" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE
+		SO.finished = true AND SO.settleRecId is NULL
+		<if test="merchantName != null">
+			AND SO.merchantName = #{merchantName}
+		</if>
+		<if test="finishTime != null and finishTime != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.finishTime, '%Y-%m-%d') = DATE_FORMAT(#{finishTime}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+
+	<select id="selectByFilterAsSettleDay" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO ,
+		settle_process SP, settle_order SSO
+		where
+		SO.no =
+		SSO.no and
+		SSO.processId = SP.id
+		<if test="spId != null">
+			AND SP.id = #{spId}
+		</if>
+		<if test="merchantId != null">
+			AND SP.merchantId = #{merchantId}
+		</if>
+		<if test="settleDay != null">
+			AND SP.settleDay = #{settleDay}
+		</if>
+		<if test="no != null">
+			AND SO.no = #{no}
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+	
+	<select id="selectbyFilterByShop" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		<where>
+			<if test="settleRecId2Dist != null">
+				AND SO.settleRecId2Dist = #{settleRecId2Dist}
+			</if>
+			<if test="no != null">
+				AND SO.no = #{no}
+			</if>
+		</where>
+		ORDER BY SO.createTime DESC
+	</select>
+
+	<select id="selectOrderIdsByProcessId" resultType="String"
+		parameterType="Long">
+		SELECT
+		SSO.no
+		FROM settle_order SSO ,settle_process SP
+		where
+		SSO.processId = SP.id
+		AND SP.id = #{processId}
+
+	</select>
+
+	<select id="selectMerchantIds" resultType="Integer">
+		SELECT
+		SO.merchantId AS merchantId
+		FROM sale_order SO
+		<where>
+			<if test="beforeSettleDay != null and beforeSettleDay != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.settleTime, '%Y-%m-%d') >= DATE_FORMAT(#{beforeSettleDay}, '%Y-%m-%d') ]]>
+			</if>
+			<if test="settleDay != null and settleDay != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.settleTime, '%Y-%m-%d') < DATE_FORMAT(#{settleDay}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+		GROUP BY SO.merchantId
+	</select>
+
+	<select id="selectMerchantIdsAsFinishedDate" resultType="Integer">
+		SELECT
+		SO.merchantId AS merchantId
+		FROM sale_order SO
+		<where>
+			<if test="date != null and date != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.finishTime, '%Y-%m-%d') = DATE_FORMAT(#{date}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+		GROUP BY SO.merchantId
+	</select>
+
+	<select id="selectMinFinishedDay" resultType="Date"
+		parameterType="Integer">
+		SELECT MIN(SO.finishTime)
+		FROM sale_order SO
+		WHERE
+		SO.merchantId = #{merchantId}
+	</select>
+
+	<select id="selectMaxFinishedTimeByDate" resultType="Date">
+		SELECT MAX(SO.finishTime)
+		FROM sale_order SO
+		WHERE SO.merchantId =
+		#{merchantId} <![CDATA[ AND DATE_FORMAT(SO.finishTime, '%Y-%m-%d') = DATE_FORMAT(#{yesterday}, '%Y-%m-%d') ]]>
+	</select>
+
+	<select id="selectFinishedTimeBySettleProcessId" resultType="Date">
+		SELECT MAX(SO.finishTime)
+		FROM sale_order SO , settle_process SP
+		,settle_order SOO
+		WHERE SP.id =
+		#{settleProcessId} AND SP.id =
+		SOO.processId AND SO.no = SOO.no
+	</select>
+	
+	<update id="updateForClosed" useGeneratedKeys="true"
+		keyProperty="id">
+		UPDATE sale_order
+		SET closed = true,
+		closeTime = #{closeTime}
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateForDelete" useGeneratedKeys="true"
+		keyProperty="id">
+		UPDATE sale_order
+		SET deleted = #{deleted},
+		changeTime=#{changeTime}
+		WHERE id = #{id} AND userId=#{userId}
+	</update>
+
+	<update id="updateForCancel" useGeneratedKeys="true"
+		keyProperty="id">
+		UPDATE sale_order
+		SET cancelled = #{cancelled},
+		changeTime=#{changeTime}
+		WHERE
+		id = #{id}
+		<if test="userId != null">
+			AND userId=#{userId}
+		</if>
+		<if test="distributorId != null">
+			AND distributorId=#{distributorId}
+		</if>
+		AND deleted = false AND cancelled=false
+	</update>
+
+	<update id="updateForRecId">
+		UPDATE sale_order
+		SET
+		settleRecId=#{settleRecId}
+		WHERE
+		no = #{no}
+	</update>
+
+	<update id="updateForFinish" useGeneratedKeys="true"
+		keyProperty="id">
+		UPDATE sale_order
+		SET finished = #{finished},
+		finishTime=#{finishTime},
+		changeTime=#{changeTime}
+		WHERE
+		id = #{id}
+		<if test="userId != null">
+			AND userId=#{userId}
+		</if>
+		<if test="distributorId != null">
+			AND distributorId=#{distributorId}
+		</if>
+		AND payState='paid' AND finished=false AND
+		deleted = false AND
+		cancelled=false
+	</update>
+
+	<update id="updateForFinishAsProxy" useGeneratedKeys="true"
+		keyProperty="id">
+		UPDATE sale_order
+		SET finished = #{finished},
+		carName =
+		#{carName},
+		finishTime=#{finishTime},
+		changeTime=#{changeTime}
+		WHERE
+		id =
+		#{id}
+		AND payState='paid' AND
+		finished=false AND
+		deleted = false
+	</update>
+
+	<update id="updateForAddInfo" useGeneratedKeys="true"
+		keyProperty="id">
+		UPDATE sale_order
+		SET carName = #{carName},
+		memo = #{memo},
+		changeTime=#{changeTime}
+		WHERE
+		id = #{id} AND deleted = false
+	</update>
+
+	<update id="updatePayStateByNo">
+		UPDATE sale_order
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="payState !=null">
+				payState = #{payState} ,
+			</if>
+			<if test="payWay !=null">
+				payWay = #{payWay} ,
+			</if>
+			<if test="finished !=null">
+				finished = #{finished} ,
+			</if>
+			<if test="finishTime !=null">
+				finishTime = #{finishTime} ,
+			</if>
+		</trim>
+		WHERE no = #{no} AND deleted = false
+	</update>
+	<update id="updateForPayFinished">
+		UPDATE sale_order
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="payState !=null">
+				payState = #{payState} ,
+			</if>
+			<if test="payWay !=null">
+				payWay = #{payWay} ,
+			</if>
+			<if test="finished !=null">
+				finished = #{finished} ,
+			</if>
+			<if test="finishTime !=null">
+				finishTime = #{finishTime} ,
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	<!-- 合作店查询 合作店区分历史订单（里面不包含未做订单） 和 代做订单 -->
+	<select id="selectByDistributorId" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE
+		SO.distributorId = #{distributorId} AND
+		SO.distFlag = true 
+		<if test="orderState !=null and orderState  != ''">
+			<choose>
+				<when test="orderState == 'todoOrder'">
+					AND (SO.payState = 'paid' OR SO.payState = 'unpaid')
+					AND SO.cancelled =false
+					AND SO.finished = false
+				</when>
+				<when test="orderState == 'historyOrder'">
+					AND (SO.payState = 'paid' OR SO.payState = 'unpaid')
+					AND (SO.cancelled = true OR SO.finished = true)
+				</when>
+			</choose>
+		</if>
+		<if test="creator !=null and creator  != ''">
+			<choose>
+				<when test="creator == 'undertake'">
+					AND SO.creatorFlag != 2
+				</when>
+				<when test="creator == 'agent'">
+					AND SO.creatorFlag = 2
+				</when>
+			</choose>
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+	
+	<select id="selectDistShopOrderByFilter" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO
+		WHERE SO.distFlag = true
+		<if test="shopId != null">
+			 AND SO.shopId = #{shopId}
+		</if>
+		<if test="distributorId != null">
+			AND SO.distributorId = #{distributorId}
+		</if>
+		<if test="distShopName != null and distShopName != ''">
+			AND SO.distShopName like CONCAT('%',#{distShopName},'%')
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="distIfSettle !=null and distIfSettle  != ''">
+			<choose>
+				<when test="distIfSettle == 'settle'">
+					AND SO.settleRecId2Dist is not null
+				</when>
+				<when test="distIfSettle == 'unsettle'">
+					AND SO.settleRecId2Dist is null
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		<if test="flagCreator != null and flagCreator  != ''">
+			<choose>
+				<when test="flag == 'agent'">
+					AND SO.creatorFlag = 2
+				</when>
+				<when test="flag == 'allocate'">
+					AND SO.creatorFlag != 2
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		<if test="orderState !=null and orderState  != ''">
+			<choose>
+				<when test="orderState == 'unhandled'">
+					AND SO.payState = 'unpaid' AND SO.cancelled =
+					false
+					AND SO.finished = false
+				</when>
+				<when test="orderState == 'cancelled'">
+					AND SO.cancelled = true
+				</when>
+				<when test="orderState == 'finished'">
+					AND SO.payState = 'paid' AND SO.finished = true AND
+					SO.cancelled = false
+				</when>
+				<when test="orderState == 'processing'">
+					AND SO.payState = 'paid' AND SO.finished = false AND
+					SO.cancelled = false
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		ORDER BY SO.createTime DESC
+	</select>
+	
+	<select id="selectDistShopOrderSettleByFilter" resultMap="SaleOrderMap">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order SO 
+		WHERE SO.deleted = false And SO.closed = true And SO.finished = true AND SO.distFlag = true
+		<if test="shopId != null">
+			 AND SO.shopId = #{shopId}
+		</if>
+		<if test="distributorId != null">
+			AND SO.distributorId = #{distributorId}
+		</if>
+		<if test="distShopName != null and distShopName != ''">
+			AND SO.distShopName like CONCAT('%',#{distShopName},'%')
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="distIfSettle !=null and distIfSettle  != ''">
+			<choose>
+				<when test="distIfSettle == 'settle'">
+					AND SO.settleRecId2Dist is not null
+				</when>
+				<when test="distIfSettle == 'unsettle'">
+					AND SO.settleRecId2Dist is null
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		ORDER BY SO.finishTime DESC, SO.settleRecId2Dist DESC
+	</select>
+	
+	<select id="selectShopIdsByUserId" resultType="java.lang.Integer">
+		SELECT	SO.shopId
+		FROM sale_order SO
+		WHERE SO.userId=#{userId}
+		AND SO.finished=true
+	</select>
+	
+</mapper>

@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.vendor.VendorDao">
+	<resultMap id="VendorMap" type="priv.starfish.mall.vendor.entity.Vendor">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="py" property="py" jdbcType="VARCHAR" />
+		<result column="entpFlag" property="entpFlag" jdbcType="BOOLEAN" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="lng" property="lng" jdbcType="NUMERIC" />
+		<result column="lat" property="lat" jdbcType="NUMERIC" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="bizScope" property="bizScope" jdbcType="VARCHAR" />
+		<result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+		<result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="accountId" property="accountId" jdbcType="INTEGER" />
+		<result column="licenseId" property="licenseId" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<association property="user" column="phoneNo" select="getUserByPhoneNo" />
+	</resultMap>
+	
+	<select id="getUserByPhoneNo" resultType="priv.starfish.mall.comn.entity.User" parameterType="String">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo, 
+			U.realName, U.gender, U.birthDate, U.qq, U.regTime, 
+			U.verified,	U.ts
+		FROM user U
+		WHERE U.phoneNo = #{phoneNo}
+	</select>
+	
+	<select id="selectById" resultMap="VendorMap" parameterType="Integer">SELECT
+		V.id, V.code, V.name, V.py, V.entpFlag, V.regionId, V.regionName,
+		V.street, V.lng, V.lat, V.telNo, V.phoneNo, V.linkMan, V.bizScope,
+		V.logoUuid, V.logoUsage, V.logoPath, V.regTime, V.accountId,
+		V.licenseId, V.disabled, V.memo, V.ts
+		FROM vendor V
+		WHERE V.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="VendorMap">SELECT V.id, V.code, V.name,
+		V.py, V.entpFlag, V.regionId, V.regionName, V.street, V.lng, V.lat,
+		V.telNo, V.phoneNo, V.linkMan, V.bizScope, V.logoUuid, V.logoUsage,
+		V.logoPath, V.regTime, V.accountId, V.licenseId, V.disabled, V.memo,
+		V.ts
+		FROM vendor V
+		WHERE V.code = #{code}
+	</select>
+	
+	<select id="selectByPhoneNo" resultMap="VendorMap">SELECT V.id, V.code, V.name,
+		V.py, V.entpFlag, V.regionId, V.regionName, V.street, V.lng, V.lat,
+		V.telNo, V.phoneNo, V.linkMan, V.bizScope, V.logoUuid, V.logoUsage,
+		V.logoPath, V.regTime, V.accountId, V.licenseId, V.disabled, V.memo,
+		V.ts
+		FROM vendor V
+		WHERE V.phoneNo = #{phoneNo}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		vendor(code, name, py, entpFlag, regionId, regionName, street, lng, lat, telNo,
+		phoneNo, linkMan, bizScope, logoUuid, logoUsage, logoPath, regTime,
+		accountId, licenseId, disabled, memo, ts)
+		VALUES(#{code}, #{name}, #{py}, #{entpFlag}, #{regionId}, #{regionName}, #{street},
+		#{lng}, #{lat}, #{telNo}, #{phoneNo}, #{linkMan}, #{bizScope},
+		#{logoUuid}, #{logoUsage}, #{logoPath}, #{regTime}, #{accountId},
+		#{licenseId}, #{disabled}, #{memo}, #{ts})
+	</insert>
+	
+	<update id="update">UPDATE vendor
+		SET code = #{code} ,
+		name = #{name} ,
+		py = #{py} ,
+		entpFlag = #{entpFlag} ,
+		regionId = #{regionId} ,
+		regionName = #{regionName} ,
+		street = #{street} ,
+		lng = #{lng} ,
+		lat = #{lat} ,
+		telNo = #{telNo} ,
+		phoneNo = #{phoneNo} ,
+		linkMan = #{linkMan} ,
+		bizScope = #{bizScope} ,
+		<if test="logoUuid !=null">  
+		logoUuid = #{logoUuid} ,
+		logoUsage = #{logoUsage} ,
+		logoPath = #{logoPath} ,
+         </if>
+		regTime = #{regTime} ,
+		accountId = #{accountId} ,
+		licenseId = #{licenseId} ,
+		disabled = #{disabled} ,
+		memo = #{memo} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM vendor
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectCountByName" resultType="int" parameterType="String">
+		SELECT count(1)
+		FROM vendor V
+		WHERE V.name = #{name}
+	</select>
+	
+	<select id="selectByFilter" resultMap="VendorMap">
+		SELECT V.id, V.code, V.name,
+		V.py, V.entpFlag, V.regionId, V.regionName, V.street, V.lng, V.lat,
+		V.telNo, V.phoneNo, V.linkMan, V.bizScope, V.logoUuid, V.logoUsage,
+		V.logoPath, V.regTime, V.accountId, V.licenseId, V.disabled, V.memo,
+		V.ts
+		FROM vendor V
+		<where >
+		<if test="name !=null and name != ''">  
+          AND  V.name  like ${name}  
+         </if>
+		</where>
+         order by V.regTime desc
+	</select>
+</mapper>

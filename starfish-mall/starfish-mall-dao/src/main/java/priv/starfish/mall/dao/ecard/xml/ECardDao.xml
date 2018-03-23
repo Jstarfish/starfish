@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.ecard.ECardDao">
+	<resultMap id="ECardMap" type="priv.starfish.mall.ecard.entity.ECard">
+        <id column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="rank" property="rank" jdbcType="INTEGER" />
+        <result column="faceVal" property="faceVal" jdbcType="DECIMAL" />
+        <result column="price" property="price" jdbcType="DECIMAL" />
+        <result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+        <result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+        <result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+        <result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+        <result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+        <result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+        <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+    </resultMap>
+	<select id="selectById" resultMap="ECardMap" parameterType="String">
+		SELECT EC.code, EC.name, EC.rank, EC.faceVal, EC.price, EC.logoUuid, EC.logoUsage, EC.logoPath, EC.seqNo, EC.disabled, EC.deleted, EC.ts
+		FROM   ecard EC
+		WHERE  EC.code = #{code}
+	</select>
+
+    <select id="selectByName" resultMap="ECardMap">
+    	SELECT EC.code, EC.name, EC.rank, EC.faceVal, EC.price, EC.logoUuid, EC.logoUsage, EC.logoPath, EC.seqNo, EC.disabled, EC.deleted, EC.ts
+		FROM   ecard EC
+		WHERE  EC.name = #{name}
+	</select>
+	
+    <select id="selectByRank" resultMap="ECardMap">
+    	SELECT EC.code, EC.name, EC.rank, EC.faceVal, EC.price, EC.logoUuid, EC.logoUsage, EC.logoPath, EC.seqNo, EC.disabled, EC.deleted, EC.ts
+		FROM   ecard EC
+		WHERE  EC.rank = #{rank}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO 
+ 		ecard(code, name, rank, faceVal, price, logoUuid, logoUsage, logoPath, seqNo, ts)
+		VALUES(#{code}, #{name}, #{rank}, #{faceVal}, #{price}, #{logoUuid}, #{logoUsage}, #{logoPath}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE ecard
+		SET 
+			<if test="name !=null">
+				name = #{name} ,
+			</if>
+			<if test="rank !=null">
+				rank = #{rank} ,
+			</if>
+			<if test="faceVal !=null">
+				faceVal = #{faceVal} ,
+			</if>
+			<if test="price !=null">
+				price = #{price} ,
+			</if>
+			<if test="logoUuid !=null">
+				logoUuid = #{logoUuid} ,
+				logoUsage = #{logoUsage} ,
+				logoPath = #{logoPath} ,
+			</if>
+			<if test="seqNo !=null">
+				seqNo = #{seqNo} ,
+			</if>
+			<if test="disabled !=null">
+				disabled = #{disabled} ,
+				<if test="disabled == false">
+					deleted = false ,
+				</if>
+			</if>
+			<if test="deleted !=null">
+				deleted = #{deleted},
+			</if>
+			ts = #{ts}
+		WHERE code = #{code}
+	</update>
+	
+	<update id="updateForSeqNo">
+		UPDATE ecard
+		SET seqNo = #{seqNo}
+		WHERE code = #{code}
+	</update>
+	
+	<delete id="deleteById" parameterType="String">
+		DELETE FROM ecard
+		WHERE code = #{code}
+	</delete>
+
+	<select id="selectByFilter" resultMap="ECardMap">
+		SELECT EC.code, EC.name, EC.rank, EC.faceVal, EC.price, EC.logoUuid, EC.logoUsage, EC.logoPath, EC.seqNo, EC.disabled, EC.deleted, EC.ts
+		FROM ecard EC
+		<where >
+			<trim prefixOverrides="AND | OR">
+				<if test="name !=null">
+					EC.name like ${name}
+				</if>
+				<if test="deleted !=null">
+					AND EC.deleted = #{deleted}
+				</if>
+				<if test="disabled !=null">
+					AND EC.disabled = #{disabled}
+				</if>
+			</trim>
+		</where>
+		order by EC.seqNo
+	</select>
+
+	<select id="existsByName" resultType="Integer">
+		SELECT count(1)
+		FROM ecard EC
+		WHERE EC.name = #{name}
+	</select>
+
+	<select id="selectNormalECards" resultMap="ECardMap">
+		SELECT EC.code, EC.name, EC.rank, EC.faceVal, EC.price, EC.logoUuid, EC.logoUsage, EC.logoPath, EC.seqNo, EC.disabled, EC.deleted, EC.ts
+		FROM ecard EC 
+		WHERE EC.disabled = false AND EC.deleted = false
+		order by EC.seqNo
+	</select>
+	
+	<select id="selectBySeqNo" resultMap="ECardMap">
+		SELECT EC.code, EC.name, EC.rank, EC.faceVal, EC.price, EC.logoUuid, EC.logoUsage, EC.logoPath, EC.seqNo, EC.disabled, EC.deleted, EC.ts
+		FROM ecard EC 
+		<where>
+			<if test="seqNo > nowSeqNo">
+				AND EC.seqNo &gt;= #{nowSeqNo} AND EC.seqNo &lt; #{seqNo}
+			</if>
+			<if test="nowSeqNo > seqNo">
+				AND EC.seqNo &gt; #{seqNo} AND EC.seqNo &lt;= #{nowSeqNo}
+			</if>
+		</where>
+	</select>
+</mapper>

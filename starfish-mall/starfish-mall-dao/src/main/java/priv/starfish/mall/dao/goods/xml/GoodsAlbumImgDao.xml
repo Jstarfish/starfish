@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.GoodsAlbumImgDao">
+	<resultMap id="GoodsAlbumImgMap" type="priv.starfish.mall.goods.entity.GoodsAlbumImg">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="imageGroup" property="imageGroup" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="thumbPath" property="thumbPath" jdbcType="VARCHAR" />
+		<result column="middlePath" property="middlePath" jdbcType="VARCHAR" />
+		<result column="smallPath" property="smallPath" jdbcType="VARCHAR" />
+		<result column="changeTime" property="changeTime" jdbcType="TIMESTAMP" />
+		<result column="handleTime" property="handleTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="GoodsAlbumImgMap" parameterType="Long">
+		SELECT GAI.id, GAI.goodsId, GAI.imageUuid, GAI.imageUsage, GAI.imagePath, GAI.imageGroup, GAI.seqNo, GAI.thumbPath, GAI.middlePath, GAI.smallPath, GAI.changeTime, GAI.handleTime
+		FROM goods_album_img GAI
+		WHERE GAI.id = #{id}
+	</select>
+		
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO goods_album_img(goodsId, imageUuid, imageUsage, imagePath, imageGroup, thumbPath, middlePath, smallPath, changeTime, handleTime)
+		VALUES(#{goodsId}, #{imageUuid}, #{imageUsage}, #{imagePath}, #{imageGroup}, #{thumbPath}, #{middlePath}, #{smallPath}, #{changeTime}, #{handleTime})
+	</insert>
+		
+	<update id="update">
+		UPDATE goods_album_img
+		SET goodsId = #{goodsId} ,
+			imageUuid = #{imageUuid} ,
+			imageUsage = #{imageUsage} ,
+			imagePath = #{imagePath} ,
+			imageGroup = #{imageGroup} ,
+			seqNo = #{seqNo} ,
+			thumbPath = #{thumbPath} ,
+			middlePath = #{middlePath} ,
+			smallPath = #{smallPath} ,
+			changeTime = #{changeTime} ,
+			handleTime = #{handleTime}
+		WHERE id = #{id}
+	</update>
+		
+	<delete id="deleteById" parameterType="Long">
+		DELETE FROM goods_album_img
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByGoodsId" resultMap="GoodsAlbumImgMap">
+		SELECT GAI.id, GAI.goodsId, GAI.imageUuid, GAI.imageUsage, GAI.imagePath, GAI.imageGroup, GAI.seqNo, GAI.thumbPath, GAI.middlePath, GAI.smallPath, GAI.changeTime, GAI.handleTime
+		FROM goods_album_img GAI
+		WHERE GAI.goodsId = #{goodsId}
+		ORDER BY GAI.seqNo
+	</select>
+	
+	<delete id="deleteByImageUuid" parameterType="String">
+		DELETE FROM goods_album_img
+		WHERE imageUuid = #{uuid}
+	</delete>
+	
+	<select id="selectByImageUuid" resultMap="GoodsAlbumImgMap" parameterType="String">
+		SELECT GAI.id, GAI.goodsId, GAI.imageUuid, GAI.imageUsage, GAI.imagePath, GAI.imageGroup, GAI.seqNo, GAI.thumbPath, GAI.middlePath, GAI.smallPath, GAI.changeTime, GAI.handleTime
+		FROM goods_album_img GAI
+		WHERE GAI.imageUuid = #{imageUuid}
+	</select>
+	
+	<update id="updateImageGroupById">
+		UPDATE goods_album_img
+		SET imageGroup = #{imageGroup}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateImageGroupAsNullByGoodsId">
+		UPDATE goods_album_img
+		SET	imageGroup = NULL
+		WHERE goodsId = #{goodsId}
+	</update>
+	
+	<delete id="deleteByGoodsId" parameterType="Integer">
+		DELETE FROM goods_album_img
+		WHERE goodsId = #{goodsId}
+	</delete>
+	
+	<update id="updateImageGroupAsNullById">
+		UPDATE goods_album_img
+		SET	imageGroup = NULL
+		WHERE id = #{imgId}
+	</update>
+</mapper>

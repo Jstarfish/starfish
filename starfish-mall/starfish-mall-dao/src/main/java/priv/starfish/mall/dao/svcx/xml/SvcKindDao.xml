@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.svcx.SvcKindDao">
+	<resultMap id="SvcKindMap" type="priv.starfish.mall.svcx.entity.SvcKind">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectById" resultMap="SvcKindMap" parameterType="Integer">SELECT
+		SK.id, SK.name, SK.desc
+		FROM svc_kind SK
+		WHERE SK.id = #{id}
+	</select>
+	<select id="selectByName" resultMap="SvcKindMap">SELECT SK.id, SK.name,
+		SK.desc
+		FROM svc_kind SK
+		WHERE SK.name = #{name}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		svc_kind(name, `desc`)
+		VALUES(#{name}, #{desc})
+	</insert>
+	<update id="update">
+		UPDATE svc_kind
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM svc_kind
+		WHERE
+		id = #{id}
+	</delete>
+	<select id="selectByFilter" resultMap="SvcKindMap">SELECT
+		SK.id, SK.name,
+		SK.desc
+		FROM svc_kind SK
+	</select>
+</mapper>

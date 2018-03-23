@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.UserRoleDao">
+	<resultMap id="UserRoleMap" type="priv.starfish.mall.comn.entity.UserRole">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="roleId" property="roleId" jdbcType="INTEGER" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="entityId" property="entityId" jdbcType="INTEGER" />
+	</resultMap>
+
+	<resultMap id="RoleMap" type="priv.starfish.mall.comn.entity.Role">
+		<id column="id" property="id" jdbcType="INTEGER" />
+        <result column="scope" property="scope" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="alias" property="alias" jdbcType="VARCHAR" />
+        <result column="builtIn" property="builtIn" jdbcType="BOOLEAN" />
+        <result column="entityId" property="entityId" jdbcType="INTEGER" />
+        <result column="grantable" property="grantable" jdbcType="BOOLEAN" />
+        <result column="desc" property="desc" jdbcType="VARCHAR" />
+        <result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+        <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="UserRoleMap" parameterType="Integer">
+		SELECT UR.id, UR.userId, UR.roleId, UR.scope, UR.entityId
+		FROM user_role UR
+		WHERE UR.id = #{id}
+	</select>
+
+	<select id="selectByUserIdAndRoleIdAndEntityId" resultMap="UserRoleMap">
+		SELECT UR.id, UR.userId, UR.roleId, UR.scope, UR.entityId
+		FROM user_role UR
+		WHERE UR.userId = #{userId}
+			AND UR.roleId = #{roleId}
+			AND UR.entityId = #{entityId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO user_role(userId, roleId, scope, entityId)
+		VALUES(#{userId}, #{roleId}, #{scope}, #{entityId})
+	</insert>
+
+	<update id="update">
+		UPDATE user_role
+		SET userId = #{userId} ,
+			roleId = #{roleId} ,
+			scope = #{scope} ,
+			entityId = #{entityId}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM user_role
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectRolesByUserId" resultMap="RoleMap" parameterType="Integer">
+		SELECT R.*
+		FROM role R, user_role UR
+		WHERE UR.userId = #{userId} AND R.id = UR.roleId
+	</select>
+	
+	<select id="selectRoleIdsByUserId" resultType="Integer" parameterType="Integer">
+		SELECT UR.roleId
+		FROM user_role UR
+		WHERE UR.userId = #{userId}
+	</select>
+	
+	<select id="selectScopeEntitiesByUserId" resultMap="UserRoleMap" parameterType="Integer">
+		SELECT DISTINCT UR.scope , UR.entityId
+		FROM user_role UR
+		WHERE UR.userId = #{userId}
+	</select>
+
+	<delete id="deleteByUserIdAndRoleIds">
+		DELETE FROM user_role
+		WHERE userId = #{userId}
+			AND roleId in(
+				<foreach collection="roleIds" item="roleId" index="index" open=""
+					close="" separator=",">
+					#{roleId}
+				</foreach>
+				)
+	</delete>
+
+	<delete id="deleteByUserIdAndScopeAndEntityId" >
+		DELETE FROM user_role
+		WHERE userId = #{userId}
+		AND scope = #{scope}
+		AND entityId = #{entityId}
+	</delete>
+	
+	<select id="selectByUserId" resultMap="UserRoleMap" parameterType="Integer">
+		SELECT UR.id, UR.userId, UR.roleId, UR.scope, UR.entityId
+		FROM user_role UR
+		WHERE UR.userId = #{userId}
+	</select>
+	
+	<select id="selectRolesByUserIdAndScopeAndEntityId" resultMap="RoleMap" >
+		SELECT R.*
+		FROM role R, user_role UR
+		WHERE R.id = UR.roleId
+			AND UR.userId = #{userId}
+			AND UR.scope = #{scope}
+            AND UR.entityId = #{entityId}
+	</select>
+	
+	<select id="existsRolesByUserIdAndScopeAndEntityId"  resultType="java.lang.Boolean" >
+		SELECT count(*) > 0
+		FROM user_role UR
+		WHERE UR.userId = #{userId}
+			AND UR.scope = #{scope}
+            AND UR.entityId = #{entityId}
+	</select>	
+	
+	<select id="selectUserIdsByScopeAndEntityIdAndFilter" resultType="Integer" >
+		SELECT distinct U.id
+		FROM user U, user_role UR
+		WHERE U.id = UR.userId
+			AND UR.scope = #{scope}
+            AND UR.entityId = #{entityId}
+            <if test="nickName != null">
+            	AND U.nickName like ${nickName}
+            </if>
+             <if test="phoneNo !=null">  
+	          	AND U.phoneNo = #{phoneNo}  
+	         </if>
+	</select>
+	
+	<delete id="deleteByUserId" parameterType="Integer">
+		DELETE FROM user_role
+		WHERE userId = #{userId}
+	</delete>
+	
+	<select id="selectByRoleId" resultMap="UserRoleMap">
+		SELECT UR.id, UR.userId, UR.roleId, UR.scope, UR.entityId
+		FROM user_role UR
+		WHERE UR.roleId = #{roleId}
+	</select>
+	
+	<delete id="deleteByRoleId" parameterType="Integer">
+		DELETE FROM user_role
+		WHERE roleId = #{roleId}
+	</delete>
+	
+	<delete id="deleteByRoleIds">
+		DELETE FROM user_role
+		WHERE roleId in (
+			<foreach collection="list" item="roleId" index="index" open=""
+				close="" separator=",">
+				#{roleId}
+			</foreach>
+		)
+	</delete>
+	
+	<select id="selectByRoleIds" resultMap="UserRoleMap">
+		SELECT UR.id, UR.userId, UR.roleId, UR.scope, UR.entityId
+		FROM user_role UR
+		WHERE UR.roleId in (
+			<foreach collection="list" item="roleId" index="index" open=""
+				close="" separator=",">
+				#{roleId}
+			</foreach>
+		)
+	</select>
+	
+	
+</mapper>
+

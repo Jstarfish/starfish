@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.ecard.ECardTransferRecDao">
+	<resultMap id="ECardTransferRecMap" type="priv.starfish.mall.ecard.entity.ECardTransferRec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="cardId" property="cardId" jdbcType="INTEGER" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="cardCode" property="cardCode" jdbcType="VARCHAR" />
+		<result column="faceValue" property="faceValue" jdbcType="DECIMAL" />
+		<result column="userIdFrom" property="userIdFrom" jdbcType="INTEGER" />
+		<result column="userNameFrom" property="userNameFrom" jdbcType="VARCHAR" />
+		<result column="userPhoneFrom" property="userPhoneFrom"
+			jdbcType="VARCHAR" />
+		<result column="userIdTo" property="userIdTo" jdbcType="INTEGER" />
+		<result column="userNameTo" property="userNameTo" jdbcType="VARCHAR" />
+		<result column="userPhoneTo" property="userPhoneTo" jdbcType="VARCHAR" />
+		<result column="remainVal" property="remainVal" jdbcType="DECIMAL" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="ECardTransferRecMap"
+		parameterType="Integer">
+		SELECT ECTR.id, ECTR.cardId, ECTR.cardNo, ECTR.cardCode,
+		ECTR.faceValue, ECTR.userIdFrom,
+		ECTR.userNameFrom, ECTR.userPhoneFrom, ECTR.userIdTo,
+		ECTR.userNameTo,
+		ECTR.userPhoneTo, ECTR.remainVal, ECTR.ts
+		FROM
+		ecard_transfer_rec ECTR
+		WHERE ECTR.id =
+		#{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		ecard_transfer_rec(cardId, cardNo, cardCode, faceValue, userIdFrom,
+		userNameFrom,
+		userPhoneFrom, userIdTo, userNameTo,
+		userPhoneTo,
+		remainVal, ts)
+		VALUES(#{cardId},
+		#{cardNo},
+		#{cardCode},
+		#{faceValue},
+		#{userIdFrom},
+		#{userNameFrom},
+		#{userPhoneFrom},
+		#{userIdTo},
+		#{userNameTo},
+		#{userPhoneTo}, #{remainVal}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE ecard_transfer_rec
+		SET cardId = #{cardId} ,
+		cardNo = #{cardNo} ,
+		cardCode = #{cardCode} ,
+		faceValue = #{faceValue} ,
+		userIdFrom = #{userIdFrom}
+		,
+		userNameFrom =
+		#{userNameFrom} ,
+		userPhoneFrom = #{userPhoneFrom} ,
+		userIdTo =
+		#{userIdTo} ,
+		userNameTo =
+		#{userNameTo} ,
+		userPhoneTo =
+		#{userPhoneTo} ,
+		remainVal =
+		#{remainVal} ,
+		ts = #{ts}
+		WHERE id =
+		#{id}
+	</update>
+	<update id="updateForDelete">
+		UPDATE ecard_transfer_rec
+		SET deleted = #{deleted}
+		WHERE id =
+		#{id} AND userIdFrom = #{userIdFrom}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		ecard_transfer_rec
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="ECardTransferRecMap">
+		SELECT ECTR.id, ECTR.cardId, ECTR.cardNo, ECTR.cardCode,
+		ECTR.faceValue, ECTR.userIdFrom,
+		ECTR.userNameFrom,
+		ECTR.userPhoneFrom, ECTR.userIdTo,
+		ECTR.userNameTo,
+		ECTR.userPhoneTo,
+		ECTR.remainVal,
+		ECTR.ts
+		FROM
+		ecard_transfer_rec ECTR
+		WHERE (ECTR.deleted IS NULL OR ECTR.deleted = FALSE)
+		<if test="userIdFrom !=null and userIdFrom != ''">
+			AND ECTR.userIdFrom = #{userIdFrom}
+		</if>
+		<if test="userIdTo !=null and userIdTo != ''">
+			AND ECTR.userIdTo = #{userIdTo}
+		</if>
+		<if test="cardNo !=null and cardNo != ''">
+			AND ECTR.cardNo = #{cardNo}
+		</if>
+		order by ECTR.ts desc
+	</select>
+
+	<select id="selectByCardIdAndUserIdTo" resultMap="ECardTransferRecMap">
+		SELECT ECTR.id,
+		ECTR.cardId, ECTR.cardNo, ECTR.cardCode,
+		ECTR.faceValue, ECTR.userIdFrom,
+		ECTR.userNameFrom,
+		ECTR.userPhoneFrom, ECTR.userIdTo,
+		ECTR.userNameTo,
+		ECTR.userPhoneTo,
+		ECTR.remainVal,
+		ECTR.ts
+		FROM
+		ecard_transfer_rec ECTR
+		WHERE ECTR.userIdTo = #{userIdTo} AND ECTR.cardId = #{cardId} AND
+		(ECTR.deleted IS NULL OR ECTR.deleted = FALSE)
+	</select>
+</mapper>

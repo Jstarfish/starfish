@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.DistShopDao">
+	<resultMap id="DistShopMap" type="priv.starfish.mall.shop.entity.DistShop">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="countyId" property="countyId" jdbcType="INTEGER" />
+		<result column="townId" property="townId" jdbcType="INTEGER" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="idCertNo" property="idCertNo" jdbcType="VARCHAR" />
+		<result column="lng" property="lng" jdbcType="NUMERIC" />
+		<result column="lat" property="lat" jdbcType="NUMERIC" />
+		<result column="ownerShopId" property="ownerShopId" jdbcType="INTEGER" />
+		<result column="ownerShopName" property="ownerShopName" jdbcType="VARCHAR" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+		<result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+		<result column="auditTime" property="auditTime" jdbcType="TIMESTAMP" />
+		<result column="auditorId" property="auditorId" jdbcType="INTEGER" />
+		<result column="auditorName" property="auditorName" jdbcType="VARCHAR" />
+		<result column="auditorDesc" property="auditorDesc" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="DistShopMap" parameterType="Integer">
+		SELECT
+		DS.id, DS.name, DS.regionId, DS.regionName, DS.street,
+		DS.provinceId,
+		DS.cityId, DS.countyId, DS.townId, DS.address, DS.lng,
+		DS.lat,
+		DS.ownerShopId, DS.ownerShopName, DS.telNo, DS.phoneNo, DS.linkMan, DS.logoUuid,
+		DS.logoUsage, DS.logoPath, DS.regTime, DS.auditStatus, DS.auditTime,
+		DS.auditorId, DS.auditorName, DS.auditorDesc, DS.disabled,
+		DS.ts,
+		DS.realName, DS.idCertNo
+		FROM
+		dist_shop DS
+		WHERE DS.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		dist_shop(id, name, regionId, regionName, street, provinceId, cityId,
+		countyId, townId,
+		address, lng, lat, ownerShopId, ownerShopName, telNo, phoneNo,
+		linkMan, logoUuid,
+		logoUsage, logoPath, regTime, auditStatus,
+		auditTime, auditorId,
+		auditorName, `auditorDesc`, disabled, ts,
+		realName, idCertNo)
+		VALUES(#{id}, #{name}, #{regionId}, #{regionName},
+		#{street}, #{provinceId},
+		#{cityId},
+		#{countyId}, #{townId}, #{address},
+		#{lng}, #{lat},
+		#{ownerShopId}, #{ownerShopName},
+		#{telNo}, #{phoneNo}, #{linkMan},
+		#{logoUuid},
+		#{logoUsage},
+		#{logoPath}, #{regTime}, #{auditStatus},
+		#{auditTime},
+		#{auditorId},
+		#{auditorName}, #{auditorDesc}, #{disabled},
+		#{ts},#{realName},#{idCertNo})
+	</insert>
+	<update id="update">
+		UPDATE dist_shop
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="regionId != null">
+					regionId = #{regionId},
+				</if>
+				<if test="regionName != null">
+					regionName = #{regionName},
+				</if>
+				<if test="street != null">
+					street = #{street},
+				</if>
+				<if test="provinceId != null">
+					provinceId = #{provinceId},
+				</if>
+				<if test="cityId != null">
+					cityId = #{cityId},
+				</if>
+				<if test="countyId != null">
+					countyId = #{countyId},
+				</if>
+				<if test="townId != null">
+					townId = #{townId},
+				</if>
+				<if test="address != null">
+					address = #{address},
+				</if>
+				<if test="lng != null">
+					lng = #{lng},
+				</if>
+				<if test="lat != null">
+					lat = #{lat},
+				</if>
+				<if test="realName != null">
+					realName = #{realName},
+				</if>
+				<if test="idCertNo != null">
+					idCertNo = #{idCertNo},
+				</if>
+				<if test="ownerShopId != null">
+					ownerShopId = #{ownerShopId},
+				</if>
+				<if test="ownerShopName != null">
+					ownerShopName = #{ownerShopName},
+				</if>
+				<if test="telNo != null">
+					telNo = #{telNo},
+				</if>
+				<if test="phoneNo != null">
+					phoneNo = #{phoneNo},
+				</if>
+				<if test="linkMan != null">
+					linkMan = #{linkMan},
+				</if>
+				<if test="logoUuid != null">
+					logoUuid = #{logoUuid},
+				</if>
+				<if test="logoUsage != null">
+					logoUsage = #{logoUsage},
+				</if>
+				<if test="logoPath != null">
+					logoPath = #{logoPath},
+				</if>
+				<if test="regTime != null">
+					regTime = #{regTime},
+				</if>
+				<if test="auditStatus != null">
+					auditStatus = #{auditStatus},
+				</if>
+				<if test="auditTime != null">
+					auditTime = #{auditTime},
+				</if>
+				<if test="auditorId != null">
+					auditorId = #{auditorId},
+				</if>
+				<if test="auditorName != null">
+					auditorName = #{auditorName},
+				</if>
+				<if test="auditorDesc != null">
+					`auditorDesc` = #{auditorDesc},
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled},
+				</if>
+				<if test="ts != null">
+					ts = #{ts},
+				</if>
+					changeTime=CURRENT_TIMESTAMP
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM dist_shop
+		WHERE
+		id = #{id}
+	</delete>
+	<select id="selectDistShops" resultMap="DistShopMap">
+		SELECT
+		DS.id, DS.name, DS.regionId, DS.regionName, DS.street,
+		DS.provinceId,
+		DS.cityId, DS.countyId, DS.townId, DS.address, DS.lng,
+		DS.lat,
+		DS.ownerShopId, DS.ownerShopName, DS.telNo, DS.phoneNo, DS.linkMan, DS.logoUuid,
+		DS.logoUsage, DS.logoPath, DS.regTime, DS.auditStatus, DS.auditTime,
+		DS.auditorId, DS.auditorName, DS.auditorDesc, DS.disabled, DS.ts,
+		DS.realName, DS.idCertNo
+		FROM
+		dist_shop DS
+		WHERE 1=1
+		<if test="ownerShopId !=null">
+			AND DS.ownerShopId = #{ownerShopId}
+		</if>
+		<if test="name !=null and name != '' ">
+			AND DS.name like ${name}
+		</if>
+		<if test="regionName !=null and regionName != '' ">
+			AND DS.regionName like ${regionName}
+		</if>
+		<if test="disabled !=null and disabled != ''">
+			AND DS.disabled = #{disabled}
+		</if>
+		<if test="auditStatus !=null and auditStatus != ''">
+			AND DS.auditStatus = #{auditStatus}
+		</if>
+	</select>	
+	<update id="updateAsIndexed">
+		UPDATE dist_shop
+		SET indexTime = #{indexTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateChangeTime">
+		UPDATE dist_shop
+		SET changeTime = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	<select id="selectByLatestChanges" resultMap="DistShopMap">
+		SELECT	DS.*
+		FROM dist_shop DS
+		WHERE ( DS.indexTime is NULL ) OR ( DS.changeTime is NOT NULL AND  DS.changeTime > DS.indexTime )
+		ORDER by id
+	</select>
+</mapper>

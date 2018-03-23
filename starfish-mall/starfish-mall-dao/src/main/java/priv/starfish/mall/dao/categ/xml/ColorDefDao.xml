@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.ColorDefDao">
+	<resultMap id="ColorDefMap" type="priv.starfish.mall.categ.entity.ColorDef">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="expr" property="expr" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="ColorDefMap" parameterType="Integer">
+	    SELECT
+		CD.id, CD.name, CD.expr, CD.seqNo, CD.ts
+		FROM 
+		color_def CD
+		WHERE 
+		CD.id = #{id}
+	</select>
+	<select id="selectByName" resultMap="ColorDefMap">
+	    SELECT 
+	    CD.id, CD.name,CD.expr, CD.seqNo, CD.ts
+		FROM 
+		color_def CD
+		WHERE 
+		CD.name = #{name}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT
+		INTO
+		color_def(name, expr, seqNo, ts)
+		VALUES(#{name}, #{expr}, #{seqNo}, #{ts})
+	</insert>
+	<update id="update">
+	    UPDATE 
+	    color_def
+		SET name = #{name} ,
+		expr = #{expr} ,
+		seqNo = #{seqNo} ,
+		ts = #{ts}
+		WHERE 
+		id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+	    DELETE
+		FROM 
+		color_def
+		WHERE 
+		id = #{id}
+	</delete>
+	<select id="selectColorDefs" resultMap="ColorDefMap">
+	    SELECT 
+	    CD.id, CD.name,CD.expr, CD.seqNo, CD.ts
+		FROM 
+		color_def CD
+		WHERE 
+		1=1
+		<if test="name !=null and name != ''">
+			AND CD.name  like ${name}
+		</if>
+	</select>
+	<select id="selectByFilters" resultMap="ColorDefMap">
+	    SELECT 
+	    CD.id, CD.name,CD.expr, CD.seqNo, CD.ts
+		FROM 
+		color_def CD where 1=1 
+		<if test="null != names">
+			AND CD.name not in(
+				<foreach collection="names" item="item" index="index" open="" close="" separator=",">   
+        			#{item}    
+    			</foreach>
+			)
+		</if>
+		<if test="name !=null and name != ''">
+			AND CD.name  like ${name}
+		</if>
+		order by CD.seqNo desc, CD.ts desc
+	</select>
+	
+</mapper>

@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatDao">
+	<resultMap id="GoodsCatMap" type="priv.starfish.mall.categ.entity.GoodsCat">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="parentId" property="pId" jdbcType="INTEGER" />
+		<result column="idPath" property="idPath" jdbcType="VARCHAR" />
+		<result column="unit" property="unit" jdbcType="VARCHAR" />
+		<result column="weightUnit" property="weightUnit" jdbcType="VARCHAR" />
+		<result column="volumeUnit" property="volumeUnit" jdbcType="VARCHAR" />
+		<result column="hasSpec" property="hasSpec" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="leafFlag" property="leafFlag" jdbcType="BOOLEAN" />
+		<result column="minPrice" property="minPrice" jdbcType="DECIMAL" />
+		<result column="maxPrice" property="maxPrice" jdbcType="DECIMAL" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="GoodsCatMap" parameterType="Integer">
+		SELECT GC.id, GC.name, GC.level, GC.parentId, GC.idPath, GC.unit,
+		GC.weightUnit, GC.volumeUnit, GC.hasSpec, GC.seqNo, GC.leafFlag, GC.minPrice,
+		GC.maxPrice, GC.ts
+		FROM goods_cat GC
+		WHERE GC.id = #{id}
+	</select>
+	<select id="selectByNameAndLevel" resultMap="GoodsCatMap">
+		SELECT GC.id,
+		GC.name, GC.level, GC.parentId, GC.idPath, GC.unit,
+		GC.weightUnit, GC.volumeUnit, 
+		GC.hasSpec, GC.seqNo, GC.leafFlag, GC.minPrice,
+		GC.maxPrice, GC.ts
+		FROM
+		goods_cat GC
+		WHERE GC.name = #{name} AND GC.level = #{level}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		goods_cat(name, level, parentId, idPath, unit, weightUnit, volumeUnit,
+		hasSpec, seqNo, leafFlag,
+		minPrice, maxPrice, ts)
+		VALUES(#{name},
+		#{level}, #{parentId}, #{idPath}, #{unit}, #{weightUnit}, #{volumeUnit}, 
+		#{hasSpec},
+		#{seqNo}, #{leafFlag}, #{minPrice}, #{maxPrice}, #{ts})
+	</insert>
+	<update id="update">UPDATE goods_cat
+		SET name = #{name} ,
+		level = #{level} ,
+		parentId = #{parentId} ,
+		idPath = #{idPath} ,
+		unit = #{unit} ,
+		weightUnit = #{weightUnit} ,
+		volumeUnit = #{volumeUnit} ,
+		hasSpec = #{hasSpec} ,
+		seqNo = #{seqNo} ,
+		leafFlag = #{leafFlag} ,
+		minPrice = #{minPrice} ,
+		maxPrice = #{maxPrice} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM goods_cat
+		WHERE id = #{id}
+	</delete>
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM goods_cat WHERE id in (
+		<foreach collection="list" item="id" index="index" open=""
+			close="" separator=",">
+			#{id}
+		</foreach>
+		)
+	</delete>
+	<select id="selectByParentId" resultMap="GoodsCatMap"
+		parameterType="Integer">
+		SELECT GC.id, GC.name, GC.level, GC.parentId, GC.idPath,
+		GC.unit,
+		GC.weightUnit, GC.volumeUnit, 
+		GC.hasSpec, GC.seqNo, GC.minPrice, GC.maxPrice,
+		GC.ts
+		FROM goods_cat GC WHERE
+		GC.parentId = #{parentId}
+	</select>
+
+	<select id="selectByName" resultMap="GoodsCatMap" parameterType="String">
+		SELECT GC.id, GC.name, GC.level, GC.parentId, GC.idPath, GC.unit,
+		GC.weightUnit, GC.volumeUnit, 
+		GC.hasSpec, GC.seqNo, GC.minPrice, GC.maxPrice, GC.leafFlag, 
+		GC.ts,GC.parentId as pId
+		FROM
+		goods_cat GC
+		<where>
+			<trim prefix="And">
+				<if test="null != name and '' != name">
+					GC.name like ${name}
+				</if>
+			</trim>
+		</where>
+	</select>
+	<select id="selectByLevel" resultMap="GoodsCatMap"
+		parameterType="Integer">
+		SELECT GC.id, GC.name, GC.level, GC.parentId, GC.idPath, GC.leafFlag, 
+		GC.unit,
+		GC.weightUnit, GC.volumeUnit, 
+		GC.hasSpec, GC.seqNo, GC.minPrice, GC.maxPrice,
+		GC.ts
+		FROM goods_cat GC WHERE
+		GC.level = #{level}
+	</select>
+
+	<update id="updateLeafFlagById">
+		UPDATE goods_cat
+		SET leafFlag = #{leafFlag}
+		WHERE id = #{id}
+	</update>
+</mapper>

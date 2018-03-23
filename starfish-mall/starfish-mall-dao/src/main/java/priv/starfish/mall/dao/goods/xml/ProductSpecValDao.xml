@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.ProductSpecValDao">
+	<resultMap id="ProductSpecValMap" type="priv.starfish.mall.goods.entity.ProductSpecVal">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="specId" property="specId" jdbcType="INTEGER" />
+		<result column="specVal" property="specVal" jdbcType="VARCHAR" />
+		<result column="colorFlag" property="colorFlag" jdbcType="BOOLEAN" />
+		<result column="refCode" property="refCode" jdbcType="VARCHAR" />
+		<result column="specItemId" property="specItemId" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectById" resultMap="ProductSpecValMap"
+		parameterType="Long">SELECT PSV.id, PSV.goodsId, PSV.productId, PSV.specId,
+		PSV.specVal, PSV.colorFlag, PSV.refCode, PSV.specItemId
+		FROM
+		product_spec_val PSV
+		WHERE PSV.id = #{id}
+	</select>
+	<select id="selectByProductIdAndSpecId" resultMap="ProductSpecValMap">SELECT PSV.id,
+		PSV.goodsId, PSV.productId, PSV.specId, PSV.specVal, PSV.colorFlag,
+		PSV.refCode, PSV.specItemId
+		FROM product_spec_val PSV
+		WHERE
+		PSV.productId = #{productId}
+		AND PSV.specId = #{specId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		product_spec_val(goodsId, productId, specId, specVal, colorFlag,
+		refCode, specItemId)
+		VALUES(#{goodsId}, #{productId}, #{specId},
+		#{specVal}, #{colorFlag},
+		#{refCode}, #{specItemId})
+	</insert>
+	<update id="update">UPDATE product_spec_val
+		SET goodsId = #{goodsId} ,
+		productId = #{productId} ,
+		specId = #{specId} ,
+		specVal = #{specVal} ,
+		colorFlag = #{colorFlag} ,
+		refCode = #{refCode} ,
+		specItemId =
+		#{specItemId}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM
+		product_spec_val
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByProductIdAndGoodsId" resultMap="ProductSpecValMap">SELECT
+		PSV.id,
+		PSV.goodsId, PSV.productId, PSV.specId, PSV.specVal,
+		PSV.colorFlag,
+		PSV.refCode, PSV.specItemId
+		FROM product_spec_val PSV
+		WHERE PSV.productId = #{productId}
+		AND PSV.goodsId = #{goodsId}
+	</select>
+	<delete id="deleteByProductId" parameterType="Long">DELETE
+		FROM
+		product_spec_val
+		WHERE productId = #{productId}
+	</delete>
+
+	<delete id="deleteBySpecIds" parameterType="Long">
+		DELETE
+		FROM product_spec_val
+		WHERE specId in(
+		<foreach collection="list" item="specId" index="index" open=""
+			close="" separator=",">
+			#{specId}
+		</foreach>
+		)
+	</delete>
+	<delete id="deleteBySpecId" parameterType="Long">DELETE
+		FROM
+		product_spec_val
+		WHERE specId = #{specId}
+	</delete>
+	<select id="selectSpecItemIdsBySpecIdAndGoodsId" resultType="Integer">
+		SELECT
+		DISTINCT PSV.specItemId
+		FROM
+		product_spec_val PSV
+		WHERE
+		PSV.specId =
+		#{specId}
+		AND
+		PSV.goodsId = #{goodsId}
+	</select>
+
+	<select id="selectByProductId" resultMap="ProductSpecValMap"
+		parameterType="Long">SELECT PSV.id, PSV.goodsId, PSV.productId, PSV.specId,
+		PSV.specVal, PSV.colorFlag, PSV.refCode, PSV.specItemId
+		FROM
+		product_spec_val PSV
+		WHERE PSV.productId = #{productId}
+		order by PSV.refCode desc
+	</select>
+
+	<select id="selectRefCodeByGoodsId" resultType="String"
+		parameterType="Integer">
+		SELECT distinct PSV.refCode
+		FROM product_spec_val PSV
+		WHERE PSV.goodsId = #{goodsId}
+	</select>
+
+	<select id="selectSpecItemIdsByRefCodeAndGoodsId" resultType="Integer">
+		SELECT DISTINCT PSV.specItemId FROM product_spec_val PSV
+		WHERE
+		PSV.refCode = #{refCode} AND PSV.goodsId = #{goodsId}
+		ORDER BY
+		PSV.specItemId
+	</select>
+
+	<select id="selectRefCodeByIncludeProductIds" resultType="String">
+		SELECT distinct PSV.refCode
+		FROM product_spec_val PSV
+		WHERE productId in(
+		<foreach collection="list" item="productId" index="index" open=""
+			close="" separator=",">
+			#{productId}
+		</foreach>
+		)
+	</select>
+	
+	<select id="selectSpecItemIdsByRefCodeAndIncludeProductIds" resultType="Integer">
+		SELECT DISTINCT PSV.specItemId FROM product_spec_val PSV
+		WHERE
+		PSV.refCode = #{refCode} AND productId in(
+		<foreach collection="list" item="productId" index="index" open=""
+			close="" separator=",">
+			#{productId}
+		</foreach>
+		)
+		ORDER BY
+		PSV.specItemId
+	</select>
+</mapper>

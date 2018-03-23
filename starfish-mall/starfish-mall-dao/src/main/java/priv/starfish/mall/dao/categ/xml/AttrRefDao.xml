@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.AttrRefDao">
+	<resultMap id="AttrRefMap" type="priv.starfish.mall.categ.entity.AttrRef">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="enumFlag" property="enumFlag" jdbcType="BOOLEAN" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<result column="brandFlag" property="brandFlag" jdbcType="BOOLEAN"/>
+		<result column="multiFlag" property="multiFlag" jdbcType="BOOLEAN"/>
+	</resultMap>
+	
+	<select id="selectById" resultMap="AttrRefMap" parameterType="Integer">
+		SELECT AR.id, AR.code, AR.name, AR.type, AR.enumFlag, AR.desc, AR.seqNo, AR.ts, AR.brandFlag, AR.multiFlag
+		FROM attr_ref AR
+		WHERE AR.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="AttrRefMap">
+		SELECT AR.id, AR.code,AR.name, AR.type, AR.enumFlag, AR.desc, AR.seqNo, AR.ts, AR.brandFlag, AR.multiFlag
+		FROM attr_ref AR
+		WHERE AR.code = #{code}
+	</select>
+	
+	<select id="selectByName" resultMap="AttrRefMap">
+		SELECT AR.id, AR.code,AR.name, AR.type, AR.enumFlag, AR.desc, AR.seqNo, AR.ts, AR.brandFlag, AR.multiFlag
+		FROM attr_ref AR
+		WHERE AR.name = #{name}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO attr_ref(code, name, type, enumFlag, `desc`, seqNo, ts, brandFlag, multiFlag)
+		VALUES(#{code}, #{name}, #{type}, #{enumFlag}, #{desc}, #{seqNo}, #{ts}, #{brandFlag}, #{multiFlag})
+	</insert>
+	
+	<update id="update">
+		UPDATE attr_ref
+			SET code = #{code} ,
+			name = #{name} ,
+			type = #{type} ,
+			enumFlag = #{enumFlag} ,
+			`desc` = #{desc} ,
+			seqNo = #{seqNo} ,
+			ts = CURRENT_TIMESTAMP ,
+			brandFlag = #{brandFlag},
+			multiFlag = #{multiFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM attr_ref
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteBatch" parameterType="java.util.List">
+		DELETE FROM attr_ref 
+		WHERE id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+	
+	<select id="selectByfilter" resultMap="AttrRefMap">
+		SELECT AR.id, AR.code, AR.name, AR.type, AR.enumFlag, AR.desc,AR.seqNo,AR.ts, AR.brandFlag, AR.multiFlag
+		FROM attr_ref AR
+		WHERE 1=1
+		<if test="null != name and '' != name">
+			AND AR.name like ${name}
+		</if>
+		<if test="null != type and '' != type">
+			AND AR.type = #{type}
+		</if>
+		<if test="null != uncontains and '' != uncontains">
+			AND AR.id not in(
+				<foreach collection="uncontains" item="id" index="index" open="" close="" separator=",">   
+        			#{id}    
+    			</foreach>
+			)
+		</if>
+		ORDER BY AR.seqNo DESC, AR.ts DESC
+	</select>
+	
+	<select id="selectListByBrandFlagIsTrue" resultMap="AttrRefMap">
+		SELECT AR.id, AR.code, AR.name, AR.type, AR.enumFlag, AR.desc,AR.seqNo,AR.ts, AR.brandFlag, AR.multiFlag
+		FROM attr_ref AR
+		WHERE AR.brandFlag = TRUE
+	</select>
+	
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.GoodsIntroImgDao">
+	<resultMap id="GoodsIntroImgMap" type="priv.starfish.mall.goods.entity.GoodsIntroImg">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="GoodsIntroImgMap" parameterType="Long">
+		SELECT GII.id, GII.goodsId, GII.imageUuid, GII.imageUsage, GII.imagePath
+		FROM goods_intro_img GII
+		WHERE GII.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO goods_intro_img( goodsId, imageUuid, imageUsage, imagePath)
+		VALUES(#{goodsId}, #{imageUuid}, #{imageUsage}, #{imagePath})
+	</insert>
+	
+	<update id="update">
+		UPDATE goods_intro_img
+		SET goodsId = #{goodsId} ,
+			imageUuid = #{imageUuid} ,
+			imageUsage = #{imageUsage} ,
+			imagePath = #{imagePath}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE FROM goods_intro_img
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByGoodsId" resultMap="GoodsIntroImgMap" parameterType="Integer">
+		SELECT GII.id, GII.goodsId, GII.imageUuid, GII.imageUsage, GII.imagePath
+		FROM goods_intro_img GII
+		WHERE GII.goodsId = #{goodsId}
+	</select>
+	
+	<delete id="deleteByUuid" parameterType="String">
+		DELETE FROM goods_intro_img
+		WHERE imageUuid = #{uuid}
+	</delete>
+	
+	<delete id="deleteByGoodsId" parameterType="Integer">
+		DELETE FROM goods_intro_img
+		WHERE goodsId = #{goodsId}
+	</delete>
+</mapper>

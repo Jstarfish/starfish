@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.EcardActRuleDao">
+	<resultMap id="EcardActRuleMap" type="priv.starfish.mall.market.entity.EcardActRule">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="actId" property="actId" jdbcType="INTEGER" />
+		<result column="cardCode" property="cardCode" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="condType" property="condType" jdbcType="INTEGER" />
+		<result column="condValue" property="condValue" jdbcType="INTEGER" />
+		<result column="actType" property="actType" jdbcType="VARCHAR" />
+		<result column="firstTimeOnly" property="firstTimeOnly"
+			jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="EcardActRuleMap"
+		parameterType="Integer">SELECT EAR.id, EAR.actId, EAR.cardCode, EAR.condType,
+		EAR.condValue, EAR.actType, EAR.firstTimeOnly, EAR.seqNo, EAR.ts,
+		EAR.desc
+		FROM
+		ecard_act_rule EAR
+		WHERE EAR.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		ecard_act_rule(actId, cardCode, condType, condValue, actType,
+		firstTimeOnly, seqNo, ts, `desc`)
+		VALUES(#{actId}, #{cardCode},
+		#{condType},
+		#{condValue}, #{actType},
+		#{firstTimeOnly}, #{seqNo},
+		#{ts}, #{desc})
+	</insert>
+	<update id="update">
+		UPDATE ecard_act_rule
+		<set>
+			<trim suffixOverrides=",">
+				<if test="actId != null">
+					actId = #{actId},
+				</if>
+				<if test="cardCode != null">
+					cardCode = #{cardCode},
+				</if>
+				<if test="condType != null">
+					condType = #{condType},
+				</if>
+				<if test="condValue != null">
+					condValue = #{condValue},
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc},
+				</if>
+				<if test="actType != null">
+					actType = #{actType},
+				</if>
+				<if test="firstTimeOnly != null">
+					firstTimeOnly = #{firstTimeOnly},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM ecard_act_rule
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="EcardActRuleMap">
+		SELECT EAR.id, EAR.actId, EAR.cardCode, EAR.condType,
+		EAR.condValue,
+		EAR.actType, EAR.firstTimeOnly, EAR.seqNo, EAR.ts,EAR.desc
+		FROM
+		ecard_act_rule EAR,ecard_act EA
+		WHERE EAR.actId = EA.id
+		<if test="actId !=null">
+			AND EAR.actId = #{actId}
+		</if>
+		<if test="code !=null">
+			AND EA.deleted = false AND EA.disabled = false
+			AND DATE_FORMAT(now(),'%Y-%m-%d') &gt;= EA.startTime
+			AND (EA.endTime is null OR DATE_FORMAT(now(), '%Y-%m-%d') &lt;=EA.endTime)
+			AND EAR.cardCode = #{code}
+		</if>
+		<if test="firstTimeOnly !=null">
+			AND EAR.firstTimeOnly = #{firstTimeOnly}
+		</if>
+	</select>
+</mapper>

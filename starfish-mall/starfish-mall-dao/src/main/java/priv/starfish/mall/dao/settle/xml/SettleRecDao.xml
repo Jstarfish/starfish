@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.SettleRecDao">
+	<resultMap id="SettleRecMap" type="priv.starfish.mall.settle.entity.SettleRec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="peerType" property="peerType" jdbcType="INTEGER" />
+		<result column="peerId" property="peerId" jdbcType="INTEGER" />
+		<result column="peerName" property="peerName" jdbcType="VARCHAR" />
+		<result column="bankCode" property="bankCode" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="acctNo" property="acctNo" jdbcType="VARCHAR" />
+		<result column="acctName" property="acctName" jdbcType="VARCHAR" />
+		<result column="directFlag" property="directFlag" jdbcType="INTEGER" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="billExtra" property="billExtra" jdbcType="VARCHAR" />
+		<result column="operatorId" property="operatorId" jdbcType="INTEGER" />
+		<result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+		<result column="confirmed" property="confirmed" jdbcType="BOOLEAN" />
+		<result column="state" property="state" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="SettleRecMap" parameterType="Integer">SELECT
+		SR.id, SR.subject, SR.peerType, SR.peerId, SR.peerName, SR.bankCode,
+		SR.bankName, SR.acctNo, SR.acctName, SR.directFlag, SR.amount,
+		SR.billExtra, SR.operatorId, SR.operatorName, SR.confirmed, SR.state,
+		SR.ts
+		FROM settle_rec SR
+		WHERE SR.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		settle_rec(subject, peerType, peerId, peerName, bankCode, bankName, acctNo, acctName,
+		directFlag, amount, billExtra, operatorId, operatorName, confirmed,
+		state, ts)
+		VALUES(#{subject}, #{peerType}, #{peerId}, #{peerName}, #{bankCode}, #{bankName},
+		#{acctNo}, #{acctName}, #{directFlag}, #{amount}, #{billExtra},
+		#{operatorId}, #{operatorName}, #{confirmed}, #{state}, #{ts})
+	</insert>
+	<update id="update">UPDATE settle_rec
+		SET subject = #{subject} ,
+		peerType = #{peerType} ,
+		peerId = #{peerId} ,
+		peerName = #{peerName} ,
+		bankCode = #{bankCode} ,
+		bankName = #{bankName} ,
+		acctNo = #{acctNo} ,
+		acctName = #{acctName} ,
+		directFlag = #{directFlag} ,
+		amount = #{amount} ,
+		billExtra = #{billExtra} ,
+		operatorId = #{operatorId} ,
+		operatorName = #{operatorName} ,
+		confirmed = #{confirmed} ,
+		state = #{state} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM settle_rec
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByFilter" resultMap="SettleRecMap">
+		SELECT
+		SR.id, SR.subject, SR.peerType, SR.peerId, SR.peerName, SR.bankCode,
+		SR.bankName, SR.acctNo, SR.acctName, SR.directFlag, SR.amount,
+		SR.billExtra, SR.operatorId, SR.operatorName, SR.confirmed, SR.state,
+		SR.ts
+		FROM settle_rec SR
+        <where >
+		<if test="peerName !=null and peerName != ''">  
+          AND  SR.peerName  like ${peerName}  
+         </if>
+		</where>
+        order by SR.ts desc
+	</select>
+</mapper>	
+	

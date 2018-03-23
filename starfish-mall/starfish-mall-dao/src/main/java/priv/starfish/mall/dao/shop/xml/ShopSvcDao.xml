@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopSvcDao">
+	<resultMap id="ShopSvcMap" type="priv.starfish.mall.shop.entity.ShopSvc">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="svcName" property="svcName" jdbcType="VARCHAR" />
+		<result column="kindId" property="kindId" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="ShopSvcMap" parameterType="Long">SELECT
+		SS.id, SS.shopId, SS.svcId, SS.svcName, SS.kindId, SS.ts
+		FROM shop_svc
+		SS
+		WHERE SS.id = #{id}
+	</select>
+
+	<select id="selectByShopIdAndSvcId" resultMap="ShopSvcMap">SELECT SS.id,
+		SS.shopId, SS.svcId, SS.svcName, SS.kindId, SS.ts
+		FROM shop_svc SS
+		WHERE SS.shopId = #{shopId}
+		AND SS.svcId = #{svcId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		shop_svc(shopId, svcId, svcName, kindId, ts)
+		VALUES(#{shopId},
+		#{svcId}, #{svcName}, #{kindId}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE shop_svc
+		<set>
+			<trim suffixOverrides=",">
+				<if test="shopId != null">
+					shopId = #{shopId},
+				</if>
+				<if test="svcId != null">
+					svcId = #{svcId},
+				</if>
+				<if test="svcName != null">
+					svcName = #{svcName},
+				</if>
+				<if test="kindId != null">
+					kindId = #{kindId},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM shop_svc
+		WHERE
+		id = #{id}
+	</delete>
+
+	<select id="selectByShopIdAndSvcIds" parameterType="map"
+		resultMap="ShopSvcMap">
+		SELECT
+		SS.id, SS.shopId, SS.svcId, SS.svcName, SS.kindId, SS.ts
+		FROM
+		shop_svc SS WHERE
+		SS.shopId=#{shopId}
+		AND
+		SS.svcId IN
+		<foreach collection="svcIds" item="svcId" index="index" open="("
+			close=")" separator=",">
+			#{svcId}
+		</foreach>
+	</select>
+
+	<select id="selectByFilter" resultMap="ShopSvcMap">
+		SELECT
+		SS.id, SS.shopId, SS.svcId, SS.svcName, SS.kindId, SS.ts
+		FROM
+		shop_svc SS
+		<trim prefix="WHERE" prefixOverrides="AND" suffixOverrides=",">
+			<if test="name !=null and name != ''">
+				SS.svcName like ${name}
+			</if>
+			<if test="shopId !=null and shopId != ''">
+				AND SS.shopId = #{shopId}
+			</if>
+		</trim>
+		order by SS.ts desc
+	</select>
+
+	<delete id="deleteByShopIdAndSvcId">DELETE
+		FROM shop_svc
+		WHERE
+		shopId = #{shopId} AND svcId
+		= #{svcId}
+	</delete>
+	
+	<delete id="deleteBySvcId">DELETE
+		FROM shop_svc
+		WHERE svcId= #{svcId}
+	</delete>
+	
+	<select id="selectByShopId" resultMap="ShopSvcMap">
+		SELECT
+		SS.id, SS.shopId, SS.svcId, SS.svcName, SS.kindId, SS.ts
+		FROM shop_svc
+		SS
+		WHERE SS.shopId = #{shopId}
+	</select>
+</mapper>

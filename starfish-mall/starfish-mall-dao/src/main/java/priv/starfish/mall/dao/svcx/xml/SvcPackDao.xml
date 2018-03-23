@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.svcx.SvcPackDao">
+	<resultMap id="SvcPackMap" type="priv.starfish.mall.svcx.entity.SvcPack">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="kindId" property="kindId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="pubTime" property="pubTime" jdbcType="TIMESTAMP" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectById" resultMap="SvcPackMap" parameterType="Integer">SELECT
+		SP.id, SP.kindId, SP.name, SP.startTime, SP.endTime, SP.pubTime,
+		SP.imageUsage, SP.imageUuid, SP.imagePath, SP.desc, SP.seqNo,
+		SP.disabled, SP.deleted, SP.memo
+		FROM svc_pack SP
+		WHERE SP.id = #{id}
+	</select>
+	<select id="selectByKindIdAndName" resultMap="SvcPackMap">SELECT SP.id,
+		SP.kindId, SP.name, SP.startTime, SP.endTime, SP.pubTime,
+		SP.imageUsage, SP.imageUuid, SP.imagePath, SP.desc, SP.seqNo,
+		SP.disabled, SP.deleted, SP.memo
+		FROM svc_pack SP
+		WHERE SP.kindId =
+		#{kindId}
+		AND SP.name = #{name}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		svc_pack(kindId, name, startTime, endTime, pubTime, imageUsage,
+		imageUuid, imagePath,
+		`desc`, seqNo, disabled, deleted, memo)
+		VALUES(#{kindId}, #{name}, #{startTime}, #{endTime}, #{pubTime},
+		#{imageUsage},
+		#{imageUuid}, #{imagePath}, #{desc}, #{seqNo},
+		#{disabled},
+		#{deleted}, #{memo})
+	</insert>
+	<update id="update">
+		UPDATE svc_pack
+		<set>
+			<trim suffixOverrides=",">
+				<if test="kindId != null">
+					kindId = #{kindId},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="startTime != null">
+					startTime = #{startTime},
+				</if>
+				<if test="endTime != null">
+					endTime = #{endTime},
+				</if>
+				<if test="pubTime != null">
+					pubTime = #{pubTime},
+				</if>
+				<if test="imageUsage != null">
+					imageUsage = #{imageUsage},
+				</if>
+				<if test="imageUuid != null">
+					imageUuid = #{imageUuid},
+				</if>
+				<if test="imagePath != null">
+					imagePath = #{imagePath},
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted},
+				</if>
+				<if test="memo != null">
+					memo = #{memo}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM svc_pack
+		WHERE
+		id = #{id}
+	</delete>
+
+	<select id="selectByFilter" resultMap="SvcPackMap">
+		SELECT
+		SP.id, SP.kindId, SP.name, SP.startTime, SP.endTime, SP.pubTime,
+		SP.imageUsage, SP.imageUuid, SP.imagePath, SP.desc, SP.seqNo,
+		SP.disabled, SP.deleted, SP.memo
+		FROM svc_pack SP
+		<where>
+			SP.deleted=false
+			<if test="name !=null and name != ''">
+				AND SP.name like ${name}
+			</if>
+			<if test="disabled != null">
+				AND SP.disabled = ${disabled}
+			</if>
+			<if test="isValidTime != null and isValidTime==true">
+  				 <![CDATA[AND NOW()>=starttime AND NOW()<=endTime]]>
+  			</if>
+		</where>
+		order by SP.seqNo desc
+	</select>
+</mapper>
