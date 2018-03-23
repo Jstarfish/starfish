@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- Standard Meta -->
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+		<!-- Vendor Specific -->
+		<!-- Set renderer engine for 360 browser -->
+		<meta name="renderer" content="webkit">
+
+		<!-- Cache Meta -->
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+
+		<!-- Style Sheet -->
+		<link rel="stylesheet" href="lib/jquery/jquery-ui.css" />
+		<link rel="stylesheet" href="lib/qtip/jquery.qtip.css" />
+		<link rel="stylesheet" href="lib/jquery/jquery.timepicker.css" />
+		<link rel="stylesheet" href="lib/layout/layout-default.css" />
+		<link rel="stylesheet" href="lib/jqgrid/css/jquery.jqgrid.css">
+		<link rel="stylesheet" href="css/common/basic.css" />
+		<link rel="stylesheet" href="css/libext/jquery.ext.css" />
+		<link rel="stylesheet" href="lib/jquery/jquery.datetimepicker.css" />
+
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="js/html5/html5shiv.js"></script>
+		<![endif]-->
+
+		<!-- script here -->
+		<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+		<script type="text/javascript" src="lib/qtip/jquery.qtip.js"></script>
+		<script type="text/javascript" src="lib/layout/jquery.layout.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.timepicker.js"></script>
+		<script type="text/javascript" src="lib/jqgrid/js/jquery.jqgrid.js"></script>
+		<script type="text/javascript" src="lib/jqgrid/js/jquery.jqgrid.locale-cn.js"></script>
+		<script type="text/javascript" src="lib/layer/layer.js"></script>
+		<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+		<script type="text/javascript" src="js/common/laytpl.js"></script>
+		<script type="text/javascript" src="js/common/common.js"></script>
+		<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+		<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.datetimepicker.js"></script>
+		<script type="text/javascript" src="js-app/app.js"></script>
+
+		<title>订单状态转换-示例</title>
+
+		<style type="text/css">
+			.blue.color {
+				color: blue;
+			}
+			.red.color {
+				color: red;
+			}
+			.purple.color {
+				color: purple;
+			}
+			.even.row {
+				background-color: #FFF4EA;
+			}
+			fieldset {
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+			.right {
+				float: right;
+				margin-right: 15px;
+			}
+		</style>
+	</head>
+
+	<body id="rootPanel">
+		<br>
+		&nbsp;
+		<button class="normal button" id="btnToSubmit">
+			提交订单
+		</button>
+		<button class="normal button" id="btnToClose" onclick="updateOrderClosed()">
+			关闭订单
+		</button>
+		<span class="right">
+			<span>支付方式：</span>
+			<span id="paymethod">未指定</span>
+		</span>
+		<br/>
+		<br/>
+		<div class="form" id="orderState">
+			<fieldset>
+				<legend>买家</legend>
+				<div class="field row">
+					<label class="field label">订单状态：</label>
+					<span>未提交</span>
+				</div>
+				<div class="field row">
+					<label class="field label">操作：</label>
+				</div>
+			</fieldset>
+			<br/>
+			<br/>
+			<fieldset>
+				<legend>商家</legend>
+				<div class="field row">
+					<label class="field label">订单状态：</label>
+					<span>未提交</span>
+				</div>
+				<div class="field row">
+					<label class="field label">操作：</label>
+				</div>
+			</fieldset>
+			<br/>
+			<br/>
+			<fieldset>
+				<legend>平台</legend>
+				<div class="field row">
+					<label class="field label">订单状态：</label>
+					<span>未提交</span>
+				</div>
+				<div class="field row">
+					<label class="field label">操作：</label>
+				</div>
+			</fieldset>
+			<br/>
+			<br/>
+			<fieldset>
+				<legend>系统</legend>
+				<div class="field row">
+					<label class="field label">订单状态：</label>
+					<span>未提交</span>
+				</div>
+				<div class="field row">
+					<label class="field label">操作：</label>
+				</div>
+			</fieldset>
+		</div>
+		
+		<div class="form" id="orderDlg" style="display: none;">
+			<div class="field row">
+				<label class="field label">支付方式：</label>
+				<div class="field group">
+					<input id="paymethod-online" type="radio" name="paymethod" value="online" />
+					<label for="paymethod-online">在线支付</label>
+					<input id="paymethod-offline" type="radio" name="paymethod" value="offline" />
+					<label for="paymethod-offline">货到付款</label>
+				</div>
+			</div>
+		</div>
+		<br/>
+		<br/>
+		<br/>
+
+		<script type="text/javascript">
+		
+		// OrderState类定义
+		function OrderState(method) {
+			// 支付方式，包括："online","offline"
+			this.payMethod = method;
+			// 订单支付状态，包括:"unpaid","paid","refundApplied","refunded"
+			this.payState = "unpaid";
+			// 订单物流状态，包括:"unfilled","delivered","goodsReceived","returnsApplied","returnsAgreed","returnsReceived"
+			this.distState = "unfilled";
+			// 订单已取消标记
+			this.cancelled = false;
+			// 订单已关闭标记
+			this.closed = false;
+
+			return this;
+		}
+
+		// OrderStateEngine类定义
+		function OrderStateEngine(json) {
+			// 订单处理规则
+			var rule = json;
+
+			// OrderStateEngine类的公共方法：获取指定订单状态下的角色和订单状态转换路径对象
+			OrderStateEngine.prototype.getRoleTranses = function(orderState) {
+				var roleTranses = rule[orderState.payMethod][orderState.cancelled][orderState.payState][orderState.distState];
+				return roleTranses;
+			}
+
+			// OrderStateEngine类的公共方法：执行订单状态转换
+			OrderStateEngine.prototype.processTrans = function(trans, orderState) {
+				var result = null;
+				
+				// 订单状态中的关闭标识为true时，所有对订单的操作均无效
+				if (orderState.closed) {
+					// 订单已关闭，所有操作无效
+					return result;
+				}
+				
+				if (judgeCondition(trans.condition)) {
+					if (executeAction(trans.type, trans.action.name)) {
+						result = transState(trans.type, trans.action.result, orderState);
+					}
+				}
+
+				return result;
+			}
+
+			// 判断指定状态转换的条件是否满足
+			function judgeCondition(condition) {
+				// TODO：此处应添加针对条件表达式判断处理的业务逻辑，本Demo只展示订单状态的转变，所以此方法不做实现
+				return true;
+			}
+
+			// 执行指定行为，成功返回true，失败返回false
+			function executeAction(transType, actionName) {
+				// TODO：此处应添加不同订单处理动作对应的业务逻辑，本Demo只展示订单状态的转变，所以此方法不做实现
+				return true;
+			}
+
+			// 执行订单状态的转换
+			function transState(transType, result, orderState) {
+				if (transType == "pay") {
+					orderState.payState = result;
+				} else if (transType == "distribute") {
+					orderState.distState = result;
+				} else if (transType == "cancelled") {
+					orderState.cancelled = result;
+				} else {
+					console.log("无法识别的resultType：" + resultType);
+					return null;
+				}
+
+				return result;
+			}
+
+			return this;
+		}
+
+		// 用于判断弹出对话框的类型
+		var curAction = null;
+		// 全局的对话框对象
+		var jqDlgDom = null;
+		// 全局的订单状态记录对象
+		var state = null;
+		// 全局的订单状态引擎对象
+		var engine = null;
+		// 用户角色
+		var userRoleDesc = {
+			"consumer" : "买家",
+			"merchant" : "商家",
+			"platform" : "平台",
+			"system" : "系统"
+		};
+		// 订单状态转换条件判断表达式中可能涉及的变量，正常情况可能由后台传入；
+		var vars = {};
+
+		// 刷新单个Fieldset中的内容
+		function renderFieldsets(roleTranses) {
+			// 获取模板内容
+			var tplHtml = $id("fieldsetTpl").html();
+
+			// 生成/编译模板
+			var htmlTpl = laytpl(tplHtml);
+
+			// 根据模板和数据生成最终内容
+			var htmlText = htmlTpl.render(roleTranses);
+
+			// 使用生成的内容
+			$id("orderState").html(htmlText);
+		}
+		
+		function updateOrderClosed() {
+			// 未提交订单时，操作无效
+			if (state == null) {
+				return;
+			}
+			
+			if (!state.closed) {
+				state.closed = true;
+				$id("btnToClose").html("开启订单")
+				renderFieldsets(engine.getRoleTranses(state));
+			} else {
+				state.closed = false;
+				$id("btnToClose").html("关闭订单")
+				renderFieldsets(engine.getRoleTranses(state));
+			}
+		}
+
+		// 在页面右上角显示当前支付方式
+		function showPayMethod(method) {
+			if (method == "online") {
+				$id("paymethod").html("在线支付");
+			} else if (method == "offline") {
+				$id("paymethod").html("货到付款");
+			} else {
+				console.log("无法识别的resultValue：" + method);
+			}
+		}
+		
+		// 打开生成订单对话框
+		function openSubmitDlg() {
+			curAction = "submit";
+			toShowTheDlg();
+		}
+
+		function initTheDlgCtrls() {
+			// 重置控件值
+			radioSet("paymethod", 'online');
+		}
+
+		// （真正）显示对话框
+		function toShowTheDlg() {
+			//
+			var theDlgId = "orderDlg";
+			jqDlgDom = $id(theDlgId);
+			// 对话框配置
+			var dlgConfig = {
+				width : Math.min(380, $window.width()),
+				height : Math.min(200, $window.height()),
+				modal : true,
+				open : false
+			};
+			//
+			if (curAction == "submit") {
+				dlgConfig.title = "提交订单";
+				dlgConfig.buttons = {
+					"提交" : function() {
+						// TODO:保存用户选择的支付方式并生成订单
+						method = radioGet("paymethod");
+						state = new OrderState(method);
+						renderFieldsets(engine.getRoleTranses(state));
+						showPayMethod(method);
+						$(this).dialog("close");
+					},
+					"取消" : function() {
+						$(this).dialog("close");
+					}
+				};
+			}
+
+			jqDlgDom.dialog(dlgConfig);
+
+			initTheDlgCtrls();
+		}
+
+		// 模板中的button对应的onclicked响应函数
+		function processTrans(userRole, btnIndex) {
+			var trans = engine.getRoleTranses(state)[userRole].trans[btnIndex];
+			engine.processTrans(trans, state);
+			renderFieldsets(engine.getRoleTranses(state));
+		}
+
+		$(function() {
+			// 订单状态处理规则JSON描述实例，目前状态还不全，只作演示使用
+			var jsonRule = {
+				"online" : {
+					"false" : {
+						"unpaid" : {
+							"unfilled" : {
+								"consumer" : {
+									"state" : "待支付",
+									"trans" : [ {
+										"type" : "pay",
+										"condition" : "",
+										"action" : {
+											"name" : "pay",
+											"label" : "支付",
+											"result" : "paid"
+										}
+									}, {
+										"type" : "cancelled",
+										"condition" : "",
+										"action" : {
+											"name" : "cancel",
+											"label" : "取消订单",
+											"result" : "true"
+										}
+									} ]
+								},
+								"merchant" : {
+									"state" : "待支付",
+									"trans" : []
+								},
+								"platform" : {
+									"state" : "待支付",
+									"trans" : []
+								},
+								"system" : {
+									"state" : "待支付",
+									"trans" : []
+								}
+							}
+						},
+						"paid" : {
+							"unfilled" : {
+								"consumer" : {
+									"state" : "待发货",
+									"trans" : [ {
+										"type" : "cancelled",
+										"condition" : "",
+										"action" : {
+											"name" : "cancel",
+											"label" : "取消订单",
+											"result" : "true"
+										}
+									} ]
+								},
+								"merchant" : {
+									"state" : "待发货",
+									"trans" : [ {
+										"type" : "distribute",
+										"condition" : "",
+										"action" : {
+											"name" : "deliver",
+											"label" : "发货",
+											"result" : "delivered"
+										}
+									} ]
+								},
+								"platform" : {
+									"state" : "待发货",
+									"trans" : []
+								},
+								"system" : {
+									"state" : "待发货",
+									"trans" : []
+								}
+							}
+						}
+					},
+					"true" : {
+						"unpaid" : {
+							"unfilled" : {
+								"consumer" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"merchant" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"platform" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"system" : {
+									"state" : "已取消",
+									"trans" : []
+								}
+							}
+						},
+						"paid" : {
+							"unfilled" : {
+								"consumer" : {
+									"state" : "已取消",
+									"trans" : [ {
+										"type" : "pay",
+										"condition" : "",
+										"action" : {
+											"name" : "applyForRefund",
+											"label" : "申请退款",
+											"result" : "refundApplied"
+										}
+									} ]
+								},
+								"merchant" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"platform" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"system" : {
+									"state" : "已取消",
+									"trans" : []
+								}
+							}
+						}
+					}
+				},
+				"offline" : {
+					"false" : {
+						"unpaid" : {
+							"unfilled" : {
+								"consumer" : {
+									"state" : "待发货",
+									"trans" : [ {
+										"type" : "cancelled",
+										"condition" : "",
+										"action" : {
+											"name" : "cancel",
+											"label" : "取消订单",
+											"result" : "true"
+										}
+									} ]
+								},
+								"merchant" : {
+									"state" : "待发货",
+									"trans" : [ {
+										"type" : "distribute",
+										"condition" : "",
+										"action" : {
+											"name" : "deliver",
+											"label" : "发货",
+											"result" : "delivered"
+										}
+									} ]
+								},
+								"platform" : {
+									"state" : "待发货",
+									"trans" : []
+								},
+								"system" : {
+									"state" : "待发货",
+									"trans" : []
+								}
+							}
+						}
+					},
+					"true" : {
+						"unpaid" : {
+							"unfilled" : {
+								"consumer" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"merchant" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"platform" : {
+									"state" : "已取消",
+									"trans" : []
+								},
+								"system" : {
+									"state" : "已取消",
+									"trans" : []
+								}
+							}
+						}
+					}
+				}
+			}
+
+			// 初始化全局变量
+			curAction = "submit";
+			engine = new OrderStateEngine(jsonRule);
+
+			// 初始化控件数据、行为
+			$id("btnToSubmit").click(openSubmitDlg);
+		});
+		</script>
+	</body>
+	<script type="text/html" id="fieldsetTpl">
+		{{# var roleTranses = d; }}
+		{{# for(var role in roleTranses) {  }}
+		<fieldset>
+		<legend>{{ userRoleDesc[role] }}</legend>
+			<div class="field row">
+				<label class="field label">订单状态：</label>
+				<span>{{ state.closed ? "已关闭" : roleTranses[role].state }}</span>
+			</div>
+			<div class="field row">
+				<label class="field label">操作：</label>
+				{{# var transes = roleTranses[role].trans; }}
+				{{# for(var i = 0, len = transes.length; i < len && !state.closed ; i++) {  }}
+				<button class="normal button" onclick="processTrans('{{ role }}', {{ i }})">{{ transes[i].action.label }}</button>
+				{{# } }}
+			</div>
+		</fieldset>
+		<br/>
+		<br/>
+		{{# } }}
+	</script>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div id="menu"></div>
+	<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+	<script type="text/javascript" src="lib/layer/layer.js"></script>
+	<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" src="js/common/laytpl.js"></script>
+	<script type="text/javascript" src="js/common/common.js"></script>
+	<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+	<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+	<script type="text/javascript">
+		function getDlgResult() {
+			return $id("name").val();
+		}
+
+		var urlParams = extractUrlParams();
+		var dlgArgName = urlParams.__dlgArgName;
+		if (dlgArgName) {
+			var dlgArgValue = getHostWindow().getSubDlgArg(dlgArgName);
+			console.log(dlgArgValue);
+			document.write("父窗口传过来的数据：" + JSON.encode(dlgArgValue));
+
+		}
+
+		$(function() {
+			//$id("menus").html(menus);
+		});
+	</script>
+	<p>
+		<strong><label>给父窗口传值：</label></strong><input id="name" />
+	</p>
+</body>
+</html>

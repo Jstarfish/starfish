@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="css-app/main.css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+    <title>提交订单</title>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="topbar">
+    <div class="page-width clearfix">
+        <ul id="district" class="quick-menu">
+            <li class="nLi dropdown menu-district"><a href=""><img src="image-app/district.png" alt=""/><span>北京</span><i></i></a>
+                <em></em>
+                <div class="sub">
+                    <ul class="sub-content">
+                        <li><a class="selected" href="">北京</a></li>
+                        <li><a href="">上海</a></li>
+                        <li><a href="">天津</a></li>
+                        <li><a href="">重庆</a></li>
+                        <li><a href="">河北</a></li>
+                        <li><a href="">山西</a></li>
+                    </ul>
+                </div>
+            </li>
+            <!--<li class="nLi munu-none"><span>全国330城市已覆盖，10000家加盟店</span></li>-->
+            <li class="nLi"><a href=""><span>代理商加盟</span>|</a></li>
+            <li class="nLi"><a href=""><span>店铺加盟</span></a></li>
+        </ul>
+        <ul id="quick-menu" class="quick-menu">
+            <li class="nLi"><a href="#"><span>请登录</span>|</a></li>
+            <li class="nLi"><a href=""><span>免费注册</span>|</a></li>
+            <li class="nLi"><a href=""><span>用户中心</span>|</a></li>
+            <li class="nLi cart"><a href=""><span>购物车（<b>0</b>）</span></a></li>
+        </ul>
+        <div class="user-entry">
+            <span class="welcome">你好，<span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span>，欢迎来到<a href="#">车车车</a><span class="reg-quit">[<a href="#">退出</a>]</span></span>
+        </div>
+    </div>
+</div>
+<div class="header">
+    <div class="page-width">
+        <a class="logo" href="#"><img src="image/logo.png" alt="车logo" /></a>
+        <div class="search-section">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="服务、户外用品名称、品牌、零件号"><input class="btn search-btn" type="button" value="搜索" />
+            </div>
+            <div class="search-keyword">
+                热门搜索：<a href="#">洗车</a>|<a href="#">户外用品</a>|<a href="#">XX品牌</a>
+            </div>
+        </div>
+        <div class="coverage">
+            亿投车吧已向全国330城市开放10000余家安装门店，<a class="anormal" href="">了解详情&gt;&gt;</a>
+        </div>
+    </div>
+</div>
+<div class="navbar">
+    <div class="page-width">
+        <ul id="nav" class="nav">
+            <li class="nLi fast-channel">
+                <h3><a href="">(闪电符)快速通道</a></h3>
+                <ul class="sub">
+                    <li class="first"><a href="#">车品超市</a></li>
+                    <li><a href="#">车品保养</a></li>
+                </ul>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">首页</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车品超市</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车辆保养</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">线下门店</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车友分享</a></h3>
+            </li>
+            <li class="nLi dropdown appdown">
+                <h3><a href="#"><img src="image-app/appdown.png" />下载APP</a></h3>
+                <ul class="sub">
+                    <li>
+                        <img src="image-app/temp/qr-code.jpg" alt="下载APP"/>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <div class="page-width">
+        <ul class="steps">
+            <li class="actived"><i>1</i><span>我的购物车</span><em></em></li>
+            <li class="actived"><i>2</i><span>填写核对订单</span><em></em></li>
+            <li class="end"><i>3</i><span>订单提交成功</span></li>
+        </ul>
+        <div class="mod-main2">
+            <div class="mod-main2-tit">
+                <h1>填写核对订单</h1>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">商品详情</h1>
+                <div class="cart-detail-con1">
+                <table class="order-td shopping-td">
+                    <thead>
+                    <tr>
+                        <th>
+                            服务类型
+                        </th>
+                        <th class="has-inner-table">
+                            <table>
+                                <tr>
+                                    <th>商品</th>
+                                    <th width="80">亿投车吧单</th>
+                                    <th width="160">数量</th>
+                                </tr>
+                            </table>
+                        </th>
+                        <th>服务费</th>
+                        <th>小计（元）</th>
+                        <th>状态</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="title">
+                        <th>
+                            保养服务
+                        </th>
+                        <th>
+                            &nbsp;
+                        </th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            洗车服务
+                        </td>
+                        <td class="has-inner-table">
+                            <table class="inner-table">
+                                <tr>
+                                    <td>
+                                        <dl class="goods-item">
+                                            <dt><a href="">润滑油</a></dt>
+                                            <dd class="text"><a href="">嘉实多/Castrol 磁护半合成机油 5W-40 SN/CF级（4L装）</a></dd>
+                                        </dl>
+                                    </td>
+                                    <td width="80">¥49.00</td>
+                                    <td width="160">
+                                        1
+                                    </td>
+                                </tr>
+                                <tr class="last">
+                                    <td>
+                                        <dl class="goods-item">
+                                            <dt><a href="">润滑油</a></dt>
+                                            <dd class="text"><a href="">嘉实多/Castrol 磁护半合成机油 5W-40 SN/CF级（4L装）</a></dd>
+                                        </dl>
+                                    </td>
+                                    <td width="80">¥49.00</td>
+                                    <td width="160">
+                                        1
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>
+                            <div class="price1">10.00<a class="tip3" href="javascript:void(0)" title="此服务具体收费情况"></a></div>
+                        </td>
+                        <td><div class="price1">¥49.00</div></td>
+                        <td>提供此服务</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="text-left">
+                                <label class="mr20"><input type="checkbox" /> 洗车服务</label>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="goods-none">您所选保养服务只有服务，无具体产品</div>
+                        </td>
+                        <td>
+                            <div class="price1">10.00<a class="tip3" href="javascript:void(0)" title="此服务具体收费情况"></a></div>
+                        </td>
+                        <td><div class="price1">¥49.00</div></td>
+                        <td>有货</td>
+                    </tr>
+                    </tbody>
+                    <tbody>
+                    <tr class="title">
+                        <th>
+                            <div class="text-left">
+                                <label class="mr20"><input type="checkbox" /> 车品超市</label>
+                            </div>
+                        </th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="text-left">
+                                <label class="mr20"><input type="checkbox" /> 自选</label>
+                            </div>
+                        </td>
+                        <td>&nbsp;</td>
+                        <td>
+                            <div class="price1">10.00<a class="tip3" href="javascript:void(0)" title="此服务具体收费情况"></a></div>
+                        </td>
+                        <td>0.00</td>
+                        <td><a class="delete disabled"></a></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">安装门店<input class="btn btn-w100h24 ml20" type="button" value="选择 &gt;" /></h1>
+                <div class="cart-detail-con">
+                    <div class="ml50">门店详细地址</div>
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">预约时间</h1>
+                <div class="cart-detail-con">
+                    <div class="ml50"><input class="inputx inputx-h26" type="text" placeholder="年/月/日" /></div>
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">联系人信息</h1>
+                <div class="cart-detail-con clearfix">
+                    <div class="fl">
+                        <dl class="labels">
+                            <dt><label class="label required">联系人姓名：</label></dt>
+                            <dd><input class="inputx inputx-h26" type="text" placeholder="" /></dd>
+                        </dl>
+                        <dl class="labels">
+                            <dt><label class="label required">手机号码：</label></dt>
+                            <dd><input class="inputx inputx-h26" type="text" placeholder="" /></dd>
+                        </dl>
+                    </div>
+                    <div class="fl">
+                        <span class="tip-login">
+                            <a class="red" href="">登录</a> 下单更快捷
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">配送方式</h1>
+                <div class="cart-detail-con">
+                    <dl class="labels">
+                        <dt><label class="label required">配送方式：</label></dt>
+                        <dd><input class="inputx inputx-h26" type="text" placeholder="店铺自提" /></dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">支付及其它</h1>
+                <div class="cart-detail-con">
+                    <dl class="labels">
+                        <dt><label>优惠券：</label></dt>
+                        <dd><a class="red" href="">登录</a> 后查看是否有优惠券</dd>
+                    </dl>
+                    <dl class="labels">
+                        <dt><label>支付方式：</label></dt>
+                        <dd>
+                            <div class="checkbox-analog">
+                                <a class="mr20 active" href="javascript:;"><img src="image-app/unionpay.jpg"><i></i></a>
+                                <a href="javascript:;"><img src="image-app/alipay.jpg"><i></i></a>
+                            </div>
+                        </dd>
+                    </dl>
+                    <dl class="labels">
+                        <dt><label>优惠券：</label></dt>
+                        <dd><a class="red" href="">登录</a> 后查看是否有优惠券</dd>
+                    </dl>
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">预约时间</h1>
+                <div class="cart-detail-con">
+                    <input class="inputx inputx-h26" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">预约时间</h1>
+                <div class="cart-detail-con">
+                    <input class="inputx inputx-h26" type="text" placeholder="" />
+                </div>
+            </div>
+            <div class="cart-detail">
+                <h1 class="cart-detail-tit">预约时间</h1>
+                <div class="cart-detail-con">
+                    <input class="inputx inputx-h26" type="text" placeholder="" />
+                </div>
+            </div>
+
+        <div class="shopping-info">
+            <p>共 <span class="red">18</span>件 商品总价: <span class="red">¥2261.00</span></p>
+            <p>亿投车吧门店（<a class="anormal" href="">安装及费用标准说明</a>）<span>点击查看安装费明细<a class="tip3" href="javascript:void(0)" title="此服务具体收费情况"></a></span> 服务费: <span class="red">¥224.00</span></p>
+        </div>
+        </div>
+    </div>
+    <div class="cart-toolbar">
+        <div class="page-width">
+            <div class="cart-select ele-vlmiddle">
+                <label class="mr20"><input type="checkbox" /> 全选</label> <a class="anormal" href="">删除</a>
+            </div>
+            <div class="fr">
+                <span class="total-price">合计金额： <span class="red">¥4999.00</span></span>
+                <input class="btn btn-h50" type="button" value="下一步" />
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="page-width">
+        <ul class="guide">
+            <li><h3>新手帮助</h3>
+                <ul>
+                    <li><a href="">用户手册</a></li>
+                    <li><a href="">用户购买流程</a></li>
+                    <li><a href="">商品提货流程</a></li>
+                </ul>
+            </li>
+            <li><h3>常见问题</h3>
+                <ul>
+                    <li><a href="">退款说明</a></li>
+                    <li><a href="">发票说明</a></li>
+                </ul>
+            </li>
+            <li><h3>协议与保障</h3>
+                <ul>
+                    <li><a href="">服务品质保障</a></li>
+                    <li><a href="">产品正品保障</a></li>
+                    <li><a href="">产品保修</a></li>
+                </ul>
+            </li>
+            <li class="footer-map">
+                <div class="coverage">
+                    亿投车吧已向全国330城市开放10000余家安装门店，覆盖规模迅速扩大中；<br /><a class="anormal" href="">了解详情&gt;&gt;</a><br /><a class="anormal" href="">加盟店入驻&gt;&gt;</a>
+                </div>
+            </li>
+            <li><h3>联系我们</h3>
+                <ul>
+                    <li><a href="">亿投车吧网站介绍</a></li>
+                    <li><a href="">广告与市场合作</a></li>
+                    <li><a href="">招贤纳士</a></li>
+                    <li><a href="">联系电话：<br/>400890897</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="footer-con">
+        <p>Copyright©2015-2020 shopnc Inc.,All rights reserved.</p>
+        <p>Powered by <a href="http://www.raiserswin.com/">融芯思联</a> 冀ICP备15008449号</p>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript" src="js-app/main.js"></script>
+</body>
+</html>

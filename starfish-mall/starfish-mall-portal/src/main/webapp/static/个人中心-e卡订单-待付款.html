@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="css-app/main.css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+    <title>e卡订单-待付款</title>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="topbar">
+    <div class="page-width clearfix">
+        <ul id="district" class="quick-menu">
+            <li class="nLi dropdown menu-district"><a href=""><img src="image-app/district.png" alt=""/><span>北京</span><i></i></a>
+                <em></em>
+                <div class="sub">
+                    <ul class="sub-content">
+                        <li><a class="selected" href="">北京</a></li>
+                        <li><a href="">上海</a></li>
+                        <li><a href="">天津</a></li>
+                        <li><a href="">重庆</a></li>
+                        <li><a href="">河北</a></li>
+                        <li><a href="">山西</a></li>
+                    </ul>
+                </div>
+            </li>
+            <!--<li class="nLi munu-none"><span>全国330城市已覆盖，10000家加盟店</span></li>-->
+            <li class="nLi"><a href=""><span>代理商加盟</span>|</a></li>
+            <li class="nLi"><a href=""><span>店铺加盟</span></a></li>
+        </ul>
+        <ul id="quick-menu" class="quick-menu">
+            <li class="nLi"><a href="#"><span>请登录</span>|</a></li>
+            <li class="nLi"><a href=""><span>免费注册</span>|</a></li>
+            <li class="nLi"><a href=""><span>用户中心</span>|</a></li>
+            <li class="nLi cart"><a href=""><span>购物车（<b>0</b>）</span></a></li>
+        </ul>
+        <div class="user-entry">
+            <span class="welcome">你好，<span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span>，欢迎来到<a href="#">车车车</a><span class="reg-quit">[<a href="#">退出</a>]</span></span>
+        </div>
+    </div>
+</div>
+<div class="header">
+    <div class="page-width">
+        <a class="logo" href="#"><img src="image/logo.png" alt="车logo" /></a>
+        <div class="search-section">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="服务、户外用品名称、品牌、零件号"><input class="btn search-btn" type="button" value="搜索" />
+            </div>
+            <div class="search-keyword">
+                热门搜索：<a href="#">洗车</a>|<a href="#">户外用品</a>|<a href="#">XX品牌</a>
+            </div>
+        </div>
+        <div class="coverage">
+            亿投车吧已向全国330城市开放10000余家安装门店，<a class="anormal" href="">了解详情&gt;&gt;</a>
+        </div>
+    </div>
+</div>
+<div class="navbar">
+    <div class="page-width">
+        <ul id="nav" class="nav">
+            <li class="nLi fast-channel">
+                <h3><a href="">(闪电符)快速通道</a></h3>
+                <ul class="sub">
+                    <li class="first"><a href="#">车品超市</a></li>
+                    <li><a href="#">车品保养</a></li>
+                </ul>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">首页</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车品超市</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车辆保养</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">线下门店</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车友分享</a></h3>
+            </li>
+            <li class="nLi dropdown appdown">
+                <h3><a href="#"><img src="image-app/appdown.png" />下载APP</a></h3>
+                <ul class="sub">
+                    <li>
+                        <img src="image-app/temp/qr-code.jpg" alt="下载APP"/>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <div class="page-width">
+        <div class="crumbs"><a href="">首页</a>&gt;<a href="">用户中心</a>&gt;<a href="">订单中心</a>&gt;<span>我的订单</span></div>
+        <div class="section">
+            <div class="section-left1">
+                <ul class="menu">
+                    <li>
+                        <h3>订单中心</h3>
+                        <ul>
+                            <li><a href="">我的订单</a></li>
+                            <li class="active"><a href="">我的e卡</a></li>
+                            <li><a href="">我的博文</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>亿投车吧管家</h3>
+                        <ul>
+                            <li><a href="">我的车库</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <h3>账户设置</h3>
+                        <ul>
+                            <li><a href="">基本设置</a></li>
+                            <li><a href="">收货地址管理</a></li>
+                            <li><a href="">修改密码</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="section-right1">
+                <div class="mod-main">
+                    <div class="mod-main-tit clearfix">
+                        <ul class="mod-command">
+                            <li><a href="">全部订单</a></li>
+                            <li class="active"><a href="">待付款<i>1</i></a></li>
+                        </ul>
+                        <div class="mod-search">
+                            <input class="search-input" type="text" placeholder="商品名称、商品编号、订单号"><input class="btn search-btn" type="button" />
+                        </div>
+                    </div>
+                    <table class="order-td">
+                        <thead>
+                            <tr>
+                                <th width="130">
+                                    <ul class="quick-menu order-dropdown order-dropdown1">
+                                        <li class="nLi dropdown"><a href=""><span>近三个月订单</span><i></i></a>
+                                            <ul class="sub">
+                                                <li><a href="#">全部订单</a></li>
+                                                <li><a href="#">近一个月订单</a></li>
+                                                <li><a href="#">近半年订单</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </th>
+                                <th width="260">订单详情</th>
+                                <th width="110">面额</th>
+                                <th width="110">单价</th>
+                                <th width="110">总计</th>
+                                <th width="110">
+                                    <ul class="quick-menu order-dropdown order-dropdown2">
+                                        <li class="nLi dropdown"><a href=""><span>全部状态</span><i></i></a>
+                                            <ul class="sub">
+                                                <li><a href="#">待付款</a></li>
+                                                <li><a href="#">待享用</a></li>
+                                                <li><a href="#">待评价</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </th>
+                                <th width="120">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="sep-row">
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="title">
+                                <td colspan="3"><span class="gray">订单号：</span>10000000091<span class="gray ml20">2015-10-16&nbsp;&nbsp;17:23:43</span><a href="#" class="shop-contact">亿投车吧</a></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><a class="delete fr"></a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <dl class="goods-item goods-item1">
+                                        <dt><a href=""><img src="" alt=""/></a></dt>
+                                        <dd class="text"><a href="">钻石卡 打折优惠 促销价 45000元</a></dd>
+                                        <dd class="num gray">×1</dd>
+                                    </dl>
+                                </td>
+                                <td>¥5000</td>
+                                <td>¥5000</td>
+                                <td>¥49.00<div class="gray">在线支付</div></td>
+                                <td>
+                                    <div class="gray">等待付款</div>
+                                    <div class="trace" name="trace">
+                                        <a href=""><span>跟踪</span><i></i></a>
+                                        <div class="trace-detail" name="traceDetail">
+                                            <div class="trace-top">
+                                                订单跟踪
+                                            </div>
+                                            <div class="trace-cont">
+                                                <ul class="trace-ul">
+                                                    <li class="active"><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                    <li><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                    <li><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                    <li><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                    <li><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                    <li><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                    <li><i class="node-icon"></i>
+                                                        <a href="">您提交了订单，请等待系统确认</a>
+                                                        <p class="gray">2015-11-13 09:20:36</p>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="#">订单详情</a>
+                                </td>
+                                <td><div class="remain-time"><i></i><span>剩余4时23分</span></div>
+                                    <input class="btn-normal btn-w90 mt-mb-5" type="button" value="付款" /><br />
+                                    <a href="#" class="gray">取消订单</a>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="sep-row">
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="title">
+                                <td colspan="3"><span class="gray">订单号：</span>10000000091<span class="gray ml20">2015-10-16&nbsp;&nbsp;17:23:43</span><a href="#" class="shop-contact">亿投车吧</a></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><a class="delete fr"></a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <dl class="goods-item goods-item1">
+                                        <dt><a href=""><img src="" alt=""/></a></dt>
+                                        <dd class="text"><a href="">嘉实多/Castrol 磁护半合成机油 5W-40 SN/CF级（4L装）</a></dd>
+                                        <dd class="num gray">×1</dd>
+                                    </dl>
+                                </td>
+                                <td>¥5000</td>
+                                <td>¥5000</td>
+                                <td>¥49.00<div class="gray">在线支付</div></td>
+                                <td><div class="gray">已完成</div><a href="#">订单详情</a></td>
+                                <td><input class="btn-normal btn-w90" type="button" value="继续购买" /></td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="sep-row">
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="title">
+                                <td colspan="3"><span class="gray">订单号：</span>10000000091<span class="gray ml20">2015-10-16&nbsp;&nbsp;17:23:43</span><a href="#" class="shop-contact">亿投车吧</a></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><a class="delete fr"></a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <dl class="goods-item goods-item1">
+                                        <dt><a href=""><img src="" alt=""/></a></dt>
+                                        <dd class="text"><a href="">嘉实多/Castrol 磁护半合成机油 5W-40 SN/CF级（4L装）</a></dd>
+                                        <dd class="num gray">×1</dd>
+                                    </dl>
+                                </td>
+                                <td>¥5000</td>
+                                <td>¥5000</td>
+                                <td>¥49.00<div class="gray">在线支付</div></td>
+                                <td><div class="gray">已完成</div><a href="#">订单详情</a></td>
+                                <td><input class="btn-normal btn-w90" type="button" value="继续购买" /></td>
+                            </tr>
+                        </tbody>
+                        <tbody>
+                            <tr class="sep-row">
+                                <td colspan="6"></td>
+                            </tr>
+                            <tr class="title">
+                                <td colspan="3"><span class="gray">订单号：</span>10000000091<span class="gray ml20">2015-10-16&nbsp;&nbsp;17:23:43</span><a href="#" class="shop-contact">亿投车吧</a></td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><a class="delete fr"></a></td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <dl class="goods-item goods-item1">
+                                        <dt><a href=""><img src="" alt=""/></a></dt>
+                                        <dd class="text"><a href="">嘉实多/Castrol 磁护半合成机油 5W-40 SN/CF级（4L装）</a></dd>
+                                        <dd class="num gray">×1</dd>
+                                    </dl>
+                                </td>
+                                <td>¥5000</td>
+                                <td>¥5000</td>
+                                <td>¥49.00<div class="gray">在线支付</div></td>
+                                <td><div class="gray">已完成</div><a href="#">订单详情</a></td>
+                                <td><input class="btn-normal btn-w90" type="button" value="继续购买" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!--分页-->
+                    <div class="pager-gap">
+                        关于订单有任何问题请拨打 亿投车吧热线 <b class="red1">4000-000-000</b>
+                        <div class="fr pager">
+                            <a class="prev disabled" href="#nogo">上一页</a><a class="active" href="#nogo">1</a><a class="next" href="#nogo">下一页</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="page-width">
+        <ul class="guide">
+            <li><h3>新手帮助</h3>
+                <ul>
+                    <li><a href="">用户手册</a></li>
+                    <li><a href="">用户购买流程</a></li>
+                    <li><a href="">商品提货流程</a></li>
+                </ul>
+            </li>
+            <li><h3>常见问题</h3>
+                <ul>
+                    <li><a href="">退款说明</a></li>
+                    <li><a href="">发票说明</a></li>
+                </ul>
+            </li>
+            <li><h3>协议与保障</h3>
+                <ul>
+                    <li><a href="">服务品质保障</a></li>
+                    <li><a href="">产品正品保障</a></li>
+                    <li><a href="">产品保修</a></li>
+                </ul>
+            </li>
+            <li class="footer-map">
+                <div class="coverage">
+                    亿投车吧已向全国330城市开放10000余家安装门店，覆盖规模迅速扩大中；<br /><a class="anormal" href="">了解详情&gt;&gt;</a><br /><a class="anormal" href="">加盟店入驻&gt;&gt;</a>
+                </div>
+            </li>
+            <li><h3>联系我们</h3>
+                <ul>
+                    <li><a href="">亿投车吧网站介绍</a></li>
+                    <li><a href="">广告与市场合作</a></li>
+                    <li><a href="">招贤纳士</a></li>
+                    <li><a href="">联系电话：<br/>400890897</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="footer-con">
+        <p>Copyright©2015-2020 shopnc Inc.,All rights reserved.</p>
+        <p>Powered by <a href="http://www.raiserswin.com/">融芯思联</a> 冀ICP备15008449号</p>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript" src="js/common/common.js"></script>
+<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+<script type="text/javascript" src="js-app/main.js"></script>
+<script type="text/javascript">
+    $(function(){
+        hoverShowHide ("trace","traceDetail");
+
+        $("[name='trace']").hover(function(){
+            var traceDetailHeight = $("[name='traceDetail']").height();
+            var windowHeight = $(window).height();
+            var traceTop = $(this).offset().top;
+            var scrollTop = $(window).scrollTop();
+            if(windowHeight-(traceTop-scrollTop)<traceDetailHeight ){
+                $(this).children("[name='traceDetail']").addClass(" trace-detail1");
+            }
+        },function(){
+            $(this).children("[name='traceDetail']").removeClass(" trace-detail1");
+        })
+    });
+</script>
+</body>
+</html>

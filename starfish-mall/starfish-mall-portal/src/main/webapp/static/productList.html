@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="lib/jquery/jquery-ui.css" />
+    <link rel="stylesheet" href="lib/qtip/jquery.qtip.css" />
+    <link rel="stylesheet" href="lib/jquery/jquery.timepicker.css" />
+    <link rel="stylesheet" href="lib/layout/layout-default.css" />
+    <link rel="stylesheet" href="css/common/basic.css" />
+    <link rel="stylesheet" href="css/libext/jquery.ext.css" />
+    <link rel="stylesheet" href="css-app/app.css" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+
+<title>产品列表</title>
+<link rel="stylesheet" href="css-app/main.css" />
+</head>
+<body>
+<div class="page-wrapper">
+	<div class="topbar">
+		<div class="page-width">
+            <ul id="quick-menu" class="quick-menu">
+                <li class="nLi menu-mall"><a href=""><span>我的商城</span><i></i></a>
+                    <em></em>
+                    <div class="sub">
+                        <div class="sub-title"><span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span><a class="user-arrow" href="">我的用户中心</a></div>
+                        <ul class="sub-content">
+                            <li><a href="">站内消息(0)</a></li>
+                            <li><a class="user-arrow" href="">我的订单</a></li>
+                            <li><a href="">咨询回复(0)</a></li>
+                            <li><a class="user-arrow" href="">我的收藏</a></li>
+                            <li><a href="">代金券(0)</a></li>
+                            <li><a class="user-arrow" href="">我的积分</a></li>
+                        </ul>
+                        <div class="sub-bottom">
+                            <h1>最近浏览的商品 <a class="more" href="">全部浏览历史</a></h1>
+                            <!--<ul class="visited"><li><a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a></li></ul>-->
+                            <div class="content-none">
+                                暂无商品
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nLi"><a href=""><span>我的订单</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">待付款订单</a></li>
+                        <li><a href="#">待确认收货</a></li>
+                        <li><a href="#">待评价交易</a></li>
+                    </ul>
+                </li>
+                <li class="nLi"><a href=""><span>我的收藏</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">商品收藏</a></li>
+                        <li><a href="#">店铺收藏</a></li>
+                    </ul>
+                </li>
+                <li class="nLi"><a href=""><span>客户服务</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">售后服务</a></li>
+                        <li><a href="#">客服中心</a></li>
+                    </ul>
+                </li>
+                <li class="nLi"><a href=""><span>站点导航</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="user-entry">
+                <span class="welcome">你好，<span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span>，欢迎来到<a href="#">花博士</a><span class="reg-quit">[<a href="#">退出</a>]</span></span>
+                <span class="reg-login">[<a href="#">登录</a>]</span>
+                <span class="reg-login">[<a href="#">注册</a>]</span>
+            </div>
+		</div>
+	</div>
+	<div class="header">
+		<div class="page-width">
+			<a class="logo" href="#"><img src="image/logo.png" alt="花博士logo" />欢迎来的花的海洋！</a>
+            <div class="search-section">
+                <div class="search">
+                    <input class="search-input" type="text" placeholder="内存"><input class="btn search-btn" type="button" value="搜索" />
+                </div>
+                <div class="search-keyword">
+                    热门搜索：<a href="#">取暖器</a><a href="#">取暖器</a><a href="#">取暖器</a><a href="#">取暖器</a>
+                </div>
+            </div>
+		</div>
+	</div>
+    <div class="menu">
+        <div class="page-width">
+            <ul class="menulist">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">商品中心</a></li>
+                <li><a href="#">会员中心</a></li>
+                <li><a href="#">供应商中心</a></li>
+                <li><a href="#">代理中心</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="crumb">
+        <div class="page-width">
+            <a href="">首页</a>&gt;<a href="">情人鲜花</a>&gt;<span>时光—33支混搭玫瑰，好像一段缓缓流淌的时光</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="page-width">
+            <div class="page-left">
+                <div class="block">
+                    <h1>所有分类</h1>
+                    <div class="goods-categ">
+                        <h2>用途</h2>
+                        <ul>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">友情鲜花</a></li>
+                            <li><a href="">生日鲜花</a></li>
+                            <li><a href="">问候长辈</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                        </ul>
+                        <h2>花材</h2>
+                        <ul>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">友情鲜花</a></li>
+                            <li><a href="">生日鲜花</a></li>
+                            <li><a href="">问候长辈</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                        </ul>
+                        <h2>类别</h2>
+                        <ul class="last">
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">友情鲜花</a></li>
+                            <li><a href="">生日鲜花</a></li>
+                            <li><a href="">问候长辈</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                            <li><a href="">爱情鲜花</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="block">
+                    <h1>热销推荐</h1>
+                    <ul class="goods-hot">
+                        <li>
+                            <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                            <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</a>
+                            <span><i>¥</i>198</span>
+                        </li>
+                        <li>
+                            <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                            <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</a>
+                            <span><i>¥</i>198</span>
+                        </li>
+                        <li class="last">
+                            <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                            <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</a>
+                            <span><i>¥</i>198</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="page-right">
+                <div class="goods">
+                    <div class="sort">
+                        <h1>排序方式</h1>
+                        <ul>
+                            <li><a href="#nogo">默认</a></li>
+                            <li class="item1"><a class="active" href="#nogo">销量</a></li>
+                            <li class="item1"><a href="#nogo">人气</a></li>
+                            <li class="item1"><a href="#nogo">价格</a></li>
+                        </ul>
+                        <div class="fr page">
+                            <a class="pre diabled" href="">上一页</a><a class="next" href="">下一页</a>
+                        </div>
+                    </div>
+                    <div class="goods-content">
+                        <ul class="goods-list">
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro2.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感觉</a>
+                                <div class="price">
+                                    <em class="price-sale"><i>￥</i>699</em><em class="price-market">￥899</em>
+                                    <span class="star"><i></i><i></i><i></i><i></i><i></i></span>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="bottom-page">
+                            <div class="fr page">
+                                <a class="pre diabled" href="#nogo">上一页</a><a class="active" href="#nogo">1</a><a href="#nogo">2</a><a href="#nogo">3</a><a class="more" href="#nogo">...</a><a href="#nogo">10</a><a class="next" href="#nogo">下一页</a><span>共10页</span><span>到第 <input class="page-text" type="text"/>页</span><span><input class="btn btn-normal" type="button" value="确定" /></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="page-width">
+            <ul class="footer-menu">
+                <li><a href="">首页</a>|</li>
+                <li><a href="">招聘英才</a>|</li>
+                <li><a href="">合作洽谈</a></li>
+            </ul>
+            <p>Copyright©2015-2020 shopnc Inc.,All rights reserved.</p>
+            <p>Powered by <a href="http://www.raiserswin.com/">融芯思联</a> 冀ICP备15008449号</p>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $(".sort li a").click(function(){
+            if($(this).hasClass("active")){
+                $(this).toggleClass("o");
+            }
+            $(this).addClass("active");
+            $(this).parent().siblings("li").children("a").removeClass("active");
+        });
+        $(".goods-list").on("mouseover","li",function(){$(this).addClass("hover")}).on("mouseout","li",function(){$(this).removeClass("hover")});
+    });
+
+    //quick-menu
+    jQuery("#quick-menu,#shopping-cart").slide({ type:"menu", titCell:".nLi", targetCell:".sub",effect:"slideDown",delayTime:300,triggerTime:0,defaultPlay:false,returnDefault:true});
+</script>
+</body>
+</html>

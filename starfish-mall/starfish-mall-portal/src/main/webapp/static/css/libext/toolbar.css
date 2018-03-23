@@ -1,0 +1,128 @@
+.basic.transfer {
+	border: 1px dotted gray;
+	border-radius: 4px;
+	background-color: rgba(120,120,120, 0.2);
+}
+
+/*  右边停靠工具栏    */
+.rightToolBarWrapper {
+	position: fixed;
+	z-index: 9992;
+	top: 0;
+	right: 0;
+	width: 2px;
+	height: 100%;
+	background-color: #7a6e6e;
+	font-size: 12px;
+}
+.rightToolBar {
+	position: absolute;
+	top: 0;
+	right: 2px;
+	width: 34px;
+	height: 100%;
+}
+.rightToolBar > .tabs {
+	position: absolute;
+	width: 34px;
+}
+.rightToolBar > .tabs.middle {
+	top: 50%;
+	margin-top: -72px;
+}
+.rightToolBar > .tabs.bottom {
+	bottom: 0;
+}
+.rightToolBar > .tabs > .tab {
+	width: 34px;
+	height: 34px;
+	position: relative;
+	margin-bottom: 1px;
+	cursor: pointer;
+}
+
+.cart.icon, .cart.action {
+	background: url("../../image/toolbar/cart.png") right center no-repeat;
+	background-size: 32px 32px;
+}
+.favor.icon, .favor.action {
+	background: url("../../image/toolbar/favor.png") right center no-repeat;
+	background-size: 32px 32px;
+}
+.history.icon, .history.action {
+	background: url("../../image/toolbar/history.png") right center no-repeat;
+	background-size: 32px 32px;
+}
+.toTop.icon, .toTop.action {
+	background: url("../../image/toolbar/toTop.gif") right center no-repeat;
+	background-size: 32px 32px;
+}
+.home.icon, .home.action {
+	background: url("../../image/toolbar/home.png") right center no-repeat;
+	background-size: 32px 32px;
+}
+.feedback.icon, .feedback.action {
+	background: url("../../image/toolbar/feedback.png") right center no-repeat;
+	background-size: 32px 32px;
+}
+
+.rightToolBar > .tabs > .tab > .icon {
+	display: inline-block;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	background-color: #7a6e6e;
+}
+.rightToolBar > .tabs > .tab > .icon.fixed {
+	display: none;
+}
+.rightToolBar > .tabs > .tab > .icon:hover {
+	background-color: #b61d1d;
+	border-radius: 0;
+}
+.rightToolBar > .tabs > .tab > .action {
+	display: none;
+	position: absolute;
+	width: 100px;
+	padding-right: 34px;
+	height: 100%;
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+	background-color: #b61d1d;
+	top: 0;
+	right: 0;
+	line-height: 34px;
+	text-align: left;
+	padding-left: 10px;
+	color: #FFF;
+}
+.rightToolBar > .tabs > .tab > .action.fixed {
+	display: block;
+	width: 34px;
+	padding: 0;
+	background: #b61d1d;
+	line-height: normal;
+	text-align: center;
+}
+.rightToolBar > .tabs > .tab > .hint {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 10px;
+	height: 10px;
+	text-align: center;
+	vertical-align: top;
+	color: yellow;
+	border-radius: 50%;
+	background-color: red;
+}
+
+.rightToolBar > .tabs > .tab > .hint.wide {
+	width: 20px;
+	border-radius: 2px;
+	text-align: right;
+}
+

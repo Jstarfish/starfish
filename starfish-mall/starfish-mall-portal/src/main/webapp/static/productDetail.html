@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="lib/jquery/jquery-ui.css" />
+    <link rel="stylesheet" href="lib/qtip/jquery.qtip.css" />
+    <link rel="stylesheet" href="lib/jquery/jquery.timepicker.css" />
+    <link rel="stylesheet" href="lib/layout/layout-default.css" />
+    <link rel="stylesheet" href="css/common/basic.css" />
+    <link rel="stylesheet" href="css/libext/jquery.ext.css" />
+    <link rel="stylesheet" href="css-app/app.css" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+
+<title>产品详情</title>
+<link rel="stylesheet" href="css-app/main.css" />
+</head>
+<body>
+<div class="page-wrapper">
+	<div class="topbar">
+		<div class="page-width">
+            <ul id="quick-menu" class="quick-menu">
+                <li class="nLi menu-mall"><a href=""><span>我的商城</span><i></i></a>
+                    <em></em>
+                    <div class="sub">
+                        <div class="sub-title"><span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span><a class="user-arrow" href="">我的用户中心</a></div>
+                        <ul class="sub-content">
+                            <li><a href="">站内消息(0)</a></li>
+                            <li><a class="user-arrow" href="">我的订单</a></li>
+                            <li><a href="">咨询回复(0)</a></li>
+                            <li><a class="user-arrow" href="">我的收藏</a></li>
+                            <li><a href="">代金券(0)</a></li>
+                            <li><a class="user-arrow" href="">我的积分</a></li>
+                        </ul>
+                        <div class="sub-bottom">
+                            <h1>最近浏览的商品 <a class="more" href="">全部浏览历史</a></h1>
+                            <!--<ul class="visited"><li><a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a></li></ul>-->
+                            <div class="content-none">
+                                暂无商品
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nLi"><a href=""><span>我的订单</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">待付款订单</a></li>
+                        <li><a href="#">待确认收货</a></li>
+                        <li><a href="#">待评价交易</a></li>
+                    </ul>
+                </li>
+                <li class="nLi"><a href=""><span>我的收藏</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">商品收藏</a></li>
+                        <li><a href="#">店铺收藏</a></li>
+                    </ul>
+                </li>
+                <li class="nLi"><a href=""><span>客户服务</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">帮助中心</a></li>
+                        <li><a href="#">售后服务</a></li>
+                        <li><a href="#">客服中心</a></li>
+                    </ul>
+                </li>
+                <li class="nLi"><a href=""><span>站点导航</span><i></i></a>
+                    <ul class="sub">
+                        <li><a href="#">联系我们</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <div class="user-entry">
+                <span class="welcome">你好，<span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span>，欢迎来到<a href="#">花博士</a><span class="reg-quit">[<a href="#">退出</a>]</span></span>
+                <span class="reg-login">[<a href="#">登录</a>]</span>
+                <span class="reg-login">[<a href="#">注册</a>]</span>
+            </div>
+		</div>
+	</div>
+	<div class="header">
+		<div class="page-width">
+			<a class="logo" href="#"><img src="image/logo.png" alt="花博士logo" />欢迎来的花的海洋！</a>
+            <div class="search-section">
+                <div class="search">
+                    <input class="search-input" type="text" placeholder="内存"><input class="btn search-btn" type="button" value="搜索" />
+                </div>
+                <div class="search-keyword">
+                    热门搜索：<a href="#">取暖器</a><a href="#">取暖器</a><a href="#">取暖器</a><a href="#">取暖器</a>
+                </div>
+            </div>
+		</div>
+	</div>
+    <div class="menu">
+        <div class="page-width">
+            <ul class="menulist">
+                <li><a href="#">首页</a></li>
+                <li><a href="#">商品中心</a></li>
+                <li><a href="#">会员中心</a></li>
+                <li><a href="#">供应商中心</a></li>
+                <li><a href="#">代理中心</a></li>
+                <li><a href="#">联系我们</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="crumb">
+        <div class="page-width">
+            <a href="">首页</a>&gt;<a href="">情人鲜花</a>&gt;<span>时光—33支混搭玫瑰，好像一段缓缓流淌的时光</span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="page-width">
+            <div class="goods-intro clearfix">
+                <div id="viewer" class="viewer">
+                    <div class="hd">
+                        <h1>相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</h1>
+                        <ul><li><img alt="玫瑰花" src="image-app/temp/pro12.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro12.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro11.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li></ul>
+                        <div class="hd-sweep">
+                            <input class="btn btn-w108" type="button" value="扫码购买"/>
+                            <span><img src="image-app/temp/qr-code.jpg" alt="" /></span>
+                        </div>
+                    </div>
+                    <div class="bd">
+                        <ul>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro12.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro12.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro11.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                            <li><img alt="百合花" src="image-app/temp/pro1.jpg"></li>
+                            <li><img alt="玫瑰花" src="image-app/temp/pro2.jpg"></li>
+                        </ul>
+                    </div>
+                    <!-- 下面是前/后按钮代码，如果不需要删除即可 -->
+                    <a class="prev" href="javascript:void(0)"></a>
+                    <a class="next" href="javascript:void(0)"></a>
+                </div>
+                <div class="goods-preview">
+                    <div id="preview" class="spec-preview">
+                        <span class="jqzoom"><img jqimg="image-app/temp/pro12.jpg" src="image-app/temp/pro12.jpg" /></span>
+                    </div>
+                    <!--缩图开始-->
+                    <div class="spec-scroll">
+                        <a class="prev disabled"></a>
+                        <a class="next"></a>
+                        <div id="layer-photos-demo" class="items">
+                            <ul>
+                                <li><img alt="玫瑰花" bimg="image-app/temp/pro12.jpg" src="image-app/temp/pro12.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="百合花" bimg="image-app/temp/pro12.jpg" src="image-app/temp/pro12.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="百合花" bimg="image-app/temp/pro11.jpg" src="image-app/temp/pro11.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="玫瑰花" bimg="image-app/temp/pro2.jpg" src="image-app/temp/pro2.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="百合花" bimg="image-app/temp/pro1.jpg" src="image-app/temp/pro1.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="玫瑰花" bimg="image-app/temp/pro2.jpg" src="image-app/temp/pro2.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="百合花" bimg="image-app/temp/pro1.jpg" src="image-app/temp/pro1.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="玫瑰花" bimg="image-app/temp/pro2.jpg" src="image-app/temp/pro2.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="百合花" bimg="image-app/temp/pro1.jpg" src="image-app/temp/pro1.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="玫瑰花" bimg="image-app/temp/pro2.jpg" src="image-app/temp/pro2.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="百合花" bimg="image-app/temp/pro1.jpg" src="image-app/temp/pro1.jpg" onmousemove="preview(this);"></li>
+                                <li><img alt="玫瑰花" bimg="image-app/temp/pro2.jpg" src="image-app/temp/pro2.jpg" onmousemove="preview(this);"></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--缩图结束-->
+                </div>
+                <div class="goods-summary">
+                    <div class="summary-title">
+                        <h1>时光-33支混搭玫瑰，缓缓流淌的时光</h1>
+                        <h2>主花：33支黄色，白色，粉丝混搭玫瑰</h2>
+                    </div>
+                    <div class="price">
+                        <em class="price-sale"><i>￥</i>699</em><span class="discount">5.4折</span><em class="price-market">￥899</em>
+                    </div>
+                    <dl class="summary-detail">
+                        <dt>运费：</dt>
+                        <dd>免邮优惠</dd>
+                        <dt>数量：</dt>
+                        <dd>
+                            <div class="choose-amount">
+                                <a href="javascript:void(0)" class="increase"><i></i></a><input type="text" name="" value="1"><a href="javascript:void(0)" class="decrease"><i></i></a>
+                            </div>
+                            仅剩<span>4</span>件，抓紧时间抢购哦！</dd>
+                        <dt>商品评分：</dt>
+                        <dd><span class="star"><i></i><i></i><i></i><i></i><i></i></span></dd>
+                    </dl>
+                    <div class="summary-buy">
+                        <input class="btn btn-w200h48" type="button" value="扫码购买" />
+                        <div id="scan" class="scan">
+                            <img src="image-app/temp/qr-code.jpg" alt=""/>
+                        </div>
+                    </div>
+                    <div class="summary-operate">
+                        <a href="">分享（0）</a><a href="">收藏商品（0）</a>
+                    </div>
+                </div>
+                <div class="qrcode block">
+                    <h1>花博士鲜花</h1>
+                    <div class="qrcode-content">
+                        <a id="qrcode-img" href="javascript:void(0)"><img src="image-app/temp/qr-code.jpg" alt="" /></a>
+                    </div>
+                </div>
+            </div>
+            <div class="goods-detail">
+                <!--左边-start-->
+                <div class="page-left">
+                    <div class="block">
+                        <h1>浏览记录</h1>
+                        <div class="block-none">
+                            暂无浏览记录
+                        </div>
+                        <ul class="goods-browse">
+                           <li>
+                               <img src="image-app/temp/pro1.jpg" alt=""/>
+                               <a href="">鲜花/恰似你的温柔-精品玫瑰礼盒</a>
+                               <span>¥198</span>
+                           </li>
+                            <li>
+                                <img src="image-app/temp/pro1.jpg" alt=""/>
+                                <a href="">鲜花/恰似你的温柔-精品玫瑰礼盒</a>
+                                <span>¥198</span>
+                            </li>
+                            <li class="last">
+                                <img src="image-app/temp/pro1.jpg" alt=""/>
+                                <a href="">鲜花/恰似你的温柔-精品玫瑰礼盒</a>
+                                <span>¥198</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="block">
+                        <h1>热销推荐</h1>
+                        <ul class="goods-hot">
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</a>
+                                <span><i>¥</i>198</span>
+                            </li>
+                            <li>
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</a>
+                                <span><i>¥</i>198</span>
+                            </li>
+                            <li class="last">
+                                <a href=""><img src="image-app/temp/pro1.jpg" alt=""/></a>
+                                <a class="text" href="">相思终难忘—99支精选白玫瑰，高端奢华，情意正浓，给你爱的人心跳的感</a>
+                                <span><i>¥</i>198</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!--左边-end-->
+                <!--右边-start-->
+                <div class="page-right">
+                    <div id="tabbar" class="tab-bar tabbar">
+                        <ul>
+                            <li><a href="#tabs-1">商品详情</a></li>
+                            <li><a href="#tabs-2">用户评价</a></li>
+                        </ul>
+                        <div id="tabs-1">
+                            <img src="image-app/temp/product_detail1.jpg" alt=""/>
+                            <img src="image-app/temp/product_detail1.jpg" alt=""/>
+                        </div>
+                        <div id="tabs-2" class="comment">
+                            <div class="comment-top">
+                                <div class="rate">
+                                    <h2><em>100</em><i>%</i>好评</h2>
+                                    <span>共有0人参与评价</span>
+                                </div>
+                                <div class="percent">
+                                    <dl>
+                                        <dt>好评<span>(85%)</span></dt>
+                                        <dd><span style="width: 85%"></span></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>中评<span>(10%)</span></dt>
+                                        <dd><span style="width: 10%"></span></dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>差评<span>(5%)</span></dt>
+                                        <dd><span style="width: 5%"></span></dd>
+                                    </dl>
+                                </div>
+                                <div class="comment-btn">
+                                    <span>您可对已购商品进行评价</span>
+                                    <input class="btn btn-w108" type="button" value="评价" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tab-comment" class="tab-bar tabbar">
+                        <ul>
+                            <li><a href="#tabs-11">商品评价（0）</a></li>
+                            <li><a href="#tabs-12">好评（0）</a></li>
+                            <li><a href="#tabs-13">中评（0）</a></li>
+                            <li><a href="#tabs-14">差评（0）</a></li>
+                        </ul>
+                        <div id="tabs-11">
+                            11
+                        </div>
+                        <div id="tabs-12" class="comment">
+                            12
+                        </div>
+                        <div id="tabs-13" class="comment">
+                            13
+                        </div>
+                        <div id="tabs-14" class="comment">
+                            14
+                        </div>
+                    </div>
+                </div>
+                <!--右边-end-->
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="page-width">
+            <ul class="footer-menu">
+                <li><a href="">首页</a>|</li>
+                <li><a href="">招聘英才</a>|</li>
+                <li><a href="">合作洽谈</a></li>
+            </ul>
+            <p>Copyright©2015-2020 shopnc Inc.,All rights reserved.</p>
+            <p>Powered by <a href="http://www.raiserswin.com/">融芯思联</a> 冀ICP备15008449号</p>
+        </div>
+    </div>
+<div class="aa"></div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="lib/layer/layer.js"></script>
+<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.jqzoom.js"></script>
+<script type="text/javascript" src="js-app/jqzoom-base.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        /*tab页签*/
+        $( "#tabbar" ).tabs();
+        $( "#tab-comment" ).tabs();
+
+        /*数量加减*/
+        /*var count = 0;
+        if($(".choose-amount").siblings("span").val>0){}*/
+        $(".choose-amount .increase").click(function(){
+            var value = $(this).siblings("input").val();
+            if (value>0){
+                $(this).siblings("input").val(parseInt(value)-1);
+            }
+        });
+        $(".choose-amount .decrease").click(function(){
+            var value = $(this).siblings("input").val();
+            $(this).siblings("input").val(parseInt(value)+1);
+        });
+
+        //产品相册
+        layer.ready(function(){ //为了layer.ext.js加载完毕再执行
+            //弹出层
+            $(".goods-preview").on("click","#preview",function(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 2,
+                    area: '940px',
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: $('#viewer')
+                });
+            });
+            $("#qrcode-img").click(function(){
+                layer.open({
+                    type: 1,
+                    title: false,
+                    closeBtn: 2,
+                    area: '200px',
+                    skin: 'layui-layer-nobg', //没有背景色
+                    shadeClose: true,
+                    content: $('#scan')
+                });
+            })
+        });
+
+        //图片弹出层-扫码
+        $(".viewer .hd-sweep").on("mouseover",function(){
+            $(this).children("span").stop().slideDown("fast");
+        }).on("mouseout",function(){
+            $(this).children("span").stop().slideUp("fast");
+        });
+        jQuery(".viewer").slide({mainCell:".bd ul",effect:"fold"});
+
+
+        //商品扫码购买
+        $(".summary-buy").hover(function(){
+            $(this).children(".scan").stop().slideDown();
+        },function(){
+            $(this).children(".scan").stop().slideUp();
+        })
+
+    });
+
+    //quick-menu
+    jQuery("#quick-menu,#shopping-cart").slide({ type:"menu", titCell:".nLi", targetCell:".sub",effect:"slideDown",delayTime:300,triggerTime:0,defaultPlay:false,returnDefault:true});
+
+    //一定范围外评论头部固定
+    $(window).bind('scroll',function(){$(this).scrollTop()>764?$('#tabbar .ui-tabs-nav').addClass("tabbarfix"):$('#tabbar .ui-tabs-nav').removeClass("tabbarfix");});
+
+
+
+
+
+</script>
+</body>
+</html>

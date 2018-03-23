@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- Standard Meta -->
+	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+	<!-- Vendor Specific -->
+	<!-- Set renderer engine for 360 browser -->
+	<meta name="renderer" content="webkit">
+	
+	<!-- Cache Meta -->
+	<meta http-equiv="Expires" content="0">
+	<meta http-equiv="Cache-Control" content="no-cache">
+	<meta http-equiv="Pragma" content="no-cache">
+	
+	<!-- Style Sheet -->
+	<link rel="stylesheet" href="../static/lib/jquery/jquery-ui.css" />
+	<link rel="stylesheet" href="../static/lib/qtip/jquery.qtip.css" />
+	<link rel="stylesheet" href="../static/css/common/basic.css" />
+	<link rel="stylesheet" href="../static/css/libext/jquery.ext.css" />
+	<link rel="stylesheet" href="../static/css-app/app.css" />
+	<link rel="stylesheet" href="../static/css/libext/toolbar.css" />
+	<!--[if lt IE 9]>
+	<script type="text/javascript" src="../static/js/html5/html5shiv.js"></script>
+	<![endif]-->
+
+	<!-- script here -->
+	<script type="text/javascript" src="../static/lib/jquery/jquery.js"></script>
+	<script type="text/javascript" src="../static/lib/jquery/jquery-migrate.min.js"></script>
+	<script type="text/javascript" src="../static/lib/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="../static/lib/jquery/jquery.locale-cn.js"></script>
+	<script type="text/javascript" src="../static/lib/qtip/jquery.qtip.js"></script>
+	<script type="text/javascript" src="../static/lib/layer/layer.js"></script>
+	<script type="text/javascript" src="../static/lib/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" src="../static/js/common/laytpl.js"></script>
+	<script type="text/javascript" src="../static/js/common/common.js"></script>
+	<script type="text/javascript" src="../static/js/libext/layer.ext.js"></script>
+	<script type="text/javascript" src="../static/js/libext/jquery.ext.js"></script>
+	<script type="text/javascript" src="../static/lib/jquery/jquery.superslide.js"></script>
+
+	<title>图片轮播</title>
+
+	<style type="text/css">
+		.page.segment {
+			width: 1000px;
+			height: auto;
+			margin: 0px auto;
+			padding: 0;
+			position: relative;
+		}
+		
+		/* 图片轮播 */
+		* {
+			margin: 0;
+			padding: 0;
+			list-style: none;
+		}
+		
+		.focusBox {
+			margin: 0 auto;
+			position: absolute;
+			width: 730px;
+			height: 454px;
+			background: #fff;
+			overflow: hidden;
+		}
+		
+		.focusBox .hd {
+			height: 22px;
+			position: absolute;
+			z-index: 1;
+			bottom: 10px;
+			left: 50%;
+			margin-left: -50px;
+			overflow: hidden;
+		}
+		
+		.focusBox .hd ul {
+			float: right;
+			overflow: hidden;
+		}
+		
+		.focusBox .hd li {
+			width: 22px;
+			height: 22px;
+			line-height: 22px;
+			text-align: center;
+			background: #999;
+			color: #fff;
+			font-family: Arial;
+			float: left;
+			margin: 0 1px;
+			display: inline;
+			-webkit-border-radius: 22px;
+			-moz-border-radius: 22px;
+			border-radius: 22px;
+			cursor: pointer;
+		}
+		
+		.focusBox .hd li.on {
+			background: #c00;
+		}
+		
+		.focusBox .bd li {
+			vertical-align: middle;
+		}
+		
+		.focusBox .bd li img {
+			width: 730px;
+			height: 454px;
+			display: block;
+			background: url(../static/image/loading.gif) center center no-repeat;
+		}
+		
+		.focusBox .prev, .focusBox .next {
+			width: 29px;
+			height: 64px;
+			position: absolute;
+			top: 50%;
+			margin-top: -50px;
+			opacity: .5;
+			filter: alpha(opacity = 50);
+			overflow: hidden;
+			display: none;
+			text-indent: -999px;
+			border: none;
+			background: url(../static/image/slider/arrowLR.png) no-repeat;
+		}
+		
+		.focusBox .prev: hover, .focusBox .next: hover {
+			opacity: 0.9;
+			filter: alpha(opacity = 90)
+		}
+		
+		.focusBox .prev {
+			left: 0;
+			background-position: -50px 0
+		}
+		
+		.focusBox .next {
+			right: 0;
+		}
+		
+		.focusBox .bdOn .prev, .focusBox .bdOn .next {
+			display: block;
+		}
+		
+		/* 文字滚动（向上效果） */
+		.txtScroll {
+		    border: 1px solid #ccc;
+		    overflow: hidden;
+		    width: 250px;
+			/* height: 454px; */
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		}
+		.txtScroll .hd {
+		    background: #f4f4f4 none repeat scroll 0 0;
+		    height: 30px;
+		    overflow: hidden;
+		    padding: 0 10px;
+		}
+		.txtScroll .hd h3 {
+			margin-top:3px;
+		    font-weight: bold; 
+		    font-size: 14px; 
+		    color: #666666;
+		}
+		.txtScroll .bd {
+		    padding: 15px;
+		}
+		.txtScroll li {
+		    height: 24px;
+		    line-height: 24px;
+		}
+		.txtScroll li a {
+    		color: #333;
+		    text-decoration: none;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="page segment">
+		<!-- 图文轮播 -->
+<!-- 		<div class="focusBox" style="float: left;"> -->
+		<div class="focusBox">
+			<div class="bd">
+				<div style="overflow: hidden;">
+					<ul style="left: -675px; position: relative;">
+						<li><a href="javascript:alert('轮播图片1');" target="_blank"><img src="../static/tmp-images/viwepager1.jpg"></a></li>
+						<li><a href="javascript:alert('轮播图片2');" target="_blank"><img src="../static/tmp-images/viwepager2.jpg"></a></li>
+						<li><a href="javascript:alert('轮播图片3');" target="_blank"><img src="../static/tmp-images/viwepager3.jpg"></a></li>
+					</ul>
+				</div>
+				<a class="prev" href="javascript:void(0)"></a> <a class="next" href="javascript:void(0)"></a>
+			</div>
+			<div class="hd">
+				<ul>
+					<li class="">1</li>
+					<li class="">2</li>
+					<li class="on">3</li>
+				</ul>
+			</div>
+		</div>
+		
+		<!-- 文字滚动（向上效果） -->
+		<div class="txtScroll">
+			<div class="hd">
+				<h3>商城公告</h3>
+			</div>
+			<div class="bd">
+				<ul>
+					<li><a target="_blank" href="javascript:alert('快报1');">【公告】华硕电脑夏日欢乐颂</a></li>
+					<li><a target="_blank" href="javascript:alert('快报2');">【特惠】会说中文就能说英语！</a></li>
+					<li><a target="_blank" href="javascript:alert('快报3');">【公告】农场摘菜不如在线学外语</a></li>
+					<li><a target="_blank" href="javascript:alert('快报4');">【特惠】学英语送ipad2</a></li>
+					<li><a target="_blank" href="javascript:alert('快报5');">【特惠】学外语，上北外！</a></li>
+					<li><a target="_blank" href="javascript:alert('快报6');">【公告】那些无法理解的荒唐事</a></li>
+					<li><a target="_blank" href="javascript:alert('快报7');">【公告】每天要上班</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		//
+		$(function() {
+			// 图片轮播
+			$(".focusBox").slide({
+				titCell : ".hd ul", // 导航元素对象
+				mainCell : ".bd ul", // 切换元素的包裹层对象
+				effect : "left", // 动画效果
+				autoPlay : true, // 自动运行
+				interTime : 5000, // 自动运行间隔（单位：毫秒）
+				autoPage : true // 自动分页，根据mainCell对象数自动分页
+				// switchLoad : "_src" // 内容切换加载，当为图片时switchLoad为图片实际路径的属性名称
+			});
+			
+			// 鼠标移到大图，显示左右箭头
+			$(".focusBox .bd").hover(function() {
+				$(this).addClass("bdOn")
+			}, function() {
+				$(this).removeClass("bdOn")
+			});
+			
+			// 文字滚动（向上效果）
+			$(".txtScroll").slide({
+				mainCell : ".bd ul",
+				autoPage : true,
+				effect : "topMarquee",
+				autoPlay : true,
+				vis : 5, // mainCell的可视范围个数，当实际内容个数少于可视个数的时候，不执行SuperSlide效果
+				interTime : 50,
+				mouseOverStop : true
+			});
+		});
+	</script>
+</body>
+</html>

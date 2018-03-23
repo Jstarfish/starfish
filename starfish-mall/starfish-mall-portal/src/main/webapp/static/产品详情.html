@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<!-- Vendor Specific -->
+<!-- Set renderer engine for 360 browser -->
+<meta name="renderer" content="webkit">
+<!-- Cache Meta -->
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+<!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+<link rel="stylesheet" href="css-app/main.css" />
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+<title>产品详情</title>
+</head>
+<body>
+	<div class="page-wrapper">
+		<div class="topbar">
+			<div class="page-width clearfix">
+				<ul id="district" class="quick-menu">
+					<li class="nLi dropdown menu-district"><a href=""><img
+							src="image-app/district.png" alt="" /><span>北京</span><i></i></a> <em></em>
+						<div class="sub">
+							<ul class="sub-content">
+								<li><a class="selected" href="">北京</a></li>
+								<li><a href="">上海</a></li>
+								<li><a href="">天津</a></li>
+								<li><a href="">重庆</a></li>
+								<li><a href="">河北</a></li>
+								<li><a href="">山西</a></li>
+							</ul>
+						</div></li>
+					<!--<li class="nLi munu-none"><span>全国330城市已覆盖，10000家加盟店</span></li>-->
+					<li class="nLi"><a href=""><span>代理商加盟</span>|</a></li>
+					<li class="nLi"><a href=""><span>店铺加盟</span></a></li>
+				</ul>
+				<ul id="quick-menu" class="quick-menu">
+					<li class="nLi"><a href="#"><span>请登录</span>|</a></li>
+					<li class="nLi"><a href=""><span>免费注册</span>|</a></li>
+					<li class="nLi"><a href=""><span>用户中心</span>|</a></li>
+					<li class="nLi cart"><a href=""><span>购物车（<b>0</b>）
+						</span></a></li>
+				</ul>
+				<div class="user-entry">
+					<span class="welcome">你好，<span class="user-infor"><a
+							href="#">紫</a><em class="user-grade">V0</em></span>，欢迎来到<a href="#">车车车</a><span
+						class="reg-quit">[<a href="#">退出</a>]
+					</span></span>
+				</div>
+			</div>
+		</div>
+		<div class="header">
+			<div class="page-width">
+				<a class="logo" href="#"><img src="image/logo.png" alt="车logo" /></a>
+				<div class="search-section">
+					<div class="search">
+						<input class="search-input" type="text"
+							placeholder="户外用品名称、品牌、零件号"><input class="btn search-btn"
+							type="button" value="搜索" />
+					</div>
+					<div class="search-keyword">
+						热门搜索：<a href="#">洗车</a>|<a href="#">户外用品</a>|<a href="#">XX品牌</a>
+					</div>
+				</div>
+				<div class="coverage">
+					亿投车吧已向全国330城市开放10000余家安装门店，<a class="anormal" href="">了解详情&gt;&gt;</a>
+				</div>
+			</div>
+		</div>
+		<div class="navbar">
+			<div class="page-width">
+				<ul id="nav" class="nav">
+					<li class="nLi fast-channel">
+						<h3>
+							<a href="">(闪电符)快速通道</a>
+						</h3>
+						<ul class="sub">
+							<li class="first"><a href="#">车品超市</a></li>
+							<li><a href="#">车品保养</a></li>
+						</ul>
+					</li>
+					<li class="nLi">
+						<h3>
+							<a href="#">首页</a>
+						</h3>
+					</li>
+					<li class="nLi">
+						<h3>
+							<a href="#">车品超市</a>
+						</h3>
+					</li>
+					<li class="nLi">
+						<h3>
+							<a href="#">车辆保养</a>
+						</h3>
+					</li>
+					<li class="nLi">
+						<h3>
+							<a href="#">线下门店</a>
+						</h3>
+					</li>
+					<li class="nLi">
+						<h3>
+							<a href="#">车友分享</a>
+						</h3>
+					</li>
+					<li class="nLi dropdown appdown">
+						<h3>
+							<a href="#"><img src="image-app/appdown.png" />下载APP</a>
+						</h3>
+						<ul class="sub">
+							<li><img src="image-app/temp/qr-code.jpg" alt="下载APP" /></li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="content">
+			<div class="page-width">
+				<div class="crumbs">
+					<a href="">首页</a>&gt;<a href="">车品超市</a>&gt;<a href="">解决方案</a>&gt;<span>品牌/产品名称</span>
+				</div>
+				<div class="goods-intr clearfix">
+                    <div class="goods-preview">
+                        <div id="imagePreviewer"></div>
+
+                        <div id="imageViewer"></div>
+
+                        <div class="share">
+                            <span>分享：</span><a class="a1" href=""></a><a class="a2" href=""></a><a
+                                class="a3" href=""></a><a class="a4" href="javascript:;" onclick="share_dialogDom()"></a>
+                        </div>
+                    </div>
+					<!--产品-图片展示-end-->
+					<!--产品-文字展示-start-->
+					<div class="goods-summary">
+						<div class="summary-title">
+							<h1>智润宝 车载充气床 夏季睡觉游玩水上浮床 多功能充气床</h1>
+							<h2>舒适植绒面料</h2>
+						</div>
+						<div class="summary-price">
+							<div class="summary-part">
+								<span>价格：</span>
+								<div class="price">
+									<em class="price-sale"><i>￥</i><span>699</span></em>
+								</div>
+							</div>
+							<div class="summary-part">
+								<span>市价：</span>
+								<div class="price">
+									<em class="price-market">￥899</em>
+								</div>
+							</div>
+							<div class="summary-part">
+								<span>购买人数：</span><span class="red">15</span>
+							</div>
+						</div>
+						<div class="summary-gift">
+							<input class="btn btn-w60h20" type="button" value="赠品" /> <a
+								class="ml10" href="">橡胶气门嘴</a>
+						</div>
+						<div class="summary-detail">
+							<dl>
+								<dt>产品规格：</dt>
+								<dd>
+									<div class="checkbox-analog">
+										<a class="mr20 active" href="javascript:;"><span>140*90*120</span><i></i></a><a
+											class="mr20" href="javascript:;"><span>140*90*120</span><i></i></a><a
+											class="mr20" href="javascript:;"><span>140*90*120</span><i></i></a>
+									</div>
+								</dd>
+							</dl>
+							<dl>
+								<dt>产品颜色：</dt>
+								<dd>
+									<div class="checkbox-analog">
+										<a class="mr20 active" href="javascript:;"><img width="36"
+											height="36" src="image-app/temp/goods1.png" alt="" /><i></i></a>
+										<a class="mr20" href="javascript:;"><img width="36"
+											height="36" src="image-app/temp/goods1.png" alt="" /><i></i></a>
+									</div>
+								</dd>
+							</dl>
+							<dl>
+								<dt>数量数 ：</dt>
+								<dd>
+									<div name="numSpinner" class="num-spinner"></div>
+								</dd>
+							</dl>
+						</div>
+						<div class="summary-buy">
+							<input class="btn btn-w180h45" type="button" value="加入购物车" /> <input
+								class="btn1 btn-w180h45 ml10" type="button" value="立即购买" />
+						</div>
+					</div>
+					<!--产品-文字展示-end-->
+				</div>
+				<div class="section">
+					<div class="section-left1">
+						<!--左菜单-开始-->
+						<ul id="xMenu">
+
+						</ul>
+						<!--左菜单-结束-->
+						<div class="block">
+							<h1>浏览过的商品</h1>
+							<div class="no-result">暂无浏览记录</div>
+							<ul class="goods-viewed">
+								<li><a href=""><img src="image-app/temp/goods1.png"
+										alt="" /></a> <a class="text" href=""
+									title="佳通轮胎 Van600 155R13C 90/88S LT 8PR Giti 超强承载，更长里程佳通轮胎 Van600 155R13C 90/88S LT 8PR Giti 超强承载，更长里程">佳通轮胎
+										Van600 155R13C 90/88S LT 8PR Giti <span class="red1">超强承载，更长里程佳通轮胎</span>
+										Van600 155R13C 90/88S LT 8PR Giti 超强承载，更长里程
+								</a>
+									<div class="price">
+										<em class="price-sale"><i>￥</i>699</em><span class="gray">已有367人购买</span>
+									</div></li>
+								<li class="last"><a href=""><img
+										src="image-app/temp/goods1.png" alt="" /></a> <a class="text"
+									href=""
+									title="佳通轮胎 Van600 155R13C 90/88S LT 8PR Giti 超强承载，更长里程佳通轮胎 Van600 155R13C 90/88S LT 8PR Giti 超强承载，更长里程">佳通轮胎
+										Van600 155R13C 90/88S LT 8PR Giti <span class="red1">超强承载，更长里程佳通轮胎</span>
+										Van600 155R13C 90/88S LT 8PR Giti 超强承载，更长里程
+								</a>
+									<div class="price">
+										<em class="price-sale"><i>￥</i>699</em><span class="gray">已有367人购买</span>
+									</div></li>
+							</ul>
+						</div>
+						<div class="adv">
+							<img src="image-app/temp/adv01.jpg" alt="" />
+						</div>
+					</div>
+					<div class="section-right1">
+						<!--商品详情-start-->
+						<div class="slideTxtBox">
+							<div id="specParam" class="hd">
+								<ul>
+									<li>商品介绍</li>
+									<li>规格参数</li>
+									<li>商品评价(1)</li>
+								</ul>
+							</div>
+							<div class="bd">
+								<div class="bd-content">
+									<div class="bd-top">
+										<ul>
+											<li><span>轮胎品牌：</span>邓禄普/Dunlop</li>
+											<li><span>产品规格：</span>185/60R14</li>
+											<li><span>速度级别：</span>H(最高210公里/小时)</li>
+											<li><span>轮胎品牌：</span>邓禄普/Dunlop</li>
+											<li><span>轮胎品牌：</span>邓禄普/Dunlop</li>
+											<li><span>轮胎品牌：</span>邓禄普/Dunlop</li>
+										</ul>
+									</div>
+									<div class="bd-middle">
+										<div class="tip5">
+											如果您发现商品信息不准确，<a class="anormal" href="">欢迎纠错</a>
+										</div>
+										<div class="tip4">附注：数据来源于品牌工厂实验室，因使用环境/设备不同会存在一定的差异，仅供参考！</div>
+										<div class="bd-detail">
+											<img src="image-app/temp/goods-detail1.jpg" alt="" />
+										</div>
+									</div>
+								</div>
+								<div class="bd-content">
+									<div class="bd-top">
+										<table class="param-td">
+                                            <tbody>
+                                                <tr class="title">
+                                                    <th colspan="2">主体参数</th>
+                                                </tr>
+                                                <tr>
+                                                    <th>产品品牌：</th>
+                                                    <td>轮胎品牌</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>上市日期：</th>
+                                                    <td>轮胎品牌</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>产品型号：</th>
+                                                    <td>轮胎品牌</td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="2" class="sep-row">&nbsp;</td>
+                                                </tr>
+                                                <tr class="title">
+                                                    <th colspan="2">显示参数</th>
+                                                </tr>
+                                                <tr>
+                                                    <th width="120">产品品牌：</th>
+                                                    <td>轮胎品牌</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>上市日期：</th>
+                                                    <td>轮胎品牌</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>产品型号：</th>
+                                                    <td>轮胎品牌</td>
+                                                </tr>
+                                            </tbody>
+										</table>
+									</div>
+								</div>
+								<div class="bd-content">
+									<div class="bd-top">
+										<div class="comment-top">
+											<div class="rate">
+												<h2>
+													<em>100</em><i>%</i>好评
+												</h2>
+												<span>共有0人参与评价</span>
+											</div>
+											<div class="percent">
+												<dl>
+													<dt>
+														好评<span>(85%)</span>
+													</dt>
+													<dd>
+														<span style="width: 85%"></span>
+													</dd>
+												</dl>
+												<dl>
+													<dt>
+														中评<span>(10%)</span>
+													</dt>
+													<dd>
+														<span style="width: 10%"></span>
+													</dd>
+												</dl>
+												<dl>
+													<dt>
+														差评<span>(5%)</span>
+													</dt>
+													<dd>
+														<span style="width: 5%"></span>
+													</dd>
+												</dl>
+											</div>
+											<div class="comment-btn">
+												<span>您可对已购商品进行评价</span> <input class="btn btn-w108"
+													type="button" value="评价" />
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!--商品详情-end-->
+						<!--评价-start-->
+						<div class="slideTxtBox slideTxtBox1">
+							<div class="hd">
+								<ul>
+									<li>商品评价（0）</li>
+									<li>好评（0）</li>
+									<li>中评（0）</li>
+									<li>差评（0）</li>
+								</ul>
+							</div>
+							<div class="bd">
+								<div class="bd-content">
+									<table class="tb-praise">
+										<thead>
+											<tr>
+												<td>评价心得</td>
+												<td width="76">顾客满意度</td>
+												<td>车型</td>
+												<td width="135">评论者</td>
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>不错的宝贝！不错的宝贝 <!--<span class="time">2015-09-22 00:21</span>--></td>
+												<th><span class="star"><i style="width: 80%"></i></span></th>
+												<th>奥迪Q5<br />ADSLap3c98
+												</th>
+												<td>
+													<div class="item-member bronze">
+														<div class="item-name">
+															<i><img src="image-app/temp/favicon1.jpg" alt="" /></i><span>j***j</span>
+														</div>
+														<div class="item-grade">
+															<span>铜牌会员</span><em>江苏</em>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td class="padding10" colspan="4">
+													<div class="comment-operate">
+														<span class="time">2015-08-19 21:15</span><a name="reply"
+															class="anormal" href="javascript:;">回复（100）</a><a
+															class="anormal" href="">赞（100）</a>
+														<div class="reply-textarea">
+															<div class="arrow">
+																<i class="a1"></i><i class="a2"></i>
+															</div>
+															<div class="reply-cont">
+																<textarea class="inputx inputx-h26 inputx-auto"
+																	placeholder="回复 李李李:"></textarea>
+																<div class="btnbox">
+																	<input class="btn-gray" type="button" value="提交回复" /><input
+																		class="btn-gray" type="button" value="取消" />
+																</div>
+															</div>
+														</div>
+													</div>
+													<ul class="comment-replylist">
+														<li>
+															<div class="reply-info">
+																<span class="user-name">eerrr</span>回复<span>ddddddddddd</span>:
+																<span class="">同问同问同问同问</span>
+															</div>
+															<div class="comment-operate">
+																<span class="time">2015-08-19 21:15</span><a
+																	name="reply" class="anormal" href="javascript:;">回复</a>
+																<div class="reply-textarea">
+																	<div class="arrow">
+																		<i class="a1"></i><i class="a2"></i>
+																	</div>
+																	<div class="reply-cont">
+																		<textarea class="inputx inputx-h26 inputx-auto"
+																			placeholder="回复 李李李:"></textarea>
+																		<div class="btnbox">
+																			<input class="btn-gray" type="button" value="提交回复" /><input
+																				class="btn-gray" type="button" value="取消" />
+																		</div>
+																	</div>
+																</div>
+															</div>
+														</li>
+													</ul>
+												</td>
+											</tr>
+										</tbody>
+										<tbody>
+											<tr>
+												<td>不错的宝贝！不错的宝贝 <!--<span class="time">2015-09-22 00:21</span>--></td>
+												<th><span class="star"><i style="width: 80%"></i></span></th>
+												<th>奥迪Q5<br />ADSLap3c98
+												</th>
+												<td>
+													<div class="item-member bronze">
+														<div class="item-name">
+															<i><img src="image-app/temp/favicon1.jpg" alt="" /></i><span>j***j</span>
+														</div>
+														<div class="item-grade">
+															<span>铜牌会员</span><em>江苏</em>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<tr>
+												<td class="padding10" colspan="4">
+													<div class="comment-operate">
+														<span class="time">2015-08-19 21:15</span><a name="reply"
+															class="anormal" href="javascript:;">回复（100）</a><a
+															class="anormal" href="">赞（100）</a>
+														<div class="reply-textarea">
+															<div class="arrow">
+																<i class="a1"></i><i class="a2"></i>
+															</div>
+															<div class="reply-cont">
+																<textarea class="inputx inputx-h26 inputx-auto"
+																	placeholder="回复 李李李:"></textarea>
+																<div class="btnbox">
+																	<input class="btn-gray" type="button" value="提交回复" /><input
+																		class="btn-gray" type="button" value="取消" />
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									<div class="pager-gap">
+										<div class="fr pager">
+											<a class="prev disabled" href="#nogo">上一页</a><a
+												class="active" href="#nogo">1</a><a href="#nogo">2</a><a
+												href="#nogo">3</a><a class="more" href="#nogo">...</a><a
+												href="#nogo">10</a><a class="next" href="#nogo">下一页</a><span>共10页</span><span>到第
+												<input class="page-text" type="text" />页
+											</span><span><input class="btn btn-normal" type="button"
+												value="确定" /></span>
+										</div>
+									</div>
+								</div>
+								<div class="bd-content">22222</div>
+								<div class="bd-content">33333</div>
+								<div class="bd-content">444</div>
+							</div>
+						</div>
+						<!--评价-start-->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="footer">
+			<div class="page-width">
+				<ul class="guide">
+					<li><h3>新手帮助</h3>
+						<ul>
+							<li><a href="">用户手册</a></li>
+							<li><a href="">用户购买流程</a></li>
+							<li><a href="">商品提货流程</a></li>
+						</ul></li>
+					<li><h3>常见问题</h3>
+						<ul>
+							<li><a href="">退款说明</a></li>
+							<li><a href="">发票说明</a></li>
+						</ul></li>
+					<li><h3>协议与保障</h3>
+						<ul>
+							<li><a href="">服务品质保障</a></li>
+							<li><a href="">产品正品保障</a></li>
+							<li><a href="">产品保修</a></li>
+						</ul></li>
+					<li class="footer-map">
+						<div class="coverage">
+							亿投车吧已向全国330城市开放10000余家安装门店，覆盖规模迅速扩大中；<br /> <a class="anormal"
+								href="">了解详情&gt;&gt;</a><br /> <a class="anormal" href="">加盟店入驻&gt;&gt;</a>
+						</div>
+					</li>
+					<li><h3>联系我们</h3>
+						<ul>
+							<li><a href="">亿投车吧网站介绍</a></li>
+							<li><a href="">广告与市场合作</a></li>
+							<li><a href="">招贤纳士</a></li>
+							<li><a href="">联系电话：<br />400890897
+							</a></li>
+						</ul></li>
+				</ul>
+			</div>
+			<div class="footer-con">
+				<p>Copyright©2015-2020 shopnc Inc.,All rights reserved.</p>
+				<p>
+					Powered by <a href="http://www.raiserswin.com/">融芯思联</a>
+					冀ICP备15008449号
+				</p>
+			</div>
+		</div>
+	</div>
+    <div id="share-wx" style="display: none">
+        <div class="share-wx">
+            <img src="image-app/temp/qr-code.jpg" alt=""/>
+        </div>
+    </div>
+	<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+	<script type="text/javascript" src="lib/layer/layer.js"></script>
+	<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+	<script type="text/javascript" src="js/common/laytpl.js"></script>
+	<script type="text/javascript" src="js/common/common.js"></script>
+	<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+	<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+
+	<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery.jqzoom.js"></script>
+	<script type="text/javascript" src="lib/jquery/jquery.scrollstop.js"></script>
+	<script type="text/javascript" src="js-app/main.js"></script>
+
+	<script type="text/javascript">
+        //分享-微信
+        function share_dialogDom() {
+            var dom = "#share-wx";
+            Layer.dialog({
+                dom : dom, //或者 html string
+                area : [ '400px', '300px' ],
+                title : "扫描二维码",
+                closeBtn : true,
+                btn : false
+                //默认为 btn : ["确定", "取消"]
+            });
+        }
+
+		function doOnNumChange(numValue, htDom) {
+			var dataId = $(htDom).attr("data-id");
+			console.log(dataId + " : " + numValue);
+		}
+
+		var _imageList = [ {
+			url : "image-app/temp/goods1.png",
+			thumbUrl : "image-app/temp/goods1.png"
+		}, 
+		"image-app/temp/goods2.jpg", 
+		"image-app/temp/goods1.png", 
+		"image-app/temp/goods2.jpg", 
+		"image-app/temp/goods1.png", 
+		"image-app/temp/goods1.png" ];
+		//
+		$(function() {
+			//购物-增加减少
+			renderNumSpinner("numSpinner", doOnNumChange, 2, 6);
+
+			/*tab页签*/
+			jQuery(".slideTxtBox").slide({
+				trigger : "click"
+			});
+
+			//回复
+			click("reply");
+
+			//产品详情页/门店详情页-评价标题超过一定范围fix
+			makeTopSticky("specParam", 675, "fixed-right")
+
+			//
+			var goodsTitle = "智润宝 车载充气床 夏季睡觉游玩水上浮床 多功能充气床";
+			renderAlbumViewer("imageViewer", _imageList, goodsTitle, true, function(goodsTitle) {
+				alert(goodsTitle);
+			});
+			//
+			renderAlbumImages("imagePreviewer", _imageList, 0, function() {
+				Layer.dialog({
+					dom : "#imageViewer",
+					area : [ '860px', '600px' ],
+					title : false,
+					closeBtn : true,
+					btn : false,
+					shadeClose : true
+				});
+			});
+
+		});
+	</script>
+</body>
+</html>

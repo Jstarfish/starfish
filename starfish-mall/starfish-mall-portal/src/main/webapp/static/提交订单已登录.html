@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="css/libext/jquery.ext.css" />
+    <link rel="stylesheet" href="css-app/main.css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+    <title>提交订单</title>
+</head>
+<body>
+<div class="page-wrapper">
+	<div class="topbar">
+		<div class="page-width clearfix">
+            <ul class="quick-menu" id="district">
+                <li class="nLi dropdown menu-district"><a href="/web-front/"><img alt="" src="image-app/district.png"><span>河北</span><i></i></a>
+                    <em></em>
+                    
+                </li>
+                <!--<li class="nLi munu-none"><span>全国330城市已覆盖，10000家加盟店</span></li>-->
+                <li class="nLi"><a href="http://localhost:8080/web-front/merch/entering/jsp" target="_blank"><span>加盟合作</span>|</a></li>
+                <li class="nLi"><a href="http://localhost:8080/web-front/merch/entering/jsp" target="_blank"><span>产品合作</span></a></li>
+            </ul>
+            <ul class="quick-menu" id="quick-menu-cart">
+                <li class="nLi"><a href="/web-front/ucenter/saleOrder/list/jsp"><span>我的订单</span>|</a></li>
+                <li class="nLi"><a href="/web-front/ucenter/index/jsp"><span>用户中心</span>|</a></li>
+                <li class="nLi dropdown shopping-cart"><a href="/web-front/saleCart/list/jsp" id="nLi-shopping-cart-a"><span>购物车（<b id="saleCartCountIndex">7</b>）</span><i></i></a><em></em>
+                	<div class="sub">
+                        <h1>最新加入的商品</h1>
+                        <ul class="sub-content" id="saleCart">
+                        	
+                        </ul>
+                        <!--<div class="content-none">
+                            您的购物车中暂无商品，赶快选择心爱的商品吧！
+                        </div>-->
+                        <div class="sub-bottom">
+                            <div class="sum">共<span class="num" id="svcCountIndex"></span>个服务,<span class="num" id="goodsCountIndex"></span>个商品 总金额：<span class="price" id="finalAmountIndex"></span></div>
+                            <input type="button" value="去购物车" class="btn btn-w70" id="goSaleCart">
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="quick-menu" id="quick-menu" style="width: auto;"><span class="welcome">你好，<span><a href="/web-front/ucenter/index/jsp">邓华锋</a><em class="user-grade">V99</em></span>，欢迎来到<a href="/web-front/">亿投车吧</a><span class="reg-quit"><a href="/web-front/user/logout/do">[退出]</a></span></span></ul>
+		</div>
+	</div>
+    <div class="header">
+    <div class="page-width">
+        <a class="logo" href="#"><img src="image/logo.png" alt="车logo" /></a>
+        <div class="head-steps">
+        	<ul class="steps">
+	            <li class="actived"><i>1</i><span>我的购物车</span><em></em></li>
+	            <li class="active"><i>2</i><span>填写核对订单</span><em></em></li>
+	            <li class="end"><i>3</i><span>订单提交成功</span></li>
+	        </ul>
+        </div>
+    </div>
+</div>
+<div class="content">
+	<div class="page-width">
+		<div class="mod-main2">
+			<div class="mod-main2-tit">
+				<h1>填写核对订单</h1><a style="float:right" class="anormal" id="btnBack" href="javascript:void(0)">返回修改购物车&gt;&gt;</a>
+			</div>
+			<div class="cart-detail">
+				<div class="cart-detail-con1">
+					<table class="order-td shopping-td">
+						<thead>
+			            <tr>
+			                <th colspan="2"><div class="text-left"><b>服务/商品详情</b></div></th>
+			                <th width="100">单价</th>
+			                <th width="100">数量</th>
+			                <th width="100">小计</th>
+			                <th width="55">状态</th>
+			            </tr>
+			            </thead>
+								<tbody id="carSvcGoods">
+									<tr class="title">
+										<th colspan="7">
+											<div class="text-left">
+												<label class="mr20">洗美服务</label>
+											</div>
+										</th>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href=""><img alt=""
+														src="image-app/svc01.png"></a>
+												</dt>
+												<dd class="text">
+													<a href="">普通洗车<br> <span class="gray1">洗洗得了</span>
+													</a>
+												</dd>
+											</dl>
+										</td>
+										<td>0</td>
+										<td>x 1</td>
+										<td >
+											<div style="text-decoration: line-through;">￥100</div>
+											<div><span class="red price1" style="font-size: 14px; display: inline-block; vertical-align: middle;">￥90</span></div>
+											<a title="会员专享折扣" href="javascript:;" class="hy_discount">会员折扣</a>
+											
+										</td>
+										<td><font color="green">正常</font></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href=""><img alt=""
+														src="image-app/svc01.png"></a>
+												</dt>
+												<dd class="text">
+													<a href="">漆面美容<br> <span class="gray1">精致打蜡、去污打蜡、漆面抛光、漆面封釉、漆面镀膜、划痕修复……</span>
+													</a>
+												</dd>
+											</dl>
+										</td>
+										<td>0</td>
+										<td>x 1</td>
+										<td ><div class="price1">0</div></td>
+										<td><font color="green">正常</font></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href=""><img alt=""
+														src="image-app/svc01.png"></a>
+												</dt>
+												<dd class="text">
+													<a href="">内饰翻新<br> <span class="gray1">座椅清洗、顶棚清洗、仪表盘清洗、坐垫清洗、地毯清洗、皮革养护、高温蒸汽去味杀毒……</span>
+													</a>
+												</dd>
+											</dl>
+										</td>
+										<td>0</td>
+										<td>x 1</td>
+										<td ><div class="price1">0</div></td>
+										<td><font color="green">正常</font></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href=""><img alt=""
+														src="image-app/svc01.png"></a>
+												</dt>
+												<dd class="text">
+													<a href="">精致洗车<br> <span class="gray1">泡沫清洗、污渍清除、钢圈清洗、底盘清洗、内饰洗尘、轮胎上蜡……</span>
+													</a>
+												</dd>
+											</dl>
+										</td>
+										<td>0</td>
+										<td>x 1</td>
+										<td ><div class="price1">0</div></td>
+										<td><font color="green">正常</font></td>
+									</tr>
+								</tbody>
+								<tbody id="optGoods">
+									<tr class="title">
+										<th colspan="7">
+											<div class="text-left">
+												<label class="mr20">自选商品</label>
+											</div>
+										</th>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href="/web-front/product/detail/jsp?productId=21"><img
+														title="正品阿狸黑色骨头形颈枕（对） 黑色 一对"
+														src="http://localhost:888/repo/image/goods/album/2015/11/05/ffb71c09-7308-467f-b130-be6bd3867c66.jpg"></a>
+												</dt>
+												<dd class="text">
+													<a title="正品阿狸黑色骨头形颈枕（对） 黑色 一对" target="_blank"
+														href="/web-front/product/detail/jsp?productId=21">正品阿狸黑色骨头形颈枕（对）
+														黑色 一对</a>
+												</dd>
+											</dl>
+										</td>
+										<td>45</td>
+										<td>x 1</td>
+										<td ><div class="price1">135</div></td>
+										<td id="status_21"><font color="green">有货</font></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href="/web-front/product/detail/jsp?productId=25"><img
+														title="正品阿狸黑色骨头形颈枕（对） 棕色 一对"
+														src="http://localhost:888/repo/image/goods/album/2015/11/05/5d2d7a87-a398-471f-979f-8320d0ef22af.jpg"></a>
+												</dt>
+												<dd class="text">
+													<a title="正品阿狸黑色骨头形颈枕（对） 棕色 一对" target="_blank"
+														href="/web-front/product/detail/jsp?productId=25">正品阿狸黑色骨头形颈枕（对）
+														棕色 一对</a>
+												</dd>
+											</dl>
+										</td>
+										<td>45</td>
+										<td>x 1</td>
+											<td ><div class="price1">135</div></td>
+										<td id="status_25"><font color="green">有货</font></td>
+									</tr>
+									<tr>
+										<td colspan="2">
+											<dl class="goods-item goods-item2">
+												<dt>
+													<a href="/web-front/product/detail/jsp?productId=24"><img
+														title="正品阿狸黑色骨头形颈枕（对） 深蓝色 一对"
+														src="http://localhost:888/repo/image/goods/album/2015/11/05/1f5e87e7-7ed9-44e3-a5eb-d8dea5b71594.jpg"></a>
+												</dt>
+												<dd class="text">
+													<a title="正品阿狸黑色骨头形颈枕（对） 深蓝色 一对" target="_blank"
+														href="/web-front/product/detail/jsp?productId=24">正品阿狸黑色骨头形颈枕（对）
+														深蓝色 一对</a>
+												</dd>
+											</dl>
+										</td>
+										<td>45</td>
+										<td>x 1</td>
+											<td ><div class="price1">135</div></td>
+										<td id="status_24"><font color="green">有货</font></td>
+									</tr>
+								</tbody>
+							</table>
+				</div>
+			</div>
+			<div class="cart-detail">
+				<h1 class="cart-detail-tit">
+					服务门店<a style="margin-left: 10px" class="anormal" id="btnShopSelect" href="javascript:void(0)">[选择]</a>
+				</h1>
+				<div class="cart-detail-con">
+					<div id="shopAddress" class="ml50"><font style="font-style: italic">您还未选择服务门店</font></div>
+					<input type="hidden" id="shopId" name="shopId" value="">
+				</div>
+			</div>
+			<div class="cart-detail">
+				<h1 class="cart-detail-tit">预约时间</h1>
+				<div class="cart-detail-con">
+					<div class="ml50">
+						<input type="text" readonly="true" id="planTime" name="planTime" placeholder="预约时间" class="inputx inputx-h26">
+					</div>
+				</div>
+			</div>
+			<div class="cart-detail">
+				<h1 class="cart-detail-tit">
+					联系人信息
+					<div style="margin-left: 15px" class="select-special select-contacts">
+						<span class="select-special-l">选择联系人</span> <span class="select-special-r"><i></i></span>
+						<div class="clear"></div>
+						<ul class="linkManList" id="linkManList">
+						</ul>
+					</div>
+					<!--end-select-->
+					<a href="" class="anormal a1"><span class="red">+</span>添加联系人</a>
+				</h1>
+				<div class="cart-detail-con clearfix">
+					<div class="ml50" id="addLinkManDiv">
+						<input type="text" maxlength="11" id="phoneNo" name="phoneNo" placeholder="手机号码" class="inputx inputx-h26" style="ime-mode: disabled;">
+						<span style="display: none" id="phoneNoTip" class="red ml20"></span>&nbsp;&nbsp;
+						<input type="text" id="linkMan" name="linkMan" placeholder="联系人姓名" class="inputx inputx-h26">
+						<span style="display: none" id="linkManTip" class="red ml20"></span>	
+						<input type="button" style="display: none" id="btnAddLinkMan" value="+加入常用联系人" class="btn-normal">
+					</div>
+				</div>
+				 <div class="cart-detail">
+	                <h1 class="cart-detail-tit">车辆信息
+	                    <!--select-->
+	                    <div class="select-special select-car" style="margin-left:29px;">
+	                        <span class="select-special-l">奥迪 A3 (进口) 1.4T 2016年产</span>
+	                        <span class="select-special-r"><i></i></span>
+	                        <div class="clear"></div>
+	                        <ul>
+	                            <li>
+	                                <a href="javascript:;">
+	                            		奥迪 A3 (进口) 1.4T 2016年产
+	                                </a>
+	                            </li>
+	                            <li>
+	                                <a href="javascript:;">
+	                                	奥迪 A4 (进口) 1.4T 2016年产
+	                                </a>
+	                            </li>
+	                        </ul>
+	                    </div>
+	                    <!--end-select-->
+	                    <a href="" class="anormal a1"><span class="red">+</span>添加车辆</a>
+	                </h1>
+	                <div class="cart-detail-con" style="padding-left: 102px;">
+	               		奥迪 A3 (进口) 1.4T 2016年产
+	                </div>
+	            </div>
+				<div class="cart-detail">
+					<h1 class="cart-detail-tit">服务方式</h1>
+					<div class="cart-detail-con">
+						<dl class="labels">
+							<dt>
+								<label class="label">到店自提</label>
+							</dt>
+							<dd></dd>
+						</dl>
+					</div>
+				</div>
+				<div class="cart-detail">
+					<h1 class="cart-detail-tit">支付及其它</h1>
+					<div class="cart-detail-con">
+						<dl id="couponDl" class="labels">
+							<dt>
+								<label>优惠券：</label>
+							</dt>
+							<dd>
+								<div class="checkbox-analog">
+										<input type="hidden" id="couponId" name="couponId" value="">
+								</div>
+								<a id="btnCouponSelect" class="anormal" href="javascript:void(0)">[ 选择 ]</a>
+								<div style="display: none" id="coupon-selected" class="coupon-selected">
+									<p id="svcCouponShow"></p>
+									<p id="proCouponShow"></p>
+									<p>
+										优惠券优惠金额 <b id="couponPrice" class="red">0</b> 元
+									</p>
+								</div>
+							</dd>
+						</dl>
+						<dl id="ecardDl" class="labels">
+							<dt>
+								<label>E卡支付：</label>
+							</dt>
+							<dd>
+								<div class="checkbox-analog">
+									<input type="hidden" id="ecardId" name="ecardId" value=""> 
+								</div>
+								<a id="btnEcardSelect" class="anormal" href="javascript:void(0)">[ 选择 ]</a>
+								<div style="display:none" id="ecard-selected" class="coupon-selected">
+								<!-- 	<table class="order-td consume-td border-no">
+										<tbody>
+											<tr id="ecardShowTr">
+											</tr>
+										</tbody>
+									</table> -->
+									<p id="ecardShowTr"></p>
+									<p>
+										E卡支付 <b id="ecardPrice" class="red">0</b> 元
+									</p>
+								</div>
+							</dd>
+						</dl>
+						<dl style="display:none" id="payPasswordDl" class="labels">
+							<dt>
+								<label>支付密码：</label>
+							</dt>
+							<dd>
+								<input type="password" id="pPassword" name="payPassword" placeholder="支付密码" class="inputx inputx-h26"></input>
+								<a style="display:none;color:red" class="anormal" id="btnSettingPayPassword" href="javascript:void(0)">您还没有支付密码，点击设置&gt;&gt;</a>
+								<a id="forgetPayPassword" href="javascript:void(0)">忘记密码？</a>
+							</dd>
+						</dl>
+						<dl id="paywayDl" class="labels">
+							<dt>
+								<label>支付方式：</label>
+							</dt>
+							<dd>
+								<input type="hidden" id="payWay" name="payWay">
+								<div id="paywayList" class="checkbox-analog">    
+								   <a class="active mr20" href="javascript:;"><img src="image-app/alipay.png"><i></i></a>
+                                <a class="mr20" href="javascript:;"><img src="image-app/unionpay.png"><i></i></a>
+                                <a href="javascript:;"><img src="image-app/wechatpay.png"><i></i></a></div>
+							</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="cart-detail">
+					<h1 class="cart-detail-tit">应付详情</h1>
+					<div class="cart-detail-con clearfix">
+		<!-- 				<dl class="cart-amount">
+							<dt>商品总金额：</dt>
+							<dd id="goodsAmount">¥ 135</dd>
+						</dl>
+						<dl class="cart-amount">
+							<dt>
+								服务费&nbsp;|&nbsp;<a title="服务费用标准说明" href="javascript:void(0)" class="anormal svcPriceExplain">服务费用标准说明<span class="tip3"></span></a>：
+							</dt>
+							<dd id="svAmount">¥ 0</dd>
+						</dl> -->
+						<dl  id="ecardAmountDl" class="cart-amount">
+							<dt>商品合计：</dt>
+							<dd id="ecardAmount">¥ 0</dd>
+						</dl>
+						<dl  id="ecardAmountDl" class="cart-amount">
+							<dt>服务合计：</dt>
+							<dd id="ecardAmount"><div><a title="会员专享折扣" href="javascript:;" class="hy_discount mr10" style="display: inline-block;">会员折扣</a><span class="red price1 mr10" style="font-size: 14px; display: inline-block; vertical-align: middle;">￥90</span><span style="text-decoration: line-through;">￥100</span></div></dd>
+						</dl>
+						<dl id="couponAmountDl" class="cart-amount">
+							<dt>
+								<font id="couponTagetTypeFont"></font>优惠券：
+							</dt>
+							<dd id="couponAmount">-¥ 00.00</dd>
+						</dl>
+						<dl  id="ecardAmountDl" class="cart-amount">
+							<dt>亿投车吧E卡支付：</dt>
+							<dd id="ecardAmount">¥ 0</dd>
+						</dl>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="cart-toolbar fix-to-btm" id="cartToolbar">
+			<div class="page-width">
+				<div class="fr">
+					<span class="total-price">应付金额： <span id="totalAmount" class="red">¥ 135</span></span> <input type="button" id="btnSubmit" value="提交订单" class="btn btn-h40">
+				</div>
+					<div style="float:left ; padding-top:5px;padding-left:32px;" class="fr">
+					<span>订单留言： </span><span>
+					<input type="text" maxlength="30" placeholder="订单留言" id="leaveMsg" name="leaveMsg" class="inputx inputx-h26 inputx-w400"></span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <div class="footer">
+	<div class="page-width">
+		<div class="footer-slogen">
+            <img alt="" src="/web-front/static/image-app/temp/adv06.jpg">
+        </div>
+		<ul class="guide">
+			<li><h3>新手帮助</h3>
+				<ul>
+					<li><a href="/web-front/comn/faq/jsp?id=1000">用户手册</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1001">服务流程</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1001">购物流程</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1002">常见问题</a></li>
+				</ul></li>
+			<li><h3>车吧特色</h3>
+				<ul>
+					<li><a href="/web-front/comn/faq/jsp?id=1003">车吧互动</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1003">玩转E卡</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1004">标准化服务</a></li>
+				</ul></li>
+			<li><h3>联系我们</h3>
+				<ul>
+					<li><a href="/web-front/comn/faq/jsp?id=1005">关于亿投车吧</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1006">联系方式</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1007">招贤纳士</a></li>
+				</ul></li>
+			<li><h3>诚邀合作</h3>
+				<ul>
+					<li><a href="/web-front/comn/faq/jsp?id=1008">加盟合作</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1009">产品合作</a></li>
+					<li><a href="/web-front/comn/faq/jsp?id=1010">广告合作</a></li>
+				</ul></li>
+			<li class="footer-map">
+				<div class="coverage">
+					亿投车吧已向全国330城市开放10000余家安装门店，覆盖规模迅速扩大中；<br>
+					<a href="/web-front/comn/faq/jsp?id=1012" class="anormal">了解详情&gt;&gt;</a><br>
+					<a target="_blank" href="http://localhost:8080/web-front/merch/entering/jsp" class="anormal">加盟合作&gt;&gt;</a>
+				</div>
+			</li>
+
+		</ul>
+	</div>
+	<div class="footer-con">
+       <p>友情链接:<a href="#" class="ml10">极限户外-自驾</a><a href="#">天津企业</a><a href="#">北京团购</a><a href="#">绿野户外</a><a href="#">镭射眼智能行车记录仪</a><a href="#">汽配龙</a><a href="#">快递查询</a></p>
+       <p>Copyright&copy;亿车汇 All Rights Reserved 版权所有 亿车汇（天津） 电子商务有限公司 网站备案/许可证号：京ICP备14001421号-5</p>
+   </div>
+</div>
+</div>
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+<script type="text/javascript" src="lib/layer/layer.js"></script>
+<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+<script type="text/javascript" src="js/common/laytpl.js"></script>
+<script type="text/javascript" src="js/common/common.js"></script>
+<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.scrollstop.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript" src="js-app/main.js"></script>
+<script type="text/javascript" src="js-app/json/userCoupon.js"></script>
+<script type="text/javascript" src="js-app/json/saleCart.js"></script>
+<script type="text/javascript">
+//**********点击选择复选框*****************
+function checkboxSelect(ts, name, event) {
+	var id = name + "Id";
+	var input = "input[name=" + name + "]";
+	if(name=="coupon"){
+		var dataType=$(ts).attr("data-type");
+		var dataId=$(ts).attr("data-id");
+		input="input[name=" + name + "][data-type="+dataType+"][data-id="+dataId+"]";
+	}
+	
+	var tr = $(ts).parent().parent().parent();
+	var checked = $(ts).attr("checked");
+	if (!isUndef(checked) && checked == "checked") {
+		$(tr).siblings().removeClass('tr-selected').end().addClass('tr-selected');
+		$id(id).val($(ts).val());
+	} else {
+		$(tr).removeClass('tr-selected');
+		$id(id).val("");
+	}
+
+	$(tr).siblings().find(input).attr("checked", "checked").end().find(input).attr("checked", false);
+	event.stopPropagation();
+}
+function trSelect(ts, name) {
+	var id = name + "Id";
+	var input = "input[name=" + name + "]";
+	var checkbox = $(ts).find(input);
+	if(name=="coupon"){
+		var dataType=$(checkbox).attr("data-type");
+		var dataId=$(checkbox).attr("data-id");
+		input="input[name=" + name + "][data-type="+dataType+"][data-id="+dataId+"]";
+	}
+	var checked = $(checkbox).attr("checked");
+	var val = $(checkbox).val();
+	if (isUndef(checked) || checked != "checked") {
+		$(checkbox).attr("checked", "checked");
+		$(ts).siblings().removeClass('tr-selected').end().addClass('tr-selected');
+		$id(id).val(val);
+	} else {
+		$(checkbox).attr("checked", false);
+		$(ts).removeClass('tr-selected');
+		$id(id).val("");
+	}
+	$(ts).siblings().find(input).attr("checked", "checked").end().find(input).attr("checked", false);
+}
+function dialogSrc() {
+	$("body").css({overflow:"hidden"});    //禁用滚动条
+    var src = "弹出-选择门店.html";
+    Layer.dialog({ 
+        title : "选择门店",
+        src : src,
+        area : ['1000px', '500px'],
+        closeBtn : true,
+        end:function(){
+        	$("body").css({overflow:"none"});    //禁用滚动条
+        }
+    });
+}
+// -----------------------------------------------------------------}}
+$(function(){
+    makeBtmSticky("cartToolbar", 300);
+    getSaleCart();
+    $id("btnShopSelect").click(function(){
+    	dialogSrc();
+    });
+	$id("btnCouponSelect").click(function() {
+		couponSelectDlg();
+	});
+	$(".layui-layer-content table>tbody#proCouponList>tr").live("click", function() {
+		trSelect(this, "coupon");
+	});
+	$(".layui-layer-content table>tbody#svcCouponList>tr").live("click", function() {
+		trSelect(this, "coupon");
+	});
+	$(".layui-layer-content input[name=coupon]").live("click", function(event) {
+		checkboxSelect(this, "coupon", event);
+	});
+	
+	$(".couponSelect").live("click", function() {
+		//initCouponSelect();
+		var dataType=$(this).attr("data-type");
+		var dataId=$(this).attr("data-id");
+		if(dataType=="svc"){
+			selectSvcCouponMap.remove(dataId);
+		}else if(dataType=="goods"){
+			selectProCouponMap.remove(dataId);
+		}
+		$(this).parent().parent().remove();
+		checkShow();
+	});
+});
+var cartSvcList = null;
+var saleCartGoods = null;
+var saleCart=null;
+var payableGoodsAmount = 0;// 应付商品金额
+var payableSvcAffixPrice = 0;// 应付服务金额
+var couponOuterAmount = 0;// 减去优惠券的应付金额
+function getSaleCart() {
+/* 	var ajax = Ajax.post("/saleCart/info/fetch/get");
+	ajax.done(function(result, jqXhr) { */
+		var result=saleCartResult;
+		if (result != "" && result.type == "info") {
+			if (result.data != null) {
+				saleCart = result.data;
+				saleCart.amountOuter = saleCart.amountInfo.saleAmount;
+				payableGoodsAmount = saleCart.goodsAmount;// 应付商品金额
+				payableSvcAffixPrice = saleCart.svcAmount;// 应付服务金额
+				couponOuterAmount = saleCart.amountOuter;// 减去优惠券的应付金额
+				//renderSvHtmlByCartSvcList(saleCart);
+				cartSvcList = saleCart.saleCartSvcList;// 服务列表
+				saleCartGoods = saleCart.saleCartGoods;// 商品列表
+			} else {
+				saleCartamount(null);
+			}
+		} else {
+			toast(result.message, null, "warning", function() {
+				openPage(supermarketUrl);
+			});
+		}
+/* 	});
+	ajax.go(); */
+}
+
+function saleCartamount(saleCart) {
+	if (saleCart != null) {
+		if (saleCart.goodsAmount != null) {// 商品价格
+			$id("goodsAmount").html("¥ " + saleCart.goodsAmount);
+		} else {
+			$id("goodsAmount").html("¥ " + 0);
+		}
+		if (saleCart.svcAmount != null) {// 服务价格
+			$id("svAmount").html("¥ " + saleCart.svcAmount);
+		} else {
+			$id("svcAmount").html("¥ " + 0);
+		}
+		if (saleCart.amountOuter != null) {// 总价
+			$id("totalAmount").html("¥ " + saleCart.amountOuter);
+		} else {
+			$id("totalAmount").html("¥ " + 0);
+		}
+	} else {
+		$id("goodsAmount").html("¥ " + 0);
+		$id("totalAmount").html("¥ " + 0);
+		$id("svcAmount").html("¥ " + 0);
+	}
+}
+function renderHtml(data, fromId, toId) {
+	// 获取模板内容
+	var tplHtml = $id(fromId).html();
+	// 生成/编译模板
+	var theTpl = laytpl(tplHtml);
+	// 根据模板和数据生成最终内容
+	var htmlStr = theTpl.render(data);
+	// 使用生成的内容
+	$id(toId).html(htmlStr);
+}
+function openDlg(dlgArgs, dlgViewId, dlgUrl, callbackFunc, options) {
+	// 对话框信息
+	var body = $("body");
+	$(body).css({
+		overflow : "hidden"
+	}); // 禁用滚动条
+	var theDlg = null;
+	options = options || {};
+	if (dlgUrl) {
+		// 对话框参数名
+		var argName = dlgViewId || "argx";
+		// 对话框参数值
+		var argValue = dlgArgs;
+		// 对话框参数 预存
+		setDlgPageArg(argName, argValue);
+		var pageUrl = dlgUrl;
+		var extParams = {};
+		pageUrl = makeDlgPageUrl(pageUrl, argName, extParams);
+		options["src"] = pageUrl;
+	}
+	options["closeBtn"] = true;
+	options["maxmin"] = false;
+	if (callbackFunc && typeof callbackFunc == "function") {
+		options["yes"] = function(index) {
+			callbackFunc(theDlg, index);
+		};
+	}
+	options["end"] = function() {
+		$(body).css({
+			overflow : "scroll"
+		}); // 启用滚动条
+	};
+	// 打开对话框-----------------------------------------
+	theDlg = Layer.dialog(options);
+}
+var selectProCouponMap = KeyMap.newOne();
+var selectSvcCouponMap = KeyMap.newOne();
+var couponType = KeyMap.newOne();
+couponType.add("nopay", "免付券");
+couponType.add("sprice", "特价券");
+couponType.add("deduct", "抵金券");
+function couponSelectDlgCallbackFunc(rspInfo, index) {
+	selectProCouponMap = KeyMap.newOne();
+	selectSvcCouponMap = KeyMap.newOne();
+	var proCheckboxs=$("#proCouponList input[name=coupon]:checked");
+	for(var i=0,len=proCheckboxs.length;i<len;i++){
+		var proCheckbox=proCheckboxs[i];
+		var productId=$(proCheckbox).attr("data-id");
+		var userCouponId=$(proCheckbox).val();
+		var proCouponList=proCouponMap.get(productId);
+		var proCoupon=proCouponList.find(function(obj,i){
+			return obj.id===parseInt(userCouponId);
+		});
+		if(proCoupon!=null){
+			selectProCouponMap.set(productId,proCoupon);
+		}
+	}
+	renderHtml({couponMap:selectProCouponMap,type:"goods"}, "couponRowTpl", "proCouponShow");
+	//$id("proCouponShow").show();
+	var svcCheckboxs=$("#svcCouponList input[name=coupon]:checked");
+	for(var i=0,len=svcCheckboxs.length;i<len;i++){
+		var svcCheckbox=svcCheckboxs[i];
+		var svcId=$(svcCheckbox).attr("data-id");
+		var userCouponId=$(svcCheckbox).val();
+		var svcCouponList=svcCouponMap.get(svcId);
+		var svcCoupon=svcCouponList.find(function(obj,i){
+			return obj.id===parseInt(userCouponId);
+		});
+		if(svcCoupon!=null){
+			selectSvcCouponMap.set(svcId,svcCoupon);
+		}
+	}
+	renderHtml({couponMap:selectSvcCouponMap,type:"svc"}, "couponRowTpl", "svcCouponShow");
+	//$id("svcCouponShow").show();
+	//$id("coupon-selected").show();
+	//alert($("#proCouponList input[name=coupon]:checked").length);
+	//alert($("#svcCouponList input[name=coupon]:checked").length);
+	/* var couponId = $id("couponId").val();
+	// 如果没变化
+	if (couponSelect != null && parseInt(couponId) == couponSelect.id) {
+		layer.close(index);
+		return;
+	}
+	if (couponId == "") {
+		couponSelect = null;
+	} else {
+		couponSelect = userCouponMap.get(parseInt(couponId));
+		renderHtml(couponSelect, "couponRowTpl", "couponShowTr");
+	} */
+	checkShow();
+	layer.close(index);
+}
+function checkShow() {
+	saleCart.amountOuter = saleCart.amountInfo.saleAmount;// 重新计算
+	payableGoodsAmount = saleCart.goodsAmount;// 应付商品金额
+	payableSvcAffixPrice = saleCart.svcAmount;// 应付服务金额    
+	var couponPayAmount = 0;
+	var isHasSelectCoupon = false;
+	for (var i = 0, keys = selectProCouponMap.keys(), len = keys.length; i < len; i++) {
+		if (i == 0) {
+			isHasSelectCoupon = true;
+		}
+		var key = keys[i];
+		var productCoupon = selectProCouponMap.get(key);
+		payableGoodsAmount = payableGoodsAmount.subtract(productCoupon.payAmount);
+		couponPayAmount = couponPayAmount.add(productCoupon.payAmount);
+	}
+	for (var i = 0, keys = selectSvcCouponMap.keys(), len = keys.length; i < len; i++) {
+		if (i == 0) {
+			isHasSelectCoupon = true;
+		}
+		var key = keys[i];
+		var svcCoupon = selectSvcCouponMap.get(key);
+		payableSvcAffixPrice = payableSvcAffixPrice.subtract(svcCoupon.payAmount);
+		couponPayAmount = couponPayAmount.add(svcCoupon.payAmount);
+	}
+	// map格式
+	if (isHasSelectCoupon) {
+		saleCart.amountOuter = saleCart.amountOuter.subtract(couponPayAmount);
+		$id("couponPrice").text(couponPayAmount);
+		$id("couponAmount").text("-¥ " + couponPayAmount);
+		$id("coupon-selected").show();
+		$id("couponAmountDl").show();
+	} else {
+		//initCouponSelect();
+	}
+	couponOuterAmount = saleCart.amountOuter;
+	/* var ecardPayAmount = 0;
+	if (ecardSelect != null) {
+		thisUseComputing(ecardSelect);
+		ecardPayAmount = ecardSelect.payAmount;
+		saleCart.amountOuter = saleCart.amountOuter.subtract(ecardPayAmount);
+		$id("ecardPrice").text(ecardPayAmount);
+		$id("ecardAmount").text("-¥ " + ecardPayAmount);
+		$id("ecard-selected").show();
+		$id("ecardAmountDl").show();
+		$id("payPasswordDl").show();
+		if (isExistsPayPassword) {
+			$id("pPassword").show();
+			$id("forgetPayPassword").show();
+			$id("btnSettingPayPassword").hide();
+		} else {
+			$id("btnSettingPayPassword").show();
+			$id("pPassword").hide();
+			$id("forgetPayPassword").hide();
+		}
+	} else {
+		initEcardSelect();
+	}
+
+	// 如果优惠券支付的金额等于总价，则隐藏e卡和支付方式。
+	if (couponPayAmount === saleCart.amountInfo.saleAmount) {
+		$id("payway").val("coupon");
+		initEcardSelect();
+		$id("ecardDl").hide();
+	} else {
+		$id("ecardDl").show();
+	}
+	if (saleCart == null || saleCart.amountOuter > 0) {
+		// TODO 默认显示 支付宝 支付方式设为支付宝
+		$id("paywayDl").show();
+	} else {// e卡支付总额=总应支付 或 优惠券支付+e卡支付=总应支付 或 优惠券支付=总应支付 (ecardPayAmount == totalAmount || couponPayAmount.add(ecardPayAmount) == totalAmount || couponPayAmount === totalAmount)
+		$id("paywayDl").hide();
+		$id("payway").val("");
+		if (ecardPayAmount == saleCart.amountOuter) {
+			$id("payway").val("ecard");
+		}
+	} */
+	saleCartamount(saleCart);
+}
+function couponSelectDlg() {
+	loadCouponList();
+	var options = {
+		dom : "#couponSelectDlg", // 或者 html string
+		title : "请选择优惠券",
+		area : [ '850px', '400px' ]
+	};
+	openDlg(null, null, null, couponSelectDlgCallbackFunc, options);
+}
+function userCouponComputing(userCoupon) {
+	if (userCoupon != null) {
+		var affixPrice = null;
+		var productAmount = null;
+		var affixPrice = null;// 服务
+		var productAmount = null;// 商品
+		var price = 0;
+		if (userCoupon.targetType == "goods") {
+			var goods = saleCartGoods.find(function(obj, i) {
+				return obj.productId === userCoupon.productId;
+			});
+			goods=goods||null;
+			if(goods!=null){
+				productAmount = goods.productAmount;
+				if (userCoupon.type == "nopay") {// 无需用户支付 （关联具体商品或服务，持此券可免付相关商品或服务）
+						price = productAmount;
+				} else if (userCoupon.type == "sprice") {// 特价 （关联具体商品或服务，持此特价券购买相关固定价格的商品和服务可以享受特价）
+					if (productAmount!=0) {
+						var diffPrice = productAmount.subtract(userCoupon.price);
+						price = diffPrice;
+					}
+				} else if (userCoupon.type == "deduct") {// 关联具体商品、分类或服务，持此券可以抵扣相应的金额
+					price = userCoupon.price;
+				}
+			}
+		} else if (userCoupon.targetType == "svc") {
+			var cartSvc = cartSvcList.find(function(obj, i) {
+				return obj.svcId === userCoupon.svcId;
+			});
+			cartSvc=cartSvc||null;
+			if (cartSvc!=null) {
+				affixPrice = cartSvc.salePrice;
+				if (userCoupon.type == "nopay") {// 无需用户支付 （关联具体商品或服务，持此券可免付相关商品或服务）
+						price = affixPrice;
+				} else if (userCoupon.type == "sprice") {// 特价 （关联具体商品或服务，持此特价券购买相关固定价格的商品和服务可以享受特价）
+					if (affixPrice!=0) {
+						var diffPrice = affixPrice.subtract(userCoupon.price);
+						price = diffPrice;
+					}
+				} else if (userCoupon.type == "deduct") {// 关联具体商品、分类或服务，持此券可以抵扣相应的金额
+					price = userCoupon.price;
+				}
+			}
+		}
+		userCoupon.payAmount = price;
+	}
+}
+var userCouponMap=null;
+var svcCouponMap =null;
+var proCouponMap =null;
+function loadCouponList() {
+	/* saleOrderInfo.saleCartInfo.saleCartSvcList = saleCart.saleCartSvcList;// 关联服务列表
+	saleOrderInfo.saleCartInfo.saleCartGoods = saleCart.saleCartGoods;// 关联商品列表
+	var ajax = Ajax.post("/user/coupon/map/get");
+	ajax.sync();
+	ajax.data(saleOrderInfo);
+	ajax.done(function(result, jqXhr) {
+		if (result.type == "info") {
+			userCouponMap = KeyMap.from(result.data); */
+			/*
+			 * var keys = couponMap.keys(); for(var i=0,len=keys.length;i<len;i++){ var key=keys[i]; var userCouponList=userCouponMap.get(key); if(key.contain("goods")){ var goodsId=key.substring(5);
+			 * renderHtml({userCouponList:userCouponList,type:"goods"}, "couponListSelectTpl","goodsCoupon"+goodId); }else if(key.contain("svc")){ var svcId=key.substring(3);
+			 * renderHtml({userCouponList:userCouponList,type:"svc"}, "couponListSelectTpl","svcCoupon"+svcId); } }
+			 */
+			userCouponMap = KeyMap.from(userCouponResult.data); 
+			svcCouponMap = KeyMap.from(userCouponMap.get("svc"));
+			proCouponMap = KeyMap.from(userCouponMap.get("goods"));
+			renderHtml({couponMap:svcCouponMap,type:"svc"}, "couponListTpl", "svcCouponList");
+			renderHtml({couponMap:proCouponMap,type:"goods"}, "couponListTpl", "proCouponList");
+	/* 	} else {
+			toast(result.message, null, "error");
+		}
+	});
+	ajax.go(); */
+}
+
+</script>
+</body>
+<script type="text/html" id="couponRowTpl">
+{{# var couponMap=d.couponMap; }}
+{{# var type=d.type; }}
+{{# if(!isUndef(couponMap)){ }}
+<ul>
+{{# for(var i=0,keys=couponMap.keys(),len=keys.length;i<len;i++){ }}
+{{# var key=keys[i];}}
+{{# var coupon=couponMap.get(key);}}
+<li>
+<span>
+{{# if(coupon.targetType=="svc"){ }}
+{{coupon.svcName}}（商品）
+{{# }else if(coupon.targetType=="goods"){ }}
+{{coupon.productName}}（服务）
+{{# } }}
+    {{couponType.get(coupon.type)}}</span>
+<span>价格：
+    {{# if(coupon.price==0){ }}
+    	免付¥ {{coupon.payAmount}}
+    {{# }else{ }}
+		省去¥ {{coupon.payAmount}}
+	{{# } }}
+</span>
+<span><a class="delete couponSelect" href="javascript:void(0)" 
+	{{# if(coupon.targetType=="svc"){ }}
+data-id="{{coupon.svcId}}"
+{{# }else if(coupon.targetType=="goods"){ }}
+data-id="{{coupon.productId}}"
+{{# } }}
+ data-type="{{coupon.targetType}}"  ></a></span>
+</li>
+{{# } }}
+</ul>
+{{# } }}
+</script>
+<div id="couponSelectDlg" class="popup-select" style="display: none;">
+			 <div class="declare">
+     服务优惠券
+        <span class="gray fr"></span>
+    </div>
+		<table class="order-td consume-td">
+				<tr class="title title1">
+					<td>优惠券</td>
+					<td>价格</td>
+					<td>具体限制</td>
+					<td>有效期</td>
+				</tr>
+				<tbody id="svcCouponList">
+				</tbody>
+					</table>
+					 <div class="declare">
+      商品优惠券
+        <span class="gray fr"></span>
+    </div>
+					<table class="order-td consume-td">
+					<tr class="title title1">
+					<td>优惠券</td>
+					<td>价格</td>
+					<td>具体限制</td>
+					<td>有效期</td>
+				</tr>
+				<tbody id="proCouponList">
+				</tbody>
+		</table>
+	</div>
+<script type="text/html" id="couponListTpl">
+{{# var couponMap = d.couponMap; }}
+{{# if(isUndef(couponMap)){ }}
+<tr><td colspan="5">没有符合条件的优惠券</td></tr>
+{{# }else{ }}
+{{# var keys = couponMap.keys(); }}
+{{# var len = keys.length; }}
+{{# if(len==0||couponMap=={}||couponMap.toString()=="{}"){}}
+	<tr><td colspan="5">没有符合条件的优惠券</td></tr>
+{{# }else{ }}
+{{# var type=d.type}}
+{{# for(var i=0;i<len;i++){ }}
+{{# var id=keys[i];}}
+{{# var userCouponList=couponMap.get(parseInt(id));}}
+{{# for(var j=0,glen=userCouponList.length;j<glen;j++){ }}
+	{{# var coupon=userCouponList[j]; }}
+	{{# coupon.targetType=type; }}
+	{{# var couponSelect=null; }}
+	{{# if(coupon.targetType=="goods"){ }}
+		{{# couponSelect=selectProCouponMap.get(coupon.productId)}}
+	{{# }else if(coupon.targetType=="svc"){}}
+		{{# couponSelect=selectSvcCouponMap.get(coupon.svcId)}}
+	{{#} }}
+	{{# userCouponComputing(coupon);}}
+	{{# var color="#ffcc33"}}
+	{{# if(coupon.type=="nopay"){ }}
+		{{# color="green"}}
+	{{# }else if(coupon.type=="sprice"){ }}
+		{{# color="red"}}
+	{{# }else if(coupon.type=="deduct") { }}
+		{{# color="orange"}}
+	{{# } }}
+
+<tr  {{# if(couponSelect!=null&&couponSelect.id==coupon.id){ }}class="tr-selected"{{# } }}>
+	<td style="color:{{color}};"><div class="text-left"><input 
+{{# if(coupon.targetType=="goods"){ }}
+name="coupon" data-type="goods" data-id="{{coupon.productId}}"
+{{# }else if(coupon.targetType=="svc"){}}
+	name="coupon" data-type="svc" data-id="{{coupon.svcId}}"
+{{#} }} type="checkbox" value="{{coupon.id}}" {{# if(couponSelect!=null&&couponSelect.id==coupon.id){ }}checked{{# } }}/>{{couponType.get(coupon.type)}}</div></td>
+	<td style="color:{{color}};width:47px">
+	{{# if(coupon.price==0){ }}
+    	免付
+    {{# }else{ }}
+		¥ {{coupon.price}}
+	{{# } }}
+	</td>
+	<td >
+{{# if(coupon.targetType=="goods"){ }}
+	{{coupon.productName}}
+{{# }else if(coupon.targetType=="svc"){}}
+	{{coupon.svcName}}
+{{#} }}
+	</td>
+	<td style="width:252px">{{coupon.startTime}} 至 {{coupon.endTime}}</td>
+</tr>
+		{{# } }}
+{{# } }}
+{{# } }}
+{{# } }}
+</script>
+</html>

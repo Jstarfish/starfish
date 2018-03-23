@@ -1,0 +1,3 @@
+<%@page import="priv.starfish.common.base.AppNodeInfo,priv.starfish.common.base.AppNodeCluster" %>
+<% String appBaseUrl = AppNodeInfo.getCurrent().getAppBaseUrl(); %>
+<% String resBaseUrl = AppNodeInfo.getCurrent().getResBaseUrl(); %>

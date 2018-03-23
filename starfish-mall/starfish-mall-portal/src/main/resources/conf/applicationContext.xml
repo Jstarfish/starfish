@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	 http://www.springframework.org/schema/beans 
+	 http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+	 http://www.springframework.org/schema/aop 
+     http://www.springframework.org/schema/aop/spring-aop-3.2.xsd     
+     http://www.springframework.org/schema/context 
+     http://www.springframework.org/schema/context/spring-context-3.2.xsd
+     http://www.springframework.org/schema/tx 
+     http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+     http://www.springframework.org/schema/task 
+     http://www.springframework.org/schema/task/spring-task-3.2.xsd 
+     http://www.springframework.org/schema/util 
+     http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+	<!-- 属性文件读入 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:app-node.properties</value>
+				<value>classpath:conf/jdbc.properties</value>
+				<value>classpath:conf/jedis.properties</value>
+				<value>classpath:conf/jms.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- freemarker基本设置（用于基于文件来源的模板） -->
+	<bean id="freemarkerConfig"
+		  class="org.springframework.ui.freemarker.FreeMarkerConfigurationFactoryBean">
+		<property name="templateLoaderPath" value="classpath:template" />
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="freemarkerSettings">
+			<util:properties location="classpath:conf/freemarker.properties" />
+		</property>
+	</bean>
+
+	<!-- 基于文件来源的模板服务实现 -->
+	<bean id="fileSrcFreeMarkerService" class="priv.starfish.common.cms.FileSrcFreeMarkerServiceImpl">
+		<property name="freemarkerConfig" ref="freemarkerConfig" />
+		<property name="templateFileSuffix" value=".ftl" />
+		<property name="defaultTemplateGroup" value="" />
+	</bean>
+
+
+	<!-- 导入其他配置文件（除了 application-mvc.xml 文件） -->
+	<import resource="classpath:conf/applicationContext-service.xml" />
+	<import resource="classpath:conf/applicationContext-dao.xml" />
+	<import resource="classpath:conf/applicationContext-jms.xml" />
+	<import resource="classpath:conf/applicationContext-cache.xml" />
+
+</beans>

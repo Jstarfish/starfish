@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="css-app/main.css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+    <title>线下门店</title>
+</head>
+<body>
+<div class="page-wrapper">
+<div class="topbar">
+    <div class="page-width clearfix">
+        <ul id="district" class="quick-menu">
+            <li class="nLi dropdown menu-district"><a href=""><img src="image-app/district.png" alt=""/><span>北京</span><i></i></a>
+                <em></em>
+                <div class="sub">
+                    <ul class="sub-content">
+                        <li><a class="selected" href="">北京</a></li>
+                        <li><a href="">上海</a></li>
+                        <li><a href="">天津</a></li>
+                        <li><a href="">重庆</a></li>
+                        <li><a href="">河北</a></li>
+                        <li><a href="">山西</a></li>
+                    </ul>
+                </div>
+            </li>
+            <!--<li class="nLi munu-none"><span>全国330城市已覆盖，10000家加盟店</span></li>-->
+            <li class="nLi"><a href=""><span>代理商加盟</span>|</a></li>
+            <li class="nLi"><a href=""><span>店铺加盟</span></a></li>
+        </ul>
+        <ul id="quick-menu" class="quick-menu">
+            <li class="nLi"><a href="#"><span>请登录</span>|</a></li>
+            <li class="nLi"><a href=""><span>免费注册</span>|</a></li>
+            <li class="nLi"><a href=""><span>用户中心</span>|</a></li>
+            <li class="nLi cart"><a href=""><span>购物车（<b>0</b>）</span></a></li>
+        </ul>
+        <div class="user-entry">
+            <span class="welcome">你好，<span class="user-infor"><a href="#">紫</a><em class="user-grade">V0</em></span>，欢迎来到<a href="#">车车车</a><span class="reg-quit">[<a href="#">退出</a>]</span></span>
+        </div>
+    </div>
+</div>
+<div class="header">
+    <div class="page-width">
+        <a class="logo" href="#"><img src="image/logo.png" alt="车logo" /></a>
+        <div class="search-section">
+            <div class="search">
+                <input class="search-input" type="text" placeholder="服务、户外用品名称、品牌、零件号"><input class="btn search-btn" type="button" value="搜索" />
+            </div>
+            <div class="search-keyword">
+                热门搜索：<a href="#">洗车</a>|<a href="#">户外用品</a>|<a href="#">XX品牌</a>
+            </div>
+        </div>
+        <div class="coverage">
+            亿投车吧已向全国330城市开放10000余家安装门店，<a class="anormal" href="">了解详情&gt;&gt;</a>
+        </div>
+    </div>
+</div>
+<div class="navbar">
+    <div class="page-width">
+        <ul id="nav" class="nav">
+            <li class="nLi fast-channel on">
+	             <h3><a href="">快速通道</a></h3>
+	             <ul class="sub">
+	                 <li class="first" name="trackItem"><a href="#"><i class="icon1"></i>车品保养</a>
+	                     <div class="fast-cont" name="trackItemChild">
+	                         <div class="fast-bg"></div>
+	                         <div class="fast-supermarket">
+	                             <img src="image-app/temp/fast-adv1.jpg" alt=""/>
+	                             <div class="mod-search">
+	                                 <input class="search-input" type="text" placeholder="车品"><input class="btn search-btn" type="button" />
+	                                 <div class="search-keyword">
+	                                     <a href="#">精品户外</a>|<a href="#">自驾必备套装</a>
+	                                 </div>
+	                             </div>
+	                         </div>
+	                     </div>
+	                 </li>
+	                 <li name="trackItem"><a href="#"><i class="icon2"></i>车品超市</a>
+	                     <div class="fast-cont" name="trackItemChild">
+	                         <div class="fast-bg"></div>
+	                         <div class="fast-maintain">
+	                             <div class="maintain-cont">
+	                                 <h2>车内环保套装</h2>
+	                                 <a href="">0-11岁</a><a href="">11-18岁</a><a href="">19-28岁</a><a href="">28-39岁</a><a href="">40-55岁</a><a href="">56岁以上</a>
+	                             </div>
+	                             <div class="maintain-cont">
+	                                 <h2>野营自驾套装</h2>
+	                                 <a href="">初级套装</a><a href="">入门套装</a><a href="">职业套装</a>
+	                             </div>
+	                             <div class="maintain-cont">
+	                                 <h2>汽车装饰</h2>
+	                                 <a href="">香水</a><a href="">空气净化</a><a href="">座垫</a>
+	                             </div>
+	                             <div class="maintain-cont">
+	                                 <h2>安全自驾</h2>
+	                                 <a href="">香水</a><a href="">空气净化</a><a href="">座垫</a>
+	                             </div>
+	                         </div>
+	                     </div>
+	                 </li>
+	             </ul>
+	         </li>
+            <li class="nLi">
+                <h3><a href="#">首页</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车品超市</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车辆保养</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">线下门店</a></h3>
+            </li>
+            <li class="nLi">
+                <h3><a href="#">车友分享</a></h3>
+            </li>
+            <li class="nLi dropdown appdown">
+                <h3><a href="#"><img src="image-app/appdown.png" />下载APP</a></h3>
+                <ul class="sub">
+                    <li>
+                        <img src="image-app/temp/qr-code.jpg" alt="下载APP"/>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="content">
+    <div class="page-width">
+        <div class="crumbs"><a href="">首页</a>&gt;<span>线下门店</span></div>
+        <div class="mod-shops">
+            <div class="mod-shops-title clearfix">
+                <span>您所在的区域：</span>
+                <!--select-->
+                <div class="select-special">
+                    <span title="广西壮族自治区" class="select-special-l">广西壮族自治区</span>
+                    <span class="select-special-r"><i></i></span>
+                    <div class="clear"></div>
+                    <ul>
+                        <li><a href="javascript:void(0)">广西壮族自治区</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                    </ul>
+                </div>
+                <!--end-select-->
+                <!--select-->
+                <div class="select-special">
+                    <span class="select-special-l">城市</span>
+                    <span class="select-special-r"><i></i></span>
+                    <div class="clear"></div>
+                    <ul>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                    </ul>
+                </div>
+                <!--end-select-->
+                <!--select-->
+                <div class="select-special">
+                    <span class="select-special-l">县级</span>
+                    <span class="select-special-r"><i></i></span>
+                    <div class="clear"></div>
+                    <ul>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                        <li><a href="javascript:void(0)">河南省</a></li>
+                        <li><a href="javascript:void(0)">河北省</a></li>
+                    </ul>
+                </div>
+                <!--end-select-->
+                <div class="mod-search">
+                    <input class="search-input" type="text" placeholder="商品名称、商品编号、订单号"><input class="btn search-btn" type="button" />
+                </div>
+            </div>
+            <div class="mod-shops-title1">
+                <ul id="shopsSorter">
+                </ul>
+                <div class="shops-num">共415家门店</div>
+            </div>
+            <ul class="mod-shops-list">
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="http://www.jddmall.cn:888/repo/image/logo/2015/11/14/45bb5a34-19e1-4db1-bdca-68bb5661d6b8.jpg" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span>门店名称：</span><b>亿投车吧有限公司</b><br />
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="image-app/temp/goods1.png" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span>门店名称：</span><b>亿投车吧有限公司</b><br />
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="image-app/temp/goods1.png" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span>门店名称：</span><b>亿投车吧有限公司</b><br />
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="image-app/temp/goods1.png" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span>门店名称：</span><b>亿投车吧有限公司</b><br />
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="image-app/temp/goods1.png" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span>门店名称：</span><b>亿投车吧有限公司</b><br />
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="image-app/temp/goods1.png" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                                <span>订单方式：</span>平台下单，线下服务/提货
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+                <li>
+                    <dl>
+                        <dt><a href=""><img src="image-app/temp/goods1.png" alt=""/></a></dt>
+                        <dd class="a1">
+                            <a href="">
+                                <span class="gray1">门店地址：</span>北京市昌平区回龙观镇<br />
+                                <span>所在区域：</span>昌平区<br />
+                                <span>订单方式：</span>平台下单，线下服务/提货
+                            </a>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>7：00-20：00营业</p>
+                                <p>（春节开业时间为3月1号）</p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>共完成110个订单</p>
+                                <p><a class="ared" href="">41人评价</a>&nbsp;&nbsp;<a class="anormal" href="">查看&gt;&gt;</a></p>
+                            </div>
+                        </dd>
+                        <dd class="a2">
+                            <div class="vl-middle">
+                                <p>满意度</p>
+                                <span class="star"><i style="width: 90%"></i></span>
+                            </div>
+                        </dd>
+                        <dd class="a3">
+                            <h3>服务提供：</h3>
+                            <ul>
+                                <li><span>普通洗车、</span><span>精品洗车</span></li>
+                            </ul>
+                        </dd>
+                    </dl>
+                </li>
+            </ul>
+            <!--分页-->
+            <div class="pager-gap1">
+                <div class="fr pager">
+                    <a class="prev disabled" href="#nogo">上一页</a><a class="active" href="#nogo">1</a><a class="next" href="#nogo">下一页</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="page-width">
+        <ul class="guide">
+            <li><h3>新手帮助</h3>
+                <ul>
+                    <li><a href="">用户手册</a></li>
+                    <li><a href="">用户购买流程</a></li>
+                    <li><a href="">商品提货流程</a></li>
+                </ul>
+            </li>
+            <li><h3>常见问题</h3>
+                <ul>
+                    <li><a href="">退款说明</a></li>
+                    <li><a href="">发票说明</a></li>
+                </ul>
+            </li>
+            <li><h3>协议与保障</h3>
+                <ul>
+                    <li><a href="">服务品质保障</a></li>
+                    <li><a href="">产品正品保障</a></li>
+                    <li><a href="">产品保修</a></li>
+                </ul>
+            </li>
+            <li class="footer-map">
+                <div class="coverage">
+                    亿投车吧已向全国330城市开放10000余家安装门店，覆盖规模迅速扩大中；<br /><a class="anormal" href="">了解详情&gt;&gt;</a><br /><a class="anormal" href="">加盟店入驻&gt;&gt;</a>
+                </div>
+            </li>
+            <li><h3>联系我们</h3>
+                <ul>
+                    <li><a href="">亿投车吧网站介绍</a></li>
+                    <li><a href="">广告与市场合作</a></li>
+                    <li><a href="">招贤纳士</a></li>
+                    <li><a href="">联系电话：<br/>400890897</a></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="footer-con">
+        <p>Copyright©2015-2020 shopnc Inc.,All rights reserved.</p>
+        <p>Powered by <a href="http://www.raiserswin.com/">融芯思联</a> 冀ICP备15008449号</p>
+    </div>
+</div>
+</div>
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript" src="js/common/common.js"></script>
+<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+<script type="text/javascript" src="js-app/main.js"></script>
+<script type="text/javascript">
+    var __sortModel = [{
+        code : "composite",
+        text : "综合",
+        orders : "desc",
+        active : true
+    }, {
+        code : "satisfaction",
+        text : "满意度",
+        orders : "DESC"
+    }, {
+        code : "addup",
+        text : "累计安装",
+        orders : "desc"
+    }];
+
+    function doOnSortClick(code, order) {
+        console.log(code + " : " + order);
+    }
+
+    $(function(){
+        //线下门店-右-门店排序
+        renderSorter("shopsSorter", __sortModel, doOnSortClick);
+
+    });
+</script>
+</body>
+</html>

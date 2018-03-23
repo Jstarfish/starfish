@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="css-app/main.css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+    <title>注册</title>
+</head>
+<body class="page-login page-reg">
+<div class="page-wrapper">
+    <div class="header">
+        <div class="page-width">
+            <a class="logo" href="#"><img src="image/logo.png" alt="车logo" /></a>
+            <span class="logo-title">欢迎注册</span>
+            <span class="reg-top-login">
+                如果您已是会员，可以直接<a class="red" href="">登录</a>
+            </span>
+        </div>
+    </div>
+    <div class="content">
+        <div class="page-width">
+            <div class="login reg-section">
+                <div class="login-reg-cont">
+                    <div class="reg-cont">
+                        <dl class="labels labels1 name">
+                            <dt><label class="label required">手机号码 :</label></dt>
+                            <dd><label class="nk-label name-label"></label><input class="inputx inputx-reg" type="text" placeholder="手机号" /><span class="gray">请输入11位手机号码</span><!--<span class="red">请输入正确的手机号</span>-->
+                                <label class="nk-label label-succeed"></label>
+                            </dd>
+                        </dl>
+                        <dl class="labels labels1 keyword">
+                            <dt><label class="label required">密码 :</label></dt>
+                            <dd><label class="nk-label keyword-label"></label><input class="inputx inputx-reg" type="text" placeholder="8位以上密码" />&nbsp;<!--<span class="red">请您输入8位以上密码</span>--></dd>
+                        </dl>
+                        <dl class="labels labels1 keyword">
+                            <dt><label class="label required">确认密码 :</label></dt>
+                            <dd><label class="nk-label keyword-label"></label><input class="inputx inputx-reg" type="text" placeholder="确认密码" />&nbsp;<span class="red"></span></dd>
+                        </dl>
+                        <dl class="labels labels1">
+                            <dt><label class="label required">图形验证码 :</label></dt>
+                            <dd><input class="inputx inputx-vf" type="text" placeholder="图形验证码" /><span class="reg-yzm"><img width="80" height="36" src="image-app/temp/yz.jpg" alt=""/><a class="anormal" href="javascript:;">换一张</a></span>&nbsp;<span class="red"></span></dd>
+                        </dl>
+                        <dl class="labels labels1">
+                            <dt><label class="label required">短信验证码 :</label></dt>
+                            <dd><input class="inputx inputx-vf" type="text" placeholder="短信验证码" /><input class="btn-normal btn-vf" type="button" value="获取短信验证码" />&nbsp;<span class="red"></span></dd>
+                        </dl>
+                        <dl class="labels labels1">
+                            <dt></dt>
+                            <dd><input type="checkbox" checked />&nbsp;已阅读并同意<a class="anormal" href="">《亿投车吧用户注册条款》</a></dd>
+                        </dl>
+                        <dl class="labels labels1">
+                            <dt></dt>
+                            <dd><input class="btn btn-h40 btn-w310" type="button" value="立即注册" /></dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="footer-con">
+            <p>友情链接:<a class="ml10" href="">极限户外-自驾</a><a href="">天津企业</a><a href="">北京团购</a><a href="">绿野户外</a><a href="">镭射眼智能行车记录仪</a><a href="">汽配龙</a><a href="">快递查询</a></p>
+            <p>Copyright©亿车汇 All Rights Reserved 版权所有 亿车汇（天津） 电子商务有限公司 网站备案/许可证号：京ICP备14001421号-5</p>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.superslide.js"></script>
+<script type="text/javascript" src="js-app/main.js"></script>
+<script type="text/javascript">
+    $(".login-ul>li>.inputx-login").click(function(event){
+        $(".login-ul>li").removeClass("focus");
+        $(this).parent().addClass("focus");
+        event.stopPropagation();
+    });
+    $(document).click(function(event){
+        $(".login-ul>li>.inputx-login").parent().removeClass("focus");
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <link rel="stylesheet" href="css-app/wtree.css" />
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+    <title>车品超市</title>
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="section" style="padding: 10px;">
+        <div class="section-left1">
+            <ul class="wtree">
+                <li><a href="javascript:void(0)">车辆保养</a></li>
+                <li><a href="javascript:void(0)">车内环保套装</a>
+                    <ul>
+                        <li><a href="javascript:void(0)">我的车库</a></li>
+                        <li><a href="javascript:void(0)">我的车库</a></li>
+                    </ul>
+                </li>
+                <li><a href="javascript:void(0)">车品超市</a>
+                    <ul>
+                        <li><a href="javascript:void(0)">安全自驾</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="section-right1">
+            dddddddddddd
+        </div>
+
+
+
+</div>
+
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript">
+    $(function(){
+        //wtree
+        $(".wtree a").parent("li").has("ul").children("a").append("<i></i>").siblings().hide();
+        $(".wtree a").on("click",function(){
+            if($(this).parent("li").hasClass("active")){
+                $(this).parent("li").removeClass("active");
+                $(this).siblings("ul").slideUp();
+            }else{
+                $(this).parent("li").addClass("active");
+                $(this).siblings("ul").slideDown();
+            }
+            if($(this).siblings().is("ul")){
+
+            }else{
+                $(".wtree a:only-child").parent("li").removeClass("active");
+                $(this).parent("li").addClass("active")
+            }
+        });
+    })
+</script>
+</body>
+</html>

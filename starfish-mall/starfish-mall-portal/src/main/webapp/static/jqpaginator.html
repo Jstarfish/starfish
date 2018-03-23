@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <!-- Vendor Specific -->
+    <!-- Set renderer engine for 360 browser -->
+    <meta name="renderer" content="webkit">
+
+    <!-- Cache Meta -->
+    <meta http-equiv="Expires" content="0">
+    <meta http-equiv="Cache-Control" content="no-cache">
+    <meta http-equiv="Pragma" content="no-cache">
+
+    <!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+    <!-- Style Sheet -->
+    <link rel="stylesheet" href="lib/jquery/jquery-ui.css" />
+    <link rel="stylesheet" href="lib/qtip/jquery.qtip.css" />
+    <link rel="stylesheet" href="lib/jquery/jquery.timepicker.css" />
+    <link rel="stylesheet" href="lib/layout/layout-default.css" />
+    <link rel="stylesheet" href="css/common/basic.css" />
+    <link rel="stylesheet" href="css/libext/jquery.ext.css" />
+    <link rel="stylesheet" href="css-app/app.css" />
+
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="js/html5/html5shiv.js"></script>
+    <![endif]-->
+
+<title>测试</title>
+<link rel="stylesheet" href="css-app/main.css" />
+<link type="text/css" rel="stylesheet" href="http://cdn.staticfile.org/twitter-bootstrap/3.1.1/css/bootstrap.min.css"/>
+</head>
+<body>
+    <div >
+		<table id="tblData">
+						
+		</table>
+	</div>
+    <p id="p"></p>
+    <div id="pagination">
+    </div>
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jqpaginator.js"></script>
+<script type="text/javascript" src="js/common/laytpl.js"></script>
+<script type="text/javascript">
+$(function () {
+	 $("#pagination").jqPaginator({
+        totalCount: 2,//后台返回总数量
+        pageSize: 1,
+        visiblePages: 5,
+        currentPage: 1,
+        wrapper:'<ul class="pagination"></ul>',
+        //first: '<li><a href="javascript:void(0);">First<\/a><\/li>',
+        //prev: '<li><a href="javascript:void(0);">Previous<\/a><\/li>',
+        //next: '<li><a href="javascript:void(0);">Next<\/a><\/li>',
+        //last: '<li><a href="javascript:void(0);">Last<\/a><\/li>',
+        page: '<li><a href="javascript:void(0);">{{page}}<\/a><\/li>',
+        onPageChange: function (n,pageSize) {
+				//ajax
+        	 //	var postData = ({
+             //   	pageSize : 2,
+              //  	pageNumber :n
+    		//	});
+               
+               // var ajax = Ajax.post("/order/saleOrder/list/do");
+               // ajax.data(postData)
+              //  ajax.done(function(result, jqXhr) {
+                	//获取模板内容
+            	//	var tplHtml = $("#orderRowTpl").html();
+                	//生成/编译模板
+               // 	var htmlTpl = laytpl(tplHtml);
+                	//根据模板和数据生成最终内容
+               // 	var htmlText = htmlTpl.render(result.data);
+                	//使用生成的内容
+                //	$("#tblData").html(htmlText)
+                //}
+        	var str=[{'id':1,'no':'123123123123123','userId':1,'carName':'布加迪威龙','carModel':'3.5T','carId':1,'pickupFlag':false,'phoneNo':'15231818433','linkMan':'李超杰','telNo':'15231818433','regionId':1,'regionName':'北京','street':'尼姑庵','lng':1,'lat':1,'email':'15231818433','planTime':'2015-10-15 17:42','leaveMsg':'爱爱爱爱爱','merchantId':2,'merchantName':'','shopId':1,'saleAmount':1000,'discAmount':200,'amount':800,'payFlag':1,'payWay':'1','payState':'1','distState':'1','cancelled':false,'closed':false,'ts':null,'saleOrderRecords':[{'id':1,'orderId':1,'action':'支付','actRole':'用户','extraInfo':'啊啊啊啊德玛西亚','actorId':1,'actorName':'李超杰','ts':'2015-10-14 17:57'}],'saleOrderSvcs':[{'id':1,'orderId':1,'svcId':1,'svcName':'','seqNo':1,'salePrice':50,'saleAmount':1,'discAmount':null,'amount':40,'saleOrderGoods':[{'id':1,'orderSvcId':1,'catId':1,'goodsId':1,'goodsName':null,'productId':1,'quantity':1,'salePrice':1,'saleAmount':1,'discAmount':1,'amount':1,'seqNo':1}]}],'shop':{'id':1,'code':'1231231443523527880','merchantId':2,'selfFlag':true,'name':'大哥维修','py':null,'entpFlag':false,'regionId':130428100,'regionName':'河北省 邯郸市 肥乡县 肥乡镇','street':'东张寨','lng':null,'lat':null,'telNo':'','phoneNo':'18911930724','linkMan':'李超杰','bizScope':'县城','logoUuid':'da4edeff-3743-4528-8dda-a573946cc122','logoUsage':'image.logo','logoPath':'2015/09/29/calendar.gif','applyTime':'2015-09-29 18:45','applyMsg':null,'accountId':null,'regTime':'2015-09-29 18:45','licenseId':null,'auditStatus':2,'auditTime':'2015-10-08 09:58','auditorId':1,'auditorName':'老李维修','closed':false,'disabled':false,'memo':null,'point':null,'merchant':null,'staffCount':null,'referrerName':null,'referrerPhoneNo':null,'user':null,'fileBrowseUrl':null,'shopGrade':null},'customer':{'id':1,'phoneNo':'15231818433','nickName':'老李维修','email':'15231818433@163.com','idCertNo':null,'password':null,'payPassword':null,'realName':'李超杰','gender':'M','birthDate':null,'qq':null,'regTime':'2015-09-29 18:01','verified':false,'failCount':0,'failTime':'2015-10-14 10:17','locked':false,'lockTime':null,'ts':'2015-10-16 15:18','roles':null,'userAccts':null,'sysAdmin':false}},{'id':2,'no':'123123123123123','userId':1,'carName':'布加迪威龙','carModel':'3.5T','carId':1,'pickupFlag':false,'phoneNo':'11111111111','linkMan':'李超杰','telNo':'11111111111','regionId':1,'regionName':'北京','street':'尼姑庵','lng':1,'lat':1,'email':'15231818433','planTime':'2015-10-15 17:42','leaveMsg':'爱爱爱爱爱','merchantId':2,'merchantName':'','shopId':1,'saleAmount':1000,'discAmount':200,'amount':800,'payFlag':1,'payWay':'1','payState':'1','distState':'1','cancelled':false,'closed':false,'ts':null,'saleOrderRecords':[{'id':2,'orderId':2,'action':'支付','actRole':'用户','extraInfo':'啊啊啊啊德玛西亚','actorId':1,'actorName':'李超杰','ts':'2015-10-14 17:58'},{'id':5,'orderId':2,'action':'支付','actRole':'用户','extraInfo':'啊啊啊啊啊啊德玛','actorId':1,'actorName':'里超级','ts':'2015-10-14 17:59'}],'saleOrderSvcs':[{'id':2,'orderId':2,'svcId':2,'svcName':'','seqNo':2,'salePrice':100,'saleAmount':1,'discAmount':null,'amount':80,'saleOrderGoods':[{'id':2,'orderSvcId':2,'catId':1,'goodsId':1,'goodsName':null,'productId':1,'quantity':1,'salePrice':1,'saleAmount':1,'discAmount':1,'amount':1,'seqNo':1}]}],'shop':{'id':1,'code':'1231231443523527880','merchantId':2,'selfFlag':true,'name':'大哥维修','py':null,'entpFlag':false,'regionId':130428100,'regionName':'河北省 邯郸市 肥乡县 肥乡镇','street':'东张寨','lng':null,'lat':null,'telNo':'','phoneNo':'18911930724','linkMan':'李超杰','bizScope':'县城','logoUuid':'da4edeff-3743-4528-8dda-a573946cc122','logoUsage':'image.logo','logoPath':'2015/09/29/calendar.gif','applyTime':'2015-09-29 18:45','applyMsg':null,'accountId':null,'regTime':'2015-09-29 18:45','licenseId':null,'auditStatus':2,'auditTime':'2015-10-08 09:58','auditorId':1,'auditorName':'老李维修','closed':false,'disabled':false,'memo':null,'point':null,'merchant':null,'staffCount':null,'referrerName':null,'referrerPhoneNo':null,'user':null,'fileBrowseUrl':null,'shopGrade':null},'customer':{'id':1,'phoneNo':'15231818433','nickName':'老李维修','email':'15231818433@163.com','idCertNo':null,'password':null,'payPassword':null,'realName':'李超杰','gender':'M','birthDate':null,'qq':null,'regTime':'2015-09-29 18:01','verified':false,'failCount':0,'failTime':'2015-10-14 10:17','locked':false,'lockTime':null,'ts':'2015-10-16 15:18','roles':null,'userAccts':null,'sysAdmin':false}}];
+        		//获取模板内容
+        		var tplHtml = $("#orderRowTpl").html();
+            	//生成/编译模板
+            	var htmlTpl = laytpl(tplHtml);
+            	//根据模板和数据生成最终内容
+            	var htmlText = htmlTpl.render(str);
+            	//使用生成的内容
+            	$("#tblData").html(htmlText)
+        }
+    });
+});
+</script>
+<script type="text/html" id="orderRowTpl">
+		{{# var orders = d; }}
+		{{# for(var i=0, len=orders.length; i<len ; i++) {  }}
+		{{# var order = orders[i]; }}
+		<tr><td class="actions pull-center"><a id="{{order.id}}" href="#" onclick="">删除</a></td><td class="name">{{order.ts}} </td><td class="description">{{order.linkMan}}</td><td class="description">{{order.phoneNo}}</td></tr>'
+		{{# } }}
+	</script>
+</body>
+</html>

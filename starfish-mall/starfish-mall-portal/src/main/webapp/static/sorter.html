@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+		<!-- Vendor Specific -->
+		<!-- Set renderer engine for 360 browser -->
+		<meta name="renderer" content="webkit">
+		<!-- Cache Meta -->
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+		<link rel="stylesheet" href="../static/css/common/basic.css" />
+		<link rel="stylesheet" href="../static/css/libext/jquery.ext.css" />
+		<link rel="stylesheet" href="../static/css-app/main.css" />
+
+		<!--<link rel="shortcut icon" href="<%=resBaseUrl%>/image/favicon.ico" type="image/x-icon" />-->
+		<script type="text/javascript" src="../static/lib/jquery/jquery.js"></script>
+		<script type="text/javascript"
+		src="../static/lib/jquery/jquery-migrate.min.js"></script>
+		<script type="text/javascript" src="../static/lib/jquery/jquery-ui.js"></script>
+		<script type="text/javascript"
+		src="../static/lib/jquery/jquery.locale-cn.js"></script>
+		<script type="text/javascript"
+		src="../static/lib/jquery/jquery.superslide.js"></script>
+		<script type="text/javascript" src="../static/js/common/common.js"></script>
+		<script type="text/javascript" src="../static/js/libext/jquery.ext.js"></script>
+		<script type="text/javascript" src="../static/js-app/main.js"></script>
+		<title>排序控件</title>
+
+		<style>
+			.linkBtn {
+				display: inline-block;
+				width: 150px;
+				height: 30px;
+				line-height: 30px;
+			}
+
+			/* 进度条样式 */
+			.progress.bar {
+				position: relative;
+				display: inline-block;
+				vertical-align: middle;
+				padding: 0;
+				width: 100%;
+				border: 1px solid #CCC;
+			}
+			.progress.bar > .value {
+				display: block;
+				text-align: center;
+				border: 0;
+				background-color: #FFCF3D;
+				height: 20px;
+				line-height: 20px;
+				width: 0;
+			}
+
+			.progress.bar > .weak.value {
+				color: #FFF;
+				background-color: #dd0000;
+				width: 33.3%;
+			}
+			.progress.bar > .middle.value {
+				background-color: #ffcc33;
+				width: 66.6%;
+			}
+			.progress.bar > .strong.value {
+				color: #FFF;
+				background-color: #009900;
+				width: 100%;
+			}
+			.progress.bar > .null.value {
+				color: #F00;
+				background-color: #F2F2F2;
+				width: 100%;
+			}
+		</style>
+
+	</head>
+	<body>
+		<div style="margin-left: 40px; padding-top: 20px;">
+			<ul id="theSorter" class="sorter"></ul>
+		</div>
+		<br />
+		<br />
+		<div style="margin-left: 40px;" id="logMsg"></div>
+		<br />
+		<br />
+		<hr />
+		<br />
+		邮箱：
+		<input id="email" value="koqiui@139.com" />
+		<br />
+		<br />
+		在当前页面中&nbsp;&nbsp;
+		<input id="btnToEmailPage" type="button" value="马上检查邮件"
+		onclick="jumpEmailPage();" class="btn" style="margin-left: 40px;" />
+		<br />
+		<br />
+		在新的页面中&nbsp;&nbsp; <a target="_blank" id="btnToEmailPage2" onclick="openEmailPage(this);"
+		class="linkBtn btn" style="margin-left: 40px;">马上检查邮件</a>
+
+		<br />
+		<br />
+		<hr />
+		<br />
+		密码：
+		<input id="password" value="" />
+		<br />
+		<br />
+		强度：
+		<div id="theStrengthBar" class="progress bar" style="width:150px;">
+			<div class="value"></div>
+		</div>
+
+		<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+		<script type="text/javascript">
+			function jumpEmailPage() {
+				var email = $id("email").val();
+				//
+				var mailHomeUrl = getMailHomeUrl(email);
+				mailHomeUrl = mailHomeUrl || "http://www.baidu.com";
+				//
+				setPageUrl(mailHomeUrl);
+			}
+
+			function openEmailPage(link) {
+				var email = $id("email").val();
+				//
+				var mailHomeUrl = getMailHomeUrl(email);
+				mailHomeUrl = mailHomeUrl || "http://www.baidu.com";
+				//
+				$(link).attr("href", mailHomeUrl);
+				//
+				return true;
+			}
+		</script>
+		<script type="text/javascript">
+			/* 
+			function setProgressBarValue(selector, value, maxValue, title) {
+				var jqProgress = ( typeof $id == "function") ? $id(selector) : $(selector);
+				var rate = maxValue ? value / maxValue : value;
+				var percent = Math.round(parseFloat(rate || 0) * 100);
+				var jqValue = jqProgress.find(">.value");
+				jqValue.css("width", Math.max(0, Math.min(percent, 100)) + "%");
+				if ( typeof title == "string") {
+					jqValue.text(title);
+				}
+			}*/
+
+			function markPasswordStrength(password, markerId) {
+				var strength = getPasswordStrength(password);
+				//
+				console.log(strength);
+				//
+				var jqMarkerValue = $id(markerId).find(">.value");
+				jqMarkerValue.removeClass("null weak middle strong");
+				jqMarkerValue.text("");
+				if (strength == "S") {
+					jqMarkerValue.addClass("strong");
+					jqMarkerValue.text("强");
+				} else if (strength == "M") {
+					jqMarkerValue.addClass("middle");
+					jqMarkerValue.text("中");
+				} else if (strength == "W") {
+					jqMarkerValue.addClass("weak");
+					jqMarkerValue.text("弱");
+				} else {
+					jqMarkerValue.addClass("null");
+				}
+			}
+			
+			$(function() {
+				//密码强度
+				$id("password").change(function() {
+					var password = $(this).val();
+					markPasswordStrength(password, "theStrengthBar");
+				});
+			});
+
+		</script>
+		
+		<script type="text/javascript">
+			var sortModel = [{
+				code : "sale",
+				text : "销量",
+				orders : "desc,asc",
+				active : true
+			}, {
+				code : "price",
+				text : "价格",
+				orders : "asc,DESC",
+				active : false
+			}, {
+				code : "eval",
+				text : "评论数",
+				orders : "desc"
+			}];
+
+			function doOnSortClick(code, order) {
+				//console.log(code + " : " + order);
+				$id("logMsg").text(code + " : " + order);
+			}
+
+			$(function() {
+				renderSorter("theSorter", sortModel, doOnSortClick);
+			});
+		</script>
+	</body>
+</html>
