@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DOC>
+    <title>经法项目组成员</title>
+    <author>
+        <firstname>长伟</firstname> 
+        <lastname>胡</lastname>
+    </author>
+    <member>
+        <name>巴特尔</name>
+        <gender>男</gender>
+        <position>项目经理</position>
+    </member>
+    <member>
+        <name>孙玉成</name>
+        <gender>男</gender>
+        <position>业务分析师</position>
+    </member>
+    <member>
+        <name>胡长伟</name>
+        <gender>男</gender>
+        <position>设计师</position>
+    </member>
+</DOC>
