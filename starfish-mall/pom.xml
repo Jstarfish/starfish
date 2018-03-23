@@ -1,0 +1,34 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <artifactId>starfish-parent</artifactId>
+        <groupId>priv.starfish</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <relativePath>../starfish-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>starfish-mall</artifactId>
+    <packaging>pom</packaging>
+    <name>Maven Portlet Archetype</name>
+    <url>http://maven.apache.org</url>
+    <modules>
+        <module>starfish-mall-manager</module>
+        <module>starfish-mall-portal</module>
+        <module>starfish-mall-bean</module>
+        <module>starfish-mall-service</module>
+        <module>starfish-mall-dao</module>
+        <module>starfish-mall-pay</module>
+        <module>starfish-mall-web-common</module>
+        <module>starfish-mall-search</module>
+    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+            <version>1.11.2</version>
+        </dependency>
+
+    </dependencies>
+
+</project>
