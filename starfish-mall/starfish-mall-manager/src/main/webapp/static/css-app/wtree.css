@@ -1,0 +1,42 @@
+/** 通用样式 **/
+html, body {font:normal 12px 'Microsoft YaHei','Arial','\u5b8b\u4f53'; margin:0; padding:0; background:#fefefe; color: #323232;}
+div, p, ul, li, form, input, h1, h2, h3, h4, h5, h6, dl, dt, dd, img {padding:0; margin:0;}
+input, label{vertical-align:middle}
+h1, h2, h3, h4, h5, h6 { font-weight:normal;}
+a {color: #323232; text-decoration: none;}
+ul,ol,li {list-style:none;}
+img {border:none; vertical-align:middle;}
+.clearfix:after {content: ".";display: block;height: 0;clear: both;visibility: hidden;}
+.clearfix {zoom: 1;}
+.clear{clear:both;height:0px;font-size:1px;line-height:0px;margin-top:-1px;}
+em,cite {font-style:normal;}
+table{border:0;margin:0;border-collapse:collapse; width:100%;}
+table th, table td{padding:0;}
+
+input,select,button {outline: none; color: #323232; font-family:'Microsoft YaHei','Arial','\u5b8b\u4f53';}
+
+
+
+
+.section {overflow: hidden; zoom:1; margin-bottom: 10px;}
+.section-left1 {float: left; width: 212px;}
+.section-right1 {margin-left: 222px;}
+
+
+/*tree*/
+.wtree {border: 1px solid #e4e4e4; border-bottom:0; line-height: 35px;}
+.wtree a {display: block; padding-left: 15px; border-bottom: 1px solid #e4e4e4;}
+.wtree i {float: right; margin-right: 20px; width: 10px; height: 10px; background: url(../image-app/wtree.png) no-repeat 0 0; margin-top: 12px;}
+.wtree>li>a {background: #f8f8f8; font-size: 14px;}
+.wtree>li.active>a>i {background-position: -15px 0;}
+.wtree ul {display: none;}
+.wtree li.active ul {display: block;}
+.wtree>li>ul>li>a {padding-left: 30px;}
+.wtree>li>ul>li.active>a {font-weight: bold;}
+.wtree>li>ul>li>a>i {background-position: -640px 0;}
+
+
+
+
+
+

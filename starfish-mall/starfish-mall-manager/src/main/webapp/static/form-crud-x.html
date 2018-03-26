@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- Standard Meta -->
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+		<!-- Vendor Specific -->
+		<!-- Set renderer engine for 360 browser -->
+		<meta name="renderer" content="webkit">
+
+		<!-- Cache Meta -->
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+
+		<!-- Style Sheet -->
+		<link rel="stylesheet" href="lib/jquery/jquery-ui.css" />
+		<link rel="stylesheet" href="lib/qtip/jquery.qtip.css" />
+		<link rel="stylesheet" href="lib/jquery/jquery.timepicker.css" />
+		<link rel="stylesheet" href="lib/layout/layout-default.css" />
+		<link rel="stylesheet" href="lib/jqgrid/css/jquery.jqgrid.css">
+		<link rel="stylesheet" href="css/common/basic.css" />
+		<link rel="stylesheet" href="css/libext/jquery.ext.css" />
+		<link rel="stylesheet" href="lib/jquery/jquery.datetimepicker.css" />
+
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="js/html5/html5shiv.js"></script>
+		<![endif]-->
+
+		<!-- script here -->
+		<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+		<script type="text/javascript" src="lib/qtip/jquery.qtip.js"></script>
+		<script type="text/javascript" src="lib/layout/jquery.layout.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.timepicker.js"></script>
+		<script type="text/javascript" src="lib/jqgrid/js/jquery.jqgrid.js"></script>
+		<script type="text/javascript" src="lib/jqgrid/js/jquery.jqgrid.locale-cn.js"></script>
+		<script type="text/javascript" src="lib/layer/layer.js"></script>
+		<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+		<script type="text/javascript" src="js/common/laytpl.js"></script>
+		<script type="text/javascript" src="js/common/common.js"></script>
+		<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+		<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.datetimepicker.js"></script>
+		<script type="text/javascript" src="js-app/app.js"></script>
+
+		<title>表单CRUD-示例（支持连续添加）</title>
+
+		<style type="text/css">
+			.blue.color {
+				color: blue;
+			}
+			.red.color {
+				color: red;
+			}
+			.purple.color {
+				color: purple;
+			}
+			.even.row {
+				background-color: #FFF4EA;
+			}
+		</style>
+	</head>
+
+	<body id="rootPanel">
+		<br>
+
+		&nbsp;
+		<button class="normal button" id="btnToAdd">
+			添加用户
+		</button>
+		&nbsp;&nbsp;&nbsp;
+		<input type="checkbox" id="continuousSupported" checked onclick="javascript: { continuousSupported = this.checked; }"/>
+		<label for="continuousSupported" style="color:navy;">支持连续新增</label>&nbsp;&nbsp;&nbsp;&nbsp;
+		&nbsp;
+		<input type="checkbox" id="viewAfterSaving" checked onclick="javascript: { viewAfterSaving = this.checked; }"/>
+		<label for="viewAfterSaving" style="color:navy;">保存后转到查看对话框</label>
+		<br/>
+		<br/>
+		<table id="demoTbl" width="100%" style="border-collapse: separate;border-width: 1px;border-spacing: 1px;background-color: #AAA;">
+			<thead style="background-color: #EEE;">
+				<tr style="height:50px;">
+					<th width="100">昵称</th>
+					<th width="40">性别</th>
+					<th width="120">出生日期</th>
+					<th width="40">年龄</th>
+					<th width="70">是否已婚</th>
+					<th width="70">体重(kg)</th>
+					<th width="120">爱好</th>
+					<th width="50">国家</th>
+					<th>自我描述</th>
+					<th width="200">操作</th>
+				</tr>
+			</thead>
+			<tbody style="background-color: #FFF;">
+
+			</tbody>
+		</table>
+
+		<div class="form" id="userDlg" style="display: none;">
+			<div class="field row">
+				<label class="field label">昵称</label>
+				<input class="field value" id="nickName" />
+			</div>
+
+			<div class="field row">
+				<label class="field label required">密码</label>
+				<input class="field value" type="password" id="password" />
+			</div>
+
+			<div class="field row">
+				<label class="field label">性别</label>
+				<div class="field group">
+					<input id="gender-X" type="radio" name="gender" value="X" />
+					<label for="gender-X">保密</label>
+					<input id="gender-M" type="radio" name="gender" value="M" />
+					<label for="gender-M">男</label>
+					<input id="gender-F" type="radio" name="gender" value="F" />
+					<label for="gender-F">女</label>
+				</div>
+			</div>
+
+			<div class="field row">
+				<label class="field label">出生日期</label>
+				<input class="field value" id="birthDate" />
+			</div>
+
+			<div class="field row">
+				<label class="field label">年龄</label>
+				<input class="field value" id="age" />
+			</div>
+
+			<div class="field row">
+				<label class="field label">婚姻状态</label>
+				<div class="field group">
+					<input id="marriaged" type="checkbox" />
+					已婚
+				</div>
+			</div>
+
+			<div class="field row">
+				<label class="field label">体重</label>
+				<input class="field value" id="weight" />
+				<label id="weightTargetId">公斤</label>
+			</div>
+
+			<div class="field row">
+				<label class="field label required">爱好</label>
+				<div class="field group">
+					<input type="checkbox" name="favor" value="film" />
+					看电影
+					<input type="checkbox" name="favor" value="football" />
+					踢足球
+					<input type="checkbox" name="favor" value="wushu" />
+					<label id="favorTargetId">武术</label>
+				</div>
+			</div>
+
+			<div class="field row">
+				<label class="field label required">国别</label>
+				<select class="field value" id="country"></select>
+			</div>
+
+			<div class="field row" style="height:130px;">
+				<label class="field label">自我描述</label>
+				<textarea id="desc" class="field value three wide" style="height:100px;">我操，还得写自我描述？</textarea>
+			</div>
+
+		</div>
+		<br/>
+		<br/>
+		<br/>
+
+		<script type="text/javascript">
+			//
+			var countryListData = {
+				"items" : [{
+					"value" : "CN",
+					"text" : "中国"
+				}, {
+					"value" : "US",
+					"text" : "美国"
+				}, {
+					"value" : "RA",
+					"text" : "俄罗斯"
+				}, {
+					"value" : "JP",
+					"text" : "日本"
+				}],
+				"unSelectedItem" : {
+					"value" : "",
+					"text" : "- 请选择 -"
+				},
+				"defaultValue" : "RA"
+			};
+			//实例化表单代理
+			var formProxy = FormProxy.newOne();
+			//注册表单控件
+			formProxy.addField({
+				id : "nickName",
+				key : "nick-name",
+				rules : [{
+					rule : function(idOrName, type, rawValue, curData) {
+						if (!isNoB(curData["name"])) {
+							if (isNoB(rawValue)) {
+								return false;
+							}
+						}
+						return true;
+					},
+					message : "昵称不能为空"
+				}]
+			});
+			formProxy.addField("password");
+			formProxy.addField({
+				id : "password",
+				required : true,
+				rules : ["isPwd[true]"]
+			});
+			formProxy.addField("gender");
+			formProxy.addField({
+				id : "birthDate",
+				type : "date",
+				rules : ["isDate", "rangeDate[2015-05-20,2015-09-01]"]
+			});
+			formProxy.addField({
+				id : "age",
+				type : "int",
+				rules : ["rangeValue[6,150]"]
+			});
+			formProxy.addField({
+				id : "marriaged",
+				type : "bool"
+			});
+			formProxy.addField({
+				id : "weight",
+				type : "float",
+				rules : ["rangeValue[10,300]"],
+				messageTargetId : "weightTargetId"
+			});
+			formProxy.addField({
+				name : "favor",
+				required : true,
+				messageTargetId : "favorTargetId"
+			});
+			formProxy.addField({
+				id : "country",
+				required : true
+			});
+			//复杂示例
+			formProxy.addField({
+				id : "desc",
+				key : "self-desc",
+				rules : ["maxLength[100]", {
+					rule : function(idOrName, type, rawValue, curData) {
+						if (rawValue.indexOf("我操") != -1) {
+							return false;
+						}
+						return true;
+					},
+					message : "{(name)}, 注意：描述中不能包含脏话"
+				}]
+			});
+
+			//模拟数据库保存的数据
+			var savedRecords = new KeyMap();
+			//模拟删除数据
+			function ajaxDeleteData(postData) {
+				if (postData.id) {
+					savedRecords.remove(postData.id);
+					//
+					console.log(savedRecords.values());
+					//
+					return postData.id;
+				}
+				return null;
+			}
+
+			//模拟保存数据
+			function ajaxSaveData(postData) {
+				if (!postData.id) {
+					postData.id = new Date().getTime();
+				}
+				//
+				savedRecords.set(postData.id, postData);
+				//
+				console.log(savedRecords.values());
+				//
+				return postData.id;
+			}
+
+			//
+			function ajaxGetData(dataId) {
+				return savedRecords.get(dataId);
+			}
+
+			function renderDataList() {
+				var dataList = savedRecords.values();
+
+				//获取模板内容
+				var tplHtml = $id("userRowTpl").html();
+
+				//生成/编译模板
+				var htmlTpl = laytpl(tplHtml);
+
+				//根据模板和数据生成最终内容
+				var htmlText = htmlTpl.render(dataList);
+
+				//使用生成的内容
+				$id("demoTbl").find("tbody").html(htmlText);
+			}
+
+			//--------------------------------------------------------------------------------{{
+			//提交删除数据
+			function toDeleteData(dataId) {
+				var postData = {
+					id : dataId
+				};
+				//Ajax提交删除数据
+				//...
+				var dataId = ajaxDeleteData(postData);
+				//
+				//刷新界面
+				renderDataList();
+			}
+
+			//打开删除对话框
+			function openDelDlg(dataId) {
+				var theSubject = "选中的用户";
+				var theLayer = Layer.confirm("确定要删除" + theSubject + "吗？", function() {
+					theLayer.hide();
+					//
+					toDeleteData(dataId);
+				});
+			}
+
+			//----------------------------------------------------
+			//当前对话框CRU模式 (view:查看 , add : 添加,  mod : 修改)
+			var curAction = "view";
+			//是否保存后转到查看对话框
+			var viewAfterSaving = true;
+			//是否支持连续添加
+			var continuousSupported = true;
+			//扩展对话框按钮栏控件（复选框）
+			var dlgToolbarCtrlsName = "dlg-toolbar-ctrls";
+			var dlgToolbarCtrlsHtml = '<span style="float:left;padding-left:15px;line-height:40px;color:blue;" class="align middle" name="' + dlgToolbarCtrlsName + '"><input class="align middle" type="checkbox" name="' + dlgToolbarCtrlsName + '-checkbox"  id="' + dlgToolbarCtrlsName + '-checkbox-id" />&nbsp;<label class="align middle" for="' + dlgToolbarCtrlsName + '-checkbox-id">保存后继续添加<label></span>';
+			var dlgToolbarCtrls = null;
+			//
+			var jqDlgDom = null;
+
+			//打开查看对话框
+			function openViewDlg(dataId) {
+				curAction = "view";
+				//
+				toShowTheDlg(dataId);
+			}
+
+			//打开新增对话框
+			function openAddDlg() {
+				curAction = "add";
+				//
+				toShowTheDlg();
+			}
+
+			//打开修改对话框
+			function openModDlg(dataId) {
+				curAction = "mod";
+				//
+				toShowTheDlg(dataId);
+			}
+
+			//提交保存数据
+			function toSaveData(postData, jqDlg) {
+				//Ajax提交数据
+				//...
+				var dataId = ajaxSaveData(postData);
+				//
+				//保存成功后关闭对话框（否则直接return）
+				jqDlg.dialog("close");
+				//刷新界面
+				renderDataList();
+				//
+				if (curAction == "add") {
+					if (continuousSupported) {
+						var continuousFlag = jqDlgDom.prop("continuousFlag");
+						if (continuousFlag) {
+							//连续新增
+							openAddDlg();
+							return;
+						}
+					}
+				}
+				//
+				if (viewAfterSaving) {
+					//转到查看对话框
+					//得到保存的数据对象的id
+					openViewDlg(dataId);
+				}
+			}
+
+			function initTheDlgCtrls(dataId) {
+				//获取所有控件
+				// var nickNameCtrl = $id("nickName");
+				// var passwordCtrl = $id("password");
+				// var genderCtrl = $("[name='gender']");
+				// var birthDateCtrl = $id("birthDate");
+				// var ageCtrl = $id("age");
+				// var marriagedCtrl = $id("marriaged");
+				// var weightCtrl = $id("weight");
+				// var favorCtrl = $("[name='favor']");
+				// var countryCtrl = $id("country");
+				// var descCtrl = $id("desc");
+				//批量简单设置
+				if (curAction == "add" || curAction == "mod") {
+					jqDlgDom.find(":input").prop("disabled", false);
+				} else {
+					jqDlgDom.find(":input").prop("disabled", true);
+				}
+				//重置控件值
+				textSet("nickName", "");
+				textSet("password", "");
+				radioSet("gender", null);
+				dateSet("birthDate", null);
+				intSet("age", null);
+				boolSet("marriaged", false);
+				floatSet("weight", null);
+				checkboxSet("favor", null);
+				singleSet("country", null);
+				textSet("desc", "");
+				//
+				if (curAction == "view" || curAction == "mod") {
+					var data = ajaxGetData(dataId);
+					if (data != null) {
+						textSet("nickName", data.nickName);
+						textSet("password", data.password);
+						radioSet("gender", data.gender);
+						dateSet("birthDate", data.birthDate);
+						intSet("age", data.age);
+						boolSet("marriaged", data.marriaged);
+						floatSet("weight", data.weight);
+						checkboxSet("favor", data.favor);
+						singleSet("country", data.country);
+						textSet("desc", data.desc);
+					}
+				}
+			}
+
+			//（真正）显示对话款
+			function toShowTheDlg(dataId) {
+				//
+				var theDlgId = "userDlg";
+				jqDlgDom = $id(theDlgId);
+				//清除扩展的对话框按钮栏控件
+				if (continuousSupported) {
+					var jqButtonPane = jqDlgDom.siblings(".ui-dialog-buttonpane");
+					dlgToolbarCtrls = jqButtonPane.find("[name='" + dlgToolbarCtrlsName + "']");
+					dlgToolbarCtrls.remove();
+				}
+				//对话框配置
+				var dlgConfig = {
+					width : Math.min(980, $window.width()),
+					height : Math.min(600, $window.height()),
+					modal : true,
+					open : false
+				};
+				//
+				if (curAction == "add") {
+					dlgConfig.title = "用户 - 新增";
+					dlgConfig.buttons = {
+						"保存" : function() {
+							//收集并验证要提交的数据（如果验证不通过直接返回 return）
+							var vldResult = formProxy.validateAll();
+							if (!vldResult) {
+								return;
+							}
+							var postData = formProxy.getValues();
+							//...
+							//
+							toSaveData(postData, $(this));
+						},
+						"取消" : function() {
+							//
+							jqDlgDom.prop("continuousFlag", false);
+							//
+							$(this).dialog("close");
+							//隐藏表单验证消息
+							formProxy.hideMessages();
+						}
+					};
+					//
+					if (continuousSupported) {
+						//显示“保存后继续添加”复选框
+						dlgConfig.open = function(event, ui) {
+							//
+							var jqButtonPane = jqDlgDom.siblings(".ui-dialog-buttonpane");
+							dlgToolbarCtrls = $($(dlgToolbarCtrlsHtml).appendTo(jqButtonPane));
+							var theCheckbox = dlgToolbarCtrls.find("[name='" + dlgToolbarCtrlsName + "-checkbox']");
+							var continuousFlag = jqDlgDom.prop("continuousFlag");
+							theCheckbox.prop("checked", continuousFlag);
+							//
+							theCheckbox.bind("click", function() {
+								jqDlgDom.prop("continuousFlag", this.checked);
+							});
+						};
+					}
+				} else if (curAction == "mod") {
+					dlgConfig.title = "用户 - 修改";
+					dlgConfig.buttons = {
+						"保存" : function() {
+							//收集并验证要提交的数据（如果验证不通过直接返回 return）
+							var vldResult = formProxy.validateAll();
+							if (!vldResult) {
+								return;
+							}
+							var postData = formProxy.getValues();
+							postData.id = dataId;
+							//...
+							//
+							toSaveData(postData, $(this));
+						},
+						"取消" : function() {
+							$(this).dialog("close");
+							//隐藏表单验证消息
+							formProxy.hideMessages();
+						}
+					};
+				} else {
+					//== view 查看
+					dlgConfig.title = "用户 - 查看";
+					dlgConfig.buttons = {
+						"修改 > " : function() {
+							$(this).dialog("close");
+							//
+							openModDlg(dataId);
+						},
+						"关闭" : function() {
+							$(this).dialog("close");
+						}
+					};
+				}
+				//
+				jqDlgDom.dialog(dlgConfig);
+				//
+				initTheDlgCtrls(dataId);
+			}
+
+			//--------------------------------------------------------------------------------}}
+
+			$(function() {
+				//初始化控件数据、行为
+				$id("birthDate").datepicker();
+				//
+				loadSelectData("country", countryListData);
+				//
+				$id("btnToView").click(openViewDlg);
+				//
+				$id("btnToAdd").click(openAddDlg);
+				//
+				$id("btnToMod").click(openModDlg);
+				//
+				$id("btnToDel").click(openDelDlg);
+			});
+		</script>
+	</body>
+	<script type="text/html" id="userRowTpl">
+		{{# var users = d; }}
+		{{# for(var i=0, len=users.length; i<len ; i++) {  }}
+		<tr data-id="{{users[i].id}}" style="height:40px;"
+		{{ (i+1) % 2 ==0? 'class="even row"' : ''}}
+		ondblclick="openViewDlg({{users[i].id}})">
+		<td class="align center blue color">{{ users[i].nickName }}</td>
+		<td class="align centerred color">{{ users[i].gender=='F' ? '女' : '男'}}</td>
+		<td class="align center purple color">{{isNoB(users[i].birthDate) ? '' : Date.parseAsDate(users[i].birthDate).format('yyyy年MM月dd日') }}</td>
+		<td class="align center">{{ users[i].age || ''}}</td>
+		<td class="align center">{{ users[i].marriaged ? 'X' : ''}}</td>
+		<td class="align center">{{ users[i].weight || ''}}</td>
+		<td class="align center">{{ users[i].favor.join("、") }}</td>
+		<td class="align center">{{ users[i].country }}</td>
+		<td >{{ users[i].desc }}</td>
+		<td class="align center"><button class="normal button" style="width:50px;" onclick="openViewDlg({{users[i].id}})">查看</button>
+		&nbsp;<button class="normal button" style="width:50px;" onclick="openModDlg({{users[i].id}})">修改</button>
+		&nbsp;<button class="normal button" style="width:50px;" onclick="openDelDlg({{users[i].id}})">删除</button>
+		</td>
+
+		</tr>
+		{{# } }}
+	</script>
+</html>

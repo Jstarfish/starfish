@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<!-- Standard Meta -->
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+<!-- Vendor Specific -->
+<!-- Set renderer engine for 360 browser -->
+<meta name="renderer" content="webkit">
+
+<!-- Cache Meta -->
+<meta http-equiv="Expires" content="0">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Pragma" content="no-cache">
+
+<!-- Style Sheet -->
+<link rel="stylesheet" href="css/common/basic.css" />
+<link rel="stylesheet" href="css/libext/jquery.ext.css" />
+
+<!--[if lt IE 9]>
+		<script type="text/javascript" src="js/html5/html5shiv.js"></script>
+		<![endif]-->
+
+<!-- script here -->
+<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+<script type="text/javascript" src="lib/layer/layer.js"></script>
+<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+<script type="text/javascript" src="js/common/laytpl.js"></script>
+<script type="text/javascript" src="js/common/common.js"></script>
+<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+
+<title>Layer-示例</title>
+
+<style type="text/css">
+</style>
+</head>
+
+<body id="rootPanel">
+	<textarea id="text_msg" rows="12" cols="60">
+            Jquery是继prototype之后又一个<b>优秀的</b>Javascrīpt框架。它是<span
+			style="color: red">轻量级的js库(压缩后只有21k)</span>
+            ，它兼容CSS3，还兼容各种浏览器 （IE 6.0+, FF 1.5+, Safari 2.0+, Opera 9.0+）。jQuery使用户能更方便地处理HTML document
+  		</textarea>
+	&nbsp;
+	<button class="normal button" onclick="test_tips();">
+		显示提示 &nbsp;
+		<button class="normal button" onclick="test_hideTips();">
+			隐藏提示</button>
+		<br /> <br /> <br />
+
+		<button class="normal button" onclick="test_info();">信息对话框</button>
+		<button class="normal button" onclick="test_warning();">
+			警告对话框</button>
+		<button class="normal button" onclick="test_error();">
+			<span style="color: red;">错误对话框</span>
+		</button>
+		<br /> <br />
+		<button class="normal button" onclick="test_confirm();">
+			确认对话框</button>
+		<button class="normal button" onclick="test_loading();">
+			加载提示框</button>
+		<button class="normal button" onclick="test_progress();">
+			进度提示框</button>
+		<br /> <br />
+		<button class="normal button" onclick="test_msgInfo();">信息提示
+		</button>
+		<button class="normal button" onclick="test_msgWarning();">
+			警告提示</button>
+		<button class="normal button" onclick="test_msgSuccess();">
+			成功提示</button>
+		<br /> <br />
+		<button class="normal button" onclick="test_prompt();">输入提示</button>
+		<button class="normal button" onclick="test_html();">显示html</button>
+		<button class="normal button one half wide"
+			onclick="test_dialogDom();">显示对话框 dom</button>
+		<button class="normal button one half wide"
+			onclick="test_dialogSrc();">显示对话框 src</button>
+		<br /> <br />
+		<div id="myText"
+			style="height: 100px; line-height: 100px; text-align: center; vertical-align: middle; display: none;">
+			华锋又失恋了！</div>
+		<button class="normal button one half wide"
+			onclick="test_dialogDomX();">显示对话框X</button>
+
+		<script type="text/javascript">
+			function test_tips() {
+				var msg = "这里的内容将作为<b>对话框消息</b>显示";
+				//Layer.tips(msg);
+
+				Layer.tips(msg, "#text_msg");
+			}
+
+			function test_hideTips() {
+				Layer.hideTips();
+			}
+
+			//-----------------------------------------
+			function test_info() {
+				var msg = $('#text_msg').val();
+				//Layer.info(msg);
+				var theLayer = Layer.info(msg, function(layerIndex) {
+					theLayer.hide();
+					console.log("关闭了 info");
+				});
+			}
+
+			function test_warning() {
+				var msg = $('#text_msg').val();
+				//Layer.warning(msg);
+				var theLayer = Layer.warning(msg, function(layerIndex) {
+					theLayer.hide();
+					console.log("关闭了 warning");
+				});
+			}
+
+			function test_error() {
+				var msg = $('#text_msg').val();
+				//Layer.error(msg);
+				var theLayer = Layer.error(msg, function(layerIndex) {
+					theLayer.hide();
+					console.log("关闭了 error");
+				});
+			}
+
+			//-----------------------------------------
+			function test_confirm() {
+				var msg = $('#text_msg').val();
+				//
+				var yesHandler = function(layerIndex) {
+					theLayer.hide();
+					alert("您点击了：确定");
+				};
+				var noHandler = function(layerIndex) {
+					theLayer.hide();
+					console.log("您点击了：取消");
+				};
+				//
+				var theLayer = Layer.confirm(msg, yesHandler, noHandler);
+			}
+
+			function test_loading() {
+
+				var theLayer = Layer.loading();
+				//
+				setTimeout(function() {
+					theLayer.hide();
+				}, 2000);
+			}
+
+			function test_progress() {
+				var msg = "请稍后，马上OK...";
+
+				var theLayer = Layer.progress(msg);
+				//
+				setTimeout(function() {
+					theLayer.hide();
+				}, 2000);
+			}
+
+			//-----------------------------------------
+			function test_msgInfo() {
+				var msg = $('#text_msg').val();
+
+				//Layer.msgInfo(msg);
+
+				var callback = function() {
+					console.log("隐藏了");
+				};
+				var closeDelay = 3000;
+				Layer.msgInfo(msg, callback, closeDelay);
+			}
+
+			function test_msgWarning() {
+				var msg = $('#text_msg').val();
+
+				//Layer.msgWarning(msg);
+
+				var callback = function() {
+					console.log("隐藏了");
+				};
+				Layer.msgWarning(msg, callback);
+			}
+
+			function test_msgSuccess() {
+				var msg = $('#text_msg').val();
+
+				//Layer.msgSuccess(msg);
+
+				var callback = function() {
+					console.log("隐藏了");
+				};
+				var closeDelay = 3000;
+				Layer.msgSuccess(msg, callback, closeDelay);
+			}
+
+			//-----------------------------------------
+			function test_prompt() {
+				var title = "请输入您的银行密码";
+
+				var okHandler = function(inputVal, layerIndex, inputDom) {
+					theLayer.hide();
+
+					alert("输入的内容：" + inputVal);
+				};
+
+				//var theLayer = Layer.prompt(title, okHandler);
+
+				var options = {
+					title : "您的意见",
+					inputType : "mltext", //text, password, mltext
+					maxlength : 200
+				};
+
+				//
+				var theLayer = Layer.prompt(options, okHandler);
+			}
+
+			function __closeIt() {
+				Layer.hideAll();
+			}
+
+			function test_html() {
+				var html = '<div style="width:400px;height:300px;padding:10px;"><div>' + $('#text_msg').val() + '</div><br/><button onclick="__closeIt();">关闭</button></div>';
+				Layer.html(html);
+			}
+
+			function test_dialogDom() {
+				var dom = "#text_msg";
+				Layer.dialog({
+					dom : dom, //或者 html string
+					area : [ '600px', '400px' ],
+					closeBtn : true,
+					btn : false,
+					content : "你到底支付好没好！！！",
+				//默认为 btn : ["确定", "取消"]
+				});
+			}
+
+			function test_dialogSrc() {
+				var src = "http://www.baidu.com/";
+				Layer.dialog({
+					title : "百度",
+					src : src,
+					area : [ '800px', '100%' ],
+					closeBtn : true,
+					maxmin : true,//最大化、最小化
+					btn : [ "确定", "取消" ]
+				//,
+				//yes : yesCallback,
+				//cancel : cancelBack
+				});
+			}
+			//
+			Toast.show("这是 Toast 消息");
+
+			//
+			function test_dialogDomX() {
+				var dom = "#myText";
+				var theDlg = Layer.dialog({
+					dom : dom, //或者 html string
+					area : [ '300px', '200px' ],
+					closeBtn : true,
+					title : "当前情绪",
+					btn : [ '开心', '生气' ],
+					yes : function() {
+						theDlg.hide();
+						alert("你单击的是：开心");
+					},
+					cancel : function() {
+						alert("快给我说说，乐呵下~");
+					}
+				});
+			}
+		</script>
+</body>
+</html>

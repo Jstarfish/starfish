@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<!-- Standard Meta -->
+		<meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport"
+		content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+		<!-- Vendor Specific -->
+		<!-- Set renderer engine for 360 browser -->
+		<meta name="renderer" content="webkit">
+
+		<!-- Cache Meta -->
+		<meta http-equiv="Expires" content="0">
+		<meta http-equiv="Cache-Control" content="no-cache">
+		<meta http-equiv="Pragma" content="no-cache">
+
+		<!-- Style Sheet -->
+		<link rel="stylesheet" href="css/common/basic.css" />
+		<link rel="stylesheet" href="css/libext/jquery.ext.css" />
+
+		<!--[if lt IE 9]>
+		<script type="text/javascript" src="js/html5/html5shiv.js"></script>
+		<![endif]-->
+
+		<!-- script here -->
+		<script type="text/javascript" src="lib/jquery/jquery.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery-migrate.min.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery-ui.js"></script>
+		<script type="text/javascript" src="lib/jquery/jquery.locale-cn.js"></script>
+		<script type="text/javascript" src="lib/layer/layer.js"></script>
+		<script type="text/javascript" src="lib/layer/extend/layer.ext.js"></script>
+		<script type="text/javascript" src="js/common/laytpl.js"></script>
+		<script type="text/javascript" src="js/common/common.js"></script>
+		<script type="text/javascript" src="js/libext/layer.ext.js"></script>
+		<script type="text/javascript" src="js/libext/jquery.ext.js"></script>
+
+		<title>Layer-示例</title>
+
+		<style type="text/css">
+		</style>
+	</head>
+
+	<body id="rootPanel">
+		<br/>
+		<br/>
+		<button class="normal button three wide" onclick="openXxxDlg();">
+			打开（iframe）调查结果页面
+		</button>
+		<br />
+		<br />
+		调查结果：<span id="output"></span>
+
+		<script type="text/javascript">
+			function demoHostCallback(xyz){
+				alert("宿主页面接到了：" + xyz);
+				return "xxxxxx";
+			}	
+		
+			function openXxxDlg() {
+				console.log("-----------------------");
+				//对话框参数名
+				var argName = "argx";
+				//对话框参数值
+				var argValue = {
+					name : "koqiui",
+					ts : new Date().format("yyyy-MM-dd HH:mm")
+				};
+				//对话框参数 预存
+				setDlgPageArg(argName, argValue);
+				//对话框信息
+				var pageTitle = "示例对话框";
+				var pageUrl = "_dlgPage.html";
+				var extParams = {};
+				//
+				pageUrl = makeDlgPageUrl(pageUrl, argName, extParams);
+				//
+				console.log("页面url：" + pageUrl);
+				//打开对话框-----------------------------------------
+				var theDlg = Layer.dialog({
+					title : pageTitle,
+					src : pageUrl,
+					area : ['800px', '600px'],
+					closeBtn : true,
+					maxmin : true, //最大化、最小化
+					btn : ["确定", "取消"],
+					yes : function() {
+						//对话框页面窗口对象
+						var dlgWin = theDlg.getFrameWindow();
+						//对话框页面的接口函数
+						var dlgCallback = dlgWin["getDlgResult"];
+						//获取返回值
+						var dlgResult = dlgCallback();
+						//
+						console.log("结果：" + dlgResult);
+						//
+						if (dlgResult == null) {
+							Layer.msgWarning("请选择您的意见");
+
+							return false;
+						} else {
+							$id("output").text(dlgResult == "Y" ? "满意" : "不满意");
+							//
+							theDlg.hide();
+						}
+					}
+				});
+			}
+		</script>
+	</body>
+</html>
