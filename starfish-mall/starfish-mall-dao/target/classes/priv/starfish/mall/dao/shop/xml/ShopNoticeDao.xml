@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopNoticeDao">
+    <resultMap id="ShopNoticeMap" type="priv.starfish.mall.shop.entity.ShopNotice">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="shopId" property="shopId" jdbcType="INTEGER" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="content" property="content" jdbcType="CLOB" />
+        <result column="autoFlag" property="autoFlag" jdbcType="BOOLEAN" />
+        <result column="startDate" property="startDate" jdbcType="DATE" />
+        <result column="endDate" property="endDate" jdbcType="DATE" />
+        <result column="pubTime" property="pubTime" jdbcType="TIMESTAMP" />
+        <result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+        <result column="status" property="status" jdbcType="CHAR" />
+    </resultMap>
+    
+    <select id="selectById" resultMap="ShopNoticeMap" parameterType="Integer">
+	    SELECT SN.id, SN.shopId, SN.title, SN.content, SN.autoFlag, SN.startDate, SN.endDate, SN.pubTime, SN.endTime, SN.status
+		FROM   shop_notice SN
+		WHERE  SN.id = #{id}
+	</select>
+	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT INTO shop_notice(shopId, title, content, autoFlag, startDate, endDate, pubTime, endTime, status)
+	    VALUES(#{shopId}, #{title}, #{content}, #{autoFlag}, #{startDate}, #{endDate}, #{pubTime}, #{endTime}, #{status})
+    </insert>
+    
+    <update id="update">
+    	UPDATE shop_notice
+    	<trim prefix="SET" suffixOverrides=",">
+    		<if test="shopId !=null">
+				shopId = #{shopId} ,
+			</if>
+			<if test="title !=null">
+		    	title = #{title} ,
+		    </if>
+		    <if test="content !=null">
+		    	content = #{content} ,
+		    </if>
+		    <if test="autoFlag !=null">
+		    	autoFlag = #{autoFlag} ,
+		    </if>
+		    <if test="pubTime !=null">
+		    	pubTime = #{pubTime} ,
+		    </if>
+		    <if test="endTime !=null">
+		    	endTime = #{endTime} ,
+		    </if>
+		    <if test="status !=null">
+		    	status = #{status}
+		    </if>
+    	</trim>
+		WHERE  id = #{id}
+	</update>
+	
+    <delete id="deleteById" parameterType="Integer">
+	    DELETE 
+		FROM   shop_notice
+		WHERE  id = #{id}
+	</delete>
+	
+	<select id="selectList" resultMap="ShopNoticeMap">
+	    SELECT SN.id, SN.shopId, SN.title, SN.content, SN.autoFlag, SN.startDate, SN.endDate, SN.pubTime, SN.endTime, SN.status
+		FROM   shop_notice SN
+		WHERE  SN.shopId = #{shopId}
+		ORDER BY SN.id DESC
+	</select>
+	
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM shop_notice
+		WHERE id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+	
+</mapper>

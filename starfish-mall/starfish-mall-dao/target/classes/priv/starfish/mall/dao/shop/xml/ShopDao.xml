@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopDao">
+	<resultMap id="ShopMap" type="priv.starfish.mall.shop.entity.Shop">
+		<id column="id" property="id" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="merchantId" property="merchantId" jdbcType="INTEGER" />
+        <result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+        <result column="selfFlag" property="selfFlag" jdbcType="BOOLEAN" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="py" property="py" jdbcType="VARCHAR" />
+        <result column="entpFlag" property="entpFlag" jdbcType="BOOLEAN" />
+        <result column="regionId" property="regionId" jdbcType="INTEGER" />
+        <result column="regionName" property="regionName" jdbcType="VARCHAR" />
+        <result column="street" property="street" jdbcType="VARCHAR" />
+        <result column="distCenterId" property="distCenterId" jdbcType="INTEGER" />
+        <result column="provinceId" property="provinceId" jdbcType="INTEGER" />
+        <result column="cityId" property="cityId" jdbcType="INTEGER" />
+        <result column="countyId" property="countyId" jdbcType="INTEGER" />
+        <result column="townId" property="townId" jdbcType="INTEGER" />
+        <result column="lng" property="lng" jdbcType="NUMERIC" />
+        <result column="lat" property="lat" jdbcType="NUMERIC" />
+        <result column="telNo" property="telNo" jdbcType="VARCHAR" />
+        <result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+        <result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+        <result column="bizScope" property="bizScope" jdbcType="VARCHAR" />
+        <result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+        <result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+        <result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+        <result column="applyTime" property="applyTime" jdbcType="TIMESTAMP" />
+        <result column="applyMsg" property="applyMsg" jdbcType="VARCHAR" />
+        <result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+        <result column="licenseId" property="licenseId" jdbcType="INTEGER" />
+        <result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+        <result column="closed" property="closed" jdbcType="BOOLEAN" />
+        <result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+        <result column="memo" property="memo" jdbcType="VARCHAR" />
+        <result column="point" property="point" jdbcType="INTEGER" />
+        <result column="staffCount" property="staffCount" jdbcType="INTEGER" />
+        <result column="referrerName" property="referrerName" jdbcType="VARCHAR" />
+        <result column="referrerPhoneNo" property="referrerPhoneNo" jdbcType="VARCHAR" />
+        <result column="changeTime" property="changeTime" jdbcType="TIMESTAMP" />
+        <result column="indexTime" property="indexTime" jdbcType="TIMESTAMP" />
+		<association property="merchant" column="merchantId"
+			select="getMerchantById" />
+		<association property="user" column="merchantId" select="getUserById" />
+	</resultMap>
+	<select id="getMerchantById" resultType="priv.starfish.mall.merchant.entity.Merchant"
+		parameterType="Integer">
+		SELECT M.id, M.disabled, M.memo
+		FROM merchant M
+		WHERE M.id
+		= #{merchantId}
+	</select>
+	<select id="getUserById" resultType="priv.starfish.mall.comn.entity.User"
+		parameterType="Integer">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo,
+		U.realName, U.gender, U.birthDate, U.qq, U.regTime,
+		U.verified, U.ts
+		FROM user U
+		WHERE U.id = #{merchantId}
+	</select>
+	<select id="selectById" resultMap="ShopMap" parameterType="Integer">
+		SELECT S.id, S.code, S.merchantId, S.merchantName, S.selfFlag, 
+		S.name, S.py, S.entpFlag, S.regionId, S.regionName, S.street, 
+		S.distCenterId, S.provinceId, S.cityId, S.countyId, S.townId, S.lng, 
+		S.lat, S.telNo, S.phoneNo, S.linkMan, S.bizScope, S.logoUuid, S.logoUsage, 
+		S.logoPath, S.applyTime, S.applyMsg, S.regTime, S.licenseId, S.auditStatus, 
+		S.closed, S.disabled, S.memo, S.point, S.staffCount, S.referrerName, S.referrerPhoneNo, 
+		S.changeTime, S.indexTime
+		FROM   shop S
+		WHERE  S.id = #{id}
+	</select>
+	<select id="selectByCode" resultMap="ShopMap">
+		SELECT S.id, S.code, S.merchantId, S.merchantName, S.selfFlag, 
+		S.name, S.py, S.entpFlag, S.regionId, S.regionName, S.street, 
+		S.distCenterId, S.provinceId, S.cityId, S.countyId, S.townId, S.lng, 
+		S.lat, S.telNo, S.phoneNo, S.linkMan, S.bizScope, S.logoUuid, S.logoUsage, 
+		S.logoPath, S.applyTime, S.applyMsg, S.regTime, S.licenseId, S.auditStatus, 
+		S.closed, S.disabled, S.memo, S.point, S.staffCount, S.referrerName, S.referrerPhoneNo, 
+		S.changeTime, S.indexTime
+		FROM shop S WHERE
+		S.code = #{code}
+	</select>
+	<select id="selectByName" resultMap="ShopMap">
+		SELECT S.id, S.code, S.merchantId, S.merchantName, S.selfFlag, 
+		S.name, S.py, S.entpFlag, S.regionId, S.regionName, S.street, 
+		S.distCenterId, S.provinceId, S.cityId, S.countyId, S.townId, S.lng, 
+		S.lat, S.telNo, S.phoneNo, S.linkMan, S.bizScope, S.logoUuid, S.logoUsage, 
+		S.logoPath, S.applyTime, S.applyMsg, S.regTime, S.licenseId, S.auditStatus, 
+		S.closed, S.disabled, S.memo, S.point, S.staffCount, S.referrerName, S.referrerPhoneNo, 
+		S.changeTime, S.indexTime
+		FROM
+		shop S WHERE
+		S.name = #{name}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+  		shop(code, merchantId, merchantName, selfFlag, name, py, entpFlag, 
+  		regionId, regionName, street, distCenterId, provinceId, 
+  		cityId, countyId, townId, lng, lat, telNo, phoneNo, linkMan, bizScope, 
+  		logoUuid, logoUsage, logoPath, applyTime, applyMsg, regTime, licenseId, 
+  		auditStatus, closed, disabled, memo, point, staffCount, referrerName, referrerPhoneNo, 
+  		changeTime, indexTime)
+		VALUES(#{code}, #{merchantId}, #{merchantName}, #{selfFlag}, #{name}, #{py}, 
+		#{entpFlag}, #{regionId}, #{regionName}, #{street}, #{distCenterId}, 
+		#{provinceId}, #{cityId}, #{countyId}, #{townId}, #{lng}, #{lat}, #{telNo}, 
+		#{phoneNo}, #{linkMan}, #{bizScope}, #{logoUuid}, #{logoUsage}, #{logoPath}, #{applyTime}, 
+		#{applyMsg}, #{regTime}, #{licenseId}, #{auditStatus}, #{closed}, #{disabled}, 
+		#{memo}, #{point}, #{staffCount}, #{referrerName}, #{referrerPhoneNo}, #{changeTime}, #{indexTime})
+	</insert>
+	<update id="update">
+		UPDATE shop
+	   <trim prefix="SET" suffixOverrides=",">
+	    	 <if test="code !=null">
+	    	code = #{code},
+		    </if>
+		    <if test="merchantId != null">
+		    	merchantId = #{merchantId},
+		    </if>
+		    <if test="merchantName != null">
+		    	merchantName = #{merchantName},
+		    </if>
+		    <if test="selfFlag != null">
+		    	selfFlag = #{selfFlag},
+		    </if>
+		    <if test="name != null">
+		    	name = #{name},
+		    </if>
+		    <if test="py != null">
+		   		py = #{py},
+		    </if>
+		    <if test="entpFlag != null">
+		    	entpFlag = #{entpFlag},
+		    </if>
+		    <if test="regionId != null">
+		    	regionId = #{regionId},
+		    </if>
+		     <if test="regionName != null">
+		    	regionName = #{regionName},
+		    </if>
+		    <if test="street != null">
+		    	street = #{street},
+		    </if>
+		    <if test="distCenterId != null">
+		    	distCenterId = #{distCenterId},
+		    </if>
+		    <if test="provinceId != null">
+		    	provinceId = #{provinceId},
+		    </if>
+		     <if test="cityId != null">
+		    	cityId = #{cityId},
+		    </if>
+		    <if test="countyId != null">
+		    	countyId = #{countyId},
+		    </if>
+		    <if test="townId != null">
+		    	townId = #{townId},
+		    </if>
+		    <if test="lng != null">
+		    	lng = #{lng},
+		    </if>
+		    <if test="lat != null">
+		    	lat = #{lat},
+		    </if>
+		    <if test="telNo != null">
+		    	telNo = #{telNo},
+		    </if>
+		    <if test="phoneNo != null">
+		    	phoneNo = #{phoneNo},
+		    </if>
+		    <if test="linkMan != null">
+		    	linkMan = #{linkMan},
+		    </if>
+		    <if test="bizScope != null">
+		    	bizScope = #{bizScope},
+		    </if>
+		    <if test="logoUuid != null">
+		    	logoUuid = #{logoUuid},
+		    </if>
+		    <if test="logoUsage != null">
+		    	logoUsage = #{logoUsage},
+		    </if>
+		    <if test="logoPath != null">
+		    	logoPath = #{logoPath},
+		    </if>
+		    <if test="applyTime != null">
+		    	applyTime = #{applyTime},
+		    </if>
+		    <if test="applyMsg != null">
+		    	applyMsg = #{applyMsg},
+		    </if>
+		    <if test="regTime != null">
+		    	regTime = #{regTime},
+		    </if>
+		    <if test="licenseId != null">
+		    	licenseId = #{licenseId},
+		    </if>
+		    <if test="auditStatus != null">
+		    	auditStatus = #{auditStatus},
+		    </if>
+		    <if test="closed != null">
+		    	closed = #{closed},
+		    </if>
+		    <if test="disabled != null">
+		    	disabled = #{disabled},
+		    </if>
+		    <if test="memo != null">
+		    	memo = #{memo},
+		    </if>
+		    <if test="point != null">
+		    	point = #{point},
+		    </if>
+		    <if test="staffCount != null">
+		    	staffCount = #{staffCount},
+		    </if>
+		    <if test="referrerName != null">
+		    	referrerName = #{referrerName},
+		    </if>
+		    <if test="referrerPhoneNo != null">
+		    	referrerPhoneNo = #{referrerPhoneNo},
+		    </if>
+		    <if test="changeTime != null">
+		    	changeTime = CURRENT_TIMESTAMP,
+		    </if>
+		    <if test="indexTime != null">
+		    	indexTime = #{indexTime}
+		    </if>
+	    </trim>
+		WHERE id =
+		#{id}
+	</update>
+	<update id="updateShop">
+		UPDATE shop
+		SET
+		name = #{name} ,
+		py = #{py} ,
+		selfFlag =
+		#{selfFlag} ,
+		telNo = #{telNo} ,
+		regionId = #{regionId} ,
+		regionName =
+		#{regionName} ,
+		street = #{street}
+		,
+		phoneNo = #{phoneNo} ,
+		linkMan =
+		#{linkMan} ,
+		bizScope = #{bizScope} ,
+		logoUuid = #{logoUuid} ,
+		logoUsage
+		= #{logoUsage} ,
+		logoPath =
+		#{logoPath},
+		changeTime=CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	<update id="updateAudit">
+		UPDATE shop
+		SET
+		auditStatus = #{auditStatus} ,
+		changeTime=CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	<update id="updateClosed">
+		UPDATE shop
+		SET closed = #{closed},
+		changeTime=CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateDisabled">
+		UPDATE shop
+		SET disabled = #{disabled},
+		changeTime=CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM shop WHERE id
+		= #{id}
+	</delete>
+	<select id="selectByMerchId" resultMap="ShopMap" parameterType="Integer">
+		SELECT S.id, S.code, S.merchantId, S.merchantName, S.selfFlag, 
+		S.name, S.py, S.entpFlag, S.regionId, S.regionName, S.street, 
+		S.distCenterId, S.provinceId, S.cityId, S.countyId, S.townId, S.lng, 
+		S.lat, S.telNo, S.phoneNo, S.linkMan, S.bizScope, S.logoUuid, S.logoUsage, 
+		S.logoPath, S.applyTime, S.applyMsg, S.regTime, S.licenseId, S.auditStatus, 
+		S.closed, S.disabled, S.memo, S.point, S.staffCount, S.referrerName, S.referrerPhoneNo, 
+		S.changeTime, S.indexTime
+		FROM
+		shop S
+		WHERE
+		S.merchantId =#{merchId}
+	</select>
+	<delete id="deleteByMerchId" parameterType="Integer">
+		DELETE FROM shop
+		WHERE merchantId = #{merchId}
+	</delete>
+	<select id="selectShops" resultMap="ShopMap">
+		SELECT S.id, S.code, S.merchantId, S.merchantName, S.selfFlag, 
+		S.name, S.py, S.entpFlag, S.regionId, S.regionName, S.street, 
+		S.distCenterId, S.provinceId, S.cityId, S.countyId, S.townId, S.lng, 
+		S.lat, S.telNo, S.phoneNo, S.linkMan, S.bizScope, S.logoUuid, S.logoUsage, 
+		S.logoPath, S.applyTime, S.applyMsg, S.regTime, S.licenseId, S.auditStatus, 
+		S.closed, S.disabled, S.memo, S.point, S.staffCount, S.referrerName, S.referrerPhoneNo, 
+		S.changeTime, S.indexTime
+		FROM
+		shop S
+		WHERE 1=1
+		<if test="code !=null ">
+			AND S.code = #{code}
+		</if>
+		<if test="name !=null ">
+			AND S.name like ${name}
+		</if>
+		<if test="disabled !=null">
+			AND S.disabled = #{disabled}
+		</if>
+		<if test="auditStatus !=null">
+			AND S.auditStatus = #{auditStatus}
+		</if>
+		<if test="closed !=null">
+			AND S.closed = #{closed}
+		</if>
+		<if test="address != null and address != ''">
+			AND (S.street LIKE ${address} OR S.regionName LIKE ${address})
+		</if>
+		<if test="regionId != null and level != null">
+			<choose>  
+		        <when test="level == 1">  
+		            AND S.provinceId = #{regionId}
+		        </when>
+		        <when test="level == 2">  
+		            AND S.cityId = #{regionId}
+		        </when>
+		        <when test="level == 3">  
+		            AND S.countyId = #{regionId}
+		        </when>
+		        <when test="level == 4">
+		            AND S.townId = #{regionId}
+		        </when>
+		        <otherwise>  
+		        </otherwise>
+    		</choose>
+		</if>
+		<if test="ecardShopIds != null">
+			 AND id in
+			 <foreach item="ecardShopId" collection="ecardShopIds" separator="," open="(" close=")" index="">  
+		      #{ecardShopId, jdbcType=INTEGER}  
+		    </foreach>  
+		</if>
+	</select>
+
+	<select id="selectByMerchantIdAndName" resultMap="ShopMap">
+		SELECT S.id, S.code, S.merchantId, S.merchantName, S.selfFlag, 
+		S.name, S.py, S.entpFlag, S.regionId, S.regionName, S.street, 
+		S.distCenterId, S.provinceId, S.cityId, S.countyId, S.townId, S.lng, 
+		S.lat, S.telNo, S.phoneNo, S.linkMan, S.bizScope, S.logoUuid, S.logoUsage, 
+		S.logoPath, S.applyTime, S.applyMsg, S.regTime, S.licenseId, S.auditStatus, 
+		S.closed, S.disabled, S.memo, S.point, S.staffCount, S.referrerName, S.referrerPhoneNo, 
+		S.changeTime, S.indexTime
+		FROM shop S 
+		WHERE S.merchantId = #{merchantId} AND S.name = #{name}
+	</select>
+	
+	<select id="selectByLatestChanges" resultMap="ShopMap">
+		SELECT	S.*
+		FROM shop S
+		WHERE ( S.indexTime is NULL ) OR ( S.changeTime is NOT NULL AND  S.changeTime > S.indexTime )
+		ORDER by id
+	</select>
+	
+	<update id="updateAsIndexed">
+		UPDATE shop
+		SET indexTime = #{indexTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateChangeTime">
+		UPDATE shop
+		SET changeTime = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectProductIdsByShopIdAndLackFlag" resultType="java.lang.Integer">
+		SELECT	SP.productId
+		FROM shop_product SP
+		WHERE SP.shopId=#{shopId}
+		AND SP.lackFlag=0
+	</select>
+	
+</mapper>

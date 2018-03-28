@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.SalesBrandShoppeDao">
+    <resultMap id="SalesBrandShoppeMap" type="priv.starfish.mall.market.entity.SalesBrandShoppe">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="floorNo" property="floorNo" jdbcType="INTEGER" />
+        <result column="brandCode" property="brandCode" jdbcType="VARCHAR" />
+        <result column="linkUrl" property="linkUrl" jdbcType="VARCHAR" />
+        <result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+        <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <select id="selectById" resultMap="SalesBrandShoppeMap" parameterType="Integer">
+    	SELECT SBS.id, SBS.floorNo, SBS.brandCode, SBS.linkUrl, SBS.seqNo, SBS.ts FROM   sales_brand_shoppe SBS WHERE  SBS.id = #{id}
+    </select>
+    <select id="selectByFloorNoAndBrandCode" resultMap="SalesBrandShoppeMap">
+	    SELECT SBS.id, SBS.floorNo, SBS.brandCode, SBS.linkUrl, SBS.seqNo, SBS.ts
+		FROM   sales_brand_shoppe SBS WHERE  SBS.floorNo = #{floorNo} AND SBS.brandCode = #{brandCode}
+	</select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO sales_brand_shoppe(floorNo, brandCode, linkUrl, seqNo, ts)
+        VALUES(#{floorNo}, #{brandCode}, #{linkUrl}, #{seqNo}, #{ts})
+    </insert>
+    <update id="update">
+	    UPDATE sales_brand_shoppe SET floorNo = #{floorNo} ,
+	    brandCode = #{brandCode} , linkUrl = #{linkUrl} , seqNo = #{seqNo} ,
+	    ts = CURRENT_TIMESTAMP WHERE  id = #{id}
+    </update>
+    <delete id="deleteById" parameterType="Integer">
+    	DELETE FROM   sales_brand_shoppe WHERE  id = #{id}
+    </delete>
+    <delete id="deleteByFloorNo" parameterType="Integer">
+    	DELETE FROM   sales_brand_shoppe WHERE  floorNo = #{floorNo}
+	</delete>
+    <select id="selectByFloorNo" resultMap="SalesBrandShoppeMap">
+	    SELECT SBS.id, SBS.floorNo, SBS.brandCode, SBS.linkUrl, SBS.seqNo, SBS.ts
+		FROM   sales_brand_shoppe SBS WHERE  SBS.floorNo = #{floorNo}
+	</select>
+	<delete id="deleteByFloorNoAndUncontainIds">
+    	DELETE FROM   sales_brand_shoppe WHERE floorNo = #{floorNo} 
+    	<if test="null != uncontainIds">
+			and id not in (
+			<foreach collection="uncontainIds" item="id" index="index" open=""
+				close="" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+	</delete>
+</mapper>

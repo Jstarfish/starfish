@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.ECardOrderItemDao">
+	<resultMap id="ECardOrderItemMap" type="priv.starfish.mall.order.entity.ECardOrderItem">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderId" property="orderId" jdbcType="INTEGER" />
+		<result column="cardNo" property="cardNo" jdbcType="VARCHAR" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="faceValue" property="faceValue" jdbcType="DECIMAL" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectById" resultMap="ECardOrderItemMap"
+		parameterType="Integer">SELECT ECOI.id, ECOI.orderId, ECOI.cardNo, ECOI.price,
+		ECOI.faceValue, ECOI.seqNo
+		FROM ecard_record_item ECOI
+		WHERE ECOI.id =
+		#{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		ecard_record_item(orderId, cardNo, price, faceValue, seqNo)
+		VALUES(#{orderId}, #{cardNo}, #{price}, #{faceValue}, #{seqNo})
+	</insert>
+	<update id="update">UPDATE ecard_record_item
+		SET orderId = #{orderId} ,
+		cardNo = #{cardNo} ,
+		price = #{price} ,
+		faceValue = #{faceValue} ,
+		seqNo
+		= #{seqNo}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM
+		ecard_record_item
+		WHERE id = #{id}
+	</delete>
+</mapper>

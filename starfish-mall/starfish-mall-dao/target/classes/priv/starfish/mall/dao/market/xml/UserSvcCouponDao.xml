@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.UserSvcCouponDao">
+	<resultMap id="UserSvcCouponMap" type="priv.starfish.mall.market.entity.UserSvcCoupon">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="refId" property="refId" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="distActId" property="distActId" jdbcType="INTEGER" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="settlePrice" property="settlePrice" jdbcType="DECIMAL" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="checkCode" property="checkCode" jdbcType="VARCHAR" />
+		<result column="obtainTime" property="obtainTime" jdbcType="TIMESTAMP" />
+		<result column="startTime" property="startTime" jdbcType="TIMESTAMP" />
+		<result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="invalid" property="invalid" jdbcType="BOOLEAN" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		USC.id, USC.refId, USC.shopId, USC.distActId, USC.no,
+		USC.type, USC.name, USC.title, USC.svcId, USC.price, USC.settlePrice,
+		USC.userId, USC.checkCode, USC.obtainTime, USC.startTime, USC.endTime,
+		USC.invalid, USC.orderId, USC.ts, USC.deleted
+	</sql>
+
+	<select id="selectById" resultMap="UserSvcCouponMap"
+		parameterType="Integer">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_coupon USC
+		WHERE USC.id = #{id}
+	</select>
+
+	<select id="selectByIdAndUserId" resultMap="UserSvcCouponMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_coupon USC
+		WHERE USC.id = #{id} AND USC.userId=#{userId}
+	</select>
+
+	<select id="selectByNo" resultMap="UserSvcCouponMap">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_coupon USC
+		WHERE USC.no = #{no}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		user_svc_coupon(refId, shopId, distActId, no, type, name, title,
+		svcId, price, settlePrice,
+		userId, checkCode, obtainTime, startTime,
+		endTime, invalid, orderId,
+		ts, deleted)
+		VALUES(#{refId}, #{shopId},
+		#{distActId}, #{no}, #{type}, #{name}, #{title}, #{svcId},
+		#{price},
+		#{settlePrice}, #{userId}, #{checkCode}, #{obtainTime},
+		#{startTime},
+		#{endTime}, #{invalid}, #{orderId}, #{ts}, #{deleted})
+	</insert>
+
+	<update id="update">
+		UPDATE user_svc_coupon
+		<set>
+			<trim suffixOverrides=",">
+				<if test="refId != null">
+					refId = #{refId},
+				</if>
+				<if test="shopId != null">
+					shopId = #{shopId},
+				</if>
+				<if test="distActId != null">
+					distActId = #{distActId},
+				</if>
+				<if test="no != null">
+					no = #{no},
+				</if>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="title != null">
+					title = #{title},
+				</if>
+				<if test="svcId != null">
+					svcId = #{svcId},
+				</if>
+				<if test="price != null">
+					price = #{price},
+				</if>
+				<if test="settlePrice != null">
+					settlePrice = #{settlePrice},
+				</if>
+				<if test="userId != null">
+					userId = #{userId},
+				</if>
+				<if test="checkCode != null">
+					checkCode = #{checkCode},
+				</if>
+				<if test="obtainTime != null">
+					obtainTime = #{obtainTime},
+				</if>
+				<if test="startTime != null">
+					startTime = #{startTime},
+				</if>
+				<if test="endTime != null">
+					endTime = #{endTime},
+				</if>
+				<if test="invalid != null">
+					invalid = #{invalid},
+				</if>
+				<if test="orderId != null">
+					orderId = #{orderId},
+				</if>
+				<if test="ts != null">
+					ts = #{ts},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM user_svc_coupon
+		WHERE id = #{id}
+	</delete>
+
+	<delete id="updateForDeleted">
+		UPDATE user_svc_coupon
+		SET deleted = #{deleted}
+		WHERE
+		id = #{id} AND userId=#{userId}
+	</delete>
+
+	<select id="selectByFilter" resultMap="UserSvcCouponMap">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_coupon USC
+		WHERE USC.userId=#{userId} AND
+		USC.deleted=false
+		<if test="couponState == null or couponState == ''">
+			AND USC.invalid=false
+		</if>
+		<if test="couponState != null and couponState != ''">
+			<choose>
+				<when test="couponState == 'unused'">
+					AND USC.invalid=false
+				</when>
+				<when test="couponState == 'invalid'">
+					AND USC.invalid = true AND (USC.orderId is NULL OR
+					USC.orderId='')
+				</when>
+				<when test="couponState == 'finished'">
+					AND (USC.orderId is NOT NULL OR USC.orderId !='')
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		<if test="couponType != null and couponType != ''">
+			AND USC.type=#{couponType}
+		</if>
+		ORDER BY USC.ts desc
+
+	</select>
+
+	<select id="selectCountByUserId" resultType="Integer">
+		SELECT
+		count(*)
+		FROM
+		user_svc_coupon USC
+		WHERE USC.userId=#{userId}
+		AND USC.invalid=false AND
+		USC.deleted=false
+		AND (USC.orderId is NULL OR USC.orderId='')
+	</select>
+
+	<select id="selectBySvcIdAndUserId" resultMap="UserSvcCouponMap">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_coupon USC
+		WHERE USC.userId=#{userId} AND
+		USC.svcId=#{svcId}
+		AND
+		USC.invalid=false AND USC.deleted=false
+		AND
+		(USC.orderId is NULL OR
+		USC.orderId='') order by USC.ts desc
+	</select>
+</mapper>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.ECardPayRecDao">
+	<resultMap id="ECardPayRecMap" type="priv.starfish.mall.settle.entity.ECardPayRec">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="totalFee" property="totalFee" jdbcType="VARCHAR" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="orderDesc" property="orderDesc" jdbcType="VARCHAR" />
+		<result column="payWayName" property="payWayName" jdbcType="VARCHAR" />
+		<result column="tradeType" property="tradeType" jdbcType="VARCHAR" />
+		<result column="bankType" property="bankType" jdbcType="VARCHAR" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="tradeNo" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="tradeStatus" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="payTime" property="payTime" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="ECardPayRecMap"
+		parameterType="Long">SELECT ECPR.id, ECPR.no, ECPR.userId,
+		ECPR.totalFee, ECPR.subject, ECPR.orderDesc, ECPR.payWayName,
+		ECPR.tradeType, ECPR.bankType, ECPR.openId,
+		ECPR.tradeNo, ECPR.tradeStatus, ECPR.payTime, ECPR.ts
+		FROM ecard_pay_rec ECPR
+		WHERE ECPR.id = #{id}
+	</select>
+	
+	<select id="selectByNo" resultMap="ECardPayRecMap" parameterType="String">
+		SELECT 
+		ECPR.id, ECPR.no, ECPR.userId,
+		ECPR.totalFee, ECPR.subject, ECPR.orderDesc, ECPR.payWayName,
+		ECPR.tradeType, ECPR.bankType, ECPR.openId,
+		ECPR.tradeNo, ECPR.tradeStatus, ECPR.payTime, ECPR.ts
+		FROM ecard_pay_rec ECPR
+		WHERE ECPR.no = #{no}
+	</select>
+	
+	<select id="selectByFilter" resultMap="ECardPayRecMap">
+		SELECT 
+		ECPR.id, ECPR.no, ECPR.userId,
+		ECPR.totalFee, ECPR.subject, ECPR.orderDesc, ECPR.payWayName,
+		ECPR.tradeType, ECPR.bankType, ECPR.openId,
+		ECPR.tradeNo, ECPR.tradeStatus, ECPR.payTime, ECPR.ts
+		FROM ecard_pay_rec ECPR
+		<where >
+			<if test="no !=null and no != ''">  
+	          AND  ECPR.no  = #{no}  
+	         </if>
+			<if test="tradeNo !=null and tradeNo != ''">  
+	          AND  ECPR.tradeNo  = #{tradeNo}  
+	        </if>
+		</where>
+        order by ECPR.ts desc
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		ecard_pay_rec(no, userId, totalFee, subject, orderDesc, payWayName, tradeType, bankType, openId, tradeNo,
+		tradeStatus, payTime)
+		VALUES(#{no}, #{userId}, #{totalFee}, #{subject}, #{orderDesc}, #{payWayName}, #{tradeType}, #{bankType}, #{openId},
+		#{tradeNo}, #{tradeStatus}, #{payTime})
+	</insert>
+	
+	<update id="update">UPDATE ecard_pay_rec
+		SET no = #{no} ,
+		userId = #{userId} ,
+		totalFee = #{totalFee} ,
+		subject = #{subject} ,
+		orderDesc = #{orderDesc} ,
+		payWayName = #{payWayName} ,
+		tradeType = #{tradeType} ,
+		bankType = #{bankType} ,
+		openId = #{openId} ,
+		tradeNo = #{tradeNo} ,
+		tradeStatus = #{tradeStatus} ,
+		payTime = #{payTime} ,
+		ts = #{ts}
+		WHERE id = #{id}</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM ecard_pay_rec
+		WHERE id = #{id}</delete>
+</mapper>

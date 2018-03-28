@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.SaleOrderRecordDao">
+	<resultMap id="SaleOrderRecordMap" type="priv.starfish.mall.order.entity.SaleOrderRecord">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="action" property="action" jdbcType="VARCHAR" />
+		<result column="actRole" property="actRole" jdbcType="VARCHAR" />
+		<result column="extraInfo" property="extraInfo" jdbcType="VARCHAR" />
+		<result column="actorId" property="actorId" jdbcType="INTEGER" />
+		<result column="actorName" property="actorName" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="SaleOrderRecordMap"
+		parameterType="Long">SELECT SOR.id, SOR.orderId, SOR.action, SOR.actRole,
+		SOR.extraInfo, SOR.actorId, SOR.actorName, SOR.ts
+		FROM sale_order_record SOR
+		WHERE SOR.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		sale_order_record(orderId, action, actRole, extraInfo, actorId, actorName, ts)
+		VALUES(#{orderId}, #{action}, #{actRole}, #{extraInfo}, #{actorId},
+		#{actorName}, #{ts})
+	</insert>
+	<update id="update">UPDATE sale_order_record
+		SET orderId = #{orderId} ,
+		action = #{action} ,
+		actRole = #{actRole} ,
+		extraInfo = #{extraInfo} ,
+		actorId = #{actorId} ,
+		actorName = #{actorName} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM sale_order_record
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByOrderId" resultMap="SaleOrderRecordMap"
+		parameterType="Long">SELECT SOR.id, SOR.orderId, SOR.action, SOR.actRole,
+		SOR.extraInfo, SOR.actorId, SOR.actorName, SOR.ts
+		FROM sale_order_record SOR
+		WHERE SOR.orderId = #{orderId}
+	</select>
+</mapper>

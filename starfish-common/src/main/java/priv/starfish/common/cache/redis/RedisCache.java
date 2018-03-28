@@ -1,9 +1,5 @@
 package priv.starfish.common.cache.redis;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -11,10 +7,13 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
 import priv.starfish.common.cache.Cache;
 import priv.starfish.common.cache.CacheEventListener;
 import priv.starfish.common.cache.CacheEventListener.EventType;
+
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class RedisCache<K, V> implements Cache<K, V> {
 	private static final Log logger = LogFactory.getLog(RedisCache.class);
@@ -22,8 +21,6 @@ public class RedisCache<K, V> implements Cache<K, V> {
 	protected static final String CACHE_NS_ROOT = "redis-caches";
 	// 前缀分隔符
 	protected static final String CACHE_NS_DELIMITER = ":";
-	protected static final String CACHE_KEY_PREFIX = "<-#->";
-
 	// 生成组合键
 	private static String makeKey(Object... keyParts) {
 		int keyPartCount = keyParts.length;
@@ -39,6 +36,8 @@ public class RedisCache<K, V> implements Cache<K, V> {
 		}
 		return result.toString();
 	}
+
+	protected static final String CACHE_KEY_PREFIX = "<-#->";
 
 	// 默认的序列化/反序列化对象
 	public static final StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();

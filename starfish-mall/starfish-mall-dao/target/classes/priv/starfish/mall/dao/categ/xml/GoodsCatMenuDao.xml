@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatMenuDao">
+	<resultMap id="GoodsCatMenuMap" type="priv.starfish.mall.categ.entity.GoodsCatMenu">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="navDepth" property="navDepth" jdbcType="INTEGER" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="defaulted" property="defaulted" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 动态设置商品分类菜单属性 -->
+	<sql id="GoodsCatMenuMapSet">
+		<set>
+			<if test="name != null and name != ''">name = #{name} ,</if>
+			<if test="navDepth != null">navDepth = #{navDepth} ,</if>
+			<if test="`desc` != null and `desc` != ''">`desc` = #{desc} ,</if>
+			<if test="disabled != null">disabled = #{disabled} ,</if>
+			<if test="defaulted != null">defaulted = #{defaulted} ,</if>
+			ts = CURRENT_TIMESTAMP
+		</set>
+    </sql >
+	
+	<select id="selectById" resultMap="GoodsCatMenuMap" parameterType="Integer">
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM
+		WHERE GCM.id = #{id}
+	</select>
+	
+	<select id="selectByName" resultMap="GoodsCatMenuMap">
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM
+		WHERE GCM.name = #{name}
+	</select>
+	
+	<select id="selectByDefaulted" resultMap="GoodsCatMenuMap">
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM
+		WHERE GCM.defaulted = #{defaulted}
+	</select>
+	
+	<select id="selectFirstLevel" resultMap="GoodsCatMenuMap">
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM, goods_cat_menu_item GCMI
+		WHERE GCM.id = GCMI.menuId AND GCMI.parentId = -1
+	</select>
+	
+	<select id="selectSecondLevelByPId" resultMap="GoodsCatMenuMap">
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM, goods_cat_menu_item GCMI
+		WHERE GCM.id = GCMI.menuId AND GCMI.parentId = #{parentId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="priv.starfish.mall.categ.entity.GoodsCatMenu">
+		INSERT goods_cat_menu
+		<include refid="GoodsCatMenuMapSet" />
+	</insert>
+	
+	<update id="update">
+		UPDATE goods_cat_menu
+		<include refid="GoodsCatMenuMapSet" />
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM goods_cat_menu
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectGoodsCatMenus" resultMap="GoodsCatMenuMap" >
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM
+		WHERE 1=1
+		<if test="name !=null and name != ''">
+			AND GCM.name like ${name}
+		</if>
+	</select>
+</mapper>

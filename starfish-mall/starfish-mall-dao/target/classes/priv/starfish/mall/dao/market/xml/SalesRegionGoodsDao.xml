@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.SalesRegionGoodsDao">
+	<resultMap id="SalesRegionGoodsMap" type="priv.starfish.mall.market.entity.SalesRegionGoods">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="SalesRegionGoodsMap"
+		parameterType="Integer">
+		SELECT SRG.id, SRG.regionId, SRG.goodsId, SRG.productId, SRG.seqNo, SRG.ts
+		FROM sales_region_goods SRG
+		WHERE SRG.id = #{id}
+	</select>
+	
+	<select id="selectByRegionIdAndProductId" resultMap="SalesRegionGoodsMap">
+		SELECT SRG.id, SRG.regionId, SRG.goodsId, SRG.productId, SRG.seqNo, SRG.ts
+		FROM sales_region_goods SRG WHERE SRG.regionId = #{regionId} AND
+		SRG.productId = #{productId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO sales_region_goods(regionId, goodsId, productId, seqNo, ts)
+		VALUES(#{regionId}, #{goodsId}, #{productId}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE sales_region_goods SET regionId = #{regionId} ,goodsId = #{goodsId} ,
+		productId = #{productId} ,seqNo = #{seqNo} ,ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM
+		sales_region_goods WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByRegionId" resultMap="SalesRegionGoodsMap">
+		SELECT SRG.id, SRG.regionId, SRG.goodsId, SRG.productId, SRG.seqNo, SRG.ts
+		FROM sales_region_goods SRG WHERE SRG.regionId = #{regionId} order by
+		SRG.seqNo
+	</select>
+	
+	<delete id="deleteByRegionId" parameterType="Integer">
+		DELETE FROM
+		sales_region_goods WHERE regionId = #{regionId}
+	</delete>
+	
+	<delete id="deleteByRegionIdAndUncontainIds" parameterType="Integer">
+		DELETE FROM sales_region_goods WHERE regionId = #{regionId}
+		<if test="null != uncontainIds">
+			and id not in (
+			<foreach collection="uncontainIds" item="id" index="index"
+				open="" close="" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+	</delete>
+	
+	<select id="selectSalesRegionGoods" resultMap="SalesRegionGoodsMap">
+	   SELECT SRG.id, SRG.regionId, SRG.goodsId, SRG.productId, SRG.seqNo, SRG.ts
+		FROM sales_region_goods SRG
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="id != null">
+					 SRG.id = #{id}
+				</if>
+				<if test="regionId != null">
+					AND SRG.regionId = #{regionId}
+				</if>
+				<if test="goodsId != null">
+					AND SRG.goodsId = #{goodsId}
+				</if>
+				<if test="productId != null">
+					AND SRG.productId = #{productId}
+				</if>
+			</trim>
+		</where>
+	</select>
+	
+</mapper>

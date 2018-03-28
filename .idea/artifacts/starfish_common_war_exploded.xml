@@ -1,0 +1,19 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="starfish-common:war exploded">
+    <output-path>$PROJECT_DIR$/starfish-common/target/starfish-common</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="starfish-common" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="file-copy" path="E:/0.0/亿投车吧网项目/misCode/src-code/rs-ezmall-ref-libs/unionpay_sdk-1.0.jar" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/starfish-common/target/starfish-common/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="starfish-common/web/Web" />
+    </root>
+  </artifact>
+</component>

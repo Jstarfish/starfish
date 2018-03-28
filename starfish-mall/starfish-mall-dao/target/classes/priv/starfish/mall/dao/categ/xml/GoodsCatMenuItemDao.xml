@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatMenuItemDao">
+	<resultMap id="GoodsCatMenuItemMap" type="priv.starfish.mall.categ.entity.GoodsCatMenuItem">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="menuId" property="menuId" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="linkFlag" property="linkFlag" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<association column="menuId" property="menu" select="getGoodsCatMenuById" />
+	</resultMap>
+	
+	<select id="getGoodsCatMenuById" resultType="priv.starfish.mall.categ.entity.GoodsCatMenu" parameterType="Integer">
+		SELECT GCM.id, GCM.name, GCM.navDepth, GCM.desc, GCM.disabled, GCM.defaulted, GCM.ts
+		FROM goods_cat_menu GCM
+		WHERE GCM.id = #{id}
+	</select>
+	
+	<select id="selectById" resultMap="GoodsCatMenuItemMap" parameterType="Integer">
+		SELECT GCMI.id, GCMI.menuId, GCMI.parentId, GCMI.level, GCMI.name, GCMI.linkFlag, GCMI.seqNo, GCMI.ts
+		FROM goods_cat_menu_item GCMI
+		WHERE GCMI.id = #{id}
+	</select>
+	
+	<select id="selectByMenuIdAndLevelAndName" resultMap="GoodsCatMenuItemMap">
+		SELECT GCMI.id, GCMI.menuId, GCMI.parentId, GCMI.level, GCMI.name, GCMI.linkFlag, GCMI.seqNo, GCMI.ts
+		FROM goods_cat_menu_item GCMI
+		WHERE GCMI.menuId = #{menuId} AND GCMI.level = #{level} AND GCMI.name = #{name}
+	</select>
+	
+	<select id="selectByMenuIdAndLevel" resultMap="GoodsCatMenuItemMap">
+		SELECT GCMI.id, GCMI.menuId, GCMI.parentId, GCMI.level, GCMI.name, GCMI.linkFlag, GCMI.seqNo, GCMI.ts
+		FROM goods_cat_menu_item GCMI
+		WHERE GCMI.menuId = #{menuId} AND GCMI.level = #{level}
+		ORDER BY GCMI.seqNo
+	</select>
+	
+	<select id="selectByPId" resultMap="GoodsCatMenuItemMap">
+		SELECT GCMI.id, GCMI.menuId, GCMI.parentId, GCMI.level, GCMI.name, GCMI.linkFlag, GCMI.seqNo, GCMI.ts
+		FROM goods_cat_menu_item GCMI
+		WHERE GCMI.parentId = #{parentId}
+		ORDER BY GCMI.seqNo
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO goods_cat_menu_item(menuId, parentId, level, name, linkFlag, seqNo, ts)
+		VALUES(#{menuId}, #{parentId}, #{level}, #{name}, #{linkFlag}, #{seqNo}, CURRENT_TIMESTAMP)
+	</insert>
+	
+	<update id="update">
+		UPDATE goods_cat_menu_item
+		SET menuId = #{menuId} ,
+			parentId = #{parentId} ,
+			level = #{level} ,
+			name = #{name} ,
+			linkFlag = #{linkFlag} ,
+			seqNo = #{seqNo} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM goods_cat_menu_item
+		WHERE id = #{id}
+	</delete>
+</mapper>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.member.MemberPointRuleDao">
+	<resultMap id="MemberPointRuleMap" type="priv.starfish.mall.member.entity.MemberPointRule">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="FLOAT" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="MemberPointRuleMap"
+		parameterType="Integer">SELECT MPR.id, MPR.code, MPR.value, MPR.desc
+		FROM member_point_rule MPR
+		WHERE MPR.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="MemberPointRuleMap">SELECT MPR.id, MPR.code,
+		MPR.value, MPR.desc
+		FROM member_point_rule MPR
+		WHERE MPR.code = #{code}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		member_point_rule(code, value, `desc`)
+		VALUES(#{code}, #{value}, #{desc})
+	</insert>
+	
+	<update id="update">UPDATE member_point_rule
+		SET code = #{code} ,
+		value = #{value} ,
+		`desc` = #{desc}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM member_point_rule
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="updateByCode">UPDATE member_point_rule
+		SET value = #{value}
+		WHERE code = #{code}
+	</update>
+	
+	<select id="selectAll" resultMap="MemberPointRuleMap" >
+		SELECT MPR.id, MPR.code, MPR.value, MPR.desc
+		FROM member_point_rule MPR
+	</select>
+</mapper>

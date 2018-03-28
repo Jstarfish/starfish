@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.SmsApiDao">
+	<resultMap id="SmsApiMap" type="priv.starfish.mall.notify.entity.SmsApi">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="method" property="method" jdbcType="VARCHAR" />
+		<result column="url" property="url" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+
+	</resultMap>
+
+	<select id="selectById" resultMap="SmsApiMap" parameterType="Integer">
+		SELECT SA.id, SA.name, SA.desc, SA.method, SA.url, SA.disabled, SA.seqNo, SA.ts
+		FROM sms_api SA
+		WHERE SA.id = #{id}
+	</select>
+	
+	<select id="selectByName" resultMap="SmsApiMap">
+		SELECT SA.id, SA.name, SA.desc, SA.method, SA.url, SA.disabled, SA.seqNo, SA.ts
+		FROM sms_api SA
+		WHERE SA.name = #{name}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		sms_api(name, `desc`, method, url, disabled, ts)
+		VALUES(#{name}, #{desc}, #{method}, #{url}, #{disabled}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE sms_api
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">
+					name = #{name} ,
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc} ,
+				</if>
+				<if test="method != null">
+					method = #{method} ,
+				</if>
+				<if test="url != null">
+					url = #{url} ,
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled}
+				</if>
+			</trim>
+		</set>		
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM sms_api
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectSmsApisByFilter" resultMap="SmsApiMap">
+		SELECT SA.id, SA.name, SA.desc, SA.method, SA.url, SA.disabled, SA.seqNo, SA.ts
+		FROM sms_api SA
+		<where>
+			<trim prefixOverrides="AND">
+				<if test="name != null">
+					 SA.name like ${name}
+				</if>
+				<if test="status != null">
+					AND SA.disabled = #{status}
+				</if>
+			</trim>
+		</where>
+		ORDER BY SA.seqNo, SA.id DESC
+	</select>
+	
+	<select id="selectSmsApis" resultMap="SmsApiMap">
+		SELECT SA.id, SA.name,
+		SA.desc, SA.method, SA.url, SA.disabled, SA.seqNo, SA.ts
+		FROM sms_api SA
+		WHERE SA.disabled = 0
+		ORDER BY SA.seqNo, SA.id DESC
+	</select>
+
+</mapper>

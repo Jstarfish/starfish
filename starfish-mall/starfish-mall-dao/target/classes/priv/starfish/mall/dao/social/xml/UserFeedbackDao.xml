@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.social.UserFeedbackDao">
+	<resultMap id="UserFeedbackMap" type="priv.starfish.mall.social.entity.UserFeedback">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="userType" property="userType" jdbcType="INTEGER" />
+		<result column="appType" property="appType" jdbcType="VARCHAR" />
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="recvTime" property="recvTime" jdbcType="TIMESTAMP" />
+		<result column="handleFlag" property="handleFlag" jdbcType="INTEGER" />
+		<result column="handleMemo" property="handleMemo" jdbcType="VARCHAR" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="deleteTime" property="deleteTime" jdbcType="TIMESTAMP" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,userId,userName,userType,appType,subject,content,sendTime,recvTime,handleFlag,handleMemo,deleted,deleteTime,ts
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		user_feedback (
+		userId ,
+		userName ,
+		userType ,
+		appType ,
+		subject ,
+		content ,
+		sendTime ,
+		recvTime ,
+		handleFlag ,
+		handleMemo ,
+		ts
+		)
+		VALUES(
+		#{userId} ,
+		#{userName} ,
+		#{userType} ,
+		#{appType} ,
+		#{subject} ,
+		#{content} ,
+		#{sendTime} ,
+		#{recvTime} ,
+		#{handleFlag} ,
+		#{handleMemo} ,
+		#{ts}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM
+		user_feedback
+		WHERE id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE user_feedback
+		<set>
+			<trim suffixOverrides=",">
+				<if test="content != null">
+					content = #{content},
+				</if>
+				<if test="sendTime != null">
+					sendTime = #{sendTime},
+				</if>
+				<if test="recvTime != null">
+					recvTime = #{recvTime},
+				</if>
+				<if test="handleFlag != null">
+					handleFlag = #{handleFlag},
+				</if>
+				<if test="handleMemo != null">
+					handleMemo = #{handleMemo},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted},
+				</if>
+				<if test="deleteTime != null">
+					deleteTime = #{deleteTime},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id} AND userId=#{userId}
+	</update>
+
+	<select id="selectById" resultMap="UserFeedbackMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM user_feedback
+		WHERE id = #{id}
+	</select>
+
+	<select id="selectByFilter" resultMap="UserFeedbackMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM user_feedback
+		WHERE 1 = 1
+		<if test=" userName !=null and  userName != ''">
+			AND userName like ${userName}
+		</if>
+		<if test=" userId !=null and  userId != ''">
+			AND userId = #{userId}
+		</if>
+		<if test=" appType !=null and  appType != ''">
+			AND appType like ${appType}
+		</if>
+		<if test=" subject !=null and  subject != ''">
+			AND subject like ${subject}
+		</if>
+		<if test=" content !=null and  content != ''">
+			AND content like ${content}
+		</if>
+		<if test=" handleMemo !=null and  handleMemo != ''">
+			AND handleMemo like ${handleMemo}
+		</if>
+		<if test=" startTime !=null">
+			AND DATE_FORMAT(#{startTime},'%Y-%m-%d') &lt;=
+			DATE_FORMAT(sendTime,'%Y-%m-%d')
+		</if>
+		<if test=" endTime !=null">
+			AND DATE_FORMAT(#{endTime},'%Y-%m-%d') &gt;=
+			DATE_FORMAT(sendTime,'%Y-%m-%d')
+		</if>
+		<if test="deleted != null">
+			AND deleted = #{deleted}
+		</if>
+	</select>
+
+</mapper>
+

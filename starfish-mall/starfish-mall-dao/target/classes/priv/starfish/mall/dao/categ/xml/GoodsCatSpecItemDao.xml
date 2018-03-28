@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatSpecItemDao">
+    <resultMap id="GoodsCatSpecItemMap" type="priv.starfish.mall.categ.entity.GoodsCatSpecItem">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="specId" property="specId" jdbcType="INTEGER" />
+        <result column="value" property="value" jdbcType="VARCHAR" />
+        <result column="value2" property="value2" jdbcType="VARCHAR" />
+        <result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+    </resultMap>
+    <select id="selectById" resultMap="GoodsCatSpecItemMap" parameterType="Integer">SELECT GCSI.id, GCSI.specId, GCSI.value, GCSI.value2, GCSI.seqNo
+		FROM   goods_cat_spec_item GCSI
+		WHERE  GCSI.id = #{id}
+	</select>
+		    <select id="selectBySpecIdAndValue" resultMap="GoodsCatSpecItemMap">SELECT GCSI.id, GCSI.specId, GCSI.value, GCSI.value2, GCSI.seqNo
+		FROM   goods_cat_spec_item GCSI
+		WHERE  GCSI.specId = #{specId}
+		   AND GCSI.value = #{value}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT INTO 
+		goods_cat_spec_item(specId, value, value2, seqNo)
+		             VALUES(#{specId}, #{value}, #{value2}, #{seqNo})
+	</insert>
+	<update id="update">UPDATE goods_cat_spec_item
+		SET specId = #{specId} ,
+		    value = #{value} ,
+		    value2 = #{value2} ,
+		    seqNo = #{seqNo}
+		WHERE  id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM   goods_cat_spec_item WHERE  id = #{id}
+	</delete>
+	<delete id="deleteBySpecId" parameterType="Integer">
+		DELETE FROM   goods_cat_spec_item WHERE  specId = #{specId}
+	</delete>
+	<delete id="deleteBySpecIds" parameterType="Integer">
+		DELETE FROM   goods_cat_spec_item WHERE  specId  in (
+		    <foreach collection="list" item="specId" index="index" open="" close="" separator=",">   
+        		#{specId}    
+    		</foreach>
+		)
+	</delete>
+	<select id="selectBySpecId" resultMap="GoodsCatSpecItemMap" parameterType="Integer">
+		SELECT GCSI.id, GCSI.specId, GCSI.value, GCSI.value2, GCSI.seqNo
+		FROM   goods_cat_spec_item GCSI
+		WHERE  GCSI.specId = #{specId}
+	</select>
+	<select id="selectBySpecIdAndUncontainIds" resultMap="GoodsCatSpecItemMap" parameterType="Integer">
+		SELECT GCSI.id, GCSI.specId, GCSI.value, GCSI.value2, GCSI.seqNo
+		FROM   goods_cat_spec_item GCSI
+		WHERE  GCSI.specId = #{specId}  
+		<if test="null != uncontainIds and '' != uncontainIds">
+			and GCSI.id  not in (
+		    <foreach collection="uncontainIds" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+		</if>
+	</select>
+	<delete id="deleteBySpecIdAndUncontainIds">
+		DELETE FROM   goods_cat_spec_item WHERE specId = #{specId} 
+		<if test="null != uncontainIds and '' != uncontainIds">
+			and id not in (
+			<foreach collection="uncontainIds" item="id" index="index" open=""
+				close="" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+	</delete>
+	<select id="selectGoodsCatSpecItemBySpecItemIds" resultMap="GoodsCatSpecItemMap" >
+		SELECT GCSI.id, GCSI.specId, GCSI.value, GCSI.value2, GCSI.seqNo
+		FROM   goods_cat_spec_item GCSI
+		WHERE  GCSI.id in (
+		<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    	</foreach>
+		)
+		
+	</select>
+</mapper>

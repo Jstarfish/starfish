@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.base.BaseDao">
+
+	<select id="getEntityCount" resultType="java.lang.Long">
+		SELECT count(*) FROM ${tableName}
+	</select>
+	
+	<select id="getEntityMaxSeqNo" resultType="java.lang.Integer">
+		SELECT IFNULL(max(seqNo), 0) FROM ${tableName}
+		<where>
+			<if test="colName != null">
+				${colName} = #{colValue}
+			</if>
+		</where>
+	</select>
+	
+	<select id="getBrotherIdBySeqNo" resultType="java.lang.String">
+		SELECT ${idName} FROM ${tableName}
+		<where>
+			<if test="lesser == true">
+				seqNo &lt;= #{seqNo}
+			</if>
+			<if test="lesser == false">
+				seqNo &gt;= #{seqNo}
+			</if>
+			AND ${idName} != #{idValue}
+			<if test="colName != null">
+				AND ${colName} = #{colValue}
+			</if>
+		</where>
+		<if test="lesser == true">
+			ORDER BY seqNo DESC, ${idName} DESC
+		</if>
+		<if test="lesser == false">
+			ORDER BY seqNo ASC, ${idName} ASC
+		</if>
+		limit 0, 1
+	</select>
+	
+	<select id="getEntityIds" resultType="java.lang.Integer">
+		SELECT id FROM ${tableName}
+		<where>
+			<if test="colName != null">
+				${colName} = #{colValue}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="newIntSequence" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO ${tableName} () VALUES()
+	</insert>
+	
+</mapper>

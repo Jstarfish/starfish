@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.SettleOrderDao">
+	<resultMap id="SettleOrderMap" type="priv.starfish.mall.settle.entity.SettleOrder">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="processId" property="processId" jdbcType="BIGINT" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+	</resultMap>
+	<select id="selectById" resultMap="SettleOrderMap"
+		parameterType="Long">SELECT SO.id, SO.processId, SO.no
+		FROM settle_order SO
+		WHERE SO.id = #{id}
+	</select>
+	<select id="selectBySettleProcessId" resultMap="SettleOrderMap"
+		parameterType="Long">SELECT SO.id, SO.processId, SO.no
+		FROM settle_order SO
+		WHERE SO.processId = #{processId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		settle_order(processId, no)
+		VALUES(#{processId}, #{no})
+	</insert>
+	<update id="update">UPDATE settle_order
+		SET processId = #{processId} ,
+		no = #{no}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM settle_order
+		WHERE id = #{id}
+	</delete>
+</mapper>

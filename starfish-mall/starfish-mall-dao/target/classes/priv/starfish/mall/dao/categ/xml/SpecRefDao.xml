@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.SpecRefDao">
+	<resultMap id="SpecRefMap" type="priv.starfish.mall.categ.entity.SpecRef">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="colorFlag" property="colorFlag" jdbcType="BOOLEAN" />
+		<result column="salesFlag" property="salesFlag" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="SpecRefMap" parameterType="Integer">
+		SELECT SR.id, SR.code, SR.name, SR.desc, SR.seqNo, SR.colorFlag, SR.salesFlag, SR.ts
+		FROM spec_ref SR
+		WHERE SR.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="SpecRefMap">
+		SELECT SR.id, SR.code, SR.name, SR.desc, SR.seqNo, SR.colorFlag, SR.salesFlag, SR.ts
+		FROM spec_ref SR
+		WHERE SR.code = #{code}
+	</select>
+	
+	<select id="selectSpecRef" resultMap="SpecRefMap">
+		SELECT SR.id, SR.code, SR.name, SR.desc, SR.seqNo, SR.colorFlag, SR.salesFlag, SR.ts
+		FROM spec_ref SR
+		<where>
+			<if test="name != null and name != ''">
+				name like ${name}
+			</if>
+			<if test="null != uncontains and '' != uncontains">
+			AND SR.id not in(
+				<foreach collection="uncontains" item="id" index="index" open="" close="" separator=",">   
+        			#{id}    
+    			</foreach>
+			)
+		</if>
+		</where>
+		ORDER BY SR.seqNo ASC
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO spec_ref(code, name, `desc`, seqNo, colorFlag, salesFlag, ts)
+		VALUES(#{code}, #{name}, #{desc}, #{seqNo}, #{colorFlag}, #{salesFlag}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE spec_ref
+		SET
+			<if test="null != code and '' != code">
+				code = #{code} ,
+			</if>
+			<if test="null != name and '' != name">
+				name = #{name} ,
+			</if>
+			<if test="null != desc and '' != desc">
+				`desc` = #{desc} ,
+			</if>
+			<if test="null != seqNo">
+				seqNo = #{seqNo} ,
+			</if>
+			<if test="null != colorFlag">
+				colorFlag = #{colorFlag} ,
+			</if>
+			<if test="null != salesFlag">
+				salesFlag = #{salesFlag} ,
+			</if>
+			ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM spec_ref
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="batchDelByIds">
+		DELETE FROM spec_ref
+		WHERE id in (
+		    <foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+	
+	<select id="selectColorSpecRef" resultMap="SpecRefMap">
+		SELECT SR.id, SR.code, SR.name, SR.desc, SR.seqNo, SR.colorFlag, SR.salesFlag, SR.ts
+		FROM spec_ref SR
+		WHERE SR.colorFlag = true
+	</select>
+	
+</mapper>

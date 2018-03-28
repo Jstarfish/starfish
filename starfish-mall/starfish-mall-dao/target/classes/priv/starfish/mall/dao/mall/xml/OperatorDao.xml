@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.mall.OperatorDao">
+	<resultMap id="OperatorMap" type="priv.starfish.mall.mall.entity.Operator">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="OperatorMap" parameterType="Integer">
+		SELECT O.id, O.disabled, O.memo
+		FROM operator O
+		WHERE O.id = #{id}
+	</select>
+	
+	<select id="selectTheOne" resultMap="OperatorMap">
+		SELECT O.id, O.disabled, O.memo
+		FROM operator O
+		LIMIT 1
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO operator(id, disabled, memo)
+		VALUES(#{id}, #{disabled}, #{memo})
+	</insert>
+	
+	<update id="update">
+		UPDATE operator
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="disabled != null">
+			 	disabled = #{disabled},
+			</if>
+			<if test="memo != null">
+			 	memo = #{memo}
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM operator
+		WHERE id = #{id}
+	</delete>
+</mapper>

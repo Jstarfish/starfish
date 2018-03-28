@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatAttrGroupDao">
+	<resultMap id="GoodsCatAttrGroupMap" type="priv.starfish.mall.categ.entity.GoodsCatAttrGroup">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="GoodsCatAttrGroupMap" parameterType="Integer">
+		SELECT GCAG.id, GCAG.catId, GCAG.name, GCAG.desc, GCAG.seqNo, GCAG.ts
+		FROM goods_cat_attr_group GCAG
+		WHERE GCAG.id = #{id}
+	</select>
+	<select id="selectByCatIdAndName" resultMap="GoodsCatAttrGroupMap">
+		SELECT GCAG.id,
+		GCAG.catId, GCAG.name, GCAG.desc, GCAG.seqNo, GCAG.ts
+		FROM goods_cat_attr_group GCAG
+		WHERE GCAG.catId = #{catId}
+		AND GCAG.name = #{name}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO goods_cat_attr_group(catId, name, `desc`, seqNo, ts)
+		VALUES(#{catId}, #{name}, #{desc}, #{seqNo}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE goods_cat_attr_group
+		SET 
+			<if test="null != catId">
+				catId = #{catId} ,
+			</if>
+			<if test="null != name">
+				name = #{name} ,
+			</if>
+			<if test="null != desc">
+				`desc` = #{desc} ,
+			</if>
+			<if test="null != seqNo">
+				seqNo = #{seqNo} ,
+			</if>
+			ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+	DELETE
+		FROM goods_cat_attr_group
+		WHERE id = #{id}
+	</delete>
+	<select id="selectCountByCatId" resultType="Integer" parameterType="Integer">
+		SELECT count(GCAG.id)
+		FROM goods_cat_attr_group GCAG
+		WHERE GCAG.catId = #{catId}
+	</select>
+	<delete id="deleteByCatId" parameterType="Integer">
+	DELETE
+		FROM goods_cat_attr_group
+		WHERE catId = #{catId}
+	</delete>
+	<delete id="deleteByCatIds" parameterType="Integer">
+	DELETE
+		FROM goods_cat_attr_group
+		WHERE catId  in (
+		    <foreach collection="list" item="catId" index="index" open="" close="" separator=",">   
+        		#{catId}    
+    		</foreach>
+		)
+	</delete>
+	<select id="selectByCatId" resultMap="GoodsCatAttrGroupMap" parameterType="Integer">
+		SELECT GCAG.id, GCAG.catId, GCAG.name, GCAG.desc, GCAG.seqNo, GCAG.ts
+		FROM goods_cat_attr_group GCAG
+		WHERE GCAG.catId = #{catId}
+	</select>
+	<delete id="deleteByUncontainIdsAndCatId">
+	DELETE
+		FROM goods_cat_attr_group
+		WHERE catId = #{catId} and id  not in (
+		    <foreach collection="ids" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+</mapper>

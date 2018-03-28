@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.ModuleDao">
+	<resultMap id="ModuleMap" type="priv.starfish.mall.comn.entity.Module">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+
+		<collection property="permissions" column="perm_id"
+			ofType="priv.starfish.mall.comn.entity.Permission" columnPrefix="p_">
+			<id column="id" property="id" jdbcType="INTEGER" />
+			<result column="moduleId" property="moduleId" jdbcType="INTEGER" />
+			<result column="scope" property="scope" jdbcType="VARCHAR" />
+			<result column="code" property="code" jdbcType="VARCHAR" />
+			<result column="name" property="name" jdbcType="VARCHAR" />
+			<result column="desc" property="desc" jdbcType="VARCHAR" />
+			<result column="grantable" property="grantable" jdbcType="BOOLEAN" />
+			<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+			<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		</collection>
+	</resultMap>
+
+	<select id="selectById" resultMap="ModuleMap" parameterType="Integer">
+		SELECT M.id, M.name, M.desc, M.seqNo
+		FROM module M
+		WHERE M.id = #{id}
+	</select>
+
+	<select id="selectByName" resultMap="ModuleMap">
+		SELECT M.id, M.name, M.desc, M.seqNo
+		FROM module M
+		WHERE M.name = #{name}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO module(id, name, `desc`, seqNo)
+		VALUES(#{id}, #{name}, #{desc},
+		#{seqNo})
+	</insert>
+
+	<update id="update">
+		UPDATE module
+		SET name = #{name} ,
+			`desc` = #{desc} ,
+			seqNo = #{seqNo}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM module
+		WHERE id = #{id}
+	</delete>
+    <select id="selectAllByScope" parameterType="String" resultMap="ModuleMap">
+		SELECT M.id, M.name, M.desc, M.seqNo,
+			P.id p_id, P.moduleId p_moduleId, P.scope p_scope,
+			P.code p_code, P.name p_name, P.desc p_desc, P.grantable p_grantable,
+			P.seqNo p_seqNo, P.disabled p_disabled
+		FROM module M, permission P
+		WHERE P.moduleId = M.id	AND P.scope = #{scope}
+		ORDER BY M.seqNo, M.id, P.seqNo, P.id
+	</select>
+
+</mapper>

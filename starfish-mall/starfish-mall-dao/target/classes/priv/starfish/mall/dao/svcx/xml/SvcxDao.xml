@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.svcx.SvcxDao">
+	<resultMap id="SvcxMap" type="priv.starfish.mall.svcx.entity.Svcx">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="kindId" property="kindId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="groupId" property="groupId" jdbcType="INTEGER" />
+		<result column="grounpName" property="grounpName" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="salePrice" property="salePrice" jdbcType="DECIMAL" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="iconUsage" property="iconUsage" jdbcType="VARCHAR" />
+		<result column="iconUuid" property="iconUuid" jdbcType="VARCHAR" />
+		<result column="iconPath" property="iconPath" jdbcType="VARCHAR" />
+		<result column="iconUuid2" property="iconUuid2" jdbcType="VARCHAR" />
+		<result column="iconPath2" property="iconPath2" jdbcType="VARCHAR" />
+		<result column="iconUuidApp" property="iconUuidApp" jdbcType="VARCHAR" />
+		<result column="iconPathApp" property="iconPathApp" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="appRange" property="appRange" jdbcType="VARCHAR" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SvcxMap" parameterType="Integer">
+		SELECT S.id, S.kindId, S.name, S.groupId, S.grounpName, S.imageUsage,
+		S.imageUuid, S.imagePath, S.salePrice, S.desc, S.iconUsage,
+		S.iconUuid, S.iconPath, S.iconUuid2, S.iconPath2, S.iconUuidApp,
+		S.iconPathApp, S.seqNo, S.disabled, S.appRange, S.deleted
+		FROM svcx S
+		WHERE S.id=#{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		svcx(kindId, name, groupId, grounpName, imageUsage, imageUuid,
+		imagePath,
+		salePrice, `desc`, iconUsage, iconUuid, iconPath, iconUuid2,
+		iconPath2,
+		iconUuidApp, iconPathApp, seqNo, disabled, appRange,
+		deleted)
+		VALUES(#{kindId}, #{name}, #{groupId}, #{grounpName},
+		#{imageUsage},
+		#{imageUuid}, #{imagePath}, #{salePrice}, #{desc},
+		#{iconUsage},
+		#{iconUuid}, #{iconPath}, #{iconUuid2}, #{iconPath2},
+		#{iconUuidApp},
+		#{iconPathApp}, #{seqNo}, #{disabled}, #{appRange},
+		#{deleted})
+	</insert>
+
+	<update id="update">
+		UPDATE svcx
+		<set>
+			<trim suffixOverrides=",">
+				<if test="kindId != null">
+					kindId = #{kindId},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="groupId != null">
+					groupId = #{groupId},
+				</if>
+				<if test="grounpName != null">
+					grounpName = #{grounpName},
+				</if>
+				<if test="imageUsage != null">
+					imageUsage = #{imageUsage},
+				</if>
+				<if test="imageUuid != null">
+					imageUuid = #{imageUuid},
+				</if>
+				<if test="imagePath != null">
+					imagePath = #{imagePath},
+				</if>
+				<if test="salePrice != null">
+					salePrice = #{salePrice},
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc},
+				</if>
+				<if test="iconUsage != null">
+					iconUsage = #{iconUsage},
+				</if>
+				<if test="iconUuid != null">
+					iconUuid = #{iconUuid},
+				</if>
+				<if test="iconPath != null">
+					iconPath = #{iconPath},
+				</if>
+				<if test="iconUuid2 != null">
+					iconUuid2 = #{iconUuid2},
+				</if>
+				<if test="iconPath2 != null">
+					iconPath2 = #{iconPath2},
+				</if>
+				<if test="iconUuidApp != null">
+					iconUuidApp = #{iconUuidApp},
+				</if>
+				<if test="iconPathApp != null">
+					iconPathApp = #{iconPathApp},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled},
+				</if>
+				<if test="appRange != null">
+					appRange = #{appRange},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<update id="updateByGroupIdAndState">
+		UPDATE svcx
+		SET disabled=#{disabled}
+		WHERE
+		groupId
+		=#{groupId}
+	</update>
+
+	<update id="updateForDelete">
+		UPDATE svcx
+		SET
+		deleted=true
+		WHERE
+		id = #{id}
+	</update>
+	<delete id="updateForDeleteByGroupId">
+		UPDATE svcx
+		SET
+		deleted=true
+		WHERE
+		groupId =
+		#{groupId}
+	</delete>
+	<select id="selectByGroupIdAndState" resultMap="SvcxMap"
+		parameterType="map">
+		SELECT S.id, S.kindId, S.name, S.groupId, S.grounpName, S.imageUsage,
+		S.imageUuid, S.imagePath, S.salePrice, S.desc, S.iconUsage,
+		S.iconUuid, S.iconPath, S.iconUuid2, S.iconPath2, S.iconUuidApp,
+		S.iconPathApp, S.seqNo, S.disabled, S.appRange, S.deleted
+		FROM svcx S
+		WHERE S.deleted=false
+		<if test="groupId !=null and groupId != 0">
+			AND S.groupId=#{groupId}
+		</if>
+		<if test="disabled !=null">
+			AND S.disabled=#{disabled}
+		</if>
+		order by S.seqNo desc
+	</select>
+
+	<select id="selectByFilter" resultMap="SvcxMap">
+		SELECT S.id, S.kindId, S.name, S.groupId, S.grounpName, S.imageUsage,
+		S.imageUuid, S.imagePath, S.salePrice, S.desc, S.iconUsage,
+		S.iconUuid, S.iconPath, S.iconUuid2, S.iconPath2, S.iconUuidApp,
+		S.iconPathApp, S.seqNo, S.disabled, S.appRange, S.deleted
+		FROM svcx S
+		<where>
+			S.deleted=false
+			<if test="name !=null and name != ''">
+				AND S.name like ${name}
+			</if>
+			<if test="grounpName !=null and grounpName != ''">
+				AND S.grounpName like ${grounpName}
+			</if>
+			<if test="disabled !=null">
+				AND S.disabled=#{disabled}
+			</if>
+		</where>
+		order by S.seqNo desc
+	</select>
+	<select id="select" resultMap="SvcxMap">
+		SELECT S.id, S.kindId, S.name,
+		S.groupId, S.grounpName, S.imageUsage,
+		S.imageUuid, S.imagePath,
+		S.salePrice, S.desc, S.iconUsage,
+		S.iconUuid, S.iconPath, S.iconUuid2,
+		S.iconPath2, S.iconUuidApp,
+		S.iconPathApp, S.seqNo, S.disabled,
+		S.appRange, S.deleted
+		FROM svcx S
+		WHERE
+		S.deleted=false
+		order by S.seqNo
+		desc,S.groupId asc
+	</select>
+	<select id="selectByShopId" parameterType="Integer" resultMap="SvcxMap">
+		SELECT S.id, S.kindId, S.name,
+		S.groupId, S.grounpName, S.imageUsage,
+		S.imageUuid, S.imagePath,
+		S.salePrice, S.desc, S.iconUsage,
+		S.iconUuid,
+		S.iconPath, S.iconUuid2,
+		S.iconPath2, S.iconUuidApp,
+		S.iconPathApp,
+		S.seqNo, S.disabled,
+		S.appRange, S.deleted
+		FROM svcx S,shop_svc SS
+		WHERE
+		S.deleted=false
+		AND SS.svcId = S.id
+		AND SS.shopId = #{shopId}
+		order by
+		S.seqNo
+		desc,S.groupId asc
+	</select>
+	<select id="selectByKindIdAndName" resultMap="SvcxMap">
+		SELECT S.id,
+		S.kindId, S.name,
+		S.groupId, S.grounpName, S.imageUsage,
+		S.imageUuid,
+		S.imagePath,
+		S.salePrice, S.desc, S.iconUsage,
+		S.iconUuid, S.iconPath,
+		S.iconUuid2,
+		S.iconPath2, S.iconUuidApp,
+		S.iconPathApp, S.seqNo,
+		S.disabled,
+		S.appRange, S.deleted
+		FROM svcx S
+		WHERE S.kindId = #{kindId}
+		AND S.name = #{name}
+	</select>
+
+
+</mapper>

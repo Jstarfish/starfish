@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.TplModelDao">
+	<resultMap id="TplModelMap" type="priv.starfish.mall.notify.entity.TplModel">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sample" property="sample" jdbcType="CLOB" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="TplModelMap" parameterType="Integer">
+		SELECT TM.id, TM.code, TM.name, TM.sample, TM.seqNo, TM.ts
+		FROM tpl_model TM
+		WHERE TM.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="TplModelMap">
+		SELECT TM.id, TM.code, TM.name, TM.sample, TM.seqNo, TM.ts
+		FROM tpl_model TM
+		WHERE TM.code = #{code}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO tpl_model(code, name, sample, seqNo, ts)
+		VALUES(#{code}, #{name}, #{sample}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE tpl_model
+		SET code = #{code} ,
+		name = #{name} ,
+		sample = #{sample} ,
+		seqNo = #{seqNo} ,
+		ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM tpl_model
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectAll" resultMap="TplModelMap">
+		SELECT TM.id, TM.code, TM.name, TM.sample, TM.seqNo, TM.ts
+		FROM tpl_model TM
+		WHERE TM.code like ${code}
+	</select>
+</mapper>

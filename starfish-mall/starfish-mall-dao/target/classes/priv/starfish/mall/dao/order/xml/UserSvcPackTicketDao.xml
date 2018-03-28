@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.UserSvcPackTicketDao">
+	<resultMap id="UserSvcPackTicketMap" type="priv.starfish.mall.order.entity.UserSvcPackTicket">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
+		<result column="orderSvcId" property="orderSvcId" jdbcType="BIGINT" />
+		<result column="svcPackId" property="svcPackId" jdbcType="INTEGER" />
+		<result column="svcPackName" property="svcPackName" jdbcType="VARCHAR" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="svcName" property="svcName" jdbcType="VARCHAR" />
+		<result column="cancelled" property="cancelled" jdbcType="BOOLEAN" />
+		<result column="doneCode" property="doneCode" jdbcType="VARCHAR" />
+		<result column="finished" property="finished" jdbcType="BOOLEAN" />
+		<result column="finishTime" property="finishTime" jdbcType="TIMESTAMP" />
+		<result column="invalid" property="invalid" jdbcType="BOOLEAN" />
+		<result column="actorId" property="actorId" jdbcType="INTEGER" />
+		<result column="actorName" property="actorName" jdbcType="VARCHAR" />
+		<result column="actRole" property="actRole" jdbcType="VARCHAR" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		USPT.id, USPT.userId, USPT.shopId, USPT.orderId,
+		USPT.orderNo,
+		USPT.orderSvcId, USPT.svcPackId, USPT.svcPackName,
+		USPT.svcId,
+		USPT.svcName, USPT.cancelled, USPT.doneCode, USPT.finished,
+		USPT.finishTime, USPT.invalid, USPT.actorId, USPT.actorName,
+		USPT.actRole
+	</sql>
+
+	<select id="selectById" resultMap="UserSvcPackTicketMap"
+		parameterType="Integer">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_pack_ticket USPT
+		WHERE USPT.id = #{id}
+	</select>
+
+	<select id="selectByUserIdAndOrderIdAndOrderSvcId" resultMap="UserSvcPackTicketMap">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_pack_ticket USPT
+		WHERE USPT.userId =
+		#{userId}
+		AND
+		USPT.orderId = #{orderId}
+		AND USPT.orderSvcId =
+		#{orderSvcId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		user_svc_pack_ticket(
+		userId, shopId, orderId, orderNo, orderSvcId,
+		svcPackId, svcPackName, svcId,
+		svcName, doneCode,
+		actorId,actorName,actRole)
+		VALUES(
+		#{userId},#{shopId},
+		#{orderId},
+		#{orderNo},
+		#{orderSvcId}, #{svcPackId},
+		#{svcPackName},#{svcId},
+		#{svcName},
+		#{doneCode},#{actorId}, #{actorName},#{actRole})
+	</insert>
+
+	<update id="update">
+		UPDATE user_svc_pack_ticket
+		<set>
+			<trim suffixOverrides=",">
+				<if test="svcPackName != null">
+					svcPackName = #{svcPackName},
+				</if>
+				<if test="svcName != null">
+					svcName = #{svcName},
+				</if>
+				<if test="cancelled != null">
+					cancelled = #{cancelled},
+				</if>
+				<if test="finished != null">
+					finished = #{finished},
+				</if>
+				<if test="finishTime != null">
+					finishTime = #{finishTime},
+				</if>
+				<if test="invalid != null">
+					invalid = #{invalid},
+				</if>
+				<if test="actorId != null">
+					actorId = #{actorId},
+				</if>
+				<if test="actorName != null">
+					actorName = #{actorName},
+				</if>
+				<if test="actRole != null">
+					actRole = #{actRole}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		user_svc_pack_ticket
+		WHERE id = #{id}
+	</delete>
+
+	<delete id="deleteByUserIdAndOrderNo" parameterType="map">
+		DELETE
+		FROM
+		user_svc_pack_ticket
+		WHERE userId = #{userId} AND orderNo=#{orderNo}
+	</delete>
+
+	<select id="selectByFilter" resultMap="UserSvcPackTicketMap">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_pack_ticket USPT, user U
+		WHERE USPT.userId =U.id
+		<if test="userId != null and userId != ''">
+			AND USPT.userId=#{userId}
+		</if>
+		<if test="shopId != null and shopId != ''">
+			AND USPT.shopId LIKE #{shopId}
+		</if>
+		<if test="svcName != null and svcName != ''">
+			AND USPT.svcName LIKE ${svcName}
+		</if>
+		<if test="userName != null and userName != ''">
+			AND (U.nickName LIKE ${userName} OR U.phoneNo LIKE
+			${userName})
+		</if>
+		<if test="state !=null and state != ''">
+			<choose>
+				<when test="state == 'unused'">
+					AND USPT.finished = FALSE AND USPT.cancelled = FALSE
+					AND USPT.invalid = FALSE
+				</when>
+				<when test="state == 'used'">
+					AND USPT.finished = TRUE AND USPT.cancelled = FALSE
+					AND USPT.invalid = TRUE
+				</when>
+				<when test="state == 'cancelled'">
+					AND USPT.cancelled = TRUE AND USPT.finished = FALSE
+					AND USPT.invalid = TRUE
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(USPT.finishTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(USPT.finishTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+	</select>
+	
+	<select id="selectUnUsedSvcPackTicketCount" resultType="int" >
+		SELECT count(1)
+		FROM
+		user_svc_pack_ticket USPT
+		WHERE USPT.userId = #{userId} AND USPT.finished = FALSE 
+		AND USPT.cancelled = FALSE AND USPT.invalid = FALSE
+	</select>
+	
+	<select id="selectUsedSvcPackTicketCount" resultType="int">
+		SELECT count(1)
+		FROM
+		user_svc_pack_ticket USPT
+		WHERE USPT.userId = #{userId} AND
+		USPT.orderNo = #{orderNo} AND USPT.finished = TRUE AND USPT.cancelled
+		= FALSE AND USPT.invalid = TRUE
+	</select>
+
+	<select id="selectOneByFilter" resultMap="UserSvcPackTicketMap">
+		SELECT
+		<include refid="columns" />
+		FROM user_svc_pack_ticket USPT
+		WHERE 1=1
+		<if test="invalid == null or ticketId == ''">
+			AND USPT.invalid = false
+		</if>
+		<if test="ticketId != null and ticketId != ''">
+			AND USPT.id = #{ticketId}
+		</if>
+		<if test="shopId != null and shopId != ''">
+			AND USPT.shopId = #{shopId}
+		</if>
+		<if test="userId != null and userId != ''">
+			AND USPT.userId = #{userId}
+		</if>
+	</select>
+</mapper>

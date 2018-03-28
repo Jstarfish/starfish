@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.DistShopPicDao">
+	<resultMap id="DistShopPicMap" type="priv.starfish.mall.shop.entity.DistShopPic">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="distShopId" property="distShopId" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectById" resultMap="DistShopPicMap"
+		parameterType="Long">
+		SELECT DSP.id, DSP.distShopId, DSP.code, DSP.title,
+		DSP.imageUuid, DSP.imageUsage, DSP.imagePath, DSP.seqNo
+		FROM
+		dist_shop_pic DSP
+		WHERE DSP.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		dist_shop_pic(distShopId, code, title, imageUuid, imageUsage,
+		imagePath, seqNo)
+		VALUES(#{distShopId}, #{code}, #{title},
+		#{imageUuid}, #{imageUsage},
+		#{imagePath}, #{seqNo})
+	</insert>
+	<update id="update">
+		UPDATE dist_shop_pic
+		<set>
+			<trim suffixOverrides=",">
+				<if test="distShopId != null">
+					distShopId = #{distShopId},
+				</if>
+				<if test="code != null">
+					code = #{code},
+				</if>
+				<if test="title != null">
+					title = #{title},
+				</if>
+				<if test="imageUuid != null">
+					imageUuid = #{imageUuid},
+				</if>
+				<if test="imageUsage != null">
+					imageUsage = #{imageUsage},
+				</if>
+				<if test="imagePath != null">
+					imagePath = #{imagePath},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM dist_shop_pic
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByDistShopId" resultMap="DistShopPicMap"
+		parameterType="INTEGER">
+		SELECT DSP.id, DSP.distShopId, DSP.code, DSP.title,
+		DSP.imageUuid, DSP.imageUsage, DSP.imagePath, DSP.seqNo
+		FROM
+		dist_shop_pic DSP
+		WHERE DSP.distShopId = #{distShopId}
+	</select>
+</mapper>

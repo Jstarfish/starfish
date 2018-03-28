@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.TplModelVarDao">
+	<resultMap id="TplModelVarMap" type="priv.starfish.mall.notify.entity.TplModelVar">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="modelCode" property="modelCode" jdbcType="VARCHAR" />
+		<result column="expr" property="expr" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectById" resultMap="TplModelVarMap"
+		parameterType="Integer">
+		SELECT TMV.id, TMV.modelCode, TMV.expr, TMV.desc, TMV.seqNo
+		FROM tpl_model_var TMV
+		WHERE TMV.id = #{id}
+	</select>
+
+	<select id="selectByModelCodeAndExpr" resultMap="TplModelVarMap">
+		SELECT TMV.id, TMV.modelCode, TMV.expr, TMV.desc, TMV.seqNo
+		FROM tpl_model_var TMV
+		WHERE TMV.modelCode = #{modelCode}
+		AND TMV.expr = #{expr}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO tpl_model_var(modelCode, expr, `desc`, seqNo)
+		VALUES(#{modelCode}, #{expr}, #{desc}, #{seqNo})
+	</insert>
+
+	<update id="update">
+		UPDATE tpl_model_var
+		SET modelCode = #{modelCode} ,
+		expr = #{expr} ,
+		`desc` = #{desc} ,
+		seqNo = #{seqNo}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM tpl_model_var
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectListByModelCode" resultMap="TplModelVarMap" parameterType="String">
+		SELECT TMV.id, TMV.modelCode, TMV.expr, TMV.desc, TMV.seqNo
+		FROM tpl_model_var TMV
+		WHERE TMV.modelCode = #{modelCode}
+	</select>
+</mapper>

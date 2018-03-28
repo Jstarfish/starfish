@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.SmsBizRecordDao">
+	<resultMap id="SmsBizRecordMap" type="priv.starfish.mall.notify.entity.SmsBizRecord">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="entityId" property="entityId" jdbcType="INTEGER" />
+		<result column="bizCode" property="bizCode" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="sendApiId" property="sendApiId" jdbcType="INTEGER" />
+		<result column="senderId" property="senderId" jdbcType="INTEGER" />
+		<result column="sendOk" property="sendOk" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SmsBizRecordMap"
+		parameterType="BigInteger">
+		SELECT BR.id, BR.scope, BR.entityId, BR.bizCode, BR.phoneNo, BR.content,
+		BR.sendTime, BR.sendApiId, BR.senderId, BR.sendOk
+		FROM sms_biz_record BR
+		WHERE BR.id = #{id}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		sms_biz_record(scope, entityId, bizCode, phoneNo, content, sendTime, sendApiId, senderId,
+		sendOk)
+		VALUES(#{scope}, #{entityId}, #{bizCode}, #{phoneNo}, #{content}, #{sendTime},
+		#{sendApiId}, #{senderId}, #{sendOk})
+	</insert>
+
+	<update id="update">
+		UPDATE sms_biz_record
+		SET scope = #{scope} ,
+		entityId = #{entityId} ,
+		bizCode = #{bizCode} ,
+		phoneNo = #{phoneNo} ,
+		content = #{content} ,
+		sendTime = #{sendTime} ,
+		sendApiId = #{sendApiId} ,
+		senderId = #{senderId} ,
+		sendOk = #{sendOk}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="BigInteger">
+		DELETE
+		FROM sms_biz_record
+		WHERE id = #{id}
+	</delete>
+
+</mapper>

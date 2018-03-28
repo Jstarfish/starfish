@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.SalesFloorDao">
+	<resultMap id="SalesFloorMap" type="priv.starfish.mall.market.entity.SalesFloor">
+		<id column="no" property="no" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="regionCount" property="regionCount" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SalesFloorMap" parameterType="Integer">
+		SELECT SF.no, SF.name, SF.type, SF.regionCount, SF.disabled, SF.ts
+		FROM sales_floor SF WHERE SF.no = #{no}
+	</select>
+
+	<select id="selectByName" resultMap="SalesFloorMap">
+		SELECT SF.no, SF.name,
+		SF.type, SF.regionCount, SF.disabled, SF.ts
+		FROM sales_floor SF WHERE
+		SF.name = #{name}
+	</select>
+
+	<select id="selectByType" resultMap="SalesFloorMap">
+		SELECT SF.no, SF.name,
+		SF.type, SF.regionCount, SF.disabled, SF.ts
+		FROM sales_floor SF WHERE
+		SF.type = #{type}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO
+		sales_floor(no,
+		name, type, regionCount, disabled, ts)
+		VALUES(#{no}, #{name}, #{type},
+		#{regionCount}, #{disabled}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE sales_floor
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="regionCount != null">
+					regionCount = #{regionCount},
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE no = #{no}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM sales_floor
+		WHERE no = #{no}
+	</delete>
+
+	<select id="selectSalesFloors" resultMap="SalesFloorMap">
+		SELECT SF.no, SF.name, SF.type, SF.regionCount, SF.disabled, SF.ts
+		FROM sales_floor SF
+		<where>
+			<trim prefix="And" prefixOverrides="AND">
+				<if test="name !=null">
+					SF.name like ${name}
+				</if>
+				<if test="no !=null">
+					AND SF.no = ${no}
+				</if>
+				<if test="disabled !=null">
+					AND SF.disabled = ${disabled}
+				</if>
+			</trim>
+		</where>
+		order by SF.no asc
+	</select>
+
+</mapper>

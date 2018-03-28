@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.ECardOrderRecordDao">
+	<resultMap id="ECardOrderRecordMap" type="priv.starfish.mall.order.entity.ECardOrderRecord">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="INTEGER" />
+		<result column="action" property="action" jdbcType="VARCHAR" />
+		<result column="actRole" property="actRole" jdbcType="VARCHAR" />
+		<result column="extraInfo" property="extraInfo" jdbcType="VARCHAR" />
+		<result column="actorId" property="actorId" jdbcType="INTEGER" />
+		<result column="actorName" property="actorName" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="ECardOrderRecordMap"
+		parameterType="Long">SELECT ECOR.id, ECOR.orderId, ECOR.action, ECOR.actRole,
+		ECOR.extraInfo, ECOR.actorId, ECOR.actorName, ECOR.ts
+		FROM
+		ecard_order_record ECOR
+		WHERE ECOR.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		ecard_order_record(orderId, action, actRole, extraInfo, actorId,
+		actorName, ts)
+		VALUES(#{orderId}, #{action}, #{actRole}, #{extraInfo},
+		#{actorId},
+		#{actorName}, #{ts})
+	</insert>
+	<update id="update">UPDATE ecard_order_record
+		SET orderId = #{orderId} ,
+		action = #{action} ,
+		actRole = #{actRole} ,
+		extraInfo = #{extraInfo} ,
+		actorId = #{actorId} ,
+		actorName = #{actorName} ,
+		ts = #{ts}
+		WHERE id =
+		#{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM
+		ecard_order_record
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByOrderId" resultMap="ECardOrderRecordMap"
+		parameterType="Integer">SELECT ECOR.id, ECOR.orderId, ECOR.action, ECOR.actRole,
+		ECOR.extraInfo, ECOR.actorId, ECOR.actorName, ECOR.ts
+		FROM
+		ecard_order_record ECOR
+		WHERE ECOR.orderId = #{orderId}
+		ORDER BY ECOR.ts ASC
+	</select>
+</mapper>

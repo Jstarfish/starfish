@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.SaleOrderSvcDao">
+	<resultMap id="SaleOrderSvcMap" type="priv.starfish.mall.order.entity.SaleOrderSvc">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="svcId" property="svcId" jdbcType="INTEGER" />
+		<result column="svcName" property="svcName" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="salePrice" property="salePrice" jdbcType="DECIMAL" />
+		<result column="saleAmount" property="saleAmount" jdbcType="DECIMAL" />
+		<result column="distProfit" property="distProfit" jdbcType="DECIMAL" />
+		<result column="discRate" property="discRate" jdbcType="NUMERIC" />
+		<result column="discWay" property="discWay" jdbcType="VARCHAR" />
+		<result column="discId" property="discId" jdbcType="BIGINT" />
+		<result column="discAmount" property="discAmount" jdbcType="DECIMAL" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="ticketId" property="ticketId" jdbcType="INTEGER" />
+	</resultMap>
+	<sql id="columns">
+		SOS.id, SOS.orderId, SOS.svcId, SOS.svcName, SOS.seqNo,
+		SOS.salePrice, SOS.saleAmount, SOS.distProfit, SOS.discRate, SOS.discWay, SOS.discId,
+		SOS.discAmount, SOS.amount, SOS.ticketId
+	</sql>
+	<select id="selectById" resultMap="SaleOrderSvcMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_svc SOS
+		WHERE SOS.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		sale_order_svc(orderId, svcId, svcName, seqNo, salePrice, saleAmount, distProfit, discRate, discWay,
+		discId, discAmount, amount, ticketId)
+		VALUES(#{orderId}, #{svcId}, #{svcName}, #{seqNo}, #{salePrice},  #{saleAmount}, #{distProfit},
+		#{discRate}, #{discWay}, #{discId}, #{discAmount}, #{amount},
+		#{ticketId})
+	</insert>
+	<update id="update">
+		UPDATE sale_order_svc
+		SET
+			
+					svcName = #{svcName},
+			
+					seqNo = #{seqNo},
+			
+					salePrice = #{salePrice},
+				
+					saleAmount = #{saleAmount},
+				
+					distProfit = #{distProfit},
+				
+					discRate = #{discRate},
+				
+					discWay = #{discWay},
+				
+					discId = #{discId},
+				
+					discAmount = #{discAmount},
+				
+					amount = #{amount},
+				
+					ticketId = #{ticketId}
+			
+		
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM sale_order_svc
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByOrderId" resultMap="SaleOrderSvcMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_svc SOS
+		WHERE
+		SOS.orderId = #{orderId}
+		order by SOS.svcId
+		desc
+	</select>
+</mapper>

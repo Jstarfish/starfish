@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.pay.PayWayDao">
+	<resultMap id="PayWayMap" type="priv.starfish.mall.pay.entity.PayWay">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="outerWay" property="outerWay" jdbcType="BOOLEAN" />
+		<result column="accountId" property="accountId" jdbcType="INTEGER" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		pay_way(code, name, outerWay, accountId, `desc`, seqNo, disabled, ts)
+		VALUES(#{code}, #{name}, #{outerWay}, #{accountId}, #{desc}, #{seqNo},
+		#{disabled}, #{ts})
+	</insert>
+
+	<select id="selectById" resultMap="PayWayMap">
+		SELECT PW.id, PW.code,
+		PW.name, PW.outerWay, PW.accountId, PW.desc, PW.seqNo, PW.disabled,
+		PW.ts
+		FROM pay_way PW
+		WHERE PW.id = #{id}
+	</select>
+	
+	<select id="selectByStatus" resultMap="PayWayMap">
+		SELECT PW.id, PW.code,
+		PW.name, PW.outerWay, PW.accountId, PW.desc, PW.seqNo, PW.disabled,
+		PW.ts
+		FROM pay_way PW
+		WHERE PW.disabled = FALSE
+	</select>
+
+	<select id="selectByName" resultMap="PayWayMap">
+		SELECT PW.id, PW.name, PW.outerWay, PW.accountId,
+		PW.desc, PW.code, PW.disabled, PW.seqNo, PW.ts
+		FROM pay_way PW
+		WHERE
+		PW.name = #{name}
+	</select>
+
+	<update id="update">
+		UPDATE pay_way
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="name != null">
+				name = #{name} ,
+			</if>
+			<if test="desc != null">
+				`desc` = #{desc} ,
+			</if>
+			<if test="code != null">
+				code = #{code} ,
+			</if>
+			<if test="disabled != null">
+				disabled = #{disabled} ,
+			</if>
+			<if test="seqNo != null">
+				seqNo = #{seqNo} ,
+			</if>
+			<if test="ts != null">
+				ts = #{ts} ,
+			</if>
+			<if test="accountId != null">
+				accountId = #{accountId} ,
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM pay_way
+		WHERE id
+		= #{id}
+	</delete>
+
+	<select id="selectPayWaysByFilter" resultMap="PayWayMap">
+		SELECT PW.id, PW.name, PW.outerWay, PW.accountId, PW.desc, PW.code, PW.disabled,
+		PW.seqNo, PW.ts
+		FROM pay_way PW
+		WHERE 1=1
+		<if test="name !=null and name != ''">
+			AND PW.name like ${name}
+		</if>
+		<if test="status !=null and status != ''">
+			AND PW.disabled = #{status}
+		</if>
+		ORDER BY PW.seqNo ASC, PW.id ASC
+	</select>
+
+
+
+</mapper>

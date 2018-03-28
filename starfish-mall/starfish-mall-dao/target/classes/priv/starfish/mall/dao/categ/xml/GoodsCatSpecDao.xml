@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatSpecDao">
+	<resultMap id="GoodsCatSpecMap" type="priv.starfish.mall.categ.entity.GoodsCatSpec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="refId" property="refId" jdbcType="INTEGER" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="groupId" property="groupId" jdbcType="INTEGER" />
+		<result column="colorFlag" property="colorFlag" jdbcType="BOOLEAN" />
+		<result column="searchFlag" property="searchFlag" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<association property="specRef" column="refId" select="getSpecRefById" />
+	</resultMap>
+	<select id="getSpecRefById" resultType="priv.starfish.mall.categ.entity.SpecRef" parameterType="Integer">
+		SELECT SR.id, SR.code, SR.name, SR.desc, SR.seqNo, SR.colorFlag, SR.salesFlag, SR.ts
+		FROM spec_ref SR
+		WHERE SR.id = #{id}
+	</select>
+
+	<select id="selectById" resultMap="GoodsCatSpecMap" parameterType="Integer">
+		SELECT GCS.id, GCS.catId, GCS.refId, GCS.seqNo, GCS.groupId, GCS.colorFlag, GCS.searchFlag, GCS.ts
+		FROM goods_cat_spec GCS
+		WHERE GCS.id = #{id}
+	</select>
+
+	<select id="selectByCatIdAndRefId" resultMap="GoodsCatSpecMap">
+		SELECT GCS.id, GCS.catId, GCS.refId, GCS.seqNo, GCS.groupId, GCS.colorFlag, GCS.searchFlag, GCS.ts
+		FROM goods_cat_spec GCS
+		WHERE GCS.catId = #{catId} AND GCS.refId = #{refId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO goods_cat_spec(catId, refId, seqNo, groupId, colorFlag, searchFlag)
+		VALUES(#{catId}, #{refId}, #{seqNo}, #{groupId}, #{colorFlag}, #{searchFlag})
+	</insert>
+
+	<update id="update">
+		UPDATE goods_cat_spec
+		SET
+			<if test="null != catId">
+				catId = #{catId} ,
+			</if>
+			<if test="null != refId">
+				refId = #{refId} ,
+			</if>
+			<if test="null != seqNo">
+				seqNo = #{seqNo} ,
+			</if>
+			<if test="null != groupId">
+				groupId = #{groupId} ,
+			</if>
+			<if test="null != colorFlag">
+				colorFlag = #{colorFlag} ,
+			</if>
+			<if test="null != searchFlag">
+				searchFlag = #{searchFlag} ,
+			</if>
+			ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM goods_cat_spec
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectCountByCatId" resultType="Integer" parameterType="Integer">
+		SELECT count(GCS.id)
+		FROM goods_cat_spec GCS
+		WHERE GCS.catId = #{catId}
+	</select>
+	
+	<select id="selectByCatId" resultMap="GoodsCatSpecMap">
+		SELECT GCS.id, GCS.catId, GCS.refId, GCS.seqNo, GCS.groupId, GCS.colorFlag, GCS.searchFlag, GCS.ts
+		FROM goods_cat_spec GCS
+		WHERE GCS.catId = #{catId}
+	</select>
+	
+	<delete id="deleteByIds" parameterType="Integer">
+		DELETE FROM goods_cat_spec
+		WHERE id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+	<select id="selectIdByCatId" resultType="Integer" parameterType="Integer">
+		SELECT GCS.id FROM goods_cat_spec GCS
+		WHERE GCS.catId = #{catId}
+	</select>
+	<select id="selectIdByCatIds" resultType="Integer" parameterType="Integer">
+		SELECT GCS.id FROM goods_cat_spec GCS
+		WHERE GCS.catId in(
+			<foreach collection="list" item="catId" index="index" open="" close="" separator=",">   
+        		#{catId}    
+    		</foreach>
+		)
+	</select>
+	<select id="selectIdByRefId" resultType="Integer" parameterType="Integer">
+		SELECT GCS.id FROM goods_cat_spec GCS
+		WHERE GCS.refId = #{refId}
+	</select>
+	
+	<select id="selectIdByRefIds" resultType="Integer" parameterType="Integer">
+		SELECT DISTINCT GCS.id FROM goods_cat_spec GCS
+		WHERE GCS.refId in(
+			<foreach collection="list" item="refId" index="index" open="" close="" separator=",">   
+        		#{refId}    
+    		</foreach>
+		)
+	</select>
+	<delete id="deleteByRefId" parameterType="Integer">
+		DELETE FROM goods_cat_spec
+		WHERE refId = #{refId}    
+	</delete>
+	<delete id="deleteByRefIds" parameterType="Integer">
+		DELETE FROM goods_cat_spec
+		WHERE refId in(
+			<foreach collection="list" item="refId" index="index" open="" close="" separator=",">   
+        		#{refId}    
+    		</foreach>
+		)
+	</delete>
+	
+	<select id="selectIdsByColorFlag" resultType="Integer">
+		SELECT GCS.id FROM goods_cat_spec GCS
+		WHERE GCS.colorFlag = #{colorFlag}
+	</select>
+</mapper>

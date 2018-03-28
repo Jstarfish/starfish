@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.PayRefundRecDao">
+	<resultMap id="PayRefundRecMap" type="priv.starfish.mall.settle.entity.PayRefundRec">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="noForAbc" property="noForAbc" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="totalFee" property="totalFee" jdbcType="VARCHAR" />
+		
+		<result column="refundFee" property="refundFee" jdbcType="VARCHAR" />
+		<result column="refundChannel" property="refundChannel" jdbcType="VARCHAR" />
+		<result column="refundReceiveAccount" property="refundReceiveAccount" jdbcType="VARCHAR" />
+		<result column="tradeType" property="tradeType" jdbcType="VARCHAR" />
+		<result column="bankType" property="bankType" jdbcType="VARCHAR" />
+		<result column="openId" property="openId" jdbcType="VARCHAR" />
+		<result column="refundNo" property="refundNo" jdbcType="VARCHAR" />
+		
+		<result column="subject" property="subject" jdbcType="VARCHAR" />
+		<result column="orderDesc" property="orderDesc" jdbcType="VARCHAR" />
+		<result column="payWayName" property="payWayName" jdbcType="VARCHAR" />
+		<result column="tradeNo" property="tradeNo" jdbcType="VARCHAR" />
+		<result column="tradeStatus" property="tradeStatus" jdbcType="VARCHAR" />
+		<result column="applyRefundDesc" property="applyRefundDesc" jdbcType="VARCHAR" />
+		<result column="auditRefundDesc" property="auditRefundDesc" jdbcType="VARCHAR" />
+		<result column="payTime" property="payTime" jdbcType="VARCHAR" />
+		<result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+		<result column="refundOrderNo" property="refundOrderNo" jdbcType="VARCHAR" />
+		<result column="voucherNo" property="voucherNo" jdbcType="VARCHAR" />
+		<result column="iRspRef" property="iRspRef" jdbcType="VARCHAR" />
+		<result column="refundTime" property="refundTime" jdbcType="VARCHAR" />
+		<result column="tempDay" property="tempDay" jdbcType="DATE" />
+		<result column="canRefundDay" property="canRefundDay" jdbcType="DATE" />
+		<result column="applyRefundTime" property="applyRefundTime" jdbcType="TIMESTAMP" />
+		<result column="auditRefundTime" property="auditRefundTime" jdbcType="TIMESTAMP" />
+		<result column="refundStatus" property="refundStatus" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="PayRefundRecMap"
+		parameterType="Long">SELECT PRR.id, PRR.orderId, PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime, PRR.tempDay,PRR.canRefundDay, PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM
+		pay_refund_rec PRR
+		WHERE PRR.id = #{id}
+	</select>
+	
+	<select id="selectByOrderId" resultMap="PayRefundRecMap"
+		parameterType="String">SELECT PRR.id, PRR.orderId, PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime,PRR.tempDay,PRR.canRefundDay,PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM
+		pay_refund_rec PRR
+		WHERE PRR.orderId = #{orderId}
+	</select>
+	
+	<select id="selectByTradeNo" resultMap="PayRefundRecMap"
+		parameterType="String">SELECT PRR.id, PRR.orderId,PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime,PRR.tempDay,PRR.canRefundDay,PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM
+		pay_refund_rec PRR
+		WHERE PRR.tradeNo = #{tradeNo}
+	</select>
+	
+	<select id="selectByOrderNo" resultMap="PayRefundRecMap"
+		parameterType="String">SELECT PRR.id, PRR.orderId,PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime,PRR.tempDay,PRR.canRefundDay,PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM
+		pay_refund_rec PRR
+		WHERE PRR.no = #{no}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		pay_refund_rec(orderId,no, noForAbc,userId, totalFee, 
+		refundFee, refundChannel, refundReceiveAccount, tradeType, bankType, openId, refundNo,
+		subject, orderDesc,
+		payWayName, tradeNo, tradeStatus, payTime, applyRefundDesc, auditRefundDesc,
+		batchNo, refundTime, applyRefundTime,auditRefundTime,tempDay,canRefundDay,refundStatus, ts)
+		VALUES(#{orderId},#{no}, #{noForAbc},#{userId}, #{totalFee},
+		#{refundFee}, #{refundChannel}, #{refundReceiveAccount}, #{tradeType}, #{bankType}, #{openId}, #{refundNo}, 
+		#{subject}, #{orderDesc}, #{payWayName}, #{tradeNo},
+		#{tradeStatus}, #{payTime}, #{applyRefundDesc}, #{auditRefundDesc}, #{batchNo}, #{refundTime},#{applyRefundTime},#{auditRefundTime},#{tempDay},#{canRefundDay},
+		#{refundStatus}, #{ts})
+	</insert>
+	
+	<update id="update">UPDATE pay_refund_rec
+		SET orderId = #{orderId} ,
+		no = #{no} ,
+		noForAbc = #{noForAbc} ,
+		userId = #{userId} ,
+		totalFee = #{totalFee} ,
+		refundFee = #{refundFee} ,
+		refundChannel = #{refundChannel} ,
+		refundReceiveAccount = #{refundReceiveAccount} ,
+		tradeType = #{tradeType} ,
+		bankType = #{bankType} ,
+		openId = #{openId} ,
+		refundNo = #{refundNo} ,
+		subject = #{subject} ,
+		orderDesc = #{orderDesc} ,
+		tradeNo = #{tradeNo} ,
+		payWayName = #{payWayName} ,
+		tradeStatus =#{tradeStatus} ,
+		payTime = #{payTime} ,
+		batchNo = #{batchNo} ,
+		refundOrderNo = #{refundOrderNo} ,
+		voucherNo = #{voucherNo} ,
+		iRspRef = #{iRspRef} ,
+		refundTime = #{refundTime} ,
+		applyRefundTime = #{applyRefundTime} ,
+		applyRefundDesc = #{applyRefundDesc} ,
+		auditRefundTime = #{auditRefundTime} ,
+		auditRefundDesc = #{auditRefundDesc} ,
+		tempDay = #{tempDay} ,
+		canRefundDay = #{canRefundDay} ,
+		refundStatus = #{refundStatus} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updatePayRefundRecForRefund">UPDATE pay_refund_rec
+		SET 
+		refundTime = #{refundTime} 
+		WHERE no = #{no}
+	</update>
+	
+	<update id="updateRefundStatu">UPDATE pay_refund_rec
+		SET 
+		refundStatus = #{refundStatus}
+		WHERE no = #{no}
+	</update>
+	
+	<update id="updateRefundInfoForWechatPay">
+		UPDATE pay_refund_rec
+		<trim prefix="SET" suffixOverrides=",">
+	    	 <if test="refundOrderNo !=null">
+	    	 	refundOrderNo = #{refundOrderNo},
+		     </if>
+	    	 <if test="refundNo !=null">
+	    	 	refundNo = #{refundNo},
+		     </if>
+	    	 <if test="tradeStatus !=null">
+	    	 	tradeStatus = #{tradeStatus},
+		     </if>
+	    	 <if test="refundFee !=null">
+	    	 	refundFee = #{refundFee},
+		     </if>
+	    	 <if test="refundChannel !=null">
+	    	 	refundChannel = #{refundChannel},
+		     </if>
+		</trim>
+		WHERE no = #{no}
+	</update>
+	
+	<update id="updateRefundStatus">UPDATE 
+		pay_refund_rec
+		<trim prefix="SET" suffixOverrides=",">
+	    	 <if test="refundStatus !=null">
+	    	 	refundStatus = #{refundStatus},
+		     </if>
+	    	 <if test="batchNo !=null">
+	    	 	batchNo = #{batchNo},
+		     </if>
+	    	 <if test="refundOrderNo !=null">
+	    	 	refundOrderNo = #{refundOrderNo},
+		     </if>
+	    	 <if test="refundReciveAccount !=null">
+	    	 	refundReciveAccount = #{refundReciveAccount},
+		     </if>
+	    	 <if test="voucherNo !=null">
+	    	 	voucherNo = #{voucherNo},
+		     </if>
+	    	 <if test="iRspRef !=null">
+	    	 	iRspRef = #{iRspRef},
+		     </if>
+	    	 <if test="refundTime !=null">
+	    	 	refundTime = #{refundTime},
+		     </if>
+	    	 <if test="applyRefundTime !=null">
+	    	 	applyRefundTime = #{applyRefundTime},
+		     </if>
+	    	 <if test="applyRefundDesc !=null">
+	    	 	applyRefundDesc = #{applyRefundDesc},
+		     </if>
+	    	 <if test="auditRefundTime !=null">
+	    	 	auditRefundTime = #{auditRefundTime},
+		     </if>
+	    	 <if test="auditRefundDesc !=null">
+	    	 	auditRefundDesc = #{auditRefundDesc},
+		     </if>
+	    	 <if test="tempDay != ''">
+	    	 	tempDay = #{tempDay},
+		     </if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM pay_refund_rec
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="PayRefundRecMap">
+		SELECT 
+		PRR.id, PRR.orderId, PRR.no,PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,PRR.canRefundDay,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime,PRR.applyRefundTime, PRR.auditRefundTime,PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM pay_refund_rec PRR
+		<where >
+		<if test="no !=null and no != ''">  
+          AND  PRR.no  = #{no}  
+         </if>
+		<if test="tradeNo !=null and tradeNo != ''">  
+          AND  PRR.tradeNo  = #{tradeNo}  
+         </if>
+		</where>
+        order by PRR.ts desc
+	</select>
+	
+	<select id="selectByCanRefundFilter" resultMap="PayRefundRecMap">
+		SELECT 
+		PRR.id, PRR.orderId,PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,PRR.canRefundDay,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime,PRR.tempDay,PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM pay_refund_rec PRR , sale_order SO
+		where PRR.no = SO.no and SO.finished = false and SO.cancelled = true
+			<if test="no !=null and no != ''">  
+	          AND  PRR.no  = #{no}  
+	         </if>
+			<if test="tradeNo !=null and tradeNo != ''">  
+	          AND  PRR.tradeNo  = #{tradeNo}  
+	         </if>
+	         <if test="refundStatus !=null"> 
+	          AND  (PRR.refundStatus  = 4 or PRR.refundStatus is NULL) 
+	          </if>
+	         <if test="refundStatus !=null"> 
+	          <![CDATA[ AND DATE_FORMAT(PRR.canRefundDay, '%Y-%m-%d') > DATE_FORMAT(#{date}, '%Y-%m-%d') ]]>
+	          </if>
+        order by PRR.ts desc
+	</select>
+	
+	<select id="selectByToRefundFilter" resultMap="PayRefundRecMap">
+		SELECT 
+		PRR.id, PRR.orderId,PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,PRR.canRefundDay,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime,PRR.tempDay, PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM pay_refund_rec PRR
+		where (PRR.refundStatus = 1 or PRR.refundStatus = 2 or PRR.refundStatus = 3)
+			<if test="no !=null and no != ''">  
+	          AND  PRR.no  = #{no}  
+	         </if>
+			<if test="tradeNo !=null and tradeNo != ''">  
+	          AND  PRR.tradeNo  = #{tradeNo}  
+	         </if>
+			<if test="payWayName !=null and payWayName != ''">  
+	          AND  PRR.payWayName  = #{payWayName}  
+	         </if>
+        order by PRR.refundStatus desc
+	</select>
+	
+	<select id="selectByRefundAuditRecsFilter" resultMap="PayRefundRecMap">
+		SELECT 
+		PRR.id, PRR.orderId,PRR.no, PRR.noForAbc, PRR.userId, PRR.totalFee,
+		PRR.refundFee, PRR.refundChannel, PRR.refundReceiveAccount, PRR.tradeType, PRR.bankType, PRR.openId, PRR.refundNo,
+		PRR.subject, PRR.orderDesc, PRR.tradeNo, PRR.payWayName, PRR.tradeStatus, PRR.payTime,PRR.canRefundDay,
+		PRR.batchNo, PRR.refundOrderNo, PRR.voucherNo, PRR.iRspRef, PRR.refundTime, PRR.applyRefundTime, PRR.auditRefundTime,PRR.tempDay,PRR.refundStatus, PRR.ts,
+		PRR.applyRefundDesc, PRR.auditRefundDesc
+		FROM pay_refund_rec PRR
+		<where >
+		<if test="no !=null and no != ''">  
+          AND  PRR.no  = #{no}  
+         </if>
+		<if test="tradeNo !=null and tradeNo != ''">  
+          AND  PRR.tradeNo  = #{tradeNo}  
+         </if>
+		<if test="refundStatus !=null and refundStatus == 6">  
+          AND  (PRR.refundStatus  = 6 or PRR.refundStatus  = 7) 
+         </if>
+		<if test="refundStatus !=null and refundStatus == 0">  
+          AND  (PRR.refundStatus  = 0 or PRR.refundStatus  = 7) 
+         </if>
+		</where>
+        order by PRR.ts desc
+	</select>
+		
+	
+</mapper>

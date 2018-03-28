@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.BrandDefDao">
+    <resultMap id="BrandDefMap" type="priv.starfish.mall.categ.entity.BrandDef">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="code" property="code" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="py" property="py" jdbcType="VARCHAR" />
+        <result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+        <result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+        <result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+        <result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+        <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+    </resultMap>
+    <select id="selectById" resultMap="BrandDefMap" parameterType="Integer">
+	    SELECT BD.id, BD.code, BD.name, BD.py, BD.logoUuid, BD.logoUsage, BD.logoPath, 
+	    BD.seqNo, BD.ts FROM   brand_def BD WHERE  BD.id = #{id}
+    </select>
+    <select id="selectByCode" resultMap="BrandDefMap">
+	    SELECT BD.id, BD.code, BD.name, BD.py, BD.logoUuid, BD.logoUsage, BD.logoPath, BD.seqNo, BD.ts
+		FROM   brand_def BD
+		WHERE  BD.code = #{code}
+	</select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO brand_def(code, name, py, logoUuid, logoUsage, logoPath, seqNo, ts)
+		VALUES(#{code}, #{name}, #{py}, #{logoUuid}, #{logoUsage}, #{logoPath}, #{seqNo}, #{ts})
+   </insert>
+    <update id="update">
+	    UPDATE brand_def SET code = #{code} , 
+		name = #{name} , py = #{py} , logoUuid = #{logoUuid} , logoUsage = #{logoUsage} , 
+		logoPath = #{logoPath} , seqNo = #{seqNo} , ts = CURRENT_TIMESTAMP 
+		WHERE  id = #{id}
+	</update>
+    <delete id="deleteById" parameterType="Integer">
+    	DELETE FROM   brand_def WHERE  id = #{id}
+	</delete>
+	<select id="selectBrandDefs" resultMap="BrandDefMap">
+	    SELECT BD.id, BD.code, BD.name, BD.py, BD.logoUuid, BD.logoUsage, BD.logoPath, BD.seqNo, BD.ts
+		FROM   brand_def BD 
+		<where>
+			<trim prefix="And">
+				<if test="null != name and '' != name">
+					(BD.name like ${name} or BD.py like ${name})
+				</if>
+				<if test="null != code and '' != code">
+					AND BD.code = #{code}
+				</if>
+				<if test="null != uncontains and '' != uncontains">
+					AND BD.id not in(
+						<foreach collection="uncontains" item="id" index="index" open="" close="" separator=",">   
+		        			#{id}    
+		    			</foreach>
+					)
+				</if>
+				<if test="null != uncontainCodes and '' != uncontainCodes">
+					AND BD.code not in(
+						<foreach collection="uncontainCodes" item="code" index="index" open="" close="" separator=",">   
+		        			#{code}    
+		    			</foreach>
+					)
+				</if>
+			</trim>
+		</where>
+		order by BD.seqNo
+	</select>
+	<select id="selectByCodes" resultMap="BrandDefMap">
+	    SELECT BD.id, BD.code, BD.name, BD.py, BD.logoUuid, BD.logoUsage, BD.logoPath, BD.seqNo, BD.ts
+		FROM   brand_def BD 
+		WHERE BD.code in (
+			<foreach collection="codes" item="code" index="index" open="" close="" separator=",">   
+	        	#{code}    
+	    	</foreach>
+		) 
+		order by BD.seqNo
+	</select>
+</mapper>

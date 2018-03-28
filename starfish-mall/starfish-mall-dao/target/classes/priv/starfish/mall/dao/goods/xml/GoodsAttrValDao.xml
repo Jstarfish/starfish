@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.GoodsAttrValDao">
+	<resultMap id="GoodsAttrValMap" type="priv.starfish.mall.goods.entity.GoodsAttrVal">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="attrId" property="attrId" jdbcType="INTEGER" />
+		<result column="attrVal" property="attrVal" jdbcType="VARCHAR" />
+		<result column="keyFlag" property="keyFlag" jdbcType="BOOLEAN" />
+		<result column="refCode" property="refCode" jdbcType="VARCHAR" />
+		<result column="attrItemId" property="attrItemId" jdbcType="INTEGER" />
+		<result column="brandFlag" property="brandFlag" jdbcType="BOOLEAN" />
+	</resultMap>
+	<select id="selectById" resultMap="GoodsAttrValMap"
+		parameterType="Long">SELECT GAV.id, GAV.goodsId, GAV.attrId, GAV.attrVal,
+		GAV.keyFlag, GAV.refCode, GAV.attrItemId, GAV.brandFlag
+		FROM
+		goods_attr_val GAV
+		WHERE GAV.id = #{id}
+	</select>
+	<select id="selectByGoodsIdAndAttrId" resultMap="GoodsAttrValMap">SELECT GAV.id,
+		GAV.goodsId, GAV.attrId, GAV.attrVal, GAV.keyFlag, GAV.refCode,
+		GAV.attrItemId, GAV.brandFlag
+		FROM goods_attr_val GAV
+		WHERE GAV.goodsId
+		= #{goodsId}
+		AND GAV.attrId = #{attrId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		goods_attr_val(goodsId, attrId, attrVal, keyFlag, refCode,
+		attrItemId, brandFlag)
+		VALUES(#{goodsId}, #{attrId}, #{attrVal},
+		#{keyFlag}, #{refCode},
+		#{attrItemId}, #{brandFlag})
+	</insert>
+	<update id="update">UPDATE goods_attr_val
+		SET goodsId = #{goodsId} ,
+		attrId = #{attrId} ,
+		attrVal = #{attrVal} ,
+		keyFlag = #{keyFlag} ,
+		refCode = #{refCode} ,
+		attrItemId = #{attrItemId} ,
+		brandFlag =
+		#{brandFlag}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM goods_attr_val
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByGoodsId" resultMap="GoodsAttrValMap"
+		parameterType="Integer">SELECT GAV.id, GAV.goodsId, GAV.attrId, GAV.attrVal,
+		GAV.keyFlag, GAV.refCode, GAV.attrItemId, GAV.brandFlag
+		FROM
+		goods_attr_val GAV
+		WHERE GAV.goodsId = #{goodsId}
+	</select>
+
+	<delete id="deleteByAttrId" parameterType="Long">DELETE
+		FROM
+		goods_attr_val
+		WHERE attrId = #{attrId}
+	</delete>
+
+	<delete id="deleteByAttrIds" parameterType="Integer">
+		DELETE FROM goods_attr_val WHERE attrId in (
+		<foreach collection="list" item="attrId" index="index" open=""
+			close="" separator=",">
+			#{attrId}
+		</foreach>
+		)
+	</delete>
+
+	<select id="selectGoodsIdByAttrIdAndAttrVal" resultType="Integer">SELECT
+		GAV.goodsId
+		FROM goods_attr_val GAV
+		WHERE GAV.attrId = #{attrId}
+		AND
+		GAV.attrVal = #{attrVal}
+	</select>
+
+	<delete id="deleteByGoodsId" parameterType="Integer">DELETE
+		FROM
+		goods_attr_val
+		WHERE goodsId = #{goodsId}
+	</delete>
+
+	<select id="selectByGoodsIdAndKeyFlag" resultMap="GoodsAttrValMap">SELECT GAV.id,
+		GAV.goodsId, GAV.attrId, GAV.attrVal,
+		GAV.keyFlag, GAV.refCode,
+		GAV.attrItemId, GAV.brandFlag
+		FROM goods_attr_val GAV
+		WHERE GAV.goodsId = #{goodsId} AND GAV.keyFlag = #{keyFlag}
+		
+	</select>
+</mapper>

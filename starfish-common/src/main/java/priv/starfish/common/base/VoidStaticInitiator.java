@@ -1,18 +1,15 @@
 package priv.starfish.common.base;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import priv.starfish.common.util.TypeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 /**
  * 无参静态方法调用器
- * 
- * @author koqiui
- * @date 2015年7月24日 下午5:28:57
  *
  */
 public class VoidStaticInitiator {

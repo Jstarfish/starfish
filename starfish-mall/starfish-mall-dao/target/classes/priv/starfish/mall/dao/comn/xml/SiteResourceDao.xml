@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.SiteResourceDao">
+	<resultMap id="SiteResourceMap" type="priv.starfish.mall.comn.entity.SiteResource">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="funcId" property="funcId" jdbcType="INTEGER" />
+		<result column="resId" property="resId" jdbcType="INTEGER" />
+		<result column="dispName" property="dispName" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<resultMap id="ResourceMap" type="priv.starfish.mall.comn.entity.Resource">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="pattern" property="pattern" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="permId" property="permId" jdbcType="INTEGER" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="SiteResourceMap" parameterType="Integer">
+		SELECT SR.id, SR.funcId, SR.resId, SR.dispName,	SR.seqNo, SR.ts
+		FROM site_res SR
+		WHERE SR.id = #{id}
+	</select>
+	
+	<select id="selectByFuncIdAndResId" resultMap="SiteResourceMap">
+		SELECT SR.id, SR.funcId, SR.resId, SR.dispName, SR.seqNo, SR.ts
+		FROM site_res SR
+		WHERE SR.funcId = #{funcId} AND SR.resId = #{resId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO site_res(id, funcId, resId, dispName, seqNo, ts)
+		VALUES(#{id}, #{funcId}, #{resId}, #{dispName}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE site_res
+		SET funcId = #{funcId} ,
+			resId = #{resId} ,
+			dispName = #{dispName} ,
+			seqNo = #{seqNo} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM site_res
+		WHERE id = #{id}
+	</delete>
+	
+	
+	<select id="selectByFuncIdAndResIds" resultMap="SiteResourceMap" parameterType="java.util.List">
+		SELECT SR.id, SR.funcId, SR.resId, SR.dispName,	SR.seqNo, SR.ts
+		FROM site_res SR
+		WHERE SR.funcId= #{funcId} and SR.resId in (
+			<foreach collection="resIds" item="resId" index="index" open="" close="" separator=",">  
+	        	#{resId}    
+	    	</foreach>
+	    	)
+	</select>
+	
+	<delete id="deleteByFuncIdAndResIds" parameterType="java.util.List">
+		DELETE FROM site_res 
+		WHERE funcId = #{funcId} AND resId in (
+		    <foreach collection="resIds" item="resId" index="index" open="" close="" separator=",">  
+		        #{resId}    
+		    </foreach>
+		    )  
+	</delete>
+	
+	<select id="selectByFuncId" resultMap="SiteResourceMap" parameterType="Integer">
+		SELECT SR.id, SR.funcId, SR.resId, SR.dispName,	SR.seqNo, SR.ts
+		FROM site_res SR
+		WHERE SR.funcId = #{funcId}
+	</select>
+	
+	<delete id="deleteByFuncId" parameterType="Integer">
+		DELETE FROM site_res
+		WHERE funcId = #{funcId}
+	</delete>
+	
+	<delete id="deleteByResId" parameterType="Integer">
+		DELETE FROM site_res
+		WHERE resId = #{resId}
+	</delete>
+	
+	<delete id="deleteByResIds" parameterType="Integer">
+		DELETE FROM site_res
+		WHERE resId in (
+		    <foreach collection="list" item="resId" index="index" open="" close="" separator=",">  
+		        #{resId}    
+		    </foreach>
+		    )  
+	</delete>
+	
+	<select id="selectByResId" resultMap="SiteResourceMap" parameterType="Integer">
+		SELECT SR.id, SR.funcId, SR.resId, SR.dispName,	SR.seqNo, SR.ts
+		FROM site_res SR
+		WHERE SR.resId = #{resId}
+	</select>
+	
+	<select id="selectByResIds" resultMap="SiteResourceMap" parameterType="java.util.List">
+		SELECT SR.id, SR.funcId, SR.resId, SR.dispName,	SR.seqNo, SR.ts
+		FROM site_res SR
+		WHERE SR.resId in (
+			<foreach collection="list" item="resId" index="index" open="" close="" separator=",">  
+	        	#{resId}    
+	    	</foreach>
+	    	)
+	</select>
+	
+	<select id="selectFuncIdsByResIds" resultType="Integer" parameterType="java.util.List">
+		SELECT SR.funcId
+		FROM site_res SR
+		WHERE SR.resId in (
+			<foreach collection="list" item="resId" index="index" open="" close="" separator=",">  
+	        	#{resId}    
+	    	</foreach>
+	    	)
+	</select>
+	
+	<select id="selectResourcesByFuncId" resultMap="ResourceMap">
+		SELECT R.id, IFNULL(SR.dispName, R.name) AS name, R.scope, R.pattern, R.type, R.desc, R.seqNo, R.permId
+		FROM resource R, site_res SR
+		WHERE SR.resId = R.id and SR.funcId=#{funcId}
+   		ORDER BY SR.seqNo
+   </select>
+   
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.vendor.dao.VendorPictureDao">
+	<resultMap id="VendorPictureMap" type="priv.starfish.mall.vendor.entity.VendorPic">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="vendorId" property="vendorId" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="VendorPictureMap"
+		parameterType="Long">SELECT VP.id, VP.vendorId, VP.code, VP.title,
+		VP.imageUuid, VP.imageUsage, VP.imagePath, VP.seqNo
+		FROM vendor_pic VP
+		WHERE VP.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="VendorPictureMap">SELECT VP.id, VP.vendorId,
+		VP.code, VP.title, VP.imageUuid, VP.imageUsage, VP.imagePath, VP.seqNo
+		FROM vendor_pic VP
+		WHERE VP.code = #{code}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		vendor_pic(vendorId, code, title, imageUuid, imageUsage, imagePath, seqNo)
+		VALUES(#{vendorId}, #{code}, #{title}, #{imageUuid}, #{imageUsage},
+		#{imagePath}, #{seqNo})
+	</insert>
+	
+	<update id="update">UPDATE vendor_pic
+		SET vendorId = #{vendorId} ,
+		code = #{code} ,
+		title = #{title} ,
+		imageUuid = #{imageUuid} ,
+		imageUsage = #{imageUsage} ,
+		imagePath = #{imagePath} ,
+		seqNo = #{seqNo}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM vendor_pic
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByVendorId" resultMap="VendorPictureMap"
+		parameterType="Integer">
+		SELECT VP.id, VP.vendorId, VP.code, VP.title, VP.imageUuid,
+		VP.imageUsage, VP.imagePath, VP.seqNo
+		FROM vendor_pic VP
+		WHERE VP.vendorId = #{userId}
+	</select>
+</mapper>

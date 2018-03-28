@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.FaqGroupDao">
+	<resultMap id="FaqGroupMap" type="priv.starfish.mall.comn.entity.FaqGroup">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="FaqGroupMap" parameterType="Integer">
+		SELECT
+		FG.id, FG.catId, FG.name, FG.seqNo, FG.ts
+		FROM faq_group FG
+		WHERE FG.id = #{id}
+	</select>
+	
+	<select id="selectIds" resultType="Integer" parameterType="Integer">
+		SELECT
+		FG.id
+		FROM faq_group FG
+		WHERE FG.catId = #{catId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		faq_group(catId, name, seqNo, ts)
+		VALUES(#{catId}, #{name}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE faq_group
+		SET catId = #{catId} ,
+		name = #{name} 
+		<if test="ts !=null">  
+          ,ts = #{ts}  
+         </if>
+		<if test="seqNo !=null">  
+          ,seqNo = #{seqNo}  
+         </if>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteByCatId" parameterType="Integer">DELETE FROM faq_group WHERE catId = #{catId}</delete>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE FROM faq_group WHERE id = #{id}</delete>
+	
+	<select id="selectByFilter" resultMap="FaqGroupMap">
+		SELECT
+		FG.id, FG.catId, FG.name, FG.seqNo, FG.ts
+		FROM faq_group FG
+		<where>
+		<if test="name !=null and name != ''">  
+          AND  FG.name  like ${name}  
+         </if>
+         <if test="catId !=null">  
+          AND  FG.catId=${catId}  
+         </if>
+         	</where>
+         order by FG.seqNo asc
+	</select>
+	
+	<select id="selectByCatId" resultMap="FaqGroupMap" parameterType="int">
+	SELECT
+	FG.id, FG.catId, FG.name, FG.seqNo, FG.ts
+	FROM faq_group FG
+	<where>
+		<if test="_parameter !=null and _parameter!=0">
+			AND FG.catId=#{catId,jdbcType=INTEGER}
+		</if>
+	</where>
+	order by FG.seqNo asc
+</select>
+</mapper>

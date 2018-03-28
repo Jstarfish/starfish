@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.AdvertDao">
+	<resultMap id="AdvertMap" type="priv.starfish.mall.market.entity.Advert">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="posCode" property="posCode" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="seqCount" property="seqCount" jdbcType="INTEGER" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="caroFlag" property="caroFlag" jdbcType="BOOLEAN" />
+		<result column="caroIntv" property="caroIntv" jdbcType="INTEGER" />
+		<result column="caroAnim" property="caroAnim" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="AdvertMap" parameterType="Integer">
+	    SELECT
+		A.id, A.posCode, A.name, A.seqCount, A.desc, A.caroFlag, A.caroIntv,
+		A.caroAnim, A.ts
+		FROM 
+		advert A
+		WHERE A.id = #{id}
+	</select>
+	<select id="selectByName" resultMap="AdvertMap">
+	    SELECT 
+	    A.id, A.posCode,
+		A.name, A.seqCount, A.desc, A.caroFlag, A.caroIntv, A.caroAnim, A.ts
+		FROM 
+		advert A
+		WHERE A.name = #{name}
+	</select>
+	<select id="selectByPosCode" resultMap="AdvertMap">
+	    SELECT 
+	    A.id, A.posCode,
+		A.name, A.seqCount, A.desc, A.caroFlag, A.caroIntv, A.caroAnim, A.ts
+		FROM 
+		advert A
+		WHERE A.posCode = #{posCode}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+	    INSERT
+		INTO
+		advert
+		(posCode, name, seqCount, `desc`, caroFlag, caroIntv, caroAnim, ts)
+		VALUES
+		(#{posCode}, #{name}, #{seqCount}, #{desc}, #{caroFlag},
+		#{caroIntv}, #{caroAnim}, #{ts})
+	</insert>
+	<update id="update">
+	    UPDATE advert
+		<trim prefix="SET" suffixOverrides=",">
+			posCode = #{posCode} ,
+			<if test="name != null">
+				name = #{name} ,
+			</if>
+			<if test="seqCount != null">
+				seqCount = #{seqCount} ,
+			</if>
+			`desc` = #{desc} ,
+			<if test="caroFlag != null">
+				caroFlag = #{caroFlag} ,
+			</if>
+			caroIntv = #{caroIntv} ,
+			caroAnim = #{caroAnim} ,
+			<if test="ts != null">
+				ts = #{ts}
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+	    DELETE
+		FROM advert
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="AdvertMap">
+	    SELECT
+		A.id, A.posCode, A.name, A.seqCount, A.desc, A.caroFlag, A.caroIntv,
+		A.caroAnim, A.ts
+		FROM 
+		advert A
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="id != null">
+					 A.id = #{id}
+				</if>
+				<if test="name != null">
+					AND A.name like ${name}
+				</if>
+			</trim>
+		</where>
+	</select>
+	
+	<select id="selectAll" resultMap="AdvertMap" parameterType="Integer">
+	    SELECT
+		A.id, A.posCode, A.name, A.seqCount, A.desc, A.caroFlag, A.caroIntv,
+		A.caroAnim, A.ts
+		FROM 
+		advert A
+	</select>
+	
+</mapper>

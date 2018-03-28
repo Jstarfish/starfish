@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.social.UserBlogImgDao">
+	<resultMap id="UserBlogImgMap" type="priv.starfish.mall.social.entity.UserBlogImg">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="blogId" property="blogId" jdbcType="INTEGER" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,blogId,imageUuid,imageUsage,imagePath,ts
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		user_blog_img (
+		blogId ,
+		imageUuid ,
+		imageUsage ,
+		imagePath ,
+		ts
+		)
+		VALUES(
+		#{blogId} ,
+				#{imageUuid} ,
+				#{imageUsage} ,
+				#{imagePath} ,
+				#{ts}
+		)
+	</insert>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM
+		user_blog_img
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="update">
+		UPDATE user_blog_img
+		SET
+		 blogId=#{blogId},
+		 imageUuid=#{imageUuid},
+		 imageUsage=#{imageUsage},
+		 imagePath=#{imagePath}
+		<if test="ts!=null">  
+          ,ts=#{ts}
+         </if>
+
+		WHERE id =#{id}
+	</update>
+	
+	<select id="selectById" resultMap="UserBlogImgMap" parameterType="Long">
+		SELECT <include refid="columns"/>
+		FROM user_blog_img
+		WHERE id = #{id} 
+	</select>
+	
+	<select id="selectByBlogId" resultMap="UserBlogImgMap" parameterType="Integer">
+		SELECT <include refid="columns"/>
+		FROM user_blog_img
+		WHERE blogId = #{blogId,jdbcType=INTEGER}
+	</select>
+	
+	<select id="selectByFilter" resultMap="UserBlogImgMap" parameterType="map">
+		SELECT <include refid="columns"/>
+		FROM user_blog_img
+		WHERE 1 = 1
+		<if test=" blogId !=null and  blogId != ''">  
+          AND  blogId=${blogId}
+         </if>
+	</select>
+</mapper>
+

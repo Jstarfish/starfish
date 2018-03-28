@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.PrmtTagDao">
+	<resultMap id="PrmtTagMap" type="priv.starfish.mall.market.entity.PrmtTag">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="iconUuid" property="iconUuid" jdbcType="VARCHAR" />
+		<result column="iconUsage" property="iconUsage" jdbcType="VARCHAR" />
+		<result column="iconPath" property="iconPath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectById" resultMap="PrmtTagMap" parameterType="Integer">SELECT
+		PT.id, PT.code, PT.name, PT.desc, PT.iconUuid, PT.iconUsage,
+		PT.iconPath, PT.seqNo
+		FROM prmt_tag PT
+		WHERE PT.id = #{id}
+	</select>
+
+	<select id="selectByCode" resultMap="PrmtTagMap">SELECT PT.id, PT.code,
+		PT.name, PT.desc, PT.iconUuid, PT.iconUsage, PT.iconPath, PT.seqNo
+		FROM prmt_tag PT
+		WHERE PT.code = #{code}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		prmt_tag(code, name, desc, iconUuid, iconUsage, iconPath, seqNo)
+		VALUES(#{code}, #{name}, #{desc}, #{iconUuid}, #{iconUsage},
+		#{iconPath}, #{seqNo})
+	</insert>
+
+	<update id="update">
+		UPDATE prmt_tag
+		<set>
+			<trim suffixOverrides=",">
+				<if test="code != null">
+					code = #{code},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="desc != null">
+					desc = #{desc},
+				</if>
+				<if test="iconUuid != null">
+					iconUuid = #{iconUuid},
+				</if>
+				<if test="iconUsage != null">
+					iconUsage = #{iconUsage},
+				</if>
+				<if test="iconPath != null">
+					iconPath = #{iconPath},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM prmt_tag
+		WHERE
+		id = #{id}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="PrmtTagMap">
+		SELECT
+		PT.id, PT.code, PT.name, PT.desc, PT.iconUuid, PT.iconUsage,
+		PT.iconPath, PT.seqNo
+		FROM prmt_tag PT
+		<trim prefix="WHERE" prefixOverrides="AND" suffixOverrides=",">
+			<if test="name !=null and name != ''">
+				PT.name like ${name}
+			</if>
+		</trim>
+		order by PT.seqNo
+	</select>
+	
+	<select id="selectAll" resultMap="PrmtTagMap">SELECT
+		PT.id, PT.code, PT.name, PT.desc, PT.iconUuid, PT.iconUsage,
+		PT.iconPath, PT.seqNo
+		FROM prmt_tag PT
+		order by PT.seqNo
+	</select>
+	
+</mapper>

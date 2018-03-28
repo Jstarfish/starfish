@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.social.UserBlogDao">
+	<resultMap id="UserBlogMap" type="priv.starfish.mall.social.entity.UserBlog">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="LONGVARCHAR" />
+		<result column="allowAnony" property="allowAnony" jdbcType="BIT" />
+		<result column="published" property="published" jdbcType="BIT" />
+		<result column="auditStatus" property="auditStatus" jdbcType="INTEGER" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="changeTime" property="changeTime" jdbcType="TIMESTAMP" />
+		<result column="indexTime" property="indexTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BIT" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,orderId,userId,title,content,allowAnony,createTime,changeTime,indexTime,published,auditStatus,deleted
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		user_blog (
+		orderId ,
+		userId ,
+		title ,
+		content ,
+		allowAnony ,
+		published,
+		createTime,
+		changeTime,
+		auditStatus
+		)
+		VALUES(
+		#{orderId} ,
+		#{userId} ,
+		#{title} ,
+		#{content} ,
+		#{allowAnony} ,
+		#{published},
+		#{createTime},
+		#{changeTime},
+		#{auditStatus}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		user_blog
+		WHERE
+		id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE user_blog
+		SET
+		orderId=#{orderId},
+		userId=#{userId},
+		title=#{title},
+		content=#{content},
+		allowAnony=#{allowAnony},
+		published=#{published},
+		changeTime=#{changeTime},
+		deleted=#{deleted}
+		WHERE id =#{id} AND userId=#{userId}
+	</update>
+	
+	<update id="updateAuditStatus" >
+		UPDATE user_blog SET auditStatus=#{auditStatus} WHERE id=#{id}
+	</update>
+	
+	<update id="updateIndexTime">
+		UPDATE user_blog
+		SET
+		indexTime=#{indexTime}
+		WHERE id =#{id}
+	</update>
+
+	<select id="selectById" resultMap="UserBlogMap" parameterType="Integer">
+		SELECT
+		<include refid="columns" />
+		FROM user_blog
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectBlogDraftCountByUserId" resultType="int" parameterType="Integer">
+		SELECT
+		count(1)
+		FROM user_blog
+		WHERE userId =  #{userId,jdbcType=INTEGER} AND published=false And deleted = false;
+	</select>
+	
+	<select id="getBlogDeliverCountByUserId" resultType="int" parameterType="Integer">
+		SELECT
+		count(1)
+		FROM user_blog
+		WHERE userId =  #{userId,jdbcType=INTEGER} AND published = true And deleted = false;
+	</select>
+	
+	<select id="selectByIdAndUserId" resultMap="UserBlogMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM user_blog
+		WHERE id = #{id} AND userId=#{userId}
+	</select>
+	
+	<select id="selectByFilter" resultMap="UserBlogMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM user_blog
+		where deleted = false
+		<if test="published !=null">
+			AND published=#{published}
+		</if>
+		<if test="auditStatus !=null">
+			AND auditStatus=#{auditStatus}
+		</if>
+		<if test="userId !=null and userId != 0">
+			AND userId=#{userId}
+		</if>
+		<if test="keywords !=null and keywords != ''">
+			AND ( title like ${keywords} OR content like ${keywords} )
+		</if>
+	</select>
+</mapper>
+

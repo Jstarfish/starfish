@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.statis.DistShopSumDao">
+	<sql id="filter">
+		<if test="shopId != null and shopId != ''">
+			 AND SO.shopId = #{shopId}
+		</if>
+		<if test="distributorId != null and distributorId != ''">
+			AND SO.distributorId = #{distributorId}
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(SO.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="flagCreator != null and flagCreator != ''">
+			<choose>
+				<when test="flagCreator == 'agent'">
+					AND SO.creatorFlag = 2
+				</when>
+				<when test="flagCreator == 'allocate'">
+					AND SO.creatorFlag != 2
+				</when>
+				<otherwise>
+				</otherwise>
+			</choose>
+		</if>
+	</sql>
+	
+	<select id="getDistShopOrderStatis" resultType="Long">
+		SELECT IFNULL(count(1), 0) as statisValue
+		FROM sale_order SO
+		WHERE SO.distFlag = true
+		<include refid="filter" />
+	</select>
+	
+	<select id="getDistShopSvcStatis" resultType="Long">
+		SELECT IFNULL(sum(SO.svcTimes), 0) as statisValue
+		FROM sale_order SO
+		WHERE SO.distFlag = true
+		<include refid="filter" />
+	</select>
+	
+	<select id="getDistShopVisitorStatis" resultType="Long">
+		SELECT IFNULL(sum(SO.svcTimes), 0) as statisValue
+		FROM sale_order SO
+		WHERE SO.distFlag = true
+		<include refid="filter" />
+	</select>
+	
+	<select id="getDistShopNoAmountStatis" resultType="DECIMAL">
+		select IFNULL(sum(SO.distProfit), 0) as statisValue
+		from sale_order SO 
+		WHERE SO.deleted = false AND SO.closed = true AND SO.finished = true 
+		AND SO.distFlag = true AND SO.settleRecId2Dist is null
+		<include refid="filter" />
+	</select>
+	
+	<select id="getDistShopAmountStatis" resultType="DECIMAL">
+		SELECT IFNULL(sum(DSR.theAmount), 0) as statisValue
+		FROM dist_settle_rec DSR
+		WHERE 1 = 1
+		<if test="shopId != null and shopId != ''">
+			 AND DSR.shopId = #{shopId}
+		</if>
+		<if test="distributorId != null and shopId != ''">
+			AND DSR.distributorId = #{distributorId}
+		</if>
+		<if test="fromDate != null and fromDate != ''">
+			<![CDATA[ AND DATE_FORMAT(DSR.theTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+		</if>
+		<if test="toDate != null and toDate != ''">
+			<![CDATA[ AND DATE_FORMAT(DSR.theTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+		</if>
+	</select>
+
+	<select id="selectDistShopOrderCountGroupTime" resultType="MAP">
+		SELECT DATE_FORMAT(SO.createTime, '%Y-%m-%d') as statisTime, IFNULL(count(1), 0) as statisValue
+		FROM sale_order SO
+		WHERE SO.distFlag = true
+		<include refid="filter" />
+		GROUP BY statisTime
+	</select>
+	
+	<select id="selectDistShopScvCountGroupTime" resultType="MAP">
+		SELECT DATE_FORMAT(SO.createTime, '%Y-%m-%d') as statisTime, IFNULL(sum(SO.svcTimes), 0) as statisValue
+		FROM sale_order SO
+		WHERE SO.distFlag = true
+		<include refid="filter" />
+		GROUP BY statisTime
+	</select>
+</mapper>

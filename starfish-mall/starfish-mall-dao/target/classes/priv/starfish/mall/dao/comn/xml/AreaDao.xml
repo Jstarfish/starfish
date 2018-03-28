@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.AreaDao">
+	<resultMap id="AreaMap" type="priv.starfish.mall.comn.entity.Area">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="AreaMap" parameterType="Integer">
+		SELECT	A.id, A.name, A.regionId, A.regionName, A.seqNo, A.ts
+		FROM area A
+		WHERE A.id = #{id}
+	</select>
+	
+	<select id="selectByNameAndRegionId" resultMap="AreaMap">
+		SELECT A.id, A.name, A.regionId, A.regionName, A.seqNo, A.ts
+		FROM area A
+		WHERE A.name = #{name} AND A.regionId = #{regionId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO area(name, regionId, regionName, seqNo, ts)
+		VALUES(#{name}, #{regionId}, #{regionName}, #{seqNo}, CURRENT_TIMESTAMP)
+	</insert>
+	
+	<update id="update">
+		UPDATE area
+		SET name = #{name} ,
+			regionId = #{regionId} ,
+			regionName = #{regionName} ,
+			seqNo = #{seqNo} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE	FROM area
+		WHERE id = #{id}
+	</delete>
+</mapper>

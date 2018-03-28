@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.logistic.LogisApiParamDao">
+	<resultMap id="logisApiParamMap" type="priv.starfish.mall.logistic.entity.LogisApiParam">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="apiId" property="apiId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="varFlag" property="varFlag" jdbcType="BOOLEAN" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="ioFlag" property="ioFlag" jdbcType="BOOLEAN" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO	logistic_api_param(apiId, name, varFlag, value, ioFlag, `desc`)
+		VALUES(#{apiId}, #{name}, #{varFlag}, #{value},#{ioFlag},#{desc})
+	</insert>
+	
+	<update id="update">
+		UPDATE logistic_api_param
+		SET name = #{name} ,
+		    varFlag = #{varFlag} ,
+		    value = #{value} ,
+		    ioFlag = #{ioFlag} ,
+		    <if test="seqNo != null">
+		    seqNo = #{seqNo} ,
+		    </if>
+		    `desc` = #{desc}
+		WHERE  id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM logistic_api_param WHERE  id = #{id}
+	</delete>
+	
+	<select id="selectById" resultMap="logisApiParamMap" parameterType="Integer">
+		SELECT LAP.id, LAP.apiId, LAP.name, LAP.varFlag, LAP.value, LAP.ioFlag, LAP.seqNo, LAP.desc
+		FROM   logistic_api_param LAP
+		WHERE  LAP.id = #{id}
+	</select>
+	
+    <select id="selectByApiIdAndNameAndIoFlag" resultMap="logisApiParamMap">
+	    SELECT LAP.id, LAP.apiId, LAP.name, LAP.varFlag, LAP.value, LAP.ioFlag, LAP.seqNo, LAP.desc
+		FROM   logistic_api_param LAP
+		WHERE  LAP.apiId = #{apiId}
+		   AND LAP.name = #{name}
+		   AND LAP.ioFlag = #{ioFlag}
+	</select>
+	
+	<insert id="batchInsert" parameterType="java.util.List">
+		INSERT INTO	logistic_api_param(apiId, name, varFlag, value, ioFlag, seqNo, `desc`)
+		VALUES
+		<foreach collection="ps" item="p" index="index" open="" close="" separator=",">   
+			(#{p.apiId}, #{p.name}, #{p.varFlag}, #{p.value},#{p.ioFlag}, #{p.seqNo}, #{p.desc})
+		 </foreach>
+	</insert>
+	
+	<select id="selectByApiId" parameterType="Integer" resultMap="logisApiParamMap">
+		SELECT P.id, P.apiId, P.name, P.varFlag, P.value, P.ioFlag, P.desc, P.seqNo
+		FROM logistic_api_param P
+		WHERE P.apiId = #{apiId}
+		ORDER BY P.ioFlag, P.seqNo
+	</select>
+	
+	<delete id="deleteByApiId" parameterType="Integer">
+		DELETE FROM logistic_api_param WHERE apiId = #{apiId}
+	</delete>
+</mapper>

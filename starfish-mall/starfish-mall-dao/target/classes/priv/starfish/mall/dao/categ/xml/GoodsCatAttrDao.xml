@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatAttrDao">
+	<resultMap id="GoodsCatAttrMap" type="priv.starfish.mall.categ.entity.GoodsCatAttr">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="refId" property="refId" jdbcType="INTEGER" />
+		<result column="unit" property="unit" jdbcType="VARCHAR" />
+		<result column="keyFlag" property="keyFlag" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="searchFlag" property="searchFlag" jdbcType="BOOLEAN" />
+		<result column="multiFlag" property="multiFlag" jdbcType="BOOLEAN" />
+		<result column="brandFlag" property="brandFlag" jdbcType="BOOLEAN" />
+		<result column="groupId" property="groupId" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<association property="attrRef" column="refId" select="getAttrRefById" />
+	</resultMap>
+	<select id="getAttrRefById" resultType="priv.starfish.mall.categ.entity.AttrRef" parameterType="Integer">
+		SELECT AR.id, AR.code, AR.name, AR.type, AR.enumFlag, AR.desc,AR.seqNo,AR.ts,AR.brandFlag, AR.multiFlag 
+		FROM attr_ref AR
+		WHERE AR.id = #{id}
+	</select>
+	<select id="selectById" resultMap="GoodsCatAttrMap"
+		parameterType="Integer">
+		SELECT GCA.id, GCA.catId, GCA.refId, GCA.unit, GCA.keyFlag, GCA.seqNo,
+		GCA.searchFlag, GCA.multiFlag, GCA.brandFlag, GCA.groupId, GCA.ts
+		FROM goods_cat_attr GCA
+		WHERE GCA.id = #{id}
+	</select>
+	<select id="selectByCatIdAndRefId" resultMap="GoodsCatAttrMap">
+		SELECT GCA.id, GCA.catId, GCA.refId, GCA.unit, GCA.keyFlag, GCA.seqNo,
+		GCA.searchFlag, GCA.multiFlag, GCA.brandFlag, GCA.groupId, GCA.ts
+		FROM goods_cat_attr GCA
+		WHERE GCA.catId = #{catId}
+		AND GCA.refId = #{refId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		goods_cat_attr(catId, refId, unit, keyFlag, seqNo, searchFlag, multiFlag, brandFlag, groupId, ts)
+		VALUES(#{catId}, #{refId}, #{unit}, #{keyFlag}, #{seqNo},
+		#{searchFlag}, #{multiFlag}, #{brandFlag}, #{groupId},#{ts})
+	</insert>
+	<update id="update">
+		UPDATE goods_cat_attr
+		SET catId = #{catId} ,
+		refId = #{refId} ,
+		unit = #{unit} ,
+		keyFlag = #{keyFlag} ,
+		seqNo = #{seqNo} ,
+		searchFlag = #{searchFlag} ,
+		multiFlag = #{multiFlag} ,
+		brandFlag = #{brandFlag} ,
+		groupId = #{groupId} ,
+		ts = CURRENT_TIMESTAMP 
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM goods_cat_attr
+		WHERE id = #{id}
+	</delete>
+	<delete id="deleteByRefId" parameterType="Integer">
+		DELETE
+		FROM goods_cat_attr
+		WHERE refId = #{refId}
+	</delete>
+	<delete id="deleteByRefIds" parameterType="Integer">
+		DELETE
+		FROM goods_cat_attr
+		WHERE refId in(
+			<foreach collection="list" item="refId" index="index" open="" close="" separator=",">   
+        		#{refId}    
+    		</foreach>
+		)
+	</delete>
+	<select id="selectCountByCatId" resultType="Integer" parameterType="Integer">
+		SELECT count(GCA.id)
+		FROM goods_cat_attr GCA
+		WHERE GCA.catId = #{catId}
+	</select>
+	<select id="selectByCatId" resultMap="GoodsCatAttrMap" parameterType="Integer">
+		SELECT GCA.id, GCA.catId, GCA.refId, GCA.unit, GCA.keyFlag, GCA.seqNo, 
+		GCA.searchFlag, GCA.multiFlag, GCA.brandFlag, GCA.groupId, GCA.ts 
+		FROM goods_cat_attr GCA 
+		WHERE  GCA.catId = #{catId} 
+	</select>
+	<delete id="deleteByIds" parameterType="Integer">
+		DELETE
+		FROM goods_cat_attr
+		WHERE id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+	<select id="selectIdByCatId" resultType="Integer" parameterType="Integer">
+		SELECT GCA.id FROM goods_cat_attr GCA 
+		WHERE  GCA.catId = #{catId} 
+	</select>
+	<select id="selectIdByCatIds" resultType="Integer" parameterType="Integer">
+		SELECT GCA.id FROM goods_cat_attr GCA 
+		WHERE  GCA.catId in(
+			<foreach collection="list" item="catId" index="index" open="" close="" separator=",">   
+        		#{catId}    
+    		</foreach>
+		)
+	</select>
+	<select id="selectIdByCatIdAndBrandFlag" resultType="Integer" parameterType="Integer">
+		SELECT GCA.id FROM goods_cat_attr GCA 
+		WHERE  GCA.catId = #{catId} and GCA.brandFlag = true
+	</select>
+	<select id="selectByGroupId" resultMap="GoodsCatAttrMap" parameterType="Integer">
+		SELECT GCA.id, GCA.catId, GCA.refId, GCA.unit, GCA.keyFlag, GCA.seqNo, 
+		GCA.searchFlag, GCA.multiFlag, GCA.brandFlag, GCA.groupId, GCA.ts 
+		FROM goods_cat_attr GCA 
+		WHERE  GCA.groupId = #{groupId} 
+	</select>
+	<select id="selectIdByRefId" resultType="Integer" parameterType="Integer">
+		SELECT GCA.id
+		FROM goods_cat_attr GCA 
+		WHERE  GCA.refId = #{refId} 
+	</select>
+	<select id="selectIdsByRefIds" resultType="Integer" parameterType="Integer">
+		SELECT DISTINCT GCA.id FROM goods_cat_attr GCA 
+		WHERE  GCA.refId in(
+			<foreach collection="list" item="refId" index="index" open="" close="" separator=",">   
+        		#{refId}    
+    		</foreach>
+		)
+	</select>
+	
+	<select id="selectIdsByBrandFlag" resultType="Integer">
+		SELECT GCA.id FROM goods_cat_attr GCA 
+		WHERE GCA.brandFlag = #{brandFlag}
+	</select>
+	
+</mapper>

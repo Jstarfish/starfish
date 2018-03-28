@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- 扫描包加载Service实现类 -->
+	<!--<context:component-scan base-package="priv.starfish.mall.manager.service"></context:component-scan>-->
+
+	<context:component-scan base-package="priv.starfish.mall.service" />
+
+	<!-- 事务 支持 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- 启用AspectJ事务拦截支持 -->
+	<tx:advice id="_txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="search*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="is*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="exist*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="check*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="verify*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="count*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="list*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="load*" propagation="SUPPORTS" read-only="true" />
+			<tx:method name="paginate*" propagation="SUPPORTS" read-only="true" />
+			<!-- tx:method name="*" propagation="SUPPORTS" /> -->
+
+			<tx:method name="*" propagation="REQUIRED" />
+		</tx:attributes>
+	</tx:advice>
+	<!--TODO 有点小问题，报错-->
+	<!--<aop:config>
+		<aop:advisor pointcut="execution(*priv.starfish.mall.service.*.*(..))"
+					 advice-ref="_txAdvice" />
+	</aop:config>-->
+
+</beans>

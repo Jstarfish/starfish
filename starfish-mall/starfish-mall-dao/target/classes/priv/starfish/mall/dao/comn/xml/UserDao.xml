@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.UserDao">
+	<resultMap id="UserMap" type="priv.starfish.mall.comn.entity.User">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="nickName" property="nickName" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="idCertNo" property="idCertNo" jdbcType="VARCHAR" />
+		<result column="password" property="password" jdbcType="VARCHAR" />
+		<result column="salt" property="salt" jdbcType="VARCHAR" />
+		<result column="payPassword" property="payPassword" jdbcType="VARCHAR" />
+		<result column="realName" property="realName" jdbcType="VARCHAR" />
+		<result column="gender" property="gender" jdbcType="VARCHAR" />
+		<result column="birthDate" property="birthDate" jdbcType="DATE" />
+		<result column="qq" property="qq" jdbcType="VARCHAR" />
+		<result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="verified" property="verified" jdbcType="BOOLEAN" />
+		<result column="failCount" property="failCount" jdbcType="INTEGER" />
+		<result column="failTime" property="failTime" jdbcType="TIMESTAMP" />
+		<result column="locked" property="locked" jdbcType="BOOLEAN" />
+		<result column="lockTime" property="lockTime" jdbcType="TIMESTAMP" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="UserMap" parameterType="Integer">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate, U.qq,
+		U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked, U.lockTime, U.ts
+		FROM user U
+		WHERE
+		U.id = #{id}
+	</select>
+
+	<select id="selectByPhoneNo" resultMap="UserMap">
+		SELECT U.id, U.phoneNo,
+		U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate, U.qq,
+		U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked, U.lockTime, U.ts
+		FROM user U
+		WHERE
+		U.phoneNo = #{phoneNo}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO user(phoneNo, nickName, email, idCertNo, password, salt,
+		payPassword,
+		realName, gender, birthDate, qq, regTime, verified,
+		failCount, failTime, locked, lockTime, ts)
+		VALUES(#{phoneNo}, #{nickName},
+		#{email}, #{idCertNo}, #{password}, #{salt}, #{payPassword},
+		#{realName}, #{gender}, #{birthDate}, #{qq}, #{regTime}, #{verified},
+		#{failCount}, #{failTime}, #{locked}, #{lockTime}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE user
+		SET
+		<if test="phoneNo !=null">
+			phoneNo = #{phoneNo} ,
+		</if>
+		<if test="nickName !=null">
+			nickName = #{nickName} ,
+		</if>
+		<if test="email !=null">
+			email = #{email} ,
+		</if>
+		<if test="idCertNo !=null">
+			idCertNo = #{idCertNo} ,
+		</if>
+		<if test="password !=null">
+			password = #{password} ,
+		</if>
+		<if test="salt !=null">
+			salt = #{salt} ,
+		</if>
+		<if test="payPassword !=null">
+			payPassword = #{payPassword} ,
+		</if>
+		<if test="realName !=null">
+			realName = #{realName} ,
+		</if>
+		<if test="gender !=null">
+			gender = #{gender} ,
+		</if>
+		<if test="birthDate !=null">
+			birthDate = #{birthDate} ,
+		</if>
+		<if test="qq !=null">
+			qq = #{qq} ,
+		</if>
+		<if test="regTime !=null">
+			regTime = #{regTime} ,
+		</if>
+		<if test="verified !=null">
+			verified = #{verified} ,
+		</if>
+		<if test="failCount !=null">
+			failCount = #{failCount} ,
+		</if>
+		<if test="failTime !=null">
+			failTime = #{failTime} ,
+		</if>
+		<if test="locked !=null">
+			locked = #{locked} ,
+		</if>
+		<if test="lockTime !=null">
+			lockTime = #{lockTime} ,
+		</if>
+		ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM user
+		WHERE id =
+		#{id}
+	</delete>
+
+	<select id="existsByPhoneNo" resultType="Boolean">
+		SELECT count(*) > 0
+		FROM
+		user U
+		WHERE U.phoneNo = #{phoneNo}
+	</select>
+
+	<select id="existsOtherByPhoneNo" resultType="Boolean">
+		SELECT count(*) > 0
+		FROM user U
+		WHERE U.phoneNo = #{phoneNo} AND id != #{notId}
+	</select>
+
+	<select id="selectByEmail" resultMap="UserMap">
+		SELECT U.id, U.phoneNo,
+		U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate, U.qq,
+		U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked, U.lockTime, U.ts
+		FROM user U
+		WHERE
+		U.email = #{email}
+	</select>
+
+	<select id="selectByFilter" resultMap="UserMap">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate, U.qq,
+		U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked, U.lockTime, U.ts
+		FROM user U
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="nickName != null">
+					U.nickName like ${nickName}
+				</if>
+				<if test="phoneNo != null">
+					AND U.phoneNo = #{phoneNo}
+				</if>
+
+			</trim>
+		</where>
+	</select>
+
+	<select id="selectByFilterNormal" resultMap="UserMap">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate, U.qq,
+		U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked, U.lockTime, U.ts
+		FROM user U,
+		user_role UR
+		WHERE U.id = UR.userId
+		AND UR.scope = #{scope}
+		AND UR.entityId = #{entityId}
+	</select>
+
+	<select id="selectByFuzzyFilter" resultMap="UserMap">
+		SELECT U.id, U.phoneNo, U.nickName, U.email, U.idCertNo,
+		U.password, U.salt, U.payPassword, U.realName, U.gender, U.birthDate, U.qq,
+		U.regTime,
+		U.verified, U.failCount, U.failTime, U.locked, U.lockTime, U.ts
+		FROM user U
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="nickName != null">
+					U.nickName like ${nickName}
+				</if>
+				<if test="phoneNo != null">
+					AND U.phoneNo like ${phoneNo}
+				</if>
+
+			</trim>
+		</where>
+	</select>
+
+</mapper>
+

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.categ.GoodsCatMenuItemAdDao">
+	<resultMap id="GoodsCatMenuItemAdMap" type="priv.starfish.mall.categ.entity.GoodsCatMenuItemAd">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="menuItemId" property="menuItemId" jdbcType="INTEGER" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="linkUrl" property="linkUrl" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<association column="menuItemId" property="menuItem" select="getGoodsCatMenuItemById" />
+	</resultMap>
+	
+	<select id="getGoodsCatMenuItemById" resultType="priv.starfish.mall.categ.entity.GoodsCatMenuItem" parameterType="Integer">
+		SELECT GCMI.id, GCMI.menuId, GCMI.level, GCMI.name, GCMI.linkFlag, GCMI.seqNo, GCMI.ts
+		FROM goods_cat_menu_item GCMI
+		WHERE GCMI.id = #{id}
+	</select>
+	
+	<select id="selectById" resultMap="GoodsCatMenuItemAdMap" parameterType="Integer">
+		SELECT GCMIA.id, GCMIA.menuItemId, GCMIA.imageUuid, GCMIA.imageUsage, GCMIA.imagePath, GCMIA.linkUrl, GCMIA.seqNo
+		FROM goods_cat_menu_item_ad GCMIA
+		WHERE GCMIA.id = #{id}
+	</select>
+	
+	<select id="selectByMenuItemId" resultMap="GoodsCatMenuItemAdMap">
+		SELECT GCMIA.id, GCMIA.menuItemId, GCMIA.imageUuid, GCMIA.imageUsage, GCMIA.imagePath, GCMIA.linkUrl, GCMIA.seqNo
+		FROM goods_cat_menu_item_ad GCMIA
+		WHERE GCMIA.menuItemId = #{menuItemId}
+	</select>
+	
+	<select id="selectByMenuItemIdAndImageUuid" resultMap="GoodsCatMenuItemAdMap">
+		SELECT GCMIA.id, GCMIA.menuItemId, GCMIA.imageUuid, GCMIA.imageUsage, GCMIA.imagePath, GCMIA.linkUrl, GCMIA.seqNo
+		FROM goods_cat_menu_item_ad GCMIA
+		WHERE GCMIA.menuItemId = #{menuItemId} AND GCMIA.imageUuid = #{imageUuid}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO goods_cat_menu_item_ad(menuItemId, imageUuid, imageUsage, imagePath, linkUrl, seqNo)
+		VALUES(#{menuItemId}, #{imageUuid}, #{imageUsage}, #{imagePath}, #{linkUrl}, #{seqNo})
+	</insert>
+	
+	<update id="update">
+		UPDATE goods_cat_menu_item_ad
+		SET menuItemId = #{menuItemId} ,
+			imageUuid = #{imageUuid} ,
+			imageUsage = #{imageUsage} ,
+			imagePath = #{imagePath} ,
+			linkUrl = #{linkUrl} ,
+			seqNo = #{seqNo}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM goods_cat_menu_item_ad
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByMenuItemId" parameterType="Integer">
+		DELETE FROM goods_cat_menu_item_ad
+		WHERE menuItemId = #{menuItemId}
+	</delete>
+</mapper>

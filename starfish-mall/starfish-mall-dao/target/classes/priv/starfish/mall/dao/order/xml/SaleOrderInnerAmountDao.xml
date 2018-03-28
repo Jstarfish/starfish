@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.order.SaleOrderInnerAmountDao">
+	<resultMap id="SaleOrderInnerAmountMap"
+		type="priv.starfish.mall.order.entity.SaleOrderInnerAmount">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="srcFlag" property="srcFlag" jdbcType="INTEGER" />
+		<result column="srcId" property="srcId" jdbcType="BIGINT" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="settleAmount" property="settleAmount" jdbcType="DECIMAL" />
+		<result column="extValInt" property="extValInt" jdbcType="INTEGER" />
+		<result column="extValLong" property="extValLong" jdbcType="BIGINT" />
+		<result column="extValStr" property="extValStr" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,orderId,srcFlag,srcId,amount,settleAmount,extValInt,extValLong,extValStr,seqNo,ts
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		sale_order_inner_amount (
+		orderId ,
+		srcFlag ,
+		srcId ,
+		amount ,
+		settleAmount,
+		extValInt ,
+		extValLong ,
+		extValStr ,
+		seqNo ,
+		ts
+		)
+		VALUES(
+		#{orderId} ,
+		#{srcFlag} ,
+		#{srcId} ,
+		#{amount} ,
+		#{settleAmount},
+		#{extValInt} ,
+		#{extValLong} ,
+		#{extValStr} ,
+		#{seqNo} ,
+		#{ts}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM
+		sale_order_inner_amount
+		WHERE id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE sale_order_inner_amount
+		SET
+		orderId=#{orderId}
+		,
+		srcFlag=#{srcFlag}
+		,
+		srcId=#{srcId}
+		,
+		amount=#{amount}
+		,
+		settleAmount=#{settleAmount}
+		,
+		extValInt=#{extValInt}
+		,
+		extValLong=#{extValLong}
+		,
+		extValStr=#{extValStr}
+		,
+		<if test="ts!=null">
+			,ts=#{ts}
+		</if>
+		seqNo=#{seqNo}
+
+		WHERE id =#{id}
+	</update>
+
+	<select id="selectById" resultMap="SaleOrderInnerAmountMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_inner_amount
+		WHERE id = #{id}
+	</select>
+
+	<select id="selectByFilter" resultMap="SaleOrderInnerAmountMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_inner_amount
+		WHERE 1 = 1
+		<if test=" extValStr !=null and  extValStr != ''">
+			AND extValStr like ${extValStr}
+		</if>
+		order by seqNo desc
+	</select>
+
+	<select id="selectByOrderId" resultMap="SaleOrderInnerAmountMap"
+		parameterType="Long">
+		SELECT
+		<include refid="columns" />
+		FROM sale_order_inner_amount
+		WHERE orderId = #{orderId}
+	</select>
+
+</mapper>
+

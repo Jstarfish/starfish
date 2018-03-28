@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.interact.OnlineServeRecordDao">
+	<resultMap id="OnlineServeRecordMap" type="priv.starfish.mall.interact.entity.OnlineServeRecord">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="entityId" property="entityId" jdbcType="INTEGER" />
+		<result column="entityName" property="entityName" jdbcType="VARCHAR" />
+		<result column="servantId" property="servantId" jdbcType="INTEGER" />
+		<result column="servantName" property="servantName" jdbcType="VARCHAR" />
+		<result column="memberId" property="memberId" jdbcType="INTEGER" />
+		<result column="memberName" property="memberName" jdbcType="VARCHAR" />
+		<result column="directFlag" property="directFlag" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="recvTime" property="recvTime" jdbcType="TIMESTAMP" />
+		<result column="sendTime" property="sendTime" jdbcType="TIMESTAMP" />
+		<result column="dateStr" property="dateStr" jdbcType="VARCHAR" />
+		<result column="readFlag" property="readFlag" jdbcType="BOOLEAN" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="OnlineServeRecordMap" parameterType="Long">
+		SELECT OSR.id, OSR.scope, OSR.entityId, OSR.entityName, OSR.servantId, OSR.servantName, 
+			OSR.memberId, OSR.memberName, OSR.directFlag, OSR.content, OSR.recvTime, OSR.sendTime, OSR.dateStr, OSR.readFlag
+		FROM online_serve_record OSR
+		WHERE OSR.id = #{id}
+	</select>
+	
+	<select id="selectByFilter" resultMap="OnlineServeRecordMap">
+		SELECT OSR.id, OSR.scope, OSR.entityId, OSR.entityName, OSR.servantId, OSR.servantName, 
+			OSR.memberId, OSR.memberName, OSR.directFlag, OSR.content, OSR.recvTime, OSR.sendTime, OSR.dateStr, OSR.readFlag
+		FROM online_serve_record OSR
+		WHERE 1=1
+		<if test="servantId != null">
+			AND servantId = #{servantId}
+		</if>
+		<if test="memberId != null">
+			AND memberId = #{memberId}
+		</if>
+		<if test="dateStr != null">
+			AND dateStr = #{dateStr}
+		</if>
+		<if test="servantName != null">
+			AND servantName like ${servantName}
+		</if>
+		<if test="memberName != null">
+			AND memberName like ${memberName}
+		</if>
+		ORDER BY OSR.dateStr DESC, OSR.recvTime DESC, OSR.sendTime DESC
+	</select>
+	
+	<select id="selectByMemberId" resultMap="OnlineServeRecordMap" parameterType="Integer">
+		SELECT OSR.id, OSR.scope, OSR.entityId, OSR.entityName, OSR.servantId, OSR.servantName, 
+			OSR.memberId, OSR.memberName, OSR.directFlag, OSR.content, OSR.recvTime, OSR.sendTime, OSR.dateStr, OSR.readFlag
+		FROM online_serve_record OSR
+		WHERE OSR.memberId = #{memberId}
+		ORDER BY OSR.dateStr DESC, OSR.recvTime DESC, OSR.sendTime DESC
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO online_serve_record(scope, entityId, entityName, servantId, servantName, 
+			memberId, memberName, directFlag, content, recvTime, sendTime, dateStr, readFlag)
+		VALUES(#{scope}, #{entityId}, #{entityName}, #{servantId}, #{servantName}, 
+			#{memberId}, #{memberName}, #{directFlag}, #{content}, #{recvTime}, #{sendTime}, #{dateStr}, #{readFlag})
+	</insert>
+	
+	<update id="update">
+		UPDATE online_serve_record
+		SET scope = #{scope} ,
+			entityId = #{entityId} ,
+			entityName = #{entityName} ,
+			servantId = #{servantId} ,
+			servantName = #{servantName} ,
+			memberId = #{memberId} ,
+			memberName = #{memberName} ,
+			directFlag = #{directFlag} ,
+			content = #{content} ,
+			recvTime = #{recvTime} ,
+			sendTime = #{sendTime} ,
+			dateStr = #{dateStr} ,
+			readFlag = #{readFlag}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE FROM online_serve_record
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>

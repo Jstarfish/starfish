@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.PermissionDao">
+	<resultMap id="PermissionMap" type="priv.starfish.mall.comn.entity.Permission">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="moduleId" property="moduleId" jdbcType="INTEGER" />
+		<result column="scope" property="scope" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="grantable" property="grantable" jdbcType="BOOLEAN" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="PermissionMap" parameterType="Integer">
+		SELECT P.id, P.moduleId, P.scope, P.code, P.name, P.desc, P.grantable, P.seqNo, P.disabled
+		FROM permission P
+		WHERE P.id = #{id}
+	</select>
+	
+	<select id="selectByScopeAndCode" resultMap="PermissionMap">
+		SELECT P.id, P.moduleId, P.scope, P.code, P.name, P.desc, P.grantable, P.seqNo, P.disabled
+		FROM permission P
+		WHERE P.scope = #{scope}
+			AND P.code = #{code}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO	permission(moduleId, scope, code, name, `desc`, seqNo)
+		VALUES(#{moduleId}, #{scope}, #{code}, #{name}, #{desc}, #{seqNo})
+	</insert>
+	
+	<update id="update">
+		UPDATE permission 
+		SET moduleId = #{moduleId} ,
+			scope = #{scope} ,
+			code = #{code} ,
+			name = #{name} ,
+			`desc` = #{desc} ,
+			grantable = #{grantable} ,
+			seqNo = #{seqNo} ,
+			disabled = #{disabled}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM permission
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByModuleId" parameterType="Integer" resultMap="PermissionMap">
+		SELECT P.id, P.scope, P.code, P.name, P.desc, P.grantable, P.seqNo, P.disabled
+		FROM permission P
+		WHERE P.moduleId = #{moduleId}
+		ORDER BY P.scope, P.seqNo
+	</select>
+	
+	<update id="updateStatusById">
+		UPDATE permission 
+		SET disabled = #{disabled} 
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectByScope" resultMap="PermissionMap">
+		SELECT P.id, P.moduleId, P.code, P.name, P.desc, P.grantable, P.seqNo, P.disabled
+		FROM permission P
+		WHERE P.scope = #{scope}
+		ORDER BY P.moduleId, P.seqNo
+	</select>
+	
+	<select id="selectModuleIdsByScope" parameterType="String" resultType="Integer">
+		SELECT DISTINCT P.moduleId
+		FROM permission P
+		WHERE P.scope = #{scope}
+		ORDER BY P.moduleId
+	</select>
+	
+	<update id="updateStatusByIds"  parameterType="java.util.List">  
+		UPDATE permission P 
+		SET P.disabled = #{status} 
+		WHERE P.id in (
+		    <foreach collection="ids" item="id" index="index" open="" close="" separator=",">   
+		        #{id}    
+		    </foreach>
+	    	)
+	</update>
+	
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.BizLicensePicDao">
+	<resultMap id="BizLicensePicMap" type="priv.starfish.mall.comn.entity.BizLicensePic">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="licenseId" property="licenseId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+	<select id="selectById" resultMap="BizLicensePicMap"
+		parameterType="Integer">SELECT BLP.id, BLP.licenseId, BLP.title, BLP.imageUuid,
+		BLP.imageUsage, BLP.imagePath, BLP.seqNo
+		FROM biz_license_pic BLP
+		WHERE BLP.id = #{id}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		biz_license_pic(licenseId, title, imageUuid, imageUsage, imagePath, seqNo)
+		VALUES(#{licenseId}, #{title}, #{imageUuid}, #{imageUsage}, #{imagePath}, #{seqNo})
+	</insert>
+	<update id="update">UPDATE biz_license_pic
+		SET licenseId = #{licenseId} ,
+		title = #{title} ,
+		imageUuid = #{imageUuid} ,
+		imageUsage = #{imageUsage} ,
+		imagePath = #{imagePath} ,
+		seqNo = #{seqNo}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM biz_license_pic
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByLicenseId" resultMap="BizLicensePicMap"
+		parameterType="Integer">SELECT BLP.id, BLP.licenseId, BLP.title, BLP.imageUuid,
+		BLP.imageUsage, BLP.imagePath, BLP.seqNo
+		FROM biz_license_pic BLP
+		WHERE BLP.licenseId = #{licenseId}
+	</select>
+</mapper>

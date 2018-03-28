@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.SaleOrderWorkDao">
+	<resultMap id="SaleOrderWorkMap" type="priv.starfish.mall.order.entity.SaleOrderWork">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="workerId" property="workerId" jdbcType="INTEGER" />
+		<result column="workerName" property="workerName" jdbcType="VARCHAR" />
+		<result column="chiefFlag" property="chiefFlag" jdbcType="BOOLEAN" />
+		<result column="work" property="work" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="SaleOrderWorkMap" parameterType="Long">
+		SELECT SOW.id, SOW.orderId, SOW.workerId, SOW.workerName, SOW.chiefFlag, SOW.work, SOW.desc, SOW.ts
+		FROM sale_order_work SOW
+		WHERE SOW.id = #{id}
+	</select>
+	
+	<select id="selectByOrderIdAndWorkerId" resultMap="SaleOrderWorkMap">
+		SELECT SOW.id, SOW.orderId, SOW.workerId, SOW.workerName, SOW.chiefFlag, SOW.work, SOW.desc, SOW.ts
+		FROM sale_order_work SOW
+		WHERE SOW.orderId = #{orderId} AND SOW.workerId = #{workerId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		sale_order_work(orderId, workerId, workerName, chiefFlag, work, `desc`, ts)
+		VALUES(#{orderId}, #{workerId}, #{workerName}, #{chiefFlag}, #{work}, #{desc}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE sale_order_work
+		SET orderId = #{orderId} ,
+			workerId = #{workerId} ,
+			workerName = #{workerName} ,
+			chiefFlag = #{chiefFlag} ,
+			work = #{work} ,
+			`desc` = #{desc} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE FROM sale_order_work
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByOrderId" resultMap="SaleOrderWorkMap">
+		SELECT SOW.id, SOW.orderId, SOW.workerId, SOW.workerName, SOW.chiefFlag, SOW.work, SOW.desc, SOW.ts
+		FROM sale_order_work SOW
+		WHERE SOW.orderId = #{orderId}
+	</select>
+	
+	<delete id="deleteByOrderId" parameterType="Long">
+		DELETE FROM sale_order_work
+		WHERE orderId = #{orderId}
+	</delete>
+	
+</mapper>

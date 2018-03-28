@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="starfish-mall-manager:war">
+    <output-path>$PROJECT_DIR$/starfish-mall/starfish-mall-manager/target</output-path>
+    <root id="archive" name="starfish-mall-manager.war">
+      <element id="artifact" artifact-name="starfish-mall-manager:war exploded" />
+    </root>
+  </artifact>
+</component>

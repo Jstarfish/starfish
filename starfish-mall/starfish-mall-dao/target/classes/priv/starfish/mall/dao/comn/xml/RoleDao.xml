@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.RoleDao">
+	<resultMap id="RoleMap" type="priv.starfish.mall.comn.entity.Role">
+		<id column="id" property="id" jdbcType="INTEGER" />
+        <result column="scope" property="scope" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="alias" property="alias" jdbcType="VARCHAR" />
+        <result column="builtIn" property="builtIn" jdbcType="BOOLEAN" />
+        <result column="entityId" property="entityId" jdbcType="INTEGER" />
+        <result column="grantable" property="grantable" jdbcType="BOOLEAN" />
+        <result column="desc" property="desc" jdbcType="VARCHAR" />
+        <result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+        <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="RoleMap" parameterType="Integer">
+		SELECT R.*
+		FROM role R
+		WHERE R.id = #{id}
+	</select>
+
+	<select id="selectByScopeAndEntityIdAndName" resultMap="RoleMap">
+		SELECT R.*
+		FROM role R
+		WHERE R.scope = #{scope} AND R.entityId = #{entityId} AND R.name = #{name}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO role(scope, entityId, name, `desc`, seqNo, grantable, ts)
+		VALUES(#{scope}, #{entityId}, #{name}, #{desc}, #{seqNo}, #{grantable}, CURRENT_TIMESTAMP)
+	</insert>
+
+	<update id="update">
+		UPDATE role
+		<set>
+			<trim suffixOverrides=",">
+				<if test="name != null">
+					name = #{name},
+				</if>	
+				<if test="alias != null">
+					alias = #{alias},
+				</if>			
+				<if test="desc != null">
+					`desc` = #{desc},
+				</if>
+				<if test="grantable != null">
+					grantable = #{grantable},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				ts = CURRENT_TIMESTAMP
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM role
+		WHERE id = #{id} AND builtIn != true
+	</delete>
+
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM role
+		WHERE builtIn != true AND id in(
+			<foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+			)
+	</delete>
+	
+	<select id="selectBuiltInAdminByScope" resultMap="RoleMap">
+		SELECT R.*
+		FROM role R
+		WHERE R.scope = #{scope} AND R.name = #{name} AND R.builtIn = true
+	</select>
+	
+	<select id="selectByScopeAndEntityId" resultMap="RoleMap">
+		SELECT R.*
+		FROM role R
+		WHERE R.scope = #{scope} AND 
+		(
+			R.entityId = #{entityId} 
+		<if test="includeSysSet == true ">
+			OR R.entityId = -1
+		</if>
+		)
+		<if test="grantable != null ">
+			AND R.grantable = #{grantable}
+		</if>
+	</select>
+</mapper>

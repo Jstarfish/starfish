@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.shop.DistShopMemoDao">
+	<resultMap id="DistShopMemoMap" type="priv.starfish.mall.shop.entity.DistShopMemo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="distShopId" property="distShopId" jdbcType="INTEGER" />
+		<result column="distShopName" property="distShopName" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="deleteTime" property="deleteTime" jdbcType="TIMESTAMP" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,distShopId,distShopName,title,content,createTime,deleted,deleteTime,ts
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		dist_shop_memo (
+		distShopId ,
+		distShopName ,
+		title ,
+		content ,
+		createTime ,
+		deleted ,
+		deleteTime ,
+		ts
+		)
+		VALUES(
+		#{distShopId} ,
+		#{distShopName} ,
+		#{title} ,
+		#{content} ,
+		#{createTime} ,
+		#{deleted} ,
+		#{deleteTime} ,
+		#{ts}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		dist_shop_memo
+		WHERE id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE dist_shop_memo
+		<set>
+			<trim suffixOverrides=",">
+				<if test="distShopName != null">
+					distShopName = #{distShopName},
+				</if>
+				<if test="title != null">
+					title = #{title},
+				</if>
+				<if test="content != null">
+					content = #{content},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted},
+				</if>
+				<if test="deleteTime != null">
+					deleteTime = #{deleteTime},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}  AND distShopId=#{distShopId}
+	</update>
+
+	<select id="selectById" resultMap="DistShopMemoMap"
+		parameterType="Integer">
+		SELECT
+		<include refid="columns" />
+		FROM dist_shop_memo
+		WHERE id = #{id}
+	</select>
+	
+	<select id="selectByIdAndDistShopId" resultMap="DistShopMemoMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM dist_shop_memo
+		WHERE id = #{id} AND distShopId=#{distShopId}
+	</select>
+	
+	<select id="selectByFilter" resultMap="DistShopMemoMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM dist_shop_memo
+		WHERE 1 = 1
+		<if test="distShopId != null">
+			AND	distShopId = #{distShopId}
+		</if>
+		<if test=" distShopName !=null and  distShopName != ''">
+			AND distShopName like ${distShopName}
+		</if>
+		<if test=" keywords !=null and  keywords != ''">
+			AND (title like ${keywords} OR content like ${keywords} ))
+		</if>
+		<if test="deleted != null">
+			AND deleted = #{deleted}
+		</if>
+	</select>
+
+</mapper>
+

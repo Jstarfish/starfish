@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.RegionDao">
+	<resultMap id="RegionMap" type="priv.starfish.mall.comn.entity.Region">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="py" property="py" jdbcType="VARCHAR" />
+		<result column="level" property="level" jdbcType="INTEGER" />
+		<result column="parentId" property="parentId" jdbcType="INTEGER" />
+		<result column="parentCode" property="parentCode" jdbcType="VARCHAR" />
+		<result column="idPath" property="idPath" jdbcType="VARCHAR" />
+		<result column="bdCityCode" property="bdCityCode" jdbcType="INTEGER" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="getMaxId"  resultType="java.lang.Integer">
+		SELECT IFNULL(max(id), 0)
+		FROM region
+	</select>
+
+	<select id="selectById" resultMap="RegionMap" parameterType="Integer">
+		SELECT R.id, R.code, R.name, R.py, R.level, R.parentId, R.parentCode, R.idPath, R.bdCityCode, R.seqNo
+		FROM region R
+		WHERE R.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="RegionMap">
+		SELECT R.id, R.code, R.name, R.py, R.level, R.parentId, R.parentCode, R.idPath, R.bdCityCode, R.seqNo
+		FROM region R
+		WHERE R.code = #{code}
+	</select>
+	
+	<select id="selectByParentIdAndName" resultMap="RegionMap">
+		SELECT R.id, R.code, R.name, R.py, R.level, R.parentId, R.parentCode, R.idPath, R.bdCityCode, R.seqNo
+		FROM region R
+		WHERE R.parentId = #{parentId} AND R.name = #{name}
+	</select>
+	
+	<select id="selectByName" resultMap="RegionMap">
+		SELECT R.id, R.code, R.name, R.py, R.level, R.parentId, R.parentCode, R.idPath, R.bdCityCode, R.seqNo
+		FROM region R
+		<where>
+			<if test="name != null">
+				R.name like ${name}
+			</if>
+		</where>
+		ORDER BY R.level, R.code
+	</select>
+	
+	<select id="selectByParentId" resultMap="RegionMap">
+		SELECT R.id, R.code, R.name, R.py, R.level, R.parentId, R.parentCode, R.idPath, R.bdCityCode, R.seqNo
+		FROM region R
+		WHERE R.parentId = #{parentId}
+		ORDER BY R.seqNo
+	</select>
+	
+	<select id="selectCountyByBdCityCodeAndName" resultMap="RegionMap">
+		SELECT R.id, R.code, R.name, R.py, R.level, R.parentId, R.parentCode, R.idPath, R.bdCityCode, R.seqNo
+		FROM region R
+		WHERE R.bdCityCode = #{bdCityCode} AND R.name = #{countyName} AND R.level = 3
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO region(id, code, name, py, level, parentId, parentCode, idPath, bdCityCode, seqNo)
+		VALUES(#{id}, #{code}, #{name}, #{py}, #{level}, #{parentId}, #{parentCode}, #{idPath}, #{bdCityCode}, #{seqNo})
+	</insert>
+	
+	<update id="update">
+		UPDATE region
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="code != null and code != ''">
+		    	code = #{code} ,
+		    </if>
+		    <if test="name != null and name != ''">
+		    	name = #{name} ,
+		    </if>
+		    <if test="py != null and py != ''">
+		    	py = #{py} ,
+		    </if>
+		    <if test="level != null">
+		    	level = #{level} ,
+		    </if>
+		    <if test="parentId != null">
+		    	parentId = #{parentId} ,
+		    </if>
+		    <if test="parentCode != null and parentCode != ''">
+		    	parentCode = #{parentCode} ,
+		    </if>
+		    <if test="idPath != null and idPath != ''">
+		    	idPath = #{idPath} ,
+		    </if>
+		    <if test="bdCityCode != null">
+		    	bdCityCode = #{bdCityCode} ,
+		    </if>
+		    <if test="seqNo !=null">
+		    	seqNo = #{seqNo}
+		    </if>
+		</trim>
+		where id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM region
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByIds" parameterType="java.util.List">
+		DELETE FROM region
+		WHERE id in (
+		    <foreach collection="list" item="id" index="index" open="" close="" separator=",">   
+        		#{id}    
+    		</foreach>
+		)
+	</delete>
+</mapper>

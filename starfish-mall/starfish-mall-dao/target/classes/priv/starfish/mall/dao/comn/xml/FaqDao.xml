@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.FaqDao">
+	<resultMap id="FaqMap" type="priv.starfish.mall.comn.entity.Faq">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="groupId" property="groupId" jdbcType="INTEGER" />
+		<result column="question" property="question" jdbcType="VARCHAR" />
+		<result column="answer" property="answer" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="FaqMap" parameterType="Integer">
+		SELECT
+		F.id, F.groupId, F.question, F.answer, F.seqNo, F.ts
+		FROM faq F
+		WHERE F.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		faq(groupId, question, answer, seqNo, ts)
+		VALUES(#{groupId}, #{question}, #{answer}, #{seqNo}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE faq
+		SET groupId = #{groupId} ,
+		question = #{question} ,
+		answer = #{answer} 
+		<if test="ts !=null">  
+          ,ts = #{ts}  
+         </if>
+		<if test="seqNo !=null">  
+          ,seqNo = #{seqNo}  
+         </if>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM faq
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByGroupId" parameterType="Integer">
+		DELETE
+		FROM faq
+		WHERE groupId = #{groupId}
+	</delete>
+	
+	<delete id="deleteByGroupIds" parameterType="list" >
+		DELETE
+		FROM faq
+		WHERE groupId in
+		<foreach collection="list" item="groupId" index="index"
+            open="(" close=")" separator=",">
+            #{groupId}
+        </foreach>
+	</delete>
+	
+	<select id="selectByFilter" resultMap="FaqMap">
+		SELECT
+		F.id, F.groupId, F.question, F.answer, F.seqNo, F.ts
+		FROM faq F
+		where 1=1
+        <if test="keywords !=null and keywords != ''">  
+        	AND  ( F.question  like ${keywords} OR F.answer  like ${keywords} ) 
+        </if>
+         <if test="groupId !=null">
+         ANd groupId=#{groupId}
+         </if>
+         order by F.ts desc
+	</select>
+	
+	<select id="selectByGroupId" resultMap="FaqMap" parameterType="Integer">
+		SELECT
+		F.id, F.groupId, F.question, F.answer, F.seqNo, F.ts
+		FROM faq F
+		WHERE F.groupId = #{groupId}
+		order by F.ts  desc
+	</select>
+</mapper>

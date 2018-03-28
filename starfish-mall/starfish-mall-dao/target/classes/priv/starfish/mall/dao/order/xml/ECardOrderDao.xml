@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.order.ECardOrderDao">
+	<resultMap id="ECardOrderMap" type="priv.starfish.mall.order.entity.ECardOrder">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="cardCode" property="cardCode" jdbcType="VARCHAR" />
+		<result column="cardName" property="cardName" jdbcType="VARCHAR" />
+		<result column="faceValue" property="faceValue" jdbcType="DECIMAL" />
+		<result column="price" property="price" jdbcType="DECIMAL" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="amount" property="amount" jdbcType="DECIMAL" />
+		<result column="payWay" property="payWay" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="paid" property="paid" jdbcType="BOOLEAN" />
+		<result column="cancelled" property="cancelled" jdbcType="BOOLEAN" />
+		<result column="payTime" property="payTime" jdbcType="VARCHAR" />
+		<result column="cancelTime" property="cancelTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="ECardOrderMap" parameterType="Integer">
+		SELECT ECO.id, ECO.no, ECO.userId, ECO.userName,ECO.shopId, ECO.shopName, ECO.cardCode,
+		ECO.cardName, ECO.faceValue, ECO.price, ECO.quantity, ECO.phoneNo,
+		ECO.amount, ECO.payWay, ECO.createTime, ECO.paid, ECO.cancelled,
+		ECO.payTime, ECO.cancelTime
+		FROM
+		ecard_order ECO
+		WHERE ECO.id = #{id}
+	</select>
+	
+	<select id="selectByNo" resultMap="ECardOrderMap" parameterType="String">
+		SELECT ECO.id, ECO.no, ECO.userId, ECO.userName,ECO.shopId, ECO.shopName, ECO.cardCode,
+		ECO.cardName, ECO.faceValue, ECO.price, ECO.quantity, ECO.phoneNo,
+		ECO.amount, ECO.payWay, ECO.createTime, ECO.paid, ECO.cancelled,
+		ECO.payTime, ECO.cancelTime
+		FROM
+		ecard_order ECO
+		WHERE ECO.no = #{no}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		ecard_order(no, userId, userName,shopId,shopName, cardCode, cardName, faceValue,
+		price, quantity,
+		phoneNo, amount, payWay, createTime, paid, cancelled,
+		payTime, cancelTime)
+		VALUES(#{no}, #{userId}, #{userName}, #{shopId}, #{shopName}, #{cardCode},
+		#{cardName},
+		#{faceValue},
+		#{price}, #{quantity}, #{phoneNo}, #{amount},
+		#{payWay},
+		#{createTime}, #{paid}, #{cancelled}, #{payTime},
+		#{cancelTime})
+	</insert>
+	<update id="update">UPDATE ecard_order
+		SET no = #{no} ,
+		userId = #{userId},
+		userName = #{userName} ,
+		shopId = #{shopId},
+		shopName = #{shopName} ,
+		cardCode = #{cardCode} ,
+		cardName =
+		#{cardName} ,
+		faceValue = #{faceValue} ,
+		price = #{price} ,
+		quantity =
+		#{quantity} ,
+		phoneNo = #{phoneNo} ,
+		amount = #{amount} ,
+		payWay =
+		#{payWay} ,
+		createTime = #{createTime} ,
+		paid = #{paid} ,
+		cancelled =
+		#{cancelled} ,
+		payTime =
+		#{payTime} ,
+		cancelTime =
+		#{cancelTime}
+		WHERE id =
+		#{id}
+	</update>
+	<update id="updateForCancel">UPDATE ecard_order
+		SET cancelled = TRUE,
+		cancelTime = NOW()
+		WHERE
+		id =
+		#{orderId} AND userId = #{userId}
+	</update>
+	<update id="updateByNo">
+		UPDATE ecard_order
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="paid !=null">
+				paid = #{paid} ,
+			</if>
+			<if test="payTime !=null">
+				payTime = #{payTime} ,
+			</if>
+		</trim>
+		WHERE no = #{no}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM ecard_order
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByFilter" resultMap="ECardOrderMap">
+		SELECT ECO.id, ECO.no,
+		ECO.userId, ECO.userName,
+		ECO.shopId, ECO.shopName,
+		ECO.cardCode,
+		ECO.cardName, ECO.faceValue,
+		ECO.price, ECO.quantity,
+		ECO.phoneNo,
+		ECO.amount, ECO.payWay,
+		ECO.createTime, ECO.paid, ECO.cancelled,
+		ECO.payTime, ECO.cancelTime
+		FROM
+		ecard_order ECO
+		<where>
+			<if test="userId != null and userId != ''">
+				ECO.userId = #{userId}
+			</if>
+			<if test="paid != null and paid != ''">
+				AND ECO.paid = #{paid}
+			</if>
+			<if test="status != null and status != ''">
+				<choose>
+					<when test="status == 'unpaid'">
+						AND ECO.paid = FALSE AND ECO.cancelled = FALSE
+					</when>
+					<when test="status == 'cancelled'">
+						AND ECO.cancelled = TRUE
+					</when>
+					<when test="status == 'finished'">
+						AND ECO.paid = TRUE AND ECO.cancelled = FALSE
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+			</if>
+			<if test="fromDate != null and fromDate != ''">
+				<![CDATA[ AND DATE_FORMAT(ECO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+		ORDER BY ECO.createTime DESC
+	</select>
+	
+	<select id="selectByFilterBack" resultMap="ECardOrderMap">
+		SELECT ECO.id, ECO.no,
+		ECO.userId, ECO.userName,
+		ECO.shopId, ECO.shopName,
+		ECO.cardCode,
+		ECO.cardName, ECO.faceValue,
+		ECO.price, ECO.quantity,
+		ECO.phoneNo,
+		ECO.amount, ECO.payWay,
+		ECO.createTime, ECO.paid, ECO.cancelled,
+		ECO.payTime, ECO.cancelTime
+		FROM
+		ecard_order ECO
+		<where>
+			<if test="no != null and no != ''">
+				AND ECO.no = #{no}
+			</if>
+			<if test="shopId != null and shopId != ''">
+				AND ECO.shopId = #{shopId}
+			</if>
+			<if test="shopName != null and shopName != ''">
+				AND ECO.shopName = #{shopName}
+			</if>
+			<if test="userName != null and userName != ''">
+				AND ECO.userName = #{userName}
+			</if>
+			<if test="userId != null and userId != ''">
+				AND ECO.userId = #{userId}
+			</if>
+			<if test="paid != null and paid != ''">
+				AND ECO.paid = #{paid}
+			</if>
+			<if test="fromDate != null and fromDate != ''">
+				<![CDATA[ AND DATE_FORMAT(ECO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+			</if>
+			<if test="toDate != null and toDate != ''">
+				<![CDATA[ AND DATE_FORMAT(ECO.createTime, '%Y-%m-%d') <= DATE_FORMAT(#{toDate}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+		ORDER BY ECO.createTime DESC
+	</select>
+	
+	<select id="selectOneByFilter" resultMap="ECardOrderMap">
+		SELECT ECO.id, ECO.no, ECO.userId, ECO.userName, ECO.shopId, ECO.shopName, ECO.cardCode,
+		ECO.cardName, ECO.faceValue, ECO.price, ECO.quantity, ECO.phoneNo,
+		ECO.amount, ECO.payWay, ECO.createTime, ECO.paid, ECO.cancelled,
+		ECO.payTime, ECO.cancelTime
+		FROM
+		ecard_order ECO
+		WHERE ECO.id =
+		#{orderId}
+		<if test="userId != null and userId != ''">
+			AND ECO.userId = #{userId}
+		</if>
+	</select>
+	<select id="selectCount" resultType="Integer">
+		SELECT 
+			count(1)
+		FROM
+		ecard_order ECO
+		WHERE ECO.userId =#{userId} AND ECO.cardCode =#{code} AND ECO.cancelled=false AND ECO.paid=true 
+	</select>
+	<select id="selectCountByFilter" resultType="Integer">
+		SELECT 
+			count(1)
+		FROM
+		ecard_order ECO
+		<where>
+			<if test="userId != null and userId != ''">
+				ECO.userId = #{userId}
+			</if>
+			<if test="paid != null and paid != ''">
+				AND ECO.paid = #{paid}
+			</if>
+			<if test="status != null and status != ''">
+				<choose>
+					<when test="status == 'unpaid'">
+						AND ECO.paid = FALSE AND ECO.cancelled = FALSE
+					</when>
+					<when test="status == 'cancelled'">
+						AND ECO.cancelled = TRUE
+					</when>
+					<when test="status == 'finished'">
+						AND ECO.paid = TRUE AND ECO.cancelled = FALSE
+					</when>
+					<otherwise>
+					</otherwise>
+				</choose>
+			</if>
+			<if test="fromDate != null and fromDate != ''">
+				<![CDATA[ AND DATE_FORMAT(ECO.createTime, '%Y-%m-%d') >= DATE_FORMAT(#{fromDate}, '%Y-%m-%d') ]]>
+			</if>
+		</where>
+	</select>
+	<select id="selectCountByCode" resultType="Integer">
+		SELECT 
+			count(1)
+		FROM
+		ecard_order ECO
+		WHERE ECO.cardCode = #{cardCode}
+	</select>
+</mapper>

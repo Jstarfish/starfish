@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.settle.SettleProcessDao">
+	<resultMap id="SettleProcessMap" type="priv.starfish.mall.settle.entity.SettleProcess">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="merchantId" property="merchantId" jdbcType="INTEGER" />
+		<result column="settleX" property="settleX" jdbcType="INTEGER" />
+		<result column="merchantName" property="merchantName" jdbcType="VARCHAR" />
+		<result column="settleWay" property="settleWay" jdbcType="VARCHAR" />
+		<result column="settleWayCodeX" property="settleWayCodeX" jdbcType="VARCHAR" />
+		<result column="acctName" property="acctName" jdbcType="VARCHAR" />
+		<result column="acctNo" property="acctNo" jdbcType="VARCHAR" />
+		<result column="settleAmount" property="settleAmount" jdbcType="VARCHAR" />
+		<result column="reqNo" property="reqNo" jdbcType="VARCHAR" />
+		<result column="settleFlag" property="settleFlag" jdbcType="INTEGER" />
+		<result column="directFlag" property="directFlag" jdbcType="INTEGER" />
+		<result column="changeAmount" property="changeAmount" jdbcType="VARCHAR" />
+		<result column="changeMemo" property="changeMemo" jdbcType="VARCHAR" />
+		<result column="reason" property="reason" jdbcType="VARCHAR" />
+		<result column="batchNo" property="batchNo" jdbcType="VARCHAR" />
+		<result column="repNo" property="repNo" jdbcType="VARCHAR" />
+		<result column="doneTime" property="doneTime" jdbcType="VARCHAR" />
+		<result column="memo" property="memo" jdbcType="VARCHAR" />
+		<result column="settleDay" property="settleDay" jdbcType="DATE" />
+		<result column="createDay" property="createDay" jdbcType="DATE" />
+		<result column="settleType" property="settleType" jdbcType="VARCHAR" />
+		<result column="billExtra" property="billExtra" jdbcType="VARCHAR" />
+		<result column="tempDay" property="tempDay" jdbcType="TIMESTAMP" />
+		<result column="transCode" property="transCode" jdbcType="VARCHAR" />
+		<result column="provCode" property="provCode" jdbcType="VARCHAR" />
+		<result column="otherBankFlag" property="otherBankFlag" jdbcType="VARCHAR" />
+		<result column="acctFlag" property="acctFlag" jdbcType="VARCHAR" />
+		<result column="crBankName" property="crBankName" jdbcType="VARCHAR" />
+		<result column="crBankNo" property="crBankNo" jdbcType="VARCHAR" />
+		<result column="respSource" property="respSource" jdbcType="VARCHAR" />
+		<result column="respCode" property="respCode" jdbcType="VARCHAR" />
+		<result column="respInfo" property="respInfo" jdbcType="VARCHAR" />
+		<result column="fileFlag" property="fileFlag" jdbcType="VARCHAR" />
+		<result column="recordNum" property="recordNum" jdbcType="VARCHAR" />
+		<result column="fieldNum" property="fieldNum" jdbcType="VARCHAR" />
+		<result column="respPrvData" property="respPrvData" jdbcType="VARCHAR" />
+		<result column="batchFileName" property="batchFileName" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+		<result column="exceptionFlag" property="exceptionFlag" jdbcType="BOOLEAN" />
+		
+	</resultMap>
+	
+	<select id="selectById" resultMap="SettleProcessMap" parameterType="Long">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay,SP.tempDay,SP.ts
+		FROM
+		settle_process SP
+		WHERE SP.id = #{id}
+	</select>
+	
+	<select id="selectMaxCreateDay" resultType="Date" parameterType="Integer">
+		SELECT MAX(SP.createDay) 
+		FROM settle_process SP 
+		WHERE SP.merchantId = #{merchantId}
+	</select>
+	
+	<select id="selectBySettleDay" resultType="Integer" parameterType="Date">
+		SELECT count(1)
+		FROM
+		settle_process SP
+		WHERE SP.settleDay = #{settleDay}
+	</select>
+	
+	<select id="selectByReqNo" resultMap="SettleProcessMap" parameterType="String">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay, SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		WHERE SP.reqNo = #{reqNo}
+	</select>
+	
+	<select id="selectByMerchantIdAsSuccess" resultMap="SettleProcessMap" parameterType="Integer">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay, SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		WHERE SP.merchantId = #{merchantId} and SP.settleFlag = 0
+	</select>
+	
+	<select id="selectBysettleFlag" resultMap="SettleProcessMap" parameterType="Integer">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay, SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		WHERE SP.settleFlag = 7 or SP.settleFlag = 8
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		settle_process(merchantId, acctName, acctNo, settleAmount,
+		reqNo, settleFlag, reason,settleX,merchantName,settleWay,settleWayCodeX,changeAmount,changeMemo,directFlag,exceptionFlag,
+		batchNo, repNo,
+		transCode, provCode, otherBankFlag, acctFlag, crBankName, crBankNo, respSource, respCode, respInfo, 
+		fileFlag, recordNum, fieldNum, respPrvData, batchFileName,
+		doneTime, memo,settleDay,createDay,settleType,billExtra,tempDay ,ts)
+		VALUES(#{merchantId}, #{acctName}, #{acctNo},
+		#{settleAmount}, #{reqNo},
+		#{settleFlag}, #{reason},#{settleX},#{merchantName},#{settleWay},#{settleWayCodeX},#{changeAmount},#{changeMemo},#{directFlag},#{exceptionFlag},
+		#{batchNo}, #{repNo},
+		#{transCode}, #{provCode}, #{otherBankFlag}, #{acctFlag}, #{crBankName}, #{crBankNo}, #{respSource}, #{respCode}, #{respInfo}, 
+		#{fileFlag}, #{recordNum}, #{fieldNum}, #{respPrvData}, #{batchFileName},
+		#{doneTime}, #{memo},#{settleDay},#{createDay},#{settleType},#{billExtra},#{tempDay}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE settle_process
+		<set>
+			<trim suffixOverrides=",">
+				<if test="merchantId != null">
+				    merchantId = #{merchantId},
+				</if>
+				    <if test="merchantName != null">
+				    merchantName = #{merchantName},
+				</if>
+				    <if test="settleX != null">
+				    settleX = #{settleX},
+				</if>
+				    <if test="settleWay != null">
+				    settleWay = #{settleWay},
+				</if>
+				    <if test="settleWayCodeX != null">
+				    settleWayCodeX = #{settleWayCodeX},
+				</if>
+				    <if test="acctName != null">
+				    acctName = #{acctName},
+				</if>
+				    <if test="acctNo != null">
+				    acctNo = #{acctNo},
+				</if>
+				    <if test="settleAmount != null">
+				    settleAmount = #{settleAmount},
+				</if>
+				    <if test="reqNo != null">
+				    reqNo = #{reqNo},
+				</if>
+				    <if test="settleFlag != null">
+				    settleFlag = #{settleFlag},
+				</if>
+				    <if test="reason != null">
+				    reason = #{reason},
+				</if>
+				    <if test="batchNo != null">
+				    batchNo = #{batchNo},
+				</if>
+				    <if test="repNo != null">
+				    repNo = #{repNo},
+				</if>
+				    <if test="doneTime != null">
+				    doneTime = #{doneTime},
+				</if>
+				    <if test="memo != null">
+				    memo = #{memo},
+				</if>
+				    <if test="changeAmount != null">
+				    changeAmount = #{changeAmount},
+				</if>
+				    <if test="changeMemo != null">
+				    changeMemo = #{changeMemo},
+				</if>
+				    <if test="directFlag != null">
+				    directFlag = #{directFlag},
+				</if>
+				    <if test="exceptionFlag != null">
+				    exceptionFlag = #{exceptionFlag},
+				</if>
+			    <if test="settleDay != null">
+				    settleDay = #{settleDay},
+				</if>
+			    <if test="settleType != null">
+				    settleType = #{settleType},
+				</if>
+			    <if test="billExtra != null">
+				    billExtra = #{billExtra},
+				</if>
+				    <if test="tempDay != null">
+				    tempDay = #{tempDay},
+				</if>
+				    <if test="transCode != null">
+				    transCode = #{transCode},
+				</if>
+				    <if test="provCode != null">
+				    provCode = #{provCode},
+				</if>
+				    <if test="otherBankFlag != null">
+				    otherBankFlag = #{otherBankFlag},
+				</if>
+				    <if test="acctFlag != null">
+				    acctFlag = #{acctFlag},
+				</if>
+				    <if test="crBankName != null">
+				    crBankName = #{crBankName},
+				</if>
+				    <if test="crBankNo != null">
+				    crBankNo = #{crBankNo},
+				</if>
+				    <if test="respSource != null">
+				    respSource = #{respSource},
+				</if>
+				    <if test="respCode != null">
+				    respCode = #{respCode},
+				</if>
+				    <if test="respInfo != null">
+				    respInfo = #{respInfo},
+				</if>
+				    <if test="fileFlag != null">
+				    fileFlag = #{fileFlag},
+				</if>
+				    <if test="recordNum != null">
+				    recordNum = #{recordNum},
+				</if>
+				    <if test="fieldNum != null">
+				    fieldNum = #{fieldNum},
+				</if>
+				    <if test="respPrvData != null">
+				    respPrvData = #{respPrvData},
+				</if>
+				    <if test="batchFileName != null">
+				    batchFileName = #{batchFileName},
+				</if>
+				    <if test="ts != null">
+				    ts = #{ts}
+				</if>
+			</trim>
+		</set>
+			WHERE  id = #{id}
+	</update>
+	
+	<update id="updateForReq">
+		UPDATE settle_process
+		<set>
+			<trim suffixOverrides=",">
+			    <if test="reqNo != null">
+				    reqNo = #{reqNo},
+				</if>
+			    <if test="batchNo != null">
+				    batchNo = #{batchNo},
+				</if>
+			    <if test="settleFlag != null">
+				    settleFlag = #{settleFlag},
+				</if>
+			    <if test="memo != null">
+				    memo = #{memo},
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateForResp">
+		UPDATE settle_process
+		<set>
+			<trim suffixOverrides=",">
+			    <if test="repNo != null">
+				    repNo = #{repNo},
+				</if>
+			    <if test="reason != null">
+				    reason = #{reason},
+				</if>
+			    <if test="settleFlag != null">
+				    settleFlag = #{settleFlag},
+				</if>
+			    <if test="memo != null">
+				    memo = #{memo},
+				</if>
+			    <if test="repNo != null">
+				    repNo = #{repNo},
+				</if>
+			    <if test="batchNo != null">
+				    batchNo = #{batchNo},
+				</if>
+			    <if test="settleType != null">
+				    settleType = #{settleType},
+				</if>
+			    <if test="billExtra != null">
+				    billExtra = #{billExtra},
+				</if>
+			    <if test="doneTime != null">
+				    doneTime = #{doneTime},
+				</if>
+			    <if test="respSource != null">
+				    respSource = #{respSource},
+				</if>
+			    <if test="respCode != null">
+				    respCode = #{respCode},
+				</if>
+			    <if test="respInfo != null">
+				    respInfo = #{respInfo},
+				</if>
+				<if test="tempDay != ''">
+		    	 	tempDay = #{tempDay},
+			    </if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<update id="submitSettleInfo">
+		UPDATE settle_process
+		SET 
+		settleFlag = 3
+		WHERE settleFlag = 6
+	</update>
+	
+	<update id="updateSettleInfo">
+		UPDATE settle_process
+		<trim prefix="SET" suffixOverrides=",">
+	    	 <if test="settleX !=null">
+	    	 	settleX = #{settleX} ,
+		     </if>
+	    	 <if test="settleWay !=null">
+	    	 	settleWay = #{settleWay} ,
+		     </if>
+	    	 <if test="settleWayCodeX !=null">
+	    	 	settleWayCodeX = #{settleWayCodeX} ,
+		     </if>
+	    	 <if test="acctName !=null">
+	    	 	acctName = #{acctName} ,
+		     </if>
+	    	 <if test="acctNo !=null">
+	    	 	acctNo = #{acctNo} ,
+		     </if>
+		     <if test="settleType != null">
+			    settleType = #{settleType},
+			</if>
+		    <if test="billExtra != null">
+			    billExtra = #{billExtra},
+			</if>
+	    	 <if test="settleFlag !=null">
+	    	 	settleFlag = #{settleFlag} ,
+		     </if>
+	    	 <if test="settleDay !=null">
+	    	 	settleDay = #{settleDay},
+		     </if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<update id="updateSettleFlag">
+		UPDATE settle_process
+		<trim prefix="SET" suffixOverrides=",">
+	    	 <if test="settleFlag !=null">
+	    	 	settleFlag = #{settleFlag},
+		     </if>
+	    	 <if test="tempDay != ''">
+	    	 	tempDay = #{tempDay},
+		     </if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE
+		FROM settle_process
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByFilterAsMerch" resultMap="SettleProcessMap">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay,SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		<where>
+		 <if test="merchantId !=null and merchantId != ''">  
+          AND  SP.merchantId  = #{merchantId}  
+         </if>
+		 <if test="merchantName !=null and merchantName != ''">  
+          AND  SP.merchantName  = #{merchantName}  
+         </if>
+		 <if test="settleFlag == null">  
+          AND  (SP.settleFlag = 1 or SP.settleFlag = 2 or SP.settleFlag = 3 or SP.settleFlag = 7)
+         </if>
+		 <if test="settleFlag != null">
+          	<choose>
+				<when test="settleFlag == 1">
+					 AND (SP.settleFlag  = 1 or SP.settleFlag  = 2)
+				</when>
+				<when test="settleFlag != 1">
+					AND  SP.settleFlag  = #{settleFlag} 
+				</when>
+			</choose> 
+         </if>
+		</where>
+        order by SP.settleFlag desc
+	</select>
+	
+	<select id="selectByFilterAsMall" resultMap="SettleProcessMap">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay,SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		<where>
+		 <if test="merchantId !=null and merchantId != ''">  
+          AND  SP.merchantId  = #{merchantId}  
+         </if>
+		 <if test="merchantName !=null and merchantName != ''">  
+          AND  SP.merchantName  = #{merchantName}  
+         </if>
+		 <if test="settleFlag == null">  
+          AND  (SP.settleFlag = 1 or SP.settleFlag = 2 or SP.settleFlag = 3)
+         </if>
+		 <if test="settleFlag != null">
+		  AND  SP.settleFlag  = #{settleFlag} 
+         </if>
+		</where>
+        order by SP.settleFlag desc
+	</select>
+	
+	<select id="selectByWaitingFilter" resultMap="SettleProcessMap">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay,SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		<where>
+		 <if test="merchantName !=null and merchantName != ''">  
+          AND  SP.merchantName  = #{merchantName}  
+         </if>
+		 <if test="settleFlag !=null and settleFlag != ''">  
+          AND  SP.settleFlag  = #{settleFlag}  
+         </if>
+		 <if test="settleFlag == null">  
+          AND  (SP.settleFlag  = 6 or SP.settleFlag  = 7 or SP.settleFlag  = 8)
+         </if>
+		</where>
+        order by SP.merchantId, SP.settleDay desc
+	</select>
+	
+	<select id="selectByFilterAsSettleDay" resultMap="SettleProcessMap">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay,SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		<where>
+		 <if test="settleDay !=null and settleDay != ''">  
+          AND  SP.settleDay  = #{settleDay}  
+         </if>
+		</where>
+	</select>
+	
+	<select id="selectByFilterAsSuccess" resultMap="SettleProcessMap">
+		SELECT SP.id, SP.merchantId, SP.acctName, SP.acctNo,SP.changeAmount,SP.changeMemo,SP.directFlag,SP.exceptionFlag,
+		SP.settleAmount, SP.reqNo, SP.settleFlag, SP.reason,SP.settleX,SP.merchantName,SP.settleWay, SP.settleWayCodeX, SP.settleType, SP.billExtra,
+		SP.transCode, SP.provCode, SP.otherBankFlag, SP.acctFlag, SP.crBankName, SP.crBankNo, SP.respSource, SP.respCode, SP.respInfo, 
+		SP.fileFlag, SP.recordNum, SP.fieldNum, SP.respPrvData, SP.batchFileName,
+		SP.batchNo, SP.repNo, SP.doneTime, SP.memo,SP.settleDay, SP.createDay,SP.tempDay, SP.ts
+		FROM
+		settle_process SP
+		<where >
+		<if test="merchantName !=null and merchantName != ''">  
+          AND  SP.merchantName  = #{merchantName}  
+         </if>
+		<if test="settleFlag !=null and settleFlag = 0 or settleFlag= 2 or settleFlag = 4">  
+          AND  SP.settleFlag  = #{settleFlag}  
+         </if>
+		</where>
+        order by SP.settleFlag 
+	</select>
+	
+</mapper>

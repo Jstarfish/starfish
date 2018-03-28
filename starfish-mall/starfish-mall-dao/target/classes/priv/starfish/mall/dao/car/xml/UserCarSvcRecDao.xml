@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.car.UserCarSvcRecDao">
+	<resultMap id="UserCarSvcRecMap" type="priv.starfish.mall.car.entity.UserCarSvcRec">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="carId" property="carId" jdbcType="INTEGER" />
+		<result column="carName" property="carName" jdbcType="VARCHAR" />
+		<result column="brandId" property="brandId" jdbcType="INTEGER" />
+		<result column="serialId" property="serialId" jdbcType="INTEGER" />
+		<result column="modelId" property="modelId" jdbcType="INTEGER" />
+		<result column="dateVal" property="dateVal" jdbcType="TIMESTAMP" />
+		<result column="dateStr" property="dateStr" jdbcType="VARCHAR" />
+		<result column="orderId" property="orderId" jdbcType="BIGINT" />
+		<result column="orderNo" property="orderNo" jdbcType="VARCHAR" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="distFlag" property="distFlag" jdbcType="BOOLEAN" />
+		<result column="distShopName" property="distShopName" jdbcType="VARCHAR" />
+		<result column="svcIds" property="svcIds" jdbcType="VARCHAR" />
+		<result column="svcNames" property="svcNames" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="UserCarSvcRecMap"
+		parameterType="Integer">
+		SELECT UCSR.id, UCSR.userId, UCSR.carId, UCSR.carName,
+		UCSR.brandId, UCSR.serialId, UCSR.modelId, UCSR.dateVal, UCSR.dateStr,
+		UCSR.orderId, UCSR.orderNo, UCSR.shopId, UCSR.shopName, UCSR.distFlag,
+		UCSR.distShopName, UCSR.svcIds, UCSR.svcNames, UCSR.ts
+		FROM
+		user_car_svc_rec UCSR
+		WHERE UCSR.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		user_car_svc_rec(userId, carId, carName, brandId, serialId,
+		modelId, dateVal, dateStr,
+		orderId, orderNo, shopId, shopName,
+		distFlag, distShopName, svcIds,
+		svcNames, ts)
+		VALUES(#{userId},
+		#{carId}, #{carName}, #{brandId}, #{serialId}, #{modelId},
+		#{dateVal},
+		#{dateStr}, #{orderId}, #{orderNo}, #{shopId},
+		#{shopName},
+		#{distFlag}, #{distShopName}, #{svcIds}, #{svcNames},
+		#{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE user_car_svc_rec
+		<set>
+			<trim suffixOverrides=",">
+				<if test="carId != null">
+					carId = #{carId},
+				</if>
+				<if test="carName != null">
+					carName = #{carName},
+				</if>
+				<if test="brandId != null">
+					brandId = #{brandId},
+				</if>
+				<if test="serialId != null">
+					serialId = #{serialId},
+				</if>
+				<if test="modelId != null">
+					modelId = #{modelId},
+				</if>
+				<if test="dateVal != null">
+					dateVal = #{dateVal},
+				</if>
+				<if test="dateStr != null">
+					dateStr = #{dateStr},
+				</if>
+				<if test="orderId != null">
+					orderId = #{orderId},
+				</if>
+				<if test="orderNo != null">
+					orderNo = #{orderNo},
+				</if>
+				<if test="shopId != null">
+					shopId = #{shopId},
+				</if>
+				<if test="shopName != null">
+					shopName = #{shopName},
+				</if>
+				<if test="distFlag != null">
+					distFlag = #{distFlag},
+				</if>
+				<if test="distShopName != null">
+					distShopName = #{distShopName},
+				</if>
+				<if test="svcIds != null">
+					svcIds = #{svcIds},
+				</if>
+				<if test="svcNames != null">
+					svcNames = #{svcNames},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		user_car_svc_rec
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectUserCarSvcRecs" resultMap="UserCarSvcRecMap">
+		SELECT UCSR.id, UCSR.userId, UCSR.carId, UCSR.carName,
+		UCSR.brandId, UCSR.serialId, UCSR.modelId, UCSR.dateVal, UCSR.dateStr,
+		UCSR.orderId, UCSR.orderNo, UCSR.shopId, UCSR.shopName, UCSR.distFlag,
+		UCSR.distShopName, UCSR.svcIds, UCSR.svcNames, UCSR.ts
+		FROM
+		user_car_svc_rec UCSR
+		WHERE 1=1
+		<if test="carId !=null ">
+			AND UCSR.carId = #{carId}
+		</if>
+		<if test="userId !=null ">
+			AND UCSR.carId = #{userId}
+		</if>
+		<if test="carName !=null ">
+			AND UCSR.carName like ${carName}
+		</if>
+		<if test="shopId !=null ">
+			AND UCSR.shopId = #{shopId}
+		</if>
+		<if test="shopName !=null ">
+			AND UCSR.shopName like ${shopName}
+		</if>
+	</select>
+</mapper>

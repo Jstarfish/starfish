@@ -1,0 +1,9 @@
+priv\starfish\mall\spring\SpringBeanTest.class
+priv\starfish\mall\jms\AppConsumerTest$1.class
+priv\starfish\mall\jms\AppConsumerTest.class
+priv\starfish\mall\jms\JmsTestBase.class
+priv\starfish\mall\jms\SimpleMessageSenderTest.class
+priv\starfish\mall\jms\AppProducerTest.class
+priv\starfish\mall\redis\RedisCacheTest.class
+priv\starfish\mall\redis\RedisCacheManagerTest.class
+priv\starfish\mall\redis\RedisConnTest.class

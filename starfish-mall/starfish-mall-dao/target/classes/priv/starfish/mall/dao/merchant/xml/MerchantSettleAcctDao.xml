@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.merchant.MerchantSettleAcctDao">
+	<resultMap id="MerchantSettleAcctMap"
+		type="priv.starfish.mall.merchant.entity.MerchantSettleAcct">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="merchantId" property="merchantId" jdbcType="INTEGER" />
+		<result column="accountId" property="accountId" jdbcType="INTEGER" />
+		<result column="settleWayCode" property="settleWayCode" jdbcType="VARCHAR" />
+		<result column="bankCode" property="bankCode" jdbcType="VARCHAR" />
+		<result column="bankName" property="bankName" jdbcType="VARCHAR" />
+		<result column="typeFlag" property="typeFlag" jdbcType="INTEGER" />
+		<result column="acctNo" property="acctNo" jdbcType="VARCHAR" />
+		<result column="acctName" property="acctName" jdbcType="VARCHAR" />
+		<result column="settleX" property="settleX" jdbcType="INTEGER" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="provinceCode" property="provinceCode" jdbcType="VARCHAR" />
+		<result column="bankFullName" property="bankFullName" jdbcType="VARCHAR" />
+        <result column="relatedBankNo" property="relatedBankNo" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="MerchantSettleAcctMap"
+		parameterType="Integer">SELECT MSA.id, MSA.merchantId, MSA.accountId,
+		MSA.settleWayCode,
+		MSA.bankCode, MSA.bankName, MSA.typeFlag, MSA.settleX, MSA.acctNo,
+		MSA.acctName, MSA.seqNo, MSA.provinceCode, MSA.bankFullName, MSA.relatedBankNo,
+		MSA.ts
+		FROM merchant_settle_acct MSA
+		WHERE
+		MSA.id = #{id}
+	</select>
+	<select id="selectByFilter" resultMap="MerchantSettleAcctMap" >
+		SELECT MSA.id, MSA.merchantId, MSA.accountId,
+		MSA.settleWayCode,
+		MSA.bankCode, MSA.bankName, MSA.typeFlag, MSA.settleX, MSA.acctNo,
+		MSA.acctName, MSA.seqNo, MSA.provinceCode, MSA.bankFullName, MSA.relatedBankNo,
+		MSA.ts
+		FROM merchant_settle_acct MSA , settle_way SW
+		WHERE MSA.settleWayCode = SW.code AND SW.disabled = FALSE
+		<if test="merchantId != null">
+			AND MSA.merchantId = #{merchantId}
+		</if>
+		<if test="settleWayCode != null">
+			AND MSA.settleWayCode = #{settleWayCode}
+		</if>
+	</select>
+	<select id="selectByMerchantId" resultMap="MerchantSettleAcctMap"
+		parameterType="Integer">SELECT MSA.id, MSA.merchantId, MSA.accountId,
+		MSA.settleWayCode,
+		MSA.bankCode, MSA.bankName, MSA.typeFlag, MSA.settleX, MSA.acctNo,
+		MSA.acctName, MSA.seqNo, MSA.provinceCode, MSA.bankFullName, MSA.relatedBankNo,
+		MSA.ts
+		FROM merchant_settle_acct MSA
+		WHERE
+		MSA.merchantId = #{merchantId}
+	</select>
+	<select id="selectByMerchantIdAndAccountId" resultMap="MerchantSettleAcctMap">SELECT
+		MSA.id, MSA.merchantId, MSA.accountId, MSA.settleWayCode,
+		MSA.bankCode, MSA.bankName, MSA.typeFlag, MSA.settleX,
+		MSA.acctNo, MSA.acctName,
+		MSA.seqNo, MSA.provinceCode, MSA.bankFullName, MSA.relatedBankNo, MSA.ts
+		FROM merchant_settle_acct MSA
+		WHERE MSA.merchantId =
+		#{merchantId}
+		AND
+		MSA.accountId = #{accountId}
+	</select>
+	<select id="selectByMerchantIdAndBankCode" resultMap="MerchantSettleAcctMap">SELECT
+		MSA.id, MSA.merchantId, MSA.accountId, MSA.settleWayCode,
+		MSA.bankCode, MSA.bankName, MSA.typeFlag, MSA.settleX,
+		MSA.acctNo, MSA.acctName,
+		MSA.seqNo, MSA.provinceCode, MSA.bankFullName, MSA.relatedBankNo, MSA.ts
+		FROM merchant_settle_acct MSA
+		WHERE MSA.merchantId =
+		#{merchantId}
+		AND
+		MSA.bankCode = #{bankCode}
+	</select>
+	<select id="selectByMerchantIdAndSettleWayCode" resultMap="MerchantSettleAcctMap">
+		SELECT
+		MSA.id, MSA.merchantId, MSA.accountId, MSA.settleWayCode,
+		MSA.bankCode, MSA.bankName, MSA.typeFlag, MSA.settleX, MSA.acctNo, MSA.acctName,
+		MSA.seqNo, MSA.provinceCode, MSA.bankFullName, MSA.relatedBankNo,
+		MSA.ts
+		FROM merchant_settle_acct MSA
+		WHERE MSA.merchantId =
+		#{merchantId}
+		AND MSA.settleWayCode = #{settleWayCode}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		merchant_settle_acct(merchantId, accountId, settleWayCode,
+		bankCode, bankName, typeFlag, settleX, acctNo, acctName, seqNo, provinceCode, bankFullName, relatedBankNo, ts)
+		VALUES(#{merchantId},
+		#{accountId}, #{settleWayCode}, #{bankCode},
+		#{bankName}, #{typeFlag}, #{settleX}, #{acctNo}, #{acctName}, #{seqNo}, #{provinceCode},  #{bankFullName},  #{relatedBankNo}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE merchant_settle_acct
+		<set>
+			<trim suffixOverrides=",">
+				<if test="merchantId != null">
+					merchantId = #{merchantId},
+				</if>
+				<if test="accountId != null">
+					accountId = #{accountId},
+				</if>
+				<if test="settleWayCode != null">
+					settleWayCode = #{settleWayCode},
+				</if>
+				<if test="bankCode != null">
+					bankCode = #{bankCode},
+				</if>
+				<if test="bankName != null">
+					bankName = #{bankName},
+				</if>
+				<if test="typeFlag != null">
+					typeFlag = #{typeFlag},
+				</if>
+				<if test="settleX != null">
+					settleX = #{settleX},
+				</if>
+				<if test="acctNo != null">
+					acctNo = #{acctNo},
+				</if>
+				<if test="acctName != null">
+					acctName = #{acctName},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="provinceCode != null">
+					provinceCode = #{provinceCode},
+				</if>
+				<if test="bankFullName != null">
+					bankFullName = #{bankFullName},
+				</if>
+				<if test="relatedBankNo != null">
+					relatedBankNo = #{relatedBankNo},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM
+		merchant_settle_acct
+		WHERE id = #{id}
+	</delete>
+	<delete id="deleteByMerchantIdAndSettleWayCode">DELETE
+		FROM merchant_settle_acct
+		WHERE merchantId =
+		#{merchantId} and settleWayCode = #{settleWayCode}
+	</delete>
+</mapper>

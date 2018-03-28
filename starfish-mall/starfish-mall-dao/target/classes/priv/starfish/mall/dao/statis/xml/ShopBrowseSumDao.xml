@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.statis.ShopBrowseSumDao">
+	<resultMap id="ShopBrowseSumMap" type="priv.starfish.mall.statis.entity.ShopBrowseSum">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="userName" property="userName" jdbcType="VARCHAR" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="count" property="count" jdbcType="BIGINT" />
+		<result column="lastTime" property="lastTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="ShopBrowseSumMap" parameterType="Long">
+		SELECT SBS.id, SBS.userId, SBS.userName, SBS.shopId, SBS.shopName, SBS.count, SBS.lastTime
+		FROM shop_browse_sum SBS
+		WHERE SBS.id = #{id}
+	</select>
+	
+	<select id="selectByUserIdAndShopId" resultMap="ShopBrowseSumMap">
+		SELECT SBS.id, SBS.userId, SBS.userName, SBS.shopId, SBS.shopName, SBS.count, SBS.lastTime
+		FROM shop_browse_sum SBS
+		WHERE SBS.userId = #{userId} AND SBS.shopId = #{shopId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+		shop_browse_sum(userId, userName, shopId, shopName, count, lastTime)
+		VALUES(#{userId}, #{userName}, #{shopId}, #{shopName}, #{count}, #{lastTime})
+	</insert>
+	
+	<update id="update">
+		UPDATE shop_browse_sum
+		<set>
+			<trim suffixOverrides=",">
+				<if test="userName != null">
+					userName = #{userName},
+				</if>
+				<if test="shopName != null">
+					shopName = #{shopName},
+				</if>
+				<if test="count != null">
+					count = #{count},
+				</if>
+				lastTime = CURRENT_TIMESTAMP
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE FROM shop_browse_sum
+		WHERE id = #{id}
+	</delete>
+	
+	<update id="addBrowseCountById">
+		UPDATE shop_browse_sum
+		SET 	count = count + #{count},
+				lastTime = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectBrowseCountByShopId" resultType="Long">
+		SELECT IFNULL(sum(SBS.count), 0) AS count
+		FROM shop_browse_sum SBS
+		WHERE SBS.shopId = #{shopId}
+	</select>
+	
+	<select id="selectBrowseCountByShopIds" resultMap="ShopBrowseSumMap">
+		SELECT SBS.shopId, sum(SBS.count) AS count
+		FROM shop_browse_sum SBS
+		WHERE SBS.shopId IN
+			<foreach collection="list" item="shopId" index="index" open="("	close=")" separator=",">
+				#{shopId}
+			</foreach>			
+		GROUP BY SBS.shopId
+	</select>
+</mapper>

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.SalesRegionDao">
+	<resultMap id="SalesRegionMap" type="priv.starfish.mall.market.entity.SalesRegion">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="floorNo" property="floorNo" jdbcType="INTEGER" />
+		<result column="type" property="type" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SalesRegionMap"
+		parameterType="Integer">
+		SELECT SR.id, SR.floorNo, SR.type, SR.name, SR.seqNo, SR.ts FROM
+		sales_region SR
+		WHERE SR.id = #{id}
+	</select>
+
+	<select id="selectByNameAndFloorNo" resultMap="SalesRegionMap">
+		SELECT SR.id,
+		SR.floorNo, SR.type, SR.name, SR.seqNo, SR.ts FROM sales_region SR
+		WHERE SR.name
+		= #{name} AND SR.floorNo = #{floorNo}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO sales_region(floorNo, type, name, seqNo, ts) VALUES(#{floorNo}, #{type},
+		#{name}, #{seqNo}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE sales_region
+		<set>
+			<trim suffixOverrides=",">
+				<if test="floorNo != null">
+					floorNo = #{floorNo},
+				</if>
+				<if test="type != null">
+					type = #{type},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM sales_region
+		WHERE id = #{id}
+	</delete>
+
+	<select id="selectByFloorNo" resultMap="SalesRegionMap">
+		SELECT SR.id, SR.floorNo, SR.type,
+		SR.name, SR.seqNo, SR.ts FROM sales_region SR
+		WHERE SR.floorNo =
+		#{floorNo} order by SR.seqNo
+	</select>
+
+	<select id="selectSalesRegions" resultMap="SalesRegionMap">
+		SELECT SR.id, SR.floorNo, SR.type, SR.name, SR.seqNo, SR.ts FROM sales_region
+		SR
+		<where>
+			<trim prefix="And" prefixOverrides="AND">
+				<if test="name !=null">
+					SR.name like ${name}
+				</if>
+				<if test="floorNo !=null">
+					AND SR.floorNo = ${floorNo}
+				</if>
+				<if test="type !=null">
+					AND SR.type = ${type}
+				</if>
+			</trim>
+		</where>
+		order by SR.seqNo
+	</select>
+
+	<select id="selectByType" resultMap="SalesRegionMap">
+		SELECT SR.id, SR.floorNo, SR.type,
+		SR.name, SR.seqNo, SR.ts FROM sales_region SR WHERE
+		SR.type = #{type}
+	</select>
+
+	<delete id="deleteByFloorNo" parameterType="Integer">
+		DELETE FROM
+		sales_region WHERE floorNo = #{floorNo}
+	</delete>
+
+	<delete id="deleteByFloorNoAndUncontainIds" parameterType="Integer">
+		DELETE FROM sales_region WHERE floorNo = #{floorNo}
+		<if test="null != uncontainIds">
+			and id not in (
+			<foreach collection="uncontainIds" item="id" index="index"
+				open="" close="" separator=",">
+				#{id}
+			</foreach>
+			)
+		</if>
+	</delete>
+
+</mapper>

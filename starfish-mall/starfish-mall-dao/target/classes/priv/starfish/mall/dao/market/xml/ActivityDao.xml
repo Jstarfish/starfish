@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.ActivityDao">
+	<resultMap id="ActivityMap" type="priv.starfish.mall.market.entity.Activity">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="year" property="year" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="targetFlag" property="targetFlag" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="CLOB" />
+		<result column="imageUuid" property="imageUuid" jdbcType="VARCHAR" />
+		<result column="imageUsage" property="imageUsage" jdbcType="VARCHAR" />
+		<result column="imagePath" property="imagePath" jdbcType="VARCHAR" />
+		<result column="creatorId" property="creatorId" jdbcType="INTEGER" />
+		<result column="creatorName" property="creatorName" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="pubTime" property="pubTime" jdbcType="TIMESTAMP" />
+		<result column="endTime" property="endTime" jdbcType="TIMESTAMP" />
+		<result column="status" property="status" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="ActivityMap" parameterType="Integer">
+		SELECT
+		A.id, A.year, A.name, A.targetFlag, A.content, A.imageUuid,
+		A.imageUsage, A.imagePath, A.creatorId, A.creatorName, A.createTime,
+		A.pubTime, A.endTime, A.status, A.ts
+		FROM activity A
+		WHERE A.id = #{id}
+	</select>
+
+	<select id="selectByYearAndNameAndTargetFlag" resultMap="ActivityMap">
+		SELECT
+		A.id, A.year, A.name, A.targetFlag, A.content, A.imageUuid,
+		A.imageUsage, A.imagePath, A.creatorId, A.creatorName, A.createTime,
+		A.pubTime, A.endTime, A.status, A.ts
+		FROM activity A
+		WHERE A.year =
+		#{year}
+		AND A.name = #{name}
+		AND A.targetFlag = #{targetFlag}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		activity(year, name, targetFlag, content, imageUuid, imageUsage,
+		imagePath,
+		creatorId, creatorName, createTime, pubTime, endTime,
+		status, ts)
+		VALUES(#{year}, #{name}, #{targetFlag}, #{content},
+		#{imageUuid},
+		#{imageUsage}, #{imagePath}, #{creatorId},
+		#{creatorName},
+		#{createTime}, #{pubTime}, #{endTime}, #{status},
+		#{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE activity
+		<set>
+			<trim suffixOverrides=",">
+				<if test="year != null">
+					year = #{year},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="targetFlag != null">
+					targetFlag = #{targetFlag},
+				</if>
+				<if test="content != null">
+					content = #{content},
+				</if>
+				<if test="imageUuid != null">
+					imageUuid = #{imageUuid},
+				</if>
+				<if test="imageUsage != null">
+					imageUsage = #{imageUsage},
+				</if>
+				<if test="imagePath != null">
+					imagePath = #{imagePath},
+				</if>
+				<if test="creatorId != null">
+					creatorId = #{creatorId},
+				</if>
+				<if test="creatorName != null">
+					creatorName = #{creatorName},
+				</if>
+				<if test="createTime != null">
+					createTime = #{createTime},
+				</if>
+				<if test="pubTime != null">
+					pubTime = #{pubTime},
+				</if>
+				<if test="endTime != null">
+					endTime = #{endTime},
+				</if>
+				<if test="status != null">
+					status = #{status},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM activity
+		WHERE
+		id = #{id}
+	</delete>
+	
+	<select id="selectActivitys" resultMap="ActivityMap">
+	    SELECT
+		A.id, A.year, A.name, A.targetFlag, A.content, A.imageUuid,
+		A.imageUsage, A.imagePath, A.creatorId, A.creatorName, A.createTime,
+		A.pubTime, A.endTime, A.status, A.ts
+		FROM activity A
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="id != null">
+					 A.id = #{id}
+				</if>
+				<if test="name != null">
+					AND A.name like ${name}
+				</if>
+				<if test="targetFlag != null">
+					AND (A.targetFlag = #{targetFlag} or A.targetFlag = -1)
+				</if>
+				<if test="status != null">
+					AND A.status = #{status}
+				</if>
+			</trim>
+		</where>
+	</select>
+	
+	<update id="updateActivityState">
+		UPDATE activity
+		<set>
+			<trim suffixOverrides=",">
+				<if test="status != null">
+					status = #{status},
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+</mapper>

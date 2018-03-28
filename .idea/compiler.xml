@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="starfish-common" />
+        <module name="starfish-mall-bean" />
+        <module name="starfish-mall-dao" />
+        <module name="starfish-mall-manager" />
+        <module name="starfish-mall-pay" />
+        <module name="starfish-mall-portal" />
+        <module name="starfish-mall-service" />
+        <module name="starfish-mall-web-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="starfish-common" target="1.8" />
+      <module name="starfish-mall" target="1.8" />
+      <module name="starfish-mall-back" target="1.8" />
+      <module name="starfish-mall-bean" target="1.8" />
+      <module name="starfish-mall-dao" target="1.8" />
+      <module name="starfish-mall-manager" target="1.8" />
+      <module name="starfish-mall-manager-mapper" target="1.8" />
+      <module name="starfish-mall-manager-pojo" target="1.8" />
+      <module name="starfish-mall-manager-service" target="1.8" />
+      <module name="starfish-mall-manager-web" target="1.8" />
+      <module name="starfish-mall-pay" target="1.8" />
+      <module name="starfish-mall-portal" target="1.8" />
+      <module name="starfish-mall-search" target="1.8" />
+      <module name="starfish-mall-service" target="1.8" />
+      <module name="starfish-mall-web-common" target="1.8" />
+      <module name="starfish-parent" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

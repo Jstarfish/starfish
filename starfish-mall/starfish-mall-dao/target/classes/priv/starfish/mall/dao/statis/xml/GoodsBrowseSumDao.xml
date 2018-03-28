@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.statis.GoodsBrowseSumDao">
+    <resultMap id="GoodsBrowseSumMap" type="priv.starfish.mall.statis.entity.GoodsBrowseSum">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="userName" property="userName" jdbcType="VARCHAR" />
+        <result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+        <result column="productId" property="productId" jdbcType="BIGINT" />
+        <result column="productName" property="productName" jdbcType="VARCHAR" />
+        <result column="catId" property="catId" jdbcType="INTEGER" />
+        <result column="count" property="count" jdbcType="BIGINT" />
+        <result column="lastTime" property="lastTime" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <select id="selectById" resultMap="GoodsBrowseSumMap" parameterType="Long">
+    	SELECT GBS.id, GBS.userId, GBS.userName, GBS.goodsId, GBS.productId, GBS.productName, GBS.catId, GBS.count, GBS.lastTime
+		FROM   goods_browse_sum GBS
+		WHERE  GBS.id = #{id}
+    </select>
+    
+    <select id="selectByUserIdAndProductId" resultMap="GoodsBrowseSumMap">
+    	SELECT GBS.id, GBS.userId, GBS.userName, GBS.goodsId, GBS.productId, GBS.productName, GBS.catId, GBS.count, GBS.lastTime
+		FROM   goods_browse_sum GBS
+		WHERE  GBS.userId = #{userId} AND GBS.productId = #{productId}
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO goods_browse_sum(userId, userName, goodsId, productId, productName, catId, count, lastTime)
+		VALUES(#{userId}, #{userName}, #{goodsId}, #{productId}, #{productName}, #{catId}, #{count}, #{lastTime})
+    </insert>
+    
+    <update id="update">
+    	UPDATE goods_browse_sum
+		<set>
+			<trim suffixOverrides=",">
+				<if test="userName != null">
+				    userName = #{userName},
+				</if>
+				<if test="goodsId != null">
+				    goodsId = #{goodsId},
+				</if>
+				<if test="productName != null">
+				    productName = #{productName},
+				</if>
+				<if test="catId != null">
+				    catId = #{catId},
+				</if>
+				<if test="count != null">
+				    count = #{count},
+				</if>
+				lastTime = CURRENT_TIMESTAMP
+			</trim>
+		</set>
+		WHERE  id = #{id}
+    </update>
+    
+    <delete id="deleteById" parameterType="Long">
+	    DELETE FROM   goods_browse_sum
+		WHERE  id = #{id}
+	</delete>
+	
+	<update id="addBrowseCountById">
+		UPDATE goods_browse_sum
+		SET 	count = count + #{count},
+				lastTime = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectBrowseCountByProductId" resultType="Long">
+		SELECT IFNULL(sum(GBS.count), 0) AS count
+		FROM goods_browse_sum GBS
+		WHERE GBS.productId = #{productId}
+	</select>
+	
+	<select id="selectBrowseCountByProductIds" resultMap="GoodsBrowseSumMap">
+		SELECT GBS.productId, sum(GBS.count) AS count
+		FROM goods_browse_sum GBS
+		WHERE GBS.productId IN
+			<foreach collection="list" item="productId" index="index" open="("	close=")" separator=",">
+				#{productId}
+			</foreach>			
+		GROUP BY GBS.productId
+	</select>
+</mapper>

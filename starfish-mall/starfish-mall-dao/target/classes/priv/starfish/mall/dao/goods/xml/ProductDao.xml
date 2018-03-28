@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.ProductDao">
+	<resultMap id="ProductMap" type="priv.starfish.mall.goods.entity.Product">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="no" property="no" jdbcType="VARCHAR" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+		<result column="catId" property="catId" jdbcType="INTEGER" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="quantity" property="quantity" jdbcType="INTEGER" />
+		<result column="purchPrice" property="purchPrice" jdbcType="DECIMAL" />
+		<result column="wholePrice" property="wholePrice" jdbcType="DECIMAL" />
+		<result column="origPrice" property="origPrice" jdbcType="DECIMAL" />
+		<result column="salePrice" property="salePrice" jdbcType="DECIMAL" />
+		<result column="marketPrice" property="marketPrice" jdbcType="DECIMAL" />
+		<result column="weight" property="weight" jdbcType="NUMERIC" />
+		<result column="volume" property="weight" jdbcType="NUMERIC" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="shelfStatus" property="shelfStatus" jdbcType="INTEGER" />
+		<result column="shelfTime" property="shelfTime" jdbcType="TIMESTAMP" />
+		<result column="packList" property="packList" jdbcType="VARCHAR" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="changeTime" property="changeTime" jdbcType="TIMESTAMP" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="indexTime" property="indexTime" jdbcType="TIMESTAMP" />
+		<result column="staticTime" property="staticTime" jdbcType="TIMESTAMP" />
+		<result column="htmlUuid" property="htmlUuid" jdbcType="VARCHAR" />
+		<result column="htmlUsage" property="htmlUsage" jdbcType="VARCHAR" />
+		<result column="htmlPath" property="htmlPath" jdbcType="VARCHAR" />
+		<result column="giftFlag" property="giftFlag" jdbcType="BOOLEAN" />
+		<association property="goods" column="goodsId" select="getByGoodsId" />
+	</resultMap>
+
+	<select id="getByGoodsId" resultType="priv.starfish.mall.goods.entity.Goods"
+		parameterType="Integer">
+		SELECT G.id, G.no, G.catId, G.shopId, G.catPath, G.name,
+		G.py, G.title,
+		G.quantity, G.minPrice, G.maxPrice, G.avgPrice,
+		G.packList FROM goods G WHERE G.id = #{id}
+	</select>
+
+	<select id="selectById" resultMap="ProductMap" parameterType="Long">SELECT
+		P.id, P.no, P.goodsId, P.goodsName, P.catId, P.title, P.quantity, P.purchPrice,
+		P.wholePrice, P.origPrice, P.salePrice, P.marketPrice, P.weight, P.volume,
+		P.seqNo, P.shelfStatus, P.shelfTime, P.packList, P.deleted, P.createTime,
+		P.changeTime, P.indexTime, P.staticTime, P.htmlUuid, P.htmlUsage,
+		P.htmlPath, P.giftFlag
+		FROM product P
+		WHERE P.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		product(no, goodsId, goodsName, catId, title, quantity, purchPrice, wholePrice,
+		origPrice, salePrice, marketPrice, weight, volume, seqNo, shelfStatus,
+		shelfTime, packList, deleted, createTime, changeTime, indexTime, staticTime,
+		htmlUuid, htmlUsage, htmlPath, giftFlag)
+		VALUES(#{no}, #{goodsId}, #{goodsName}, #{catId}, #{title}, #{quantity}, #{purchPrice},
+		#{wholePrice}, #{origPrice}, #{salePrice}, #{marketPrice}, #{weight}, #{volume},
+		#{seqNo}, #{shelfStatus}, #{shelfTime}, #{packList}, #{deleted}, #{createTime},
+		#{changeTime}, #{indexTime}, #{staticTime}, #{htmlUuid}, #{htmlUsage},
+		#{htmlPath}, #{giftFlag})
+	</insert>
+	
+	<update id="update">UPDATE product
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="no != null">
+				no = #{no} ,
+			</if>
+			<if test="goodsId != null">
+				goodsId = #{goodsId} ,
+			</if>
+			<if test="goodsName != null">
+				goodsName = #{goodsName} ,
+			</if>
+			<if test="catId != null">
+				catId = #{catId} ,
+			</if>
+			<if test="title != null">
+				title = #{title} ,
+			</if>
+			<if test="quantity != null">
+				quantity = #{quantity} ,
+			</if>
+			<if test="purchPrice != null">
+				purchPrice = #{purchPrice} ,
+			</if>
+			<if test="wholePrice != null">
+				wholePrice = #{wholePrice} ,
+			</if>
+			<if test="origPrice != null">
+				origPrice = #{origPrice} ,
+			</if>
+			<if test="salePrice != null">
+				salePrice = #{salePrice} ,
+			</if>
+			<if test="marketPrice != null">
+				marketPrice = #{marketPrice} ,
+			</if>
+			<if test="weight != null">
+				weight = #{weight} ,
+			</if>
+			<if test="volume != null">
+				volume = #{volume} ,
+			</if>
+			<if test="seqNo != null">
+				seqNo = #{seqNo} ,
+			</if>
+			<if test="shelfStatus != null">
+				shelfStatus = #{shelfStatus} ,
+			</if>
+			<if test="shelfTime != null">
+				shelfTime = #{shelfTime} ,
+			</if>
+			<if test="packList != null">
+				packList = #{packList} ,
+			</if>
+			<if test="deleted != null">
+				deleted = #{deleted} ,
+			</if>
+			<if test="changeTime != null">
+				changeTime = #{changeTime} ,
+			</if>
+			<if test="indexTime != null">
+				indexTime = #{indexTime} ,
+			</if>
+			<if test="staticTime != null">
+				staticTime = #{staticTime} ,
+			</if>
+			<if test="htmlUuid != null">
+				htmlUuid = #{htmlUuid} ,
+			</if>
+			<if test="htmlUsage != null">
+				htmlUsage = #{htmlUsage} ,
+			</if>
+			<if test="htmlPath != null">
+				htmlPath = #{htmlPath},
+			</if>
+			<if test="giftFlag != null">
+				giftFlag = #{giftFlag}
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">DELETE
+		FROM product
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectByGoodsIdAndDeleted" resultMap="ProductMap" >SELECT
+		P.id, P.no, P.goodsId, P.goodsName, P.catId, P.title, P.quantity, P.purchPrice,
+		P.wholePrice, P.origPrice, P.salePrice, P.marketPrice, P.weight, P.volume,
+		P.seqNo, P.shelfStatus, P.createTime, P.shelfTime, P.packList, P.deleted,
+		P.changeTime, P.indexTime, P.staticTime, P.htmlUuid, P.htmlUsage,
+		P.htmlPath, P.giftFlag
+		FROM product P
+		WHERE P.goodsId = #{goodsId}
+		<if test="deleted != null">
+		AND P.deleted = #{deleted}
+		</if>
+		ORDER BY P.seqNo desc
+	</select>
+	
+	<select id="selectProductsByContext" resultMap="ProductMap">
+		SELECT
+		P.id, P.no, P.goodsId, P.goodsName, P.catId, P.title, P.quantity, P.purchPrice,
+		P.wholePrice, P.origPrice, P.salePrice, P.marketPrice, P.weight, P.volume,
+		P.seqNo, P.shelfStatus, P.shelfTime, P.packList, P.deleted, P.createTime,
+		P.changeTime, P.indexTime, P.staticTime, P.htmlUuid, P.htmlUsage,
+		P.htmlPath, P.giftFlag
+		FROM
+		product P,
+		(
+		SELECT gs.id, gs.no, gs.catId, gs.shopId, gs.catPath,
+		gs.name, gs.py, gs.title
+		FROM goods gs where gs.shopId = #{shopId}
+		) G
+		WHERE P.goodsId = G.id
+		<if test="deleted != null">
+			AND P.deleted = #{deleted}
+		</if>
+		<if test="no !=null and no != ''">
+			AND P.no = #{no}
+		</if>
+		<if test="catId !=null">
+			AND P.catId = #{catId}
+		</if>
+		<if test="goodsName !=null and goodsName != ''">
+			AND P.goodsName like ${goodsName}
+		</if>
+		<if test="shelfStatus !=null">
+			AND P.shelfStatus = #{shelfStatus}
+		</if>
+		<if test="title !=null">
+			AND P.title like ${title}
+		</if>
+		order by P.seqNo desc
+	</select>
+	
+	<select id="selectByFilter" resultMap="ProductMap">
+		SELECT
+		P.id, P.no, P.goodsId, P.goodsName, P.catId, P.title, P.quantity, P.purchPrice,
+		P.wholePrice, P.origPrice, P.salePrice, P.marketPrice, P.weight, P.volume,
+		P.seqNo, P.shelfStatus, P.createTime, P.shelfTime, P.packList, P.deleted,
+		P.changeTime, P.indexTime, P.staticTime, P.htmlUuid, P.htmlUsage,
+		P.htmlPath, P.giftFlag
+		FROM
+		product P
+		WHERE P.deleted != 1 
+		<if test="catId !=null">
+			AND P.catId = #{catId}
+		</if>
+		<if test="goodsName !=null">
+			AND P.goodsName like ${goodsName}
+		</if>
+		<if test="goodsId !=null">
+			AND P.goodsId = #{goodsId}
+		</if>
+		<if test="goodsIds !=null">
+			AND P.goodsId in(
+				<foreach collection="goodsIds" item="goodsId" index="index" open=""
+					close="" separator=",">
+					#{goodsId}
+				</foreach>
+				)
+		</if>
+		<if test="shelfStatus !=null">
+			AND P.shelfStatus = #{shelfStatus}
+		</if>
+		<if test="title !=null">
+			AND P.title like ${title}
+		</if>
+		order by P.seqNo desc, P.createTime desc, P.indexTime desc
+	</select>
+	
+	<update id="batchDownShelfProducts">
+		UPDATE product
+		SET
+		shelfStatus = #{shelfStatus} ,
+		changeTime = #{changeTime}
+		WHERE id in(
+		<foreach collection="list" item="id" index="index" open=""
+			close="" separator=",">
+			#{id}
+		</foreach>
+		)
+	</update>
+	
+	<update id="batchUpShelfProducts">
+		UPDATE product
+		SET
+		shelfStatus = #{shelfStatus} ,
+		shelfTime = #{shelfTime} ,
+		changeTime =
+		#{changeTime}
+		WHERE id in(
+		<foreach collection="list" item="id" index="index" open=""
+			close="" separator=",">
+			#{id}
+		</foreach>
+		)
+	</update>
+	
+	<update id="updateDeletedById">UPDATE product
+		SET deleted = #{deleted} 
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectByIds" resultMap="ProductMap" parameterType="Long">SELECT
+		P.id, P.no, P.goodsId, P.goodsName, P.catId, P.title, P.quantity, P.purchPrice,
+		P.wholePrice, P.origPrice, P.salePrice, P.marketPrice, P.weight, P.volume,
+		P.seqNo, P.shelfStatus, P.shelfTime, P.packList, P.deleted, P.createTime,
+		P.changeTime, P.indexTime, P.staticTime, P.htmlUuid, P.htmlUsage,
+		P.htmlPath, P.giftFlag
+		FROM product P
+		WHERE P.id in(
+		<foreach collection="list" item="id" index="index" open=""
+			close="" separator=",">
+			#{id}
+		</foreach>
+		)
+	</select>
+	
+	<update id="updateShelfStatus">
+		UPDATE product
+		SET shelfStatus = #{shelfStatus} ,
+			shelfTime = #{shelfTime} ,
+			changeTime = #{changeTime}
+		WHERE id = #{id}
+	</update>
+	
+	<select id="selectIdsByShelfStatusAndGoodsId" resultType="Long">
+		SELECT P.id
+		FROM product P
+		WHERE P.goodsId = #{goodsId}
+		AND P.shelfStatus = #{shelfStatus}
+	</select>
+	
+	<select id="selectUnShelvefProductsByGoodsId" resultMap="ProductMap" >SELECT
+		P.id, P.no, P.goodsId, P.goodsName, P.catId, P.title, P.quantity, P.purchPrice,
+		P.wholePrice, P.origPrice, P.salePrice, P.marketPrice, P.weight, P.volume,
+		P.seqNo, P.shelfStatus, P.createTime, P.shelfTime, P.packList, P.deleted,
+		P.changeTime, P.indexTime, P.staticTime, P.htmlUuid, P.htmlUsage,
+		P.htmlPath, P.giftFlag
+		FROM product P
+		WHERE P.goodsId = #{goodsId}
+		AND P.deleted != 1
+		AND P.shelfStatus != 1
+		ORDER BY P.seqNo desc
+	</select>
+</mapper>

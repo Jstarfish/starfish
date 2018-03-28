@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.goods.GoodsIntroDao">
+	<resultMap id="GoodsIntroMap" type="priv.starfish.mall.goods.entity.GoodsIntro">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="content" property="content" jdbcType="CLOB" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="GoodsIntroMap" parameterType="Integer">
+		SELECT GI.id, GI.goodsId, GI.content, GI.ts
+		FROM goods_intro GI
+		WHERE GI.id = #{id}
+	</select>
+	<select id="selectByGoodsId" resultMap="GoodsIntroMap">SELECT GI.id, GI.goodsId,
+		GI.content, GI.ts
+		FROM goods_intro GI
+		WHERE GI.goodsId = #{goodsId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		goods_intro(goodsId, content, ts)
+		VALUES(#{goodsId}, #{content}, #{ts})
+	</insert>
+	<update id="update">UPDATE goods_intro
+		SET 
+		<if test="goodsId !=null">  
+		goodsId = #{goodsId} ,
+		</if>
+		<if test="content !=null">  
+		content = #{content} ,
+		</if>
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM goods_intro
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByGoodsId" parameterType="Integer">DELETE
+		FROM goods_intro
+		WHERE goodsId = #{goodsId}
+	</delete>
+</mapper>

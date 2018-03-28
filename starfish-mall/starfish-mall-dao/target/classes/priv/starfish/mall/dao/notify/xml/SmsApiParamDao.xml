@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.notify.SmsApiParamDao">
+	<resultMap id="SmsApiParamMap" type="priv.starfish.mall.notify.entity.SmsApiParam">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="apiId" property="apiId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="varFlag" property="varFlag" jdbcType="BOOLEAN" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="ioFlag" property="ioFlag" jdbcType="BOOLEAN" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SmsApiParamMap" parameterType="Integer">
+		SELECT SAP.id, SAP.apiId, SAP.name, SAP.varFlag, SAP.value, SAP.ioFlag, SAP.seqNo, SAP.desc
+		FROM sms_api_param SAP
+		WHERE SAP.id = #{id}
+	</select>
+	
+	<select id="selectByApiIdAndNameAndIoFlag" resultMap="SmsApiParamMap">
+		SELECT SAP.id, SAP.apiId, SAP.name, SAP.varFlag, SAP.value, SAP.ioFlag, SAP.seqNo, SAP.desc
+		FROM sms_api_param SAP
+		WHERE SAP.apiId = #{apiId}
+			AND SAP.name = #{name}
+			AND SAP.ioFlag = #{ioFlag}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO 
+		sms_api_param(apiId, name, varFlag, value, ioFlag, `desc`)
+		VALUES (#{apiId}, #{name}, #{varFlag}, #{value},#{ioFlag},#{desc})
+	</insert>
+
+	<update id="update">
+		UPDATE sms_api_param
+		SET name = #{name} ,
+			varFlag = #{varFlag},
+			value = #{value},
+			ioFlag = #{ioFlag} ,
+			`desc` = #{desc}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteByApiId" parameterType="Integer">
+		DELETE FROM sms_api_param
+		WHERE apiId = #{apiId}
+	</delete>
+
+	<select id="selectByApiId" parameterType="Integer" resultMap="SmsApiParamMap">
+		SELECT P.id, P.apiId, P.name, P.varFlag, P.value, P.ioFlag, P.desc, P.seqNo
+		FROM sms_api_param P
+		WHERE P.apiId = #{apiId}
+		ORDER BY P.ioFlag, P.seqNo
+	</select>
+
+	<select id="selectParamIdsByApiId" parameterType="Integer" resultType="Integer">
+		SELECT P.id
+		FROM sms_api_param P
+		WHERE P.apiId = #{apiId}
+	</select>
+	
+	<insert id="batchInsert">
+		INSERT INTO 
+		sms_api_param(apiId, name, varFlag, value, ioFlag, `desc`)
+		VALUES
+		<foreach collection="ps" item="p" index="index" open="" close="" separator=",">
+			(#{p.apiId}, #{p.name}, #{p.varFlag}, #{p.value},#{p.ioFlag},#{p.desc})
+		</foreach>
+	</insert>
+
+	<delete id="batchDelete">
+		DELETE FROM sms_api_param
+		WHERE id in 
+		(
+			<foreach collection="ids" item="id" index="index" open=""
+				close="" separator=",">
+				#{id}
+			</foreach>
+		)
+	</delete>
+
+</mapper>

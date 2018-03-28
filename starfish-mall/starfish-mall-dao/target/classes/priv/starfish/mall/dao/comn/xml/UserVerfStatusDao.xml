@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.UserVerfStatusDao">
+	<resultMap id="UserVerfStatusMap" type="priv.starfish.mall.comn.entity.UserVerfStatus">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="aspect" property="aspect" jdbcType="VARCHAR" />
+		<result column="flag" property="flag" jdbcType="BOOLEAN" />
+		<result column="secureLevel" property="secureLevel" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="UserVerfStatusMap"
+		parameterType="Integer">SELECT UVS.id, UVS.userId, UVS.aspect, UVS.flag,
+		UVS.secureLevel, UVS.ts
+		FROM user_verf_status UVS
+		WHERE UVS.id = #{id}
+	</select>
+	
+	<select id="selectByUserId" resultMap="UserVerfStatusMap">
+		SELECT UVS.id,
+		UVS.userId, UVS.aspect, UVS.flag, UVS.secureLevel, UVS.ts
+		FROM user_verf_status UVS
+		WHERE UVS.userId = #{userId}
+	</select>
+
+	<select id="selectByUserIdAndAspect" resultMap="UserVerfStatusMap">
+		SELECT UVS.id,
+		UVS.userId, UVS.aspect, UVS.flag, UVS.secureLevel, UVS.ts
+		FROM user_verf_status UVS
+		WHERE UVS.userId = #{userId}
+		AND UVS.aspect = #{aspect}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		user_verf_status(userId, aspect, flag, secureLevel, ts)
+		VALUES(#{userId}, #{aspect}, #{flag}, #{secureLevel}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE user_verf_status
+		SET userId = #{userId} ,
+		aspect = #{aspect} ,
+		flag = #{flag} ,
+		secureLevel = #{secureLevel} ,
+		ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM user_verf_status
+		WHERE id = #{id}
+	</delete>
+
+	<delete id="deleteByUserIdAndAspect">
+		DELETE
+		FROM user_verf_status
+		WHERE userId = #{userId}
+		AND aspect = #{aspect}
+	</delete>
+
+</mapper>

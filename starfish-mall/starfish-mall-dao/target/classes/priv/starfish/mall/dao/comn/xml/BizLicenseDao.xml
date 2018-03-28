@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.BizLicenseDao">
+    <resultMap id="BizLicenseMap" type="priv.starfish.mall.comn.entity.BizLicense">
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="userId" property="userId" jdbcType="INTEGER" />
+        <result column="regNo" property="regNo" jdbcType="VARCHAR" />
+        <result column="orgNo" property="orgNo" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="type" property="type" jdbcType="VARCHAR" />
+        <result column="address" property="address" jdbcType="VARCHAR" />
+        <result column="legalMan" property="legalMan" jdbcType="VARCHAR" />
+        <result column="regCapital" property="regCapital" jdbcType="DOUBLE" />
+        <result column="estabDate" property="estabDate" jdbcType="DATE" />
+        <result column="startDate" property="startDate" jdbcType="DATE" />
+        <result column="endDate" property="endDate" jdbcType="DATE" />
+        <result column="bizScope" property="bizScope" jdbcType="VARCHAR" />
+        <result column="ts" property="ts" jdbcType="TIMESTAMP" />
+    </resultMap>
+    
+    <select id="selectById" resultMap="BizLicenseMap" parameterType="Integer">
+    	SELECT BL.id, BL.userId, BL.regNo, BL.orgNo, BL.name, BL.type, BL.address, BL.legalMan, BL.regCapital, BL.estabDate, BL.startDate, BL.endDate, BL.bizScope, BL.ts
+		FROM   biz_license BL
+		WHERE  BL.id = #{id}
+    </select>
+    
+    <select id="selectByUserIdAndRegNo" resultMap="BizLicenseMap">
+    	SELECT BL.id, BL.userId, BL.regNo, BL.orgNo, BL.name, BL.type, BL.address, BL.legalMan, BL.regCapital, BL.estabDate, BL.startDate, BL.endDate, BL.bizScope, BL.ts
+		FROM   biz_license BL
+		WHERE  BL.userId = #{userId}
+   		AND BL.regNo = #{regNo}
+   	</select>
+   	
+   	<select id="selectByUserId" resultMap="BizLicenseMap" parameterType="Integer">
+    	SELECT BL.id, BL.userId, BL.regNo, BL.orgNo, BL.name, BL.type, BL.address, BL.legalMan, BL.regCapital, BL.estabDate, BL.startDate, BL.endDate, BL.bizScope, BL.ts
+		FROM   biz_license BL
+		WHERE  BL.userId = #{userId}
+   	</select>
+   	
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+    	INSERT INTO 
+		biz_license(userId, regNo, orgNo, name, type, address, legalMan, regCapital, estabDate, startDate, endDate, bizScope, ts)
+    	 VALUES(#{userId}, #{regNo}, #{orgNo}, #{name}, #{type}, #{address}, #{legalMan}, #{regCapital}, #{estabDate}, #{startDate}, #{endDate}, #{bizScope}, #{ts})
+    </insert>
+    
+    <update id="update">
+    	UPDATE biz_license
+		SET userId = #{userId} ,
+   			regNo = #{regNo} ,
+    		orgNo = #{orgNo} ,
+    		name = #{name} ,
+    		type = #{type} ,
+    		address = #{address} ,
+    		legalMan = #{legalMan} ,
+    		regCapital = #{regCapital} ,
+    		estabDate = #{estabDate} ,
+    		startDate = #{startDate} ,
+    		endDate = #{endDate} ,
+    		bizScope = #{bizScope} ,
+    		ts = #{ts}
+		WHERE  id = #{id}
+    </update>
+    
+    <delete id="deleteById" parameterType="Integer">
+    	DELETE 
+		FROM   biz_license
+		WHERE  id = #{id}
+	</delete>
+	
+	 <select id="selectByFilter" resultMap="BizLicenseMap" parameterType="Integer">
+    	SELECT BL.id, BL.userId, BL.regNo, BL.orgNo, BL.name, BL.type, BL.address, BL.legalMan, BL.regCapital, BL.estabDate, BL.startDate, BL.endDate, BL.bizScope, BL.ts
+		FROM   biz_license BL
+		<where>
+			<trim prefix="AND" prefixOverrides="AND">
+				<if test="userId != null">
+					 BL.userId = #{userId}
+				</if>
+			</trim>
+		</where>
+    	ORDER BY BL.ts desc, BL.id desc
+    </select>
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.market.PrmtTagGoodsDao">
+	<resultMap id="PrmtTagGoodsMap" type="priv.starfish.mall.market.entity.PrmtTagGoods">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="tagId" property="tagId" jdbcType="INTEGER" />
+		<result column="productId" property="productId" jdbcType="BIGINT" />
+		<result column="goodsId" property="goodsId" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectById" resultMap="PrmtTagGoodsMap"
+		parameterType="Integer">SELECT PTG.id, PTG.tagId, PTG.productId, PTG.goodsId,
+		PTG.shopId, PTG.seqNo, PTG.ts
+		FROM prmt_tag_goods PTG
+		WHERE PTG.id =
+		#{id}
+	</select>
+
+	<select id="selectByTagIdAndProductId" resultMap="PrmtTagGoodsMap">SELECT PTG.id,
+		PTG.tagId, PTG.productId, PTG.goodsId, PTG.shopId, PTG.seqNo, PTG.ts
+		FROM prmt_tag_goods PTG
+		WHERE PTG.tagId = #{tagId}
+		AND PTG.productId =
+		#{productId}
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		prmt_tag_goods(tagId, productId, goodsId, shopId, seqNo, ts)
+		VALUES(#{tagId}, #{productId}, #{goodsId}, #{shopId}, #{seqNo}, #{ts})
+	</insert>
+
+	<update id="update">
+		UPDATE prmt_tag_goods
+		<set>
+			<trim suffixOverrides=",">
+				<if test="tagId != null">
+					tagId = #{tagId},
+				</if>
+				<if test="productId != null">
+					productId = #{productId},
+				</if>
+				<if test="goodsId != null">
+					goodsId = #{goodsId},
+				</if>
+				<if test="shopId != null">
+					shopId = #{shopId},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM prmt_tag_goods
+		WHERE id = #{id}
+	</delete>
+	
+	<delete id="deleteByTagIdAndProductId">DELETE
+		FROM prmt_tag_goods
+		WHERE tagId = #{tagId} AND productId = #{productId}
+	</delete>
+	
+	<select id="selectByFilter" resultMap="PrmtTagGoodsMap">
+		SELECT PTG.id, PTG.tagId, PTG.productId, PTG.goodsId,
+		PTG.shopId, PTG.seqNo, PTG.ts
+		FROM prmt_tag_goods PTG, product P
+		WHERE PTG.productId = P.id
+		<if test="tagId !=null">
+			AND PTG.tagId = #{tagId}
+		</if>
+		<if test="title !=null and title != ''">
+			AND P.title like ${title}
+		</if>
+		order by PTG.tagId, PTG.seqNo
+	</select>
+	
+	<select id="selectByTagId" resultMap="PrmtTagGoodsMap">
+		SELECT PTG.id, PTG.tagId, PTG.productId, PTG.goodsId,
+		PTG.shopId, PTG.seqNo, PTG.ts
+		FROM prmt_tag_goods PTG
+		WHERE PTG.tagId =
+		#{tagId}
+	</select>
+	
+	<select id="selectByProductId" resultMap="PrmtTagGoodsMap">
+		SELECT PTG.id, PTG.tagId, PTG.productId, PTG.goodsId,
+		PTG.shopId, PTG.seqNo, PTG.ts
+		FROM prmt_tag_goods PTG
+		WHERE PTG.productId =
+		#{productId}
+	</select>
+	
+</mapper>

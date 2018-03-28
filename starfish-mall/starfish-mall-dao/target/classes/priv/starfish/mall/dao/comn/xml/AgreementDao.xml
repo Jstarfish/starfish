@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.AgreementDao">
+	<resultMap id="AgreementMap" type="priv.starfish.mall.comn.entity.Agreement">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="target" property="target" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="CLOB" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="AgreementMap" parameterType="Integer">
+		SELECT A.id, A.target, A.content, A.seqNo, A.ts
+		FROM agreement A
+		WHERE A.id = #{id}
+	</select>
+	
+	<select id="selectByTarget" resultMap="AgreementMap">
+		SELECT A.id, A.target, A.content, A.seqNo, A.ts
+		FROM agreement A
+		WHERE A.target = #{target}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO agreement(target, content, seqNo, ts)
+		VALUES(#{target}, #{content}, #{seqNo}, CURRENT_TIMESTAMP)
+	</insert>
+	
+	<update id="update">
+		UPDATE agreement
+		SET target = #{target} ,
+			content = #{content} ,
+			seqNo = #{seqNo} ,
+			ts = CURRENT_TIMESTAMP
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM agreement
+		WHERE id = #{id}
+	</delete>
+</mapper>

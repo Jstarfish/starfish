@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.UserLinkWayDao">
+	<resultMap id="UserLinkWayMap" type="priv.starfish.mall.comn.entity.UserLinkWay">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="userId" property="userId" jdbcType="INTEGER" />
+		<result column="alias" property="alias" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="provinceId" property="provinceId" jdbcType="INTEGER" />
+		<result column="cityId" property="cityId" jdbcType="INTEGER" />
+		<result column="countyId" property="countyId" jdbcType="INTEGER" />
+		<result column="townId" property="townId" jdbcType="INTEGER" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="address" property="address" jdbcType="VARCHAR" />
+		<result column="postCode" property="postCode" jdbcType="VARCHAR" />
+		<result column="email" property="email" jdbcType="VARCHAR" />
+		<result column="defaulted" property="defaulted" jdbcType="BOOLEAN" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<select id="selectById" resultMap="UserLinkWayMap"
+		parameterType="Integer">SELECT ULW.id, ULW.userId, ULW.alias, ULW.phoneNo,
+		ULW.linkMan, ULW.telNo, ULW.regionId, ULW.regionName, ULW.provinceId,
+		ULW.cityId, ULW.countyId, ULW.townId, ULW.street, ULW.address,
+		ULW.postCode, ULW.email, ULW.defaulted, ULW.ts
+		FROM user_link_way ULW
+		WHERE ULW.id = #{id}
+	</select>
+	<select id="selectByUserIdAndAlias" resultMap="UserLinkWayMap">SELECT ULW.id,
+		ULW.userId, ULW.alias, ULW.phoneNo, ULW.linkMan, ULW.telNo,
+		ULW.regionId, ULW.regionName, ULW.provinceId, ULW.cityId,
+		ULW.countyId, ULW.townId, ULW.street, ULW.address, ULW.postCode,
+		ULW.email, ULW.defaulted, ULW.ts
+		FROM user_link_way ULW
+		WHERE ULW.userId = #{userId}
+		AND ULW.alias = #{alias}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		user_link_way(userId, alias, phoneNo, linkMan, telNo, regionId, regionName, provinceId,
+		cityId, countyId, townId, street, address, postCode, email, defaulted,
+		ts)
+		VALUES(#{userId}, #{alias}, #{phoneNo}, #{linkMan}, #{telNo}, #{regionId},
+		#{regionName}, #{provinceId}, #{cityId}, #{countyId}, #{townId},
+		#{street}, #{address}, #{postCode}, #{email}, #{defaulted}, #{ts})
+	</insert>
+	<update id="update">
+		UPDATE user_link_way
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="userId !=null">
+				userId = #{userId} ,
+			</if>
+			<if test="alias !=null">
+				alias = #{alias} ,
+			</if>
+			<if test="phoneNo !=null">
+				phoneNo = #{phoneNo} ,
+			</if>
+			<if test="linkMan !=null">
+				linkMan = #{linkMan} ,
+			</if>
+			<if test="telNo !=null">
+				telNo = #{telNo} ,
+			</if>
+			<if test="regionId !=null">
+				regionId = #{regionId} ,
+				regionName = #{regionName} ,
+				provinceId = #{provinceId} ,
+				cityId = #{cityId} ,
+				countyId = #{countyId} ,
+				townId = #{townId} ,
+			</if>
+			<if test="street !=null">
+				street = #{street} ,
+			</if>
+			<if test="address !=null">
+				address = #{address} ,
+			</if>
+			<if test="postCode !=null">
+				postCode = #{postCode} ,
+			</if>
+			<if test="email !=null">
+				email = #{email} ,
+			</if>
+			<if test="defaulted !=null">
+				defaulted = #{defaulted} ,
+			</if>
+			<if test="ts !=null">
+				ts = #{ts} ,
+			</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM user_link_way
+		WHERE id = #{id}
+	</delete>
+	<select id="selectByUserId" resultMap="UserLinkWayMap">SELECT ULW.id,
+		ULW.userId,
+		ULW.alias, ULW.phoneNo, ULW.linkMan, ULW.telNo,
+		ULW.regionId,
+		ULW.regionName,ULW.provinceId, ULW.cityId,
+		ULW.countyId, ULW.townId, ULW.street, ULW.address, ULW.postCode,
+		ULW.email,
+		ULW.defaulted, ULW.ts
+		FROM user_link_way ULW
+		WHERE ULW.userId =
+		#{userId} order by ULW.defaulted desc,ULW.ts desc
+	</select>
+	<select id="selectDefaultByUserId" resultMap="UserLinkWayMap">
+		SELECT ULW.id,
+		ULW.userId,
+		ULW.alias, ULW.phoneNo, ULW.linkMan, ULW.telNo,
+		ULW.regionId,
+		ULW.regionName,ULW.provinceId, ULW.cityId,
+		ULW.countyId, ULW.townId, ULW.street, ULW.address, ULW.postCode,
+		ULW.email,
+		ULW.defaulted, ULW.ts
+		FROM user_link_way ULW
+		WHERE ULW.userId =#{userId} and ULW.defaulted =#{defaulted}
+	</select>
+	
+	<update id="updateLinkWayByUserId">
+		UPDATE user_link_way
+		<trim prefix="SET" suffixOverrides=",">
+			<if test="defaulted !=null">
+				defaulted = #{defaulted} ,
+			</if>
+		</trim>
+		WHERE userId = #{userId}
+	</update>
+</mapper>

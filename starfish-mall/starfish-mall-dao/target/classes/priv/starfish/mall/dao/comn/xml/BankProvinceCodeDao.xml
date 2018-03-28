@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.BankProvinceCodeDao">
+	<resultMap id="BankProvinceCodeMap" type="priv.starfish.mall.comn.entity.BankProvinceCode">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="bankCode" property="bankCode" jdbcType="VARCHAR" />
+		<result column="province" property="province" jdbcType="VARCHAR" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="BankProvinceCodeMap"
+		parameterType="Integer">SELECT BPC.id, BPC.bankCode, BPC.province, BPC.code
+		FROM bank_province_code BPC
+		WHERE BPC.id = #{id}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">INSERT
+		INTO
+		bank_province_code(bankCode, province, code)
+		VALUES(#{bankCode}, #{province}, #{code})
+	</insert>
+	
+	<update id="update">
+		UPDATE bank_province_code
+		<set>
+			<trim suffixOverrides=",">
+				<if test="bankCode != null">
+					bankCode = #{bankCode},
+				</if>
+				<if test="province != null">
+					province = #{province},
+				</if>
+				<if test="code != null">
+					code = #{code}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Integer">DELETE
+		FROM bank_province_code
+		WHERE id = #{id}
+	</delete>
+	
+	<select id="selectAll" resultMap="BankProvinceCodeMap">
+		SELECT BPC.id, BPC.bankCode, BPC.province, BPC.code
+		FROM bank_province_code BPC
+	</select>
+</mapper>

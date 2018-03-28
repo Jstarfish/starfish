@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="priv.starfish.mall.dao.shop.ShopMemoDao">
+	<resultMap id="ShopMemoMap" type="priv.starfish.mall.shop.entity.ShopMemo">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="shopName" property="shopName" jdbcType="VARCHAR" />
+		<result column="title" property="title" jdbcType="VARCHAR" />
+		<result column="content" property="content" jdbcType="VARCHAR" />
+		<result column="createTime" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+		<result column="deleteTime" property="deleteTime" jdbcType="TIMESTAMP" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="columns">
+		id,shopId,shopName,title,content,createTime,deleted,deleteTime,ts
+	</sql>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		shop_memo (
+		shopId ,
+		shopName ,
+		title ,
+		content ,
+		createTime ,
+		deleted ,
+		deleteTime ,
+		ts
+		)
+		VALUES(
+		#{shopId} ,
+		#{shopName} ,
+		#{title} ,
+		#{content} ,
+		#{createTime} ,
+		#{deleted} ,
+		#{deleteTime} ,
+		#{ts}
+		)
+	</insert>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE
+		FROM
+		shop_memo
+		WHERE
+		id = #{id}
+	</delete>
+
+	<update id="update">
+		UPDATE shop_memo
+		<set>
+			<trim suffixOverrides=",">
+				<if test="shopName != null">
+					shopName = #{shopName},
+				</if>
+				<if test="title != null">
+					title = #{title},
+				</if>
+				<if test="content != null">
+					content = #{content},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted},
+				</if>
+				<if test="deleteTime != null">
+					deleteTime = #{deleteTime},
+				</if>
+				<if test="ts != null">
+					ts = #{ts}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id} AND shopId = #{shopId}
+	</update>
+
+	<select id="selectById" resultMap="ShopMemoMap" parameterType="Integer">
+		SELECT
+		<include refid="columns" />
+		FROM shop_memo
+		WHERE id = #{id} 
+	</select>
+	
+	<select id="selectByIdAndShopId" resultMap="ShopMemoMap" parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM shop_memo
+		WHERE id = #{id}  AND shopId = #{shopId}
+	</select>
+	
+	<select id="selectByFilter" resultMap="ShopMemoMap"
+		parameterType="map">
+		SELECT
+		<include refid="columns" />
+		FROM shop_memo
+		WHERE 1 = 1
+		<if test="shopId != null">
+			AND shopId = #{shopId}
+		</if>
+		<if test="deleted != null">
+			AND deleted = #{deleted}
+		</if>
+		<if test=" keywords !=null and  keywords != ''">
+			AND (title like ${keywords} OR content like ${keywords} )
+		</if>
+		<if test=" shopName !=null and  shopName != ''">
+			AND shopName like ${shopName}
+		</if>
+	</select>
+
+</mapper>
+

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.mall.MallDao">
+	<resultMap id="MallMap" type="priv.starfish.mall.mall.entity.Mall">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="code" property="code" jdbcType="VARCHAR" />
+		<result column="operatorId" property="operatorId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="regionId" property="regionId" jdbcType="INTEGER" />
+		<result column="regionName" property="regionName" jdbcType="VARCHAR" />
+		<result column="street" property="street" jdbcType="VARCHAR" />
+		<result column="telNo" property="telNo" jdbcType="VARCHAR" />
+		<result column="phoneNo" property="phoneNo" jdbcType="VARCHAR" />
+		<result column="linkMan" property="linkMan" jdbcType="VARCHAR" />
+		<result column="bizScope" property="bizScope" jdbcType="VARCHAR" />
+		<result column="logoUuid" property="logoUuid" jdbcType="VARCHAR" />
+		<result column="logoUsage" property="logoUsage" jdbcType="VARCHAR" />
+		<result column="logoPath" property="logoPath" jdbcType="VARCHAR" />
+		<result column="regTime" property="regTime" jdbcType="TIMESTAMP" />
+		<result column="openTime" property="openTime" jdbcType="TIMESTAMP" />
+		<result column="icpNo" property="icpNo" jdbcType="VARCHAR" />
+		<result column="icpUuid" property="icpUuid" jdbcType="VARCHAR" />
+		<result column="icpUsage" property="icpUsage" jdbcType="VARCHAR" />
+		<result column="icpPath" property="icpPath" jdbcType="VARCHAR" />
+		<result column="postCode" property="postCode" jdbcType="VARCHAR" />
+		<result column="licenseId" property="licenseId" jdbcType="INTEGER" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="selectById" resultMap="MallMap" parameterType="Integer">
+		SELECT M.id, M.code, M.operatorId, M.name, M.regionId, M.regionName, M.street, M.telNo, M.phoneNo, M.linkMan, M.bizScope, 
+			M.logoUuid, M.logoUsage, M.logoPath, M.regTime, M.openTime, M.icpNo, M.icpUuid, M.icpUsage, M.icpPath, M.postCode, 
+			M.licenseId, M.desc, M.disabled
+		FROM mall M
+		WHERE M.id = #{id}
+	</select>
+	
+	<select id="selectByCode" resultMap="MallMap">
+		SELECT M.id, M.code, M.operatorId, M.name, M.regionId, M.regionName, M.street, M.telNo, M.phoneNo, M.linkMan, M.bizScope, 
+			M.logoUuid, M.logoUsage, M.logoPath, M.regTime, M.openTime, M.icpNo, M.icpUuid, M.icpUsage, M.icpPath, M.postCode, 
+			M.licenseId, M.desc, M.disabled
+		FROM mall M
+		WHERE M.code = #{code}
+	</select>
+	
+	<select id="selectTheOne" resultMap="MallMap">
+		SELECT M.id, M.code, M.operatorId, M.name, M.regionId, M.regionName, M.street, M.telNo, M.phoneNo, M.linkMan, M.bizScope, 
+			M.logoUuid, M.logoUsage, M.logoPath, M.regTime, M.openTime, M.icpNo, M.icpUuid, M.icpUsage, M.icpPath, M.postCode, 
+			M.licenseId, M.desc, M.disabled
+		FROM mall M 
+		LIMIT 1
+	</select>
+
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO mall(code, operatorId, name, regionId, regionName, street, telNo, phoneNo, linkMan, bizScope, logoPath, regTime, 
+			openTime, icpNo, icpPath, postCode, licenseId, `desc`, disabled)
+		VALUES(#{code}, #{operatorId}, #{name}, #{regionId}, #{regionName},	#{street}, #{telNo}, #{phoneNo}, #{linkMan}, #{bizScope}, 
+			#{logoPath}, #{regTime}, #{openTime}, #{icpNo}, #{icpPath}, #{postCode}, #{licenseId}, #{desc}, #{disabled})
+	</insert>
+
+	<update id="update">
+		UPDATE mall
+		<set>
+			<if test="null != code and '' != code">
+				code = #{code} ,
+			</if>
+			<if test="null != operatorId">
+				operatorId = #{operatorId} ,
+			</if>
+			<if test="null != name and '' != name">
+				name = #{name} ,
+			</if>
+			<if test="null != regionId">
+				regionId = #{regionId} ,
+				regionName = #{regionName} ,
+			</if>
+			<if test="null != street and '' != street">
+				street = #{street} ,
+			</if>
+			<if test="null != phoneNo">
+				phoneNo = #{phoneNo} ,
+			</if>
+			<if test="null != linkMan and '' != linkMan">
+				linkMan = #{linkMan} ,
+			</if>
+			<if test="null != telNo">
+				telNo = #{telNo} ,
+			</if>
+			<if test="null != bizScope and '' != bizScope">
+				bizScope = #{bizScope} ,
+			</if>
+			<if test="null != logoUuid and '' != logoUuid">
+				logoUuid = #{logoUuid} ,
+			</if>
+			<if test="null != logoUsage and '' != logoUsage">
+				logoUsage = #{logoUsage} ,
+			</if>
+			<if test="null != logoPath and '' != logoPath">
+				logoPath = #{logoPath} ,
+			</if>
+			<if test="null != regTime">
+				regTime = #{regTime} ,
+			</if>
+			<if test="null != openTime">
+				openTime = #{openTime} ,
+			</if>
+			<if test="null != icpNo and '' != icpNo">
+				icpNo = #{icpNo} ,
+			</if>
+			<if test="null != icpUuid and '' != icpUuid">
+				icpUuid = #{icpUuid} ,
+			</if>
+			<if test="null != icpUsage and '' != icpUsage">
+				icpUsage = #{icpUsage} ,
+			</if>
+			<if test="null != icpPath and '' != icpPath">
+				icpPath = #{icpPath} ,
+			</if>
+			<if test="null != postCode and '' != postCode">
+				postCode = #{postCode} ,
+			</if>
+			<if test="null != licenseId">
+				licenseId = #{licenseId} ,
+			</if>
+			<if test="null != disabled">
+				disabled = #{disabled} ,
+			</if>
+			<if test="null != `desc` and '' != `desc`">
+				`desc` = #{desc}
+			</if>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">
+		DELETE FROM mall
+		WHERE id = #{id}
+	</delete>
+	
+</mapper>

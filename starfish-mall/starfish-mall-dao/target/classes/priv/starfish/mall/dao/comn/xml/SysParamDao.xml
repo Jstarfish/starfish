@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.SysParamDao">
+	<resultMap id="SysParamMap" type="priv.starfish.mall.comn.entity.SysParam">
+		<id column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectByCode" resultMap="SysParamMap" parameterType="String">
+		SELECT SP.code, SP.name, SP.type, SP.value, SP.desc, SP.seqNo, SP.ts
+		FROM sys_param SP
+		WHERE SP.code = #{code}
+	</select>
+	
+	<select id="selectByName" resultMap="SysParamMap">
+		SELECT SP.code, SP.name, SP.type, SP.value, SP.desc, SP.seqNo, SP.ts
+		FROM sys_param SP
+		WHERE SP.name = #{name}
+	</select>
+	
+	<select id="selectAll" resultMap="SysParamMap">
+		SELECT SP.code, SP.name, SP.type, SP.value, SP.desc, SP.seqNo, SP.ts
+		FROM sys_param SP
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO sys_param(code, name, type, value, `desc`, seqNo, ts)
+		VALUES(#{code}, #{name}, #{type}, #{value}, #{desc}, #{seqNo}, CURRENT_TIMESTAMP)
+	</insert>
+	
+	<update id="update">
+		UPDATE sys_param
+		SET value = #{value} 
+		WHERE code = #{code}
+	</update>
+	
+	<delete id="deleteByCode" parameterType="String">
+		DELETE FROM sys_param
+		WHERE code = #{code}
+	</delete>
+</mapper>

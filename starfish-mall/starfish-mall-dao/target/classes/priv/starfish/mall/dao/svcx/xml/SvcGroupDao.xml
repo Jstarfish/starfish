@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.svcx.SvcGroupDao">
+	<resultMap id="SvcGroupMap" type="priv.starfish.mall.svcx.entity.SvcGroup">
+		<id column="id" property="id" jdbcType="INTEGER" />
+		<result column="kindId" property="kindId" jdbcType="INTEGER" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="disabled" property="disabled" jdbcType="BOOLEAN" />
+		<result column="deleted" property="deleted" jdbcType="BOOLEAN" />
+	</resultMap>
+
+	<select id="selectById" resultMap="SvcGroupMap" parameterType="Integer">
+		SELECT
+		CSG.id, CSG.kindId, CSG.name, CSG.desc, CSG.seqNo, CSG.disabled,
+		CSG.deleted
+		FROM svc_group CSG
+		WHERE CSG.deleted=false AND CSG.id =
+		#{id}
+	</select>
+	<select id="selectCountByNameAndKindId" resultType="int">
+		SELECT
+		count(1)
+		FROM svc_group CSG
+		WHERE CSG.name= #{name} AND
+		CSG.kindId=#{kindId}
+	</select>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT
+		INTO
+		svc_group(id, kindId, name, `desc`, seqNo ,disabled , deleted)
+		VALUES(#{id},#{kindId}, #{name}, #{desc}, #{seqNo} ,#{disabled},
+		#{deleted})
+	</insert>
+
+	<update id="update">
+		UPDATE svc_group
+		<set>
+			<trim suffixOverrides=",">
+				<if test="kindId != null">
+					kindId = #{kindId},
+				</if>
+				<if test="name != null">
+					name = #{name},
+				</if>
+				<if test="desc != null">
+					`desc` = #{desc},
+				</if>
+				<if test="seqNo != null">
+					seqNo = #{seqNo},
+				</if>
+				<if test="disabled != null">
+					disabled = #{disabled},
+				</if>
+				<if test="deleted != null">
+					deleted = #{deleted}
+				</if>
+			</trim>
+		</set>
+		WHERE id = #{id}
+	</update>
+
+	<delete id="deleteById" parameterType="Integer">DELETE FROM svc_group
+		WHERE id = #{id}
+	</delete>
+
+	<delete id="updateForDelete">
+		UPDATE svc_group
+		SET
+		deleted=true
+		WHERE
+		id = #{id}
+	</delete>
+
+	<select id="select" resultMap="SvcGroupMap" parameterType="map">
+		SELECT
+		CSG.id, CSG.kindId, CSG.name, CSG.desc, CSG.seqNo, CSG.disabled,
+		CSG.deleted
+		FROM svc_group CSG
+		WHERE CSG.disabled=0 AND
+		CSG.deleted=false
+		order by
+		CSG.seqNo desc
+	</select>
+
+	<select id="selectFront" resultMap="SvcGroupMap" parameterType="map">
+		SELECT
+		CSG.id, CSG.kindId, CSG.name, CSG.desc, CSG.seqNo, CSG.disabled,
+		CSG.deleted
+		FROM svc_group CSG
+		WHERE CSG.disabled=0 AND
+		CSG.deleted=false
+		order by CSG.seqNo desc
+	</select>
+
+	<select id="selectByFilter" resultMap="SvcGroupMap">
+		SELECT
+		CSG.id, CSG.kindId, CSG.name, CSG.desc, CSG.seqNo, CSG.disabled,
+		CSG.deleted
+		FROM svc_group CSG
+		<where>
+			CSG.deleted=false
+			<if test="name !=null and name != ''">
+				AND CSG.name like ${name}
+			</if>
+		</where>
+		order by CSG.seqNo desc
+	</select>
+</mapper>

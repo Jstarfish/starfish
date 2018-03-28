@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.comn.BizParamDao">
+	<resultMap id="BizParamMap" type="priv.starfish.mall.comn.entity.BizParam">
+		<id column="code" property="code" jdbcType="VARCHAR" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="type" property="type" jdbcType="VARCHAR" />
+		<result column="value" property="value" jdbcType="VARCHAR" />
+		<result column="desc" property="desc" jdbcType="VARCHAR" />
+		<result column="seqNo" property="seqNo" jdbcType="INTEGER" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+
+	<select id="selectAll" resultMap="BizParamMap">
+		SELECT BP.code, BP.name, BP.type, BP.value, BP.desc, BP.seqNo, BP.ts
+		FROM biz_param BP
+		ORDER BY BP.seqNo
+	</select>
+
+	<select id="selectById" resultMap="BizParamMap" parameterType="String">
+		SELECT BP.code, BP.name, BP.type, BP.value, BP.desc, BP.seqNo, BP.ts
+		FROM biz_param BP
+		WHERE BP.code = #{code}
+	</select>
+	
+	<select id="selectByName" resultMap="BizParamMap">
+		SELECT BP.code, BP.name, BP.type, BP.value, BP.desc, BP.seqNo, BP.ts
+		FROM biz_param BP
+		WHERE BP.name = #{name}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="false">
+		INSERT INTO biz_param(code, name, type, value, `desc`, seqNo, ts)
+   		VALUES(#{code}, #{name}, #{type}, #{value}, #{desc}, #{seqNo}, #{ts})
+   	</insert>
+   	
+	<update id="update">
+		UPDATE biz_param
+		SET name = #{name} , type = #{type} , value = #{value} , `desc` = #{desc} , seqNo = #{seqNo} , ts = #{ts}
+		WHERE code = #{code}
+	</update>
+	
+	<delete id="deleteById" parameterType="String">
+		DELETE FROM biz_param
+		WHERE code = #{code}
+	</delete>
+	
+</mapper>

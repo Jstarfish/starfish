@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="priv.starfish.mall.dao.shop.ShopBizStatusDao">
+	<resultMap id="ShopBizStatusMap" type="priv.starfish.mall.shop.entity.ShopBizStatus">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="shopId" property="shopId" jdbcType="INTEGER" />
+		<result column="dateStr" property="dateStr" jdbcType="VARCHAR" />
+		<result column="bizDate" property="bizDate" jdbcType="DATE" />
+		<result column="sealed" property="sealed" jdbcType="BOOLEAN" />
+		<result column="cause" property="cause" jdbcType="VARCHAR" />
+		<result column="maxOrders" property="maxOrders" jdbcType="INTEGER" />
+		<result column="operatorId" property="operatorId" jdbcType="INTEGER" />
+		<result column="operatorName" property="operatorName" jdbcType="VARCHAR" />
+		<result column="ts" property="ts" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<select id="selectById" resultMap="ShopBizStatusMap" parameterType="Long">
+		SELECT SBS.id, SBS.shopId, SBS.dateStr, SBS.bizDate, SBS.sealed, SBS.cause, SBS.maxOrders, SBS.operatorId, SBS.operatorName, SBS.ts
+		FROM shop_biz_status SBS
+		WHERE SBS.id = #{id}
+	</select>
+	
+	<select id="selectByShopIdAndDateStr" resultMap="ShopBizStatusMap">
+		SELECT SBS.id, SBS.shopId, SBS.dateStr, SBS.bizDate, SBS.sealed, SBS.cause, SBS.maxOrders, SBS.operatorId, SBS.operatorName, SBS.ts
+		FROM shop_biz_status SBS
+		WHERE SBS.shopId = #{shopId} AND SBS.dateStr = #{dateStr}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		shop_biz_status(shopId, dateStr, bizDate, sealed, cause, maxOrders, operatorId, operatorName, ts)
+		VALUES(#{shopId}, #{dateStr}, #{bizDate}, #{sealed}, #{cause}, #{maxOrders}, #{operatorId}, #{operatorName}, #{ts})
+	</insert>
+	
+	<update id="update">
+		UPDATE shop_biz_status
+		SET shopId = #{shopId} ,
+			dateStr = #{dateStr} ,
+			bizDate = #{bizDate} ,
+			<if test="sealed != null">
+				sealed = #{sealed} ,
+			</if>
+			<if test="cause != null">
+				cause = #{cause} ,
+			</if>
+			<if test="maxOrders != null">
+				maxOrders = #{maxOrders} ,
+			</if>
+			operatorId = #{operatorId} ,
+			operatorName = #{operatorName} ,
+			ts = #{ts}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="Long">
+		DELETE FROM shop_biz_status
+		WHERE id = #{id}
+	</delete>
+</mapper>
