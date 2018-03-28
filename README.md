@@ -15,6 +15,8 @@ Spring、MyBatis 、Freemarker
 
 ![image](https://github.com/Jstarfish/starfish/raw/master/readmeSource/index.png )
 
+![image](./readmeSource/manager.png)
+
 ## 项目搭建和配置
 
 
