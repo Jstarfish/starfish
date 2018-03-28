@@ -1,13 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="40bd40d1-422b-4d42-8b4a-26608609b934" name="Default" comment="前后台整合成功 （只差搜索ES 整合）">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_locationtech_spatial4j_spatial4j_0_6.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/starfish-mall/starfish-mall-manager/logs/ssm.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/starfish-common/src/main/java/priv/starfish/common/base/VoidStaticInitiator.java" afterPath="$PROJECT_DIR$/starfish-common/src/main/java/priv/starfish/common/base/VoidStaticInitiator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/starfish-common/src/main/java/priv/starfish/common/cache/redis/RedisCache.java" afterPath="$PROJECT_DIR$/starfish-common/src/main/java/priv/starfish/common/cache/redis/RedisCache.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/starfish-mall/starfish-mall-manager/src/main/resources/conf/applicationContext-service.xml" afterPath="$PROJECT_DIR$/starfish-mall/starfish-mall-manager/src/main/resources/conf/applicationContext-service.xml" />
-    </list>
+    <list default="true" id="40bd40d1-422b-4d42-8b4a-26608609b934" name="Default" comment="前后台整合成功 （只差搜索ES 整合）" />
     <ignored path="$PROJECT_DIR$/starfish-parent/target/" />
     <ignored path="$PROJECT_DIR$/starfish-common/target/" />
     <ignored path="$PROJECT_DIR$/starfish-mall/target/" />
@@ -1698,7 +1692,7 @@
       <workItem from="1521422384644" duration="62145000" />
       <workItem from="1521796109285" duration="3255000" />
       <workItem from="1522028307795" duration="16283000" />
-      <workItem from="1522215317097" duration="1257000" />
+      <workItem from="1522215317097" duration="1671000" />
     </task>
     <task id="LOCAL-00001" summary="先提交了">
       <created>1512449098515</created>
@@ -1848,7 +1842,7 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="762769000" />
+    <option name="totallyTimeSpent" value="763183000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
