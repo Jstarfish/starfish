@@ -10,7 +10,7 @@ Redis(缓存)、ActiveMQ（消息队列）、Nginx（文件服务器）、Elasti
 #### 软件架构
 Spring、MyBatis 、Freemarker 
 
-
+##### 软件依赖环境下载：https://download.csdn.net/download/u011870547/10327777
 ## 网站效果
 
 ![image](https://github.com/Jstarfish/starfish/raw/master/readmeSource/index.png )
