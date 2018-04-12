@@ -1,3 +1,4 @@
+/*
 package priv.starfish.mall.manager.base;
 
 import org.apache.commons.io.IOUtils;
@@ -23,10 +24,13 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.net.URLDecoder;
 
+*/
 /**
  * Servlet implementation class RepoFileServlet
- */
-@WebServlet(name = "repoFileServlet", asyncSupported = true, urlPatterns = { "/repo/*" })
+ *//*
+
+@WebServlet(name = "repoFileServlet", asyncSupported = true, urlPatterns = { "/repo*/
+/*" })
 public class RepoFileServlet extends HttpServlet implements FileRepositoryReferer {
 	private static final long serialVersionUID = 1L;
 	//
@@ -153,3 +157,4 @@ public class RepoFileServlet extends HttpServlet implements FileRepositoryRefere
 	}
 
 }
+*/

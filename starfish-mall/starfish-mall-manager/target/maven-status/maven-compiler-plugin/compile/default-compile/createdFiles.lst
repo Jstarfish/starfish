@@ -9,6 +9,7 @@ priv\starfish\mall\manager\controller\GoodsController$3.class
 priv\starfish\mall\manager\controller\UserAccountController.class
 priv\starfish\mall\manager\realms\SecondRealm.class
 priv\starfish\mall\manager\controller\SettingController$1.class
+priv\starfish\mall\manager\base\SpringQuartz.class
 priv\starfish\mall\manager\controller\ComnController.class
 priv\starfish\mall\manager\controller\SaleOrderController.class
 priv\starfish\mall\manager\misc\MerchantFileExtractor.class
@@ -29,13 +30,13 @@ priv\starfish\mall\manager\controller\MerchantController.class
 priv\starfish\mall\manager\controller\MallController.class
 priv\starfish\mall\manager\controller\PermController.class
 priv\starfish\mall\manager\controller\GoodsController$5.class
-priv\starfish\mall\manager\base\RepoFileServlet.class
 priv\starfish\mall\manager\jms\XOrderMessageHandler.class
 priv\starfish\mall\manager\controller\CategController$2.class
 priv\starfish\mall\manager\controller\ResourceContoller.class
 priv\starfish\mall\manager\base\AppStartedProcessor.class
 priv\starfish\mall\manager\jms\ConfigMessageHandler.class
 priv\starfish\mall\manager\controller\PayController.class
+priv\starfish\mall\manager\base\AppClosedProcessor.class
 priv\starfish\mall\manager\controller\CarSvcController.class
 priv\starfish\mall\manager\controller\GoodsController$1.class
 priv\starfish\mall\manager\controller\CategController$3.class

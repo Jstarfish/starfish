@@ -43,4 +43,9 @@
 					 advice-ref="_txAdvice" />
 	</aop:config>-->
 
+	<!--<aop:config>
+		<aop:advisor advice-ref="_txAdvice"
+					 pointcut="execution(* priv.starfish.mall.service.*.*(..))" />
+	</aop:config>-->
+
 </beans>
