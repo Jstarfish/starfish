@@ -31,11 +31,14 @@
 		<property name="clientIDPrefix" value="ezmall" />
 	</bean>
 
+	<!--Spring提供的ConnectionFactory只是Spring用于管理ConnectionFactory的，真正产生到JMS服务器链接的ConnectionFactory还得是由JMS服务厂商提供，并且需要把它注入到Spring提供的ConnectionFactory中-->
 	<bean id="jmsConnectionFactory"
 		class="org.springframework.jms.connection.CachingConnectionFactory">
 		<property name="targetConnectionFactory" ref="__ConnectionFactory" />
 		<property name="sessionCacheSize" value="100" />
 	</bean>
+
+
 
 	<!-- jms 模板 -->
 	<!-- 一个队列目的地，点对点的-->
@@ -49,9 +52,12 @@
 
 	<bean id="jmsQueueTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="jmsConnectionFactory" />
+		<!-- 非pub/sub模型（发布/订阅），即队列模式 -->
 		<property name="pubSubDomain" value="false" />
 		<property name="defaultDestination" ref="defaultJmsQueue" />
 	</bean>
+
+	<!-- Spring提供的JMS工具类，它可以进行消息发送、接收等 -->
 	<bean id="jmsTopicTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="jmsConnectionFactory" />
 		<property name="pubSubDomain" value="true" />
@@ -65,7 +71,7 @@
 	</bean>
 
 	<!-- 默认消息接收、处理 -->
-	<bean id="defaultMessageHandler" class="priv.starfish.mall.manager.jms.DefaultMessageHandler" />
+	<bean id="defaultMessageHandler" class="priv.starfish.mall.web.jms.DefaultMessageHandler" />
 
 	<bean id="defaultMessageListener"
 		class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
@@ -109,7 +115,7 @@
 	</bean>
 
 	<!-- 导入应用特定的配置 -->
-	<!--<import resource="classpath:conf/application-jms-xt.xml" />-->
+	<import resource="classpath:conf/applicationContext-jms-xt.xml" />
 
 	<!-- 服务配置Topic消息接收、处理 -->
 	<bean
@@ -120,7 +126,7 @@
 				class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
 				<property name="defaultListenerMethod" value="handleMessage" />
 				<property name="delegate">
-					<bean class="priv.starfish.mall.manager.jms.ConfigMessageHandler" />
+					<bean class="priv.starfish.mall.web.jms.ConfigMessageHandler" />
 				</property>
 			</bean>
 		</property>
@@ -138,7 +144,7 @@
 				class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
 				<property name="defaultListenerMethod" value="handleMessage" />
 				<property name="delegate">
-					<bean class="priv.starfish.mall.manager.jms.XOrderMessageHandler" />
+					<bean class="priv.starfish.mall.web.jms.XOrderMessageHandler" />
 				</property>
 			</bean>
 		</property>
@@ -156,7 +162,7 @@
 				class="org.springframework.jms.listener.adapter.MessageListenerAdapter">
 				<property name="defaultListenerMethod" value="handleMessage" />
 				<property name="delegate">
-					<bean class="priv.starfish.mall.manager.jms.ConfigMessageHandler" />
+					<bean class="priv.starfish.mall.web.jms.ConfigMessageHandler" />
 				</property>
 			</bean>
 		</property>

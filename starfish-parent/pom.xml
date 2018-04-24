@@ -23,7 +23,8 @@
     <druid.version>1.0.9</druid.version>
     <httpclient.version>4.3.5</httpclient.version>
     <jstl.version>1.2</jstl.version>
-    <servlet-api.version>4.0.0</servlet-api.version>
+    <!--<servlet-api.version>4.0.0</servlet-api.version>-->
+    <servlet-api.version>3.0.1</servlet-api.version>
     <jsp-api.version>2.2</jsp-api.version>
     <joda-time.version>2.5</joda-time.version>
     <commons-lang3.version>3.3.2</commons-lang3.version>
@@ -36,7 +37,8 @@
     <solrj.version>4.10.3</solrj.version>
     <jdom.version>2.0.2</jdom.version>
     <freemarker.version>2.3.23</freemarker.version>
-    <tomcat-servlet-api-version>8.5.24</tomcat-servlet-api-version>
+    <!--<tomcat-servlet-api-version>8.5.24</tomcat-servlet-api-version>-->
+    <tomcat-servlet-api-version>7.0.82</tomcat-servlet-api-version>
     <zxing-version>3.3.1</zxing-version>
   </properties>
   <!-- 只定义依赖的版本，并不实际依赖 -->

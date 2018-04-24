@@ -18,7 +18,6 @@ priv\starfish\mall\manager\controller\CarController.class
 priv\starfish\mall\manager\controller\LoginController.class
 priv\starfish\mall\manager\controller\NavgtController.class
 priv\starfish\mall\manager\controller\ECardOrderController.class
-priv\starfish\mall\manager\jms\DefaultMessageHandler.class
 priv\starfish\mall\manager\controller\InteractController.class
 priv\starfish\mall\manager\controller\CategController$1.class
 priv\starfish\mall\manager\controller\CategController.class
@@ -30,11 +29,9 @@ priv\starfish\mall\manager\controller\MerchantController.class
 priv\starfish\mall\manager\controller\MallController.class
 priv\starfish\mall\manager\controller\PermController.class
 priv\starfish\mall\manager\controller\GoodsController$5.class
-priv\starfish\mall\manager\jms\XOrderMessageHandler.class
 priv\starfish\mall\manager\controller\CategController$2.class
 priv\starfish\mall\manager\controller\ResourceContoller.class
 priv\starfish\mall\manager\base\AppStartedProcessor.class
-priv\starfish\mall\manager\jms\ConfigMessageHandler.class
 priv\starfish\mall\manager\controller\PayController.class
 priv\starfish\mall\manager\base\AppClosedProcessor.class
 priv\starfish\mall\manager\controller\CarSvcController.class

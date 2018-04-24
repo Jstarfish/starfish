@@ -12,6 +12,7 @@
 
     <name>starfish-common</name>
     <artifactId>starfish-common</artifactId>
+    <version>1.0-SNAPSHOT</version>
 
     <dependencies>
 
@@ -69,7 +70,6 @@
             <artifactId>lucene-expressions</artifactId>
             <version>6.6.1</version>
         </dependency>
-
 
         <dependency>
             <groupId>commons-fileupload</groupId>
@@ -145,10 +145,15 @@
         </dependency>
 
         <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>javax.servlet-api</artifactId>
-            <scope>provided</scope>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <scope>provided</scope>
         </dependency>
+        <!--<dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>-->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>jsp-api</artifactId>
@@ -281,8 +286,43 @@
             </exclusions>
         </dependency>-->
 
+        <!-- TODO websocket  不能使用 what?-->
+        <dependency>
+            <groupId>javax.websocket</groupId>
+            <artifactId>javax.websocket-api</artifactId>
+            <version>1.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax</groupId>
+            <artifactId>javaee-api</artifactId>
+            <version>7.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat</groupId>
+            <artifactId>tomcat7-websocket</artifactId>
+            <version>7.0.86</version>
+            <scope>provided</scope>
+        </dependency>
 
-        <!--本地仓库的jar-->
+        <!--这个垃圾jar包少好多东西，导入外部jar吧-->
+        <!-- <dependency>
+             <groupId>org.apache.catalina</groupId>
+             <artifactId>catalina</artifactId>
+             <version>6.0.26</version>
+             <scope>provided</scope>
+         </dependency>-->
+
+        <!--dependency 本地jar包,这样又尼玛有问题了，别的项目依赖不好使-->
+        <!--<dependency>
+            <groupId>org.apache.catalina</groupId>  &lt;!&ndash;自定义&ndash;&gt;
+            <artifactId>catalina</artifactId>    &lt;!&ndash;自定义&ndash;&gt;
+            <version>1.0</version> &lt;!&ndash;自定义&ndash;&gt;
+            <scope>system</scope> &lt;!&ndash;system，类似provided，需要显式提供依赖的jar以后，Maven就不会在Repository中查找它&ndash;&gt;
+            <systemPath>${basedir}/libs/catalina.jar</systemPath> &lt;!&ndash;项目根目录下的lib文件夹下&ndash;&gt;
+        </dependency>-->
+
+    <!--本地仓库的jar-->
         <dependency>
             <groupId>unionpay</groupId>
             <artifactId>unionpay</artifactId>
@@ -296,6 +336,18 @@
         </dependency>
 
     </dependencies>
+
+    <!--<build>
+        <resources>
+            <resource>
+                <directory>libs/</directory>
+                <targetPath>lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>-->
 
 
    <!-- <build>

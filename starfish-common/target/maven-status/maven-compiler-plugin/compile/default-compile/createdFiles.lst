@@ -86,6 +86,7 @@ priv\starfish\common\model\GeoPoint.class
 priv\starfish\common\http\ContentTypes.class
 priv\starfish\common\pay\alipay\wap\AlipayParams.class
 priv\starfish\common\jdbc\CrossJoiner.class
+priv\starfish\common\base\AppNodeClusterSocklet.class
 priv\starfish\common\cache\CacheEventListener.class
 priv\starfish\common\cms\StringFreeMarkerServiceImpl.class
 priv\starfish\common\jms\SimpleMessageSender.class
@@ -143,7 +144,6 @@ priv\starfish\common\util\JsonUtil.class
 priv\starfish\common\json\JsonDateDeserializer.class
 priv\starfish\common\pay\wechatpay\util\http\MySSLSocketFactory.class
 priv\starfish\common\pay\alipay\web\AlipayParams.class
-priv\starfish\common\web\WebServletContextListener.class
 priv\starfish\common\pay\alipay\util\AlipayNotify.class
 priv\starfish\common\tool\MySqlDbTool$UniqueKeyMeta.class
 priv\starfish\common\http\HttpClientX.class
@@ -169,6 +169,7 @@ priv\starfish\common\web\ServerTimeServlet.class
 priv\starfish\common\jms\MessageHandler.class
 priv\starfish\common\tool\MySqlDbTool$IdMeta.class
 priv\starfish\common\token\DefaultTokenSessionStore$TokenSessionExpirationExecutor.class
+priv\starfish\common\base\AppNodeClusterSocklet$RequestMessageInbound.class
 priv\starfish\common\helper\DirFileWatcher$1.class
 priv\starfish\common\http\HttpMethod.class
 priv\starfish\common\jdbc\SqlBuilder.class
@@ -329,6 +330,7 @@ priv\starfish\common\base\AppNodeInfo$1.class
 priv\starfish\common\model\JqGridRequest.class
 priv\starfish\common\pay\dict\PayWayType.class
 priv\starfish\common\tool\MySqlDbTool$ForeignKeyMeta.class
+priv\starfish\common\base\AppNodeClusterSocklet$AppNodeInfoPusher.class
 priv\starfish\common\exception\AuthorizationException.class
 priv\starfish\common\tool\MySqlDbTool$2.class
 priv\starfish\common\model\ResultCode$Other.class

@@ -109,7 +109,7 @@ public class JsController extends BaseController {
 	}
 
 	private void initDictEnumVarsJs() {
-		Map<String, Map<String, Object>> retEnumVarsMap = scanDictEnumVars("priv.starfish.ezmall");
+		Map<String, Map<String, Object>> retEnumVarsMap = scanDictEnumVars("priv.starfish.mall");
 		//
 		// System.out.println(JsonUtil.toFormattedJson(retEnumVarsMap));
 		//

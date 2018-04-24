@@ -154,7 +154,6 @@ E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\web\Web
 E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\base\AppNodeMessageHandler.java
 E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\sms\SmsErrorCode.java
 E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\xload\FileReceiver.java
-E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\web\WebServletContextListener.java
 E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\webols\OlsServlet.java
 E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\xload\FileUploader.java
 E:\workspace\starfish\starfish-common\src\main\java\priv\starfish\common\qrcode\UrlQrCodecoder.java

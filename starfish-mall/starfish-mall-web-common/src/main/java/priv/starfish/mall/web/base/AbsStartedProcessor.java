@@ -48,7 +48,7 @@ public abstract class AbsStartedProcessor implements ApplicationListener<Context
 	@Override
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		ApplicationContext applicationContext = event.getApplicationContext();
-		if (applicationContext.getParent() instanceof WebApplicationContext) {
+			if (applicationContext.getParent() instanceof WebApplicationContext) {
 			// mvc加载完毕
 			System.out.println(">> Spring应用启动完毕");
 			//

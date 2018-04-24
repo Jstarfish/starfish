@@ -21,7 +21,7 @@ public class RedisConnTest {
 
     public void setup() {
 
-        jedis = new Jedis("localhost", 6379);
+        jedis = new Jedis("192.168.26.59", 6379);
         // 权限认证
         // jedis.auth("root");
     }

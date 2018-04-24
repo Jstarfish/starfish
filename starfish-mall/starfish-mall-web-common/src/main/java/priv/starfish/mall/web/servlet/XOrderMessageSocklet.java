@@ -1,4 +1,3 @@
-/*
 package priv.starfish.mall.web.servlet;
 
 import org.apache.catalina.websocket.MessageInbound;
@@ -30,10 +29,8 @@ import java.nio.CharBuffer;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
-*/
-/**
- * 应用节点集群信息
- *//*
+// 应用节点集群信息
+
 
 @SuppressWarnings("deprecation")
 @WebServlet("/misc/xOrder/message")
@@ -277,4 +274,3 @@ public class XOrderMessageSocklet extends WebSocketServlet implements MessageLis
 	}
 
 }
-*/

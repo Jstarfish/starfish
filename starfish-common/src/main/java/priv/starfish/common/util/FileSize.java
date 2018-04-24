@@ -8,6 +8,7 @@ package priv.starfish.common.util;
  *
  */
 public class FileSize {
+	//分别表示  字节、KB、MB、G
 	public static final int B = 1;
 	public static final int K = 1024 * B;
 	public static final int M = 1024 * K;

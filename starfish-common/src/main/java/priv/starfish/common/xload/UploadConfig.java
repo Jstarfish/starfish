@@ -1,12 +1,12 @@
 package priv.starfish.common.xload;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import priv.starfish.common.exception.XRuntimeException;
 import priv.starfish.common.util.FileSize;
 import priv.starfish.common.util.StrUtil;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 上传配置解析、存取器

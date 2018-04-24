@@ -1,18 +1,4 @@
-/*
 package priv.starfish.common.base;
-
-import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.catalina.websocket.MessageInbound;
 import org.apache.catalina.websocket.StreamInbound;
@@ -25,11 +11,21 @@ import priv.starfish.common.model.ResultCode;
 import priv.starfish.common.util.DateUtil;
 import priv.starfish.common.util.JsonUtil;
 
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.CharBuffer;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
-*/
-/**
- * 应用节点集群信息
- *//*
+
+//应用节点集群信息
+
 
 @SuppressWarnings("deprecation")
 @WebServlet("/appNodeCluster")
@@ -105,7 +101,7 @@ public class AppNodeClusterSocklet extends WebSocketServlet implements AppNodeCl
 			// 处理请求...
 			//
 			Result<?> result = Result.newOne();
-			result.type = Type.warn;
+			result.type = Result.Type.warn;
 			result.message = "不接受请求内容";
 			//
 			String jsonStr = JsonUtil.toJson(result);
@@ -144,4 +140,3 @@ public class AppNodeClusterSocklet extends WebSocketServlet implements AppNodeCl
 	}
 
 }
-*/
