@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="catalina (2)">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/starfish-mall/starfish-mall-libs/libs/web-socket/catalina.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

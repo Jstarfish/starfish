@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="unionpay_sdk-1.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/starfish-common/libs/unionpay_sdk-1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
